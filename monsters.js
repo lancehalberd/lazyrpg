@@ -82,7 +82,7 @@ monsters.hyena = {
     'attackSpeed': 3,
     'experience': 20,
     '$graphic': $ff2Monster('hyena'),
-    'spoils': ['largePelt', 'furScraps', 'furScraps']
+    'spoils': ['largePelt', 'furScrap', 'furScrap']
 };
 monsters.lion = {
     'name': 'Lion',
@@ -93,7 +93,7 @@ monsters.lion = {
     'attackSpeed': 1,
     'experience': 40,
     '$graphic': $ff2Monster('lion'),
-    'spoils': ['lionsMain', 'largePelt', 'furScraps']
+    'spoils': ['lionsMane', 'largePelt', 'furScrap']
 };
 monsters.pirate = {
     'name': 'Pirate',
