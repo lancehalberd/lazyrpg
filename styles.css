@@ -1,0 +1,726 @@
+.icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right:5px;
+}
+.icon.health {
+    background-position: -130px -10px;
+}
+.icon.shield {
+    background-position: -160px -10px;
+}
+.icon.armor {
+    background-position: -10px -10px;
+}
+.icon.helmet {
+    background-position: -280px -10px;
+}
+.icon.boots, .icon.speed {
+    background-position: -220px -10px;
+}
+.icon.damage, .icon.sword {
+    background-position: -190px -10px;
+}
+.icon.fist {
+    background-position: -100px -10px;
+}
+.icon.club {
+    background-position: -70px -10px;
+}
+.icon.bow {
+    background-position: -40px -10px;
+}
+.icon.item {
+    background-position: -250px -10px;
+}
+.icon.gold {
+    background-image: url('gfx/iconGold.png');
+}
+.skillContainer .icon {
+    display: block;
+    margin-left: 15px;
+}
+.value {
+    vertical-align: middle;
+}
+
+.characterStatsContainer {
+    position: absolute;
+    left: 50px;
+    top: -500px;
+    width: 700px;
+    height: 500px;
+    background-color: #4080F0;
+    border: 2px solid #fff;
+    border-top: none;
+    transition: top .5s;
+    box-sizing: border-box;
+}
+
+.characterStatsContainer.open {
+    top: 0px;
+}
+
+.equipment {
+    position: absolute;
+    top: 300px;
+    left: 20px;
+}
+
+.equipment  .equipmentSlot {
+    margin: 5px;
+}
+.skills {
+    position: absolute;
+    width: 150px;
+    top: 75px;
+    left: 20px;
+}
+
+.skills .skill {
+    margin: 5px;
+}
+.skills .skillLevel {
+    float: right;
+}
+
+.equipmentSlot {
+    margin: 5px;
+}
+
+.skillContainer {
+    position: absolute;
+    top: 75px;
+    left: 275px;
+    width: 350px;
+    height: 350px;
+    background-color: #aaa;
+}
+.skillSlot {
+    text-align: center;
+    padding-top: 10px;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #555;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+.skillSlot.revealed {
+    background-color: #aaa;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+}
+.skillSlot.available {
+    background-color: #822;
+    cursor: pointer;
+}
+.skillSlot.purchaseable {
+    background-color: #4b4;
+    cursor: pointer;
+}
+.skillSlot.activated {
+    background-color: #161;
+    cursor: default;
+}
+
+.characterStats {
+    position: absolute;
+    padding: 1px 5px;
+    top: 498px;
+    left: 150px;
+    width: 400px;
+    height: 50px;
+    border: 2px solid #fff;
+    border-top: none;
+    box-sizing: border-box;
+    background-color: #4080F0;
+    cursor: pointer;
+}
+.status {
+    display: inline-block;
+    min-width: 50px;
+}
+
+.skillPoints {
+    position: absolute;
+    left: 130px;
+    top: 5px;
+    background-color: #8f8;
+    border-radius: 2px;
+    border: 1px solid white;
+    font-size: 16px;
+}
+
+.levelAndExperience {
+    display: inline-block;
+    height: 50px;
+    width: 190px;
+}
+.healthAndStats {
+    display: inline-block;
+    height: 50px;
+    width: 190px;
+}
+.healthBar {
+    position: relative;
+    display: inline-block;
+    background: #000;
+    width: 150px;
+    height: 20px;
+    vertical-align: middle;
+}
+.healthBar .healthFill {
+    position: absolute;
+    background: #B00;
+    width: 100%;
+    height: 20px;
+}
+.healthBar .currentHealth {
+    position: absolute;
+    right:85px;
+}
+.healthBar .maxHealth {
+    position: absolute;
+    left:80px;
+}
+.healthBar .slash {
+    position: absolute;
+    left: 70px;
+}
+.experienceBar {
+    position: relative;
+    display: inline-block;
+    background: #FFF;
+    width: 70px;
+    height: 5px;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+.experienceBar .experienceFill {
+    position: absolute;
+    background: #F84;
+    width: 100%;
+    height: 5px;
+    border-radius: 2px;
+}
+
+.inventoryContainer {
+    position: absolute;
+    left: 800px;
+    top: 50px;
+    transition: left .5s;
+}
+.inventoryContainer.open {
+    left: 450px;
+}
+.inventoryPanel {
+    position: absolute;
+    padding: 5px;
+    padding-right: 0;
+    width: 350px;
+    height: 500px;
+    border: 2px solid #fff;
+    border-right: none;
+    box-sizing: border-box;
+    background-color: #4080F0;
+}
+.inventoryPanel.selected {
+    z-index: 1;
+}
+.inventoryTab {
+    position: absolute;
+    left: -27px;
+    width: 27px;
+    height:80px;
+    border: 2px solid #fff;
+    border-right: none;
+    box-sizing: border-box;
+    background-color: #4080F0;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    cursor: pointer;
+}
+
+.craftContainer, .shopContainer {
+    position: absolute;
+    left: -350px;
+    top: 50px;
+    width: 350px;
+    height: 500px;
+    border: 2px solid #fff;
+    border-left: none;
+    box-sizing: border-box;
+    transition: left .5s;
+    background-color: #4080F0;
+}
+.craftContainer.open, .shopContainer.open {
+    left: 0px;
+}
+
+.programContainer {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    left: 200px;
+    top: 550px;
+    border: 2px solid #fff;
+    border-bottom: none;
+    box-sizing: border-box;
+    transition: top .5s;
+    background-color: #4080F0;
+}
+
+.programContainer textarea {
+    margin-top: 25px;
+    width: 98%;
+    height: 200px;
+}
+
+.programContainer.open {
+    top: 300px;
+}
+
+.goods .inventoryTab {
+    top: 50px;
+}
+.weapons .inventoryTab {
+    top: 125px;
+}
+.armor .inventoryTab {
+    top: 200px;
+}
+.helmets .inventoryTab {
+    top: 275px;
+}
+.boots .inventoryTab {
+    top: 350px;
+}
+
+.inventoryTab .icon {
+    position: absolute;
+    margin: 0;
+    top: 30px;
+    left: 2px;
+}
+
+.currentArea {
+    position: absolute;
+    left: 400px;
+    top: 300px;
+}
+
+.currentArea img {
+    position: absolute;
+    width: 350px;
+    left: -175px;
+    top: -90px;
+}
+
+.action {
+    position: absolute;
+    cursor: pointer;
+}
+
+.box {
+    position: absolute;
+    display: table-cell;
+    left: -50px;
+    font-size: 30px;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #4080F0;
+    border: 2px solid #ddf;
+    height: 50px;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.action.slot1 {
+    top: -150px;
+    left: -250px;
+}
+.action.slot2 {
+    top: -200px;
+    left: 0px;
+}
+.action.slot3 {
+    top: -150px;
+    left: 250px;
+}
+
+.action.slot4 {
+    top: 110px;
+    left: -250px;
+}
+.action.slot5 {
+    top: 130px;
+    left: 0px;
+}
+.action.slot6 {
+    top: 110px;
+    left: 250px;
+}
+
+.action img {
+    position: absolute;
+    width: 200px;
+    left: -100px;
+    top: 0;
+}
+
+.hillaryMonster {
+    position: absolute;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    left: -50px;
+    top: -40px;
+    background-size: 100%;
+}
+
+.hillaryMonster.rat {
+    background-image: url('gfx/critter-rat.png');
+}
+.hillaryMonster.turtle {
+    background-image: url('gfx/critter-turtus.png');
+    width: 150px;
+    height: 80px;
+    left: -100px;
+    top: -25px;
+}
+.hillaryMonster.dragon {
+    background-image: url('gfx/critter-dragon.png');
+    height: 105px;
+}
+
+.ff2Monster {
+    position: absolute;
+    left: -40px;
+    top: -40px;
+    display: inline-block;
+    width: 64px;
+    height: 80px;
+    background-image: url('gfx/ff2Monsters.png');
+    background-size: 2202px;
+}
+
+.ff2Monster.bee {
+    background-position: -240px -30px;
+}
+.ff2Monster.rat {
+    background-position: -1579px -30px;
+}
+.ff2Monster.rat2 {
+    background-position: -1654px -30px;
+}
+.ff2Monster.turtle {
+    background-position: -910px -30px;
+    width: 80px;
+    height: 80px;
+}
+.ff2Monster.bandit {
+    background-position: -1264px -140px;
+}
+.ff2Monster.hyena {
+    background-position: -236px -1150px;
+}
+.ff2Monster.troll {
+    background-position: -1840px -840px;
+    left: -50px;
+    width: 90px;
+    height: 180px;
+}
+.ff2Monster.lion {
+    background-position: -450px -1150px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.pirate {
+    background-position: -1414px -150px;
+}
+.ff2Monster.crocodile {
+    background-position: -1050px -284px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.scorpion {
+    background-position: -246px -132px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.mudGolem {
+    background-position: -932px -1160px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.darkKnight {
+    background-position: -1130px -900px;
+}
+.ff2Monster.mercenary {
+    background-position: -340px -130px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.bear {
+    background-position: -1270px -900px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.guard {
+    background-position: -1590px -480px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.maverick {
+    background-position: -635px -270px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.captain {
+    background-position: -610px -460px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.witch {
+    background-position: -1895px -500px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.golem {
+    background-position: -900px -395px;
+    width: 100px;
+    height: 180px;
+    left: -50px;
+    top: -30px;
+}
+.ff2Monster.gargoyle {
+    background-position: -300px -1150px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.tRex {
+    background-position: -800px -600px;
+    width: 180px;
+    height: 180px;
+    top: -50px;
+    left: -130px;
+}
+.ff2Monster.royalGuard {
+    background-position: -1820px -480px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.king {
+    background-position: -160px -405px;
+    width: 90px;
+    height: 140px;
+    top: -50px;
+    left: -45px;
+}
+
+.test {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+.monster {
+    position: absolute;
+    top: -40px;
+    left: -140px;
+    width: 300px;
+    height: 120px;
+}
+.mineral {
+    position: absolute;
+    top: -50px;
+    left: -100px;
+    width: 200px;
+    height: 150px;
+}
+.icon {
+    margin-right:5px;
+    margin-left:5px;
+}
+.monster .healthRow {
+    margin-left: 80px;
+}
+.monster .statsRow {
+    margin-left: 90px;
+}
+.monster .spoilsRow {
+    margin-left: 80px;
+}
+.monster .graphic {
+    position: absolute;
+    top: 60px;
+    left: 40px;
+}
+.mineral .graphic {
+    position: absolute;
+    top: 80px;
+    left: 100px;
+}
+.mineral .timeRow .name {
+    position: absolute;
+    padding: 5px;
+}
+
+.monsterAction, .mineralAction {
+    position: absolute;
+    left: 50px;
+    top: 100px;
+    width: 100px;
+}
+
+.mineral .healthFill {
+    background-color: #84c;
+    height: 30px;
+}
+.mineral .healthBar {
+    width: 120px;
+    height: 30px;
+}
+
+.item {
+    margin-bottom: 10px;
+}
+.itemHeading {
+}
+.itemEquipped {
+    display: inline-block;
+    width: 20px;
+    margin-right: 5px;
+}
+.isEquipped .itemEquipped{
+    display: inline-block;
+    background-image: url('gfx/icons20x20stars.png');
+    background-position: 0px 0px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right:5px;
+}
+.equipAction, .unequipAction, .buyAction {
+    display: none;
+}
+.canEquip .equipAction {
+    display: inline-block;
+}
+.canBuy .buyAction {
+    display: inline-block;
+}
+.isEquipped .equipAction {
+    display: none;
+}
+.isEquipped .unequipAction {
+    display: inline-block;
+}
+
+.goods .itemEquipped {
+    width: 0px;
+}
+.itemDetails, .itemSellActions  {
+    margin-left: 75px;
+}
+
+.goods .itemDetails, .goods .itemSellActions  {
+    margin-left: 55px;
+}
+
+.shopContainer, .craftContainer, .programContainer {
+    padding: 5px;
+    padding-right: 0px;
+}
+
+.heading {
+    margin-top: 6px;
+    margin-bottom: 10px;
+    font-size:25px;
+}
+
+.itemQuantity {
+    display: inline-block;
+    width: 45px;
+    margin-right: 5px;
+    text-align: right;
+}
+
+button {
+    cursor: pointer;
+}
+.recipe {
+    margin: 5px;
+    margin-bottom: 10px;
+}
+.recipe .craftAction {
+    display: none;
+}
+.recipe .current {
+    color: #C00;
+}
+.recipe .current, .recipe .cost {
+    font-weight: bold;
+}
+.recipe.canCraft .craftAction {
+    display: inline-block;
+}
+.recipe.canCraft .current {
+    color: #4F4;
+}
+
+.toolTip {
+    position: absolute;
+    padding: 5px;
+    width: 180px;
+    font-size: 16px;
+    border: 2px solid #fff;
+    box-sizing: border-box;
+    background-color: #20C060;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.mineralGraphic {
+    position: absolute;
+    display: inline-block;
+    background-image: url('gfx/minerals.png');
+}
+
+.mineralGraphic.copper {
+    background-position: -330px -390px;
+    width: 150px;
+    height: 100px;
+    left: -75px;
+    top: -50px;
+}
+
+.mineralGraphic.iron {
+    background-position: 0px -240px;
+    width: 150px;
+    height: 100px;
+    left: -75px;
+    top: -50px;
+}
+
+.body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 450px;
+}
