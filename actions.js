@@ -5,7 +5,7 @@ var lines = [];
 var lineNumber = 0;
 var timeoutId = -1;
 var recording = false;
-var running = false;
+var runningProgram = false;
 var gameSpeed = 1;
 var showTooltips = true;
 function setupProgrammingWindow() {
@@ -16,9 +16,10 @@ function setupProgrammingWindow() {
             closeAll();
             $('.js-programContainer').addClass('open');
         }
+        updateProgramButtons();
     });
     $('.js-runProgram').on('click', function (){
-        if (running) {
+        if (runningProgram) {
             stopProgram();
         } else {
             var program = $('.js-program').val();
@@ -78,9 +79,6 @@ function setSpeed(speed) {
 
 function updateProgramButtons() {
     switch (gameSpeed) {
-        case 100:
-            $('.js-changeSpeed').text("Instant").attr('helpText', 'Click here to return to the default speed.');
-            break;
         case 30:
             $('.js-changeSpeed').text("Fast Forward").attr('helpText', 'Click here to return to the default speed.');
             break;
@@ -93,7 +91,12 @@ function updateProgramButtons() {
         default:
             $('.js-changeSpeed').text("Speed x" + gameSpeed);
     }
-    if (running) {
+    if ($('.js-programContainer').is('.open')) {
+        $('.js-editProgram').text('Close').attr('helpText', 'Click to close the program panel');
+    } else {
+        $('.js-editProgram').text('Edit').attr('helpText', 'Click to open the program panel');
+    }
+    if (runningProgram) {
         $('.js-runProgram').text('Stop').attr('helpText', 'Click to stop running your program');
     } else {
         $('.js-runProgram').text('Run').attr('helpText', 'Click here to run your program');
@@ -104,7 +107,7 @@ function updateProgramButtons() {
         $('.js-recordProgram').text('Record').attr('helpText', 'Click here to record your actions as a program that you can play back later.');
     }
     $('.js-toggleHelp').text(showTooltips ? 'Disable Tooltips' : 'Enable Tooltips');
-    $('.js-recordProgram').toggle(!running);
+    $('.js-recordProgram').toggle(!runningProgram);
     $('.js-runProgram').toggle(!recording);
 }
 
@@ -112,7 +115,7 @@ function runProgram(program) {
     lines = program.split("\n");
     loopStack = [];
     lineNumber = 0;
-    running = true;
+    runningProgram = true;
     updateProgramButtons();
     runNextLine();
 }
@@ -121,7 +124,7 @@ function stopProgram() {
         clearTimeout(timeoutId);
         timeoutId = -1;
     }
-    running = false;
+    runningProgram = false;
     updateProgramButtons();
 }
 function recordAction(name, target) {
@@ -193,7 +196,7 @@ function runNextLine() {
 }
 
 function onActionSuccess() {
-    if (running) {
+    if (runningProgram) {
         timeoutId = setTimeout(runNextLine, 20);
     }
 }
@@ -215,7 +218,7 @@ function addLoopsToProgram(program) {
     var lines = program.length ? program.split("\n") : [];
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        var count = 0;
+        var count = 1;
         for (var j = i + 1; j < lines.length; j++) {
             if (lines[j] != line) {
                 break;

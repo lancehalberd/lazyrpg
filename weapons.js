@@ -1,6 +1,6 @@
 var weapons = {};
 //Fists 1
-weapons.fists ={
+weapons.fists = {
     'name': 'Fists',
     'helpText': 'Your barehands.',
     'damage': 5,
@@ -9,7 +9,7 @@ weapons.fists ={
     'level': 0,
     'value': 0
 };
-weapons.leatherGloves ={
+weapons.leatherGloves = {
     'name': 'Leather Gloves',
     'helpText': 'These gloves protect your hands allowing you to punch harder and faster.',
     'damage': 20,
@@ -18,7 +18,7 @@ weapons.leatherGloves ={
     'level': 1,
     'value': 100
 };
-weapons.brassKnuckles ={
+weapons.brassKnuckles = {
     'name': 'Brass Knuckles',
     'helpText': 'These metal knuckles worn on your fingers can do some serious damage.',
     'damage': 40,
@@ -28,7 +28,7 @@ weapons.brassKnuckles ={
     'value': 500
 };
 //Fists 2
-weapons.claws ={
+weapons.claws = {
     'name': 'Claws',
     'helpText': 'Iron claws for hand to hand combat.',
     'damage': 70,
@@ -37,7 +37,7 @@ weapons.claws ={
     'level': 2,
     'value': 1000
 };
-weapons.cestus ={
+weapons.cestus = {
     'name': 'Cestus',
     'helpText': 'Fighting gloves lined with silver and iron. Easy on your hands, tough on monsters.',
     'damage': 80,
@@ -200,7 +200,7 @@ weapons.hammer ={
 //Clubs 2
 weapons.mace ={
     'name': 'Mace',
-    'helpText': 'An steel club with a heavy studded ball on one end.',
+    'helpText': 'A steel club with a heavy studded ball on one end.',
     'damage': 150,
     'attackSpeed': 1.25,
     'type': 'club',
@@ -265,7 +265,7 @@ weapons.shortBow ={
     'value': 40
 };
 weapons.crossbow ={
-    'name': 'Crossbow',
+    'name': 'Hand Crossbow',
     'helpText': 'A small mechanized bow that shoots copper bolts. Easy to use but a little weak.',
     'damage': 50,
     'attackSpeed': 1,

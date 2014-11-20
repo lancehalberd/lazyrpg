@@ -15,6 +15,7 @@ actions.fight = function (params, successCallback, errorCallback) {
 
 var fighting = null;
 var endBattleCallback = null;
+var winInstantly = true;
 
 function BattleAction(sourceMonster, slot, victoryFunction) {
     var monster = copy(sourceMonster);
@@ -26,6 +27,8 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
     this.actionTarget = sourceMonster;
     this.getDiv = function () {
         monster.$element = $('.js-monster').clone().removeClass('js-monster').show();
+        monster.$element.find('.js-name').text("Lvl " + monster.level+ " " + monster.name);
+        monster.$element.find('.js-graphic').html(monster.$graphic);
         updateMonster(monster);
         return $div('action slot' + slot, monster.$element).attr('helpText', 'Fight this monster to gain experience and ingredients or gold. The quality of the ingredients decreases the more you attack a monster. Increase your poaching skill and damage to obtain better ingredients.');
     };
@@ -42,24 +45,37 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
         }
     }
 }
-var winInstantly = false;
 function fightLoop(currentTime, deltaTime) {
     var monster = fighting;
     player.nextAttack -= deltaTime;
     if (player.nextAttack <= 0) {
         var damage = Math.max(0, player.getDamage() - monster.armor);
+        if (gameSpeed < 30) {
+            //show damage animation only when the game speed is below 30
+            var $damage = $('<span style="color: #f04; position: absolute; top: 0px; font-size: 30px; font-weight: bold;">' + damage + '</span>');
+            monster.$element.find('.js-graphic').append($damage);
+            $damage.animate({top: "-=50"}, 500,
+                function () {
+                    $damage.remove();
+                }
+            );
+        }
         if (damage > 0) {
             monster.health = Math.max(0, monster.health - damage);
-            player.nextAttack += 1000 / player.getAttackSpeed();
             monster.damaged++;
-            updateMonster(monster);
+            if (gameSpeed < 30) {
+                updateMonster(monster);
+            }
         }
+        player.nextAttack += 1000 / player.getAttackSpeed();
     }
     monster.nextAttack -= deltaTime;
     if (monster.nextAttack <= 0) {
         player.health = Math.max(0, player.health - Math.max(0, monster.damage - player.getArmor()));
         monster.nextAttack += 1000 / monster.attackSpeed;
-        updatePlayerStats();
+        if (gameSpeed < 30) {
+            updatePlayerStats();
+        }
     }
     if (winInstantly || monster.health <= 0) {
         gainExperience(monster.experience, monster.level);
@@ -108,8 +124,6 @@ function updateMonster(monster) {
     } else {
         $monster.find('.js-action').text('Attack ');
     }
-    $monster.find('.js-graphic').html(monster.$graphic);
-    $monster.find('.js-name').text("Lvl " + monster.level+ " " + monster.name);
     $monster.find('.js-experience').text(monster.experience);
     $monster.find('.js-currentHealth').text(monster.health);
     $monster.find('.js-maxHealth').text(monster.maxHealth);
