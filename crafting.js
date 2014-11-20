@@ -46,17 +46,7 @@ var recipes = [
     'silk': {'result': 'silk', 'ingredients': {'strongWeb': 10}},
     'ninjaTabi': {'result': 'ninjaTabi', 'ingredients': {'leather': 5, 'silk': 3}},
 },{
-    'steelPlating': {'result': 'steelPlating', 'ingredients': {'ironOre': 40, 'charcoal': 20}},
-    'steelArmor': {'result': 'steelArmor', 'ingredients': {'steelPlating': 20, 'leather': 5}},
-    'steelHelmet': {'result': 'steelHelmet', 'ingredients': {'steelPlating': 5, 'ironIngot': 5, 'leather': 3}},
-    'steelLeggings': {'result': 'steelLeggings', 'ingredients': {'steelPlating': 5, 'leather': 5}},
-    'claymore': {'result': 'claymore', 'ingredients': {'steelPlating': 5, 'copperOre': 40, 'tin': 5}},
-    'silverIngot': {'result': 'silverIngot', 'ingredients': {'silverOre': 10}},
-    'mithrilSilver': {'result': 'silverIngot', 'ingredients': {'silverOre': 40,'ironOre': 8, 'charcoal': 2, 'bronzeOre': 4, 'tin': 1}},
-    'cestus': {'result': 'claymore', 'ingredients': {'steelPlating': 5, 'copperOre': 40, 'tin': 5}},
-    'silverSword': {'result': 'claymore', 'ingredients': {'steeledSilver': 5, 'copperOre': 40, 'tin': 5}},
-    'silk': {'result': 'silk', 'ingredients': {'strongWeb': 10}},
-    'ninjaTabi': {'result': 'ninjaTabi', 'ingredients': {'leather': 5, 'silk': 3}},
+    'mithrilSilver': {'result': 'mithrilSilver', 'ingredients': {'silverOre': 40,'ironOre': 8, 'charcoal': 2, 'bronzeOre': 4, 'tin': 1}}
 }];
 
 //populate allRecipes, and key/level on each recipe

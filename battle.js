@@ -15,7 +15,7 @@ actions.fight = function (params, successCallback, errorCallback) {
 
 var fighting = null;
 var endBattleCallback = null;
-var winInstantly = true;
+var winInstantly = false;
 
 function BattleAction(sourceMonster, slot, victoryFunction) {
     var monster = copy(sourceMonster);
