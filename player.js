@@ -78,8 +78,6 @@ $.each(armors, function(key, value) {player.inventory.armors[key] = startingItem
 $.each(helmets, function(key, value) {player.inventory.helmets[key] = startingItems; allItems[key] = value; value.key = key; value.isArmor = true; value.slot = 'helmets'; value.equipmentSlot = 'helmet';});
 $.each(boots, function(key, value) {player.inventory.boots[key] = startingItems; allItems[key] = value; value.key = key; value.isArmor = true; value.slot = 'boots'; value.equipmentSlot = 'boots';});
 
-
-
 function resetCharacter() {
     player.health = 200;
     player.maxHealth = 200;

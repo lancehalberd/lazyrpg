@@ -104,6 +104,7 @@ function fightLoop(currentTime, deltaTime) {
 }
 
 function stopFighting() {
+    updatePlayerStats();
     if (fighting) {
         var oldMonster = fighting;
         fighting = null;
