@@ -30,7 +30,7 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
         monster.$element.find('.js-name').text("Lvl " + monster.level+ " " + monster.name);
         monster.$element.find('.js-graphic').html(monster.$graphic);
         updateMonster(monster);
-        return $div('action slot' + slot, monster.$element).attr('helpText', 'Fight this monster to gain experience and ingredients or gold. The quality of the ingredients decreases the more you attack a monster. Increase your poaching skill and damage to obtain better ingredients.');
+        return $div('action slot' + slot, monster.$element).attr('helpText', monster.helpText);
     };
     this.perform = function () {
         if (fighting === monster) {

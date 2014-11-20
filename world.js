@@ -165,7 +165,7 @@ areas.village =  {
 };
 areas.river =  {
     'name': 'River',
-    '$graphic': $img('field.png'),
+    '$graphic': $img('river.png'),
     'actions': [
         new BattleAction(monsters.troll, 1, function () {
             //remove the troll boss, add the volcano location
