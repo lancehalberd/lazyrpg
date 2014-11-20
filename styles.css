@@ -508,6 +508,13 @@
     left: -50px;
     top: -30px;
 }
+.ff2Monster.woodGolem {
+    background-position: -800px -395px;
+    width: 100px;
+    height: 180px;
+    left: -50px;
+    top: -30px;
+}
 .ff2Monster.gargoyle {
     background-position: -300px -1150px;
     width: 80px;
@@ -526,6 +533,24 @@
     width: 80px;
     height: 90px;
     left: -50px;
+}
+
+.ff2Monster.spider {
+    background-position: -355px -470px;
+    width: 90px;
+    height:  90px;
+    top: -40px;
+    left: -45px;
+}
+.ff2Monster.flower {
+    background-position: -800px -120px;
+    height:  90px;
+    top: -40px;
+}
+.ff2Monster.doomFlower {
+    background-position: -880px -120px;
+    height:  90px;
+    top: -40px;
 }
 .ff2Monster.king {
     background-position: -160px -405px;

@@ -63,15 +63,40 @@ items.silverOre = {
     'helpText': 'Raw silver ore.',
     'value': 50
 };
+items.silverIngot = {
+    'name': 'Silver Ore',
+    'helpText': 'Refined silver that can be used for crafting, but it isn\'t very hard.',
+    'value': 600
+};
+items.steeledSilver = {
+    'name': 'Steeled Silver',
+    'helpText': 'A stronger silver alloy. Weaker than regular steel but it repels evil.',
+    'value': 800
+};
+items.mithrilSilver = {
+    'name': 'Mithril Silver',
+    'helpText': 'A silver alloy that is even stronger than steel.',
+    'value': 4000
+};
 items.goldOre = {
     'name': 'Gold Ore',
     'helpText': 'Raw gold ore.',
     'value': 200
 };
+items.goldIngot = {
+    'name': 'Gold Ingot',
+    'helpText': 'Refined gold that can be used for crafting. It is quite soft for a metal.',
+    'value': 1200
+};
 items.platinumOre = {
     'name': 'Platinum Ore',
-    'helpText': 'Raw platinum ore.',
+    'helpText': 'Rare platinum ore.',
     'value': 1000
+};
+items.platinumIngot = {
+    'name': 'Platinum Ingot',
+    'helpText': 'Refined platinum that can be used for crafting. Somewhat harder than iron.',
+    'value': 6000
 };
 items.titanimOre = {
     'name': 'Titanium Ore',
@@ -92,6 +117,31 @@ items.wingScraps = {
     'helpText': 'Scraps of bat wings.',
     'value': 1
 };
+items.spiderWeb = {
+    'name': 'Spider Web',
+    'helpText': 'The web of a large spider.',
+    'value': 30
+};
+items.strongWeb = {
+    'name': 'Strong Web',
+    'helpText': 'Surprisingly strong webbing.',
+    'value': 100
+};
+items.timber = {
+    'name': 'Timber',
+    'helpText': 'Wood for crafting.',
+    'value': 100
+}
+items.sturdyTimber = {
+    'name': 'Sturdy Timber',
+    'helpText': 'Strong, rigid wood.',
+    'value': 200
+}
+items.suppleTimber = {
+    'name': 'Supple Timber',
+    'helpText': 'Strong wood that can bend a lot without breaking.',
+    'value': 500
+}
 items.furScrap = {
     'name': 'Scrap of Fur',
     'helpText': 'Tattered animal fur.',

@@ -228,8 +228,9 @@ areas.field = {
     '$graphic': $img('field.png'),
     'actions': [
         new BattleAction(monsters.mercenary, 1),
+        new BattleAction(monsters.woodGolem, 3),
         new MoveAction('city', 2),
-        new MoveAction('desert', 3),
+        new MoveAction('desert', 6),
         new MoveAction('marsh', 4)
     ]
 };
@@ -238,7 +239,7 @@ areas.desert = {
     '$graphic': $img('field.png'),
     'actions': [
         new BattleAction(monsters.scorpion, 1),
-        new BattleAction(monsters.tortoise, 3),
+        new BattleAction(monsters.giantTortoise, 3),
         new MoveAction('field', 4),
         new MoveAction('desertCave', 6)
     ]
@@ -273,8 +274,8 @@ areas.marsh = {
     '$graphic': $img('field.png'),
     'actions': [
         new BattleAction(monsters.crocodile, 1),
-        new BattleAction(monsters.mudGolem, 2),
-        new MoveAction('field', 3),
+        new BattleAction(monsters.mudGolem, 3),
+        new MoveAction('field', 2),
         new MoveAction('marshCave', 4),
         new MoveAction('remoteAbode', 6)
     ]
@@ -283,19 +284,21 @@ areas.marshCave = {
     'name': 'Marsh Cave',
     '$graphic': $img('cave.png'),
     'actions': [
-        new MiningAction(minerals.tin, 1),
-        new BattleAction(monsters.maverick, 2),
-        new MoveAction('marsh', 3)
+        new BattleAction(monsters.spider, 1),
+        new BattleAction(monsters.maverick, 3),
+        new MiningAction(minerals.tin, 4),
+        new MoveAction('marsh', 6)
     ]
 };
 areas.remoteAbode = {
     'name': 'Remote Abode',
     '$graphic': $img('town.png'),
     'actions': [
-        new MoveAction('marsh', 1),
-        new BattleAction(monsters.witch, 5, function () {
+        new MoveAction('marsh', 4),
+        new BattleAction(monsters.giantRat, 1),
+        new BattleAction(monsters.witch, 3, function () {
             //remove the witch and open the cellar
-            areas.remoteAbode.actions[1] = new MoveAction('cellar', 6),
+            areas.remoteAbode.actions[2] = new MoveAction('cellar', 6),
             //replace enchantedKing with imposterKing now that the witch is defeated
             areas.throneRoom.actions[0] = new BattleAction(monsters.imposterKing, 2, function () {
                 //remove the trex boss, add the castle location
@@ -312,7 +315,7 @@ areas.cellar = {
     'name': 'Cellar',
     '$graphic': $img('cave.png'),
     'actions': [
-        new BattleAction(monsters.giantRat, 1),
+        new BattleAction(monsters.doomFlower, 1),
         new BattleAction(monsters.gargoyle, 3),
         new MoveAction('remoteAbode', 4)
     ]
@@ -351,11 +354,12 @@ areas.castle = {
     'name': 'Castle',
     '$graphic': $img('town.png'),
     'actions': [
-        new BattleAction(monsters.royalGuard, 2, function () {
+        new BattleAction(monsters.royalGuard, 1, function () {
             //remove the trex boss, add the castle location
-            areas.castle.actions[2] = new MoveAction('throneRoom', 4);
+            areas.castle.actions[3] = new MoveAction('throneRoom', 4);
             setArea(areas.castle);
         }),
+        new BattleAction(monsters.giantSpider, 2),
         new MoveAction('courtyard', 6)
     ]
 };

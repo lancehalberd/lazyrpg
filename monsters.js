@@ -117,6 +117,17 @@ monsters.crocodile = {
     '$graphic': $ff2Monster('crocodile'),
     'spoils': ['reptileSkin', 'tooth', 'tooth']
 };
+monsters.fowler = {
+    'name': 'Fowler',
+    'level': 10,
+    'health': 600,
+    'armor': 10,
+    'damage': 100,
+    'attackSpeed': 1,
+    'experience': 90,
+    '$graphic': $ff2Monster('flower'),
+    'spoils': ['timber','timber']
+};
 monsters.scorpion = {
     'name': 'Scorpion',
     'level': 10,
@@ -183,13 +194,13 @@ monsters.bear = {
     '$graphic': $ff2Monster('bear'),
     'spoils': ['largePelt']
 };
-monsters.tortoise = {
-    'name': 'Tortoise',
+monsters.giantTortoise = {
+    'name': 'Giant Tortoise',
     'level': 15,
-    'health': 1500,
-    'armor': 20,
-    'damage': 200,
-    'attackSpeed': 1.5,
+    'health': 3000,
+    'armor': 50,
+    'damage': 150,
+    'attackSpeed': 1,
     'experience': 200,
     '$graphic': $hillaryMonster('turtle'),
     'spoils': ['largeShell']
@@ -216,20 +227,42 @@ monsters.maverick = {
     '$graphic': $ff2Monster('maverick'),
     'spoils': ['tinScraps']
 };
+monsters.woodGolem = {
+    'name': 'Wood Golem',
+    'level': 18,
+    'health': 5000,
+    'armor': 20,
+    'damage': 200,
+    'attackSpeed': 2,
+    'experience': 350,
+    '$graphic': $ff2Monster('woodGolem'),
+    'spoils': ['sturdyTimber', 'sturdyTimber', 'timber']
+};
 monsters.whelp = {
     'name': 'Whelp',
     'level': 20,
     'health': 4000,
     'armor': 40,
     'damage': 200,
-    'attackSpeed': 4,
+    'attackSpeed': 2,
     'experience': 400,
     '$graphic': $hillaryMonster('dragon'),
     'spoils': ['dragonFang', 'charcoal', 'charcoal']
 };
+monsters.spider = {
+    'name': 'Spider',
+    'level': 22,
+    'health': 3000,
+    'armor': 20,
+    'damage': 200,
+    'attackSpeed': 3,
+    'experience': 1000,
+    '$graphic': $ff2Monster('spider'),
+    'spoils': ['spiderWeb', 'spiderWeb']
+};
 monsters.possessedCaptain = {
     'name': 'Possessed Captain',
-    'level': 22,
+    'level': 24,
     'health': 6000,
     'armor': 30,
     'damage': 200,
@@ -240,7 +273,7 @@ monsters.possessedCaptain = {
 };
 monsters.witch = {
     'name': 'Witch',
-    'level': 24,
+    'level': 30,
     'health': 20000,
     'armor': 0,
     'damage': 300,
@@ -269,7 +302,7 @@ monsters.giantRat = {
     'attackSpeed': 2,
     'experience': 800,
     '$graphic': $hillaryMonster('rat'),
-    'spoils': ['largePelt', 'smallPelt', 'smallPelt', 'furScraps']
+    'spoils': ['largePelt', 'smallPelt', 'smallPelt', 'furScrap']
 };
 monsters.gargoyle = {
     'name': 'Gargoyle',
@@ -284,7 +317,7 @@ monsters.gargoyle = {
 };
 monsters.tRex = {
     'name': 'T-Rex',
-    'level': 30,
+    'level': 40,
     'health': 30000,
     'armor': 70,
     'damage': 500,
@@ -293,20 +326,42 @@ monsters.tRex = {
     '$graphic': $ff2Monster('tRex'),
     'spoils': ['goldIngot']
 };
+monsters.doomFlower = {
+    'name': 'Doom Flower',
+    'level': 32,
+    'health': 9000,
+    'armor': 40,
+    'damage': 200,
+    'attackSpeed': 2,
+    'experience': 1000,
+    '$graphic': $ff2Monster('flower'),
+    'spoils': ['suppleTimber', 'timber']
+};
+monsters.giantSpider = {
+    'name': 'Giant Spider',
+    'level': 34,
+    'health': 12000,
+    'armor': 50,
+    'damage': 400,
+    'attackSpeed': 3,
+    'experience': 1200,
+    '$graphic': $ff2Monster('spider'),
+    'spoils': ['strongWeb', 'spiderWeb', 'spiderWeb']
+};
 monsters.royalGuard = {
     'name': 'Royal Guard',
-    'level': 35,
+    'level': 36,
     'health':10000,
     'armor': 80,
     'damage': 300,
     'attackSpeed': 4,
-    'experience': 1200,
+    'experience': 1500,
     '$graphic': $ff2Monster('royalGuard'),
     'spoils': [1500]
 };
 monsters.enchantedKing = {
     'name': 'Enchanted King',
-    'level': 40,
+    'level': 50,
     'health': 1000000,
     'armor': 200,
     'damage': 1000,
@@ -317,7 +372,7 @@ monsters.enchantedKing = {
 };
 monsters.imposterKing = {
     'name': 'Imposter King',
-    'level': 40,
+    'level': 50,
     'health': 50000,
     'armor': 100,
     'damage': 500,
