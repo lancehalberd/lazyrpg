@@ -474,6 +474,31 @@ actions.remove = function (params, successCallback, errorCallback) {
     successCallback();
 }
 
+function optimizeArmor() {
+    $.each(player.inventory.armors, equipArmorIfBetter);
+    $.each(player.inventory.helmets, equipArmorIfBetter);
+    $.each(player.inventory.boots, equipArmorIfBetter);
+    updatePlayerStats();
+    refreshAllInventoryPanels();
+    recordAction('optimizeArmor');
+}
+
+actions.optimizeArmor = function (params, successCallback, errorCallback) {
+    optimizeArmor();
+    successCallback();
+}
+
+function equipArmorIfBetter(key, amount) {
+    var item = allItems[key];
+    if (amount <= 0) {
+        return;
+    }
+    if (item.level > player.level || item.level < player[item.equipmentSlot].level) {
+        return;
+    }
+    player[item.equipmentSlot] = item;
+}
+
 function loseLastItem(item) {
     //unequip this item if it was equipped
     if (item.equipmentSlot && player[item.equipmentSlot] == item) {

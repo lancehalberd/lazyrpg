@@ -51,6 +51,7 @@ function timeSpan(value) {
 $(function () {
     $('.js-loadingScene').hide();
     $('.js-mapScene').show();
+    $('.js-optimize').on('click', optimizeArmor);
     setupInventory();
     $('.js-characterStats').on('click', function () {
         if ($('.js-characterStatsContainer').is('.open')) {
