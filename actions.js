@@ -78,19 +78,7 @@ function setSpeed(speed) {
 }
 
 function updateProgramButtons() {
-    switch (gameSpeed) {
-        case 30:
-            $('.js-changeSpeed').text("Fast Forward").attr('helpText', 'Click here to return to the default speed.');
-            break;
-        case 2:
-            $('.js-changeSpeed').text("Double Speed").attr('helpText', 'Click here to increase the game speed.');
-            break;
-        case 1:
-            $('.js-changeSpeed').text("Normal Speed").attr('helpText', 'Click here to increase the game speed.');
-            break;
-        default:
-            $('.js-changeSpeed').text("Speed x" + gameSpeed);
-    }
+    $('.js-changeSpeed').text("Speed x" + gameSpeed).attr('helpText', 'Click to change game speed');
     if ($('.js-programContainer').is('.open')) {
         $('.js-editProgram').text('Close').attr('helpText', 'Click to close the program panel');
     } else {
@@ -116,8 +104,8 @@ function runProgram(program) {
     loopStack = [];
     lineNumber = 0;
     runningProgram = true;
-    updateProgramButtons();
     runNextLine();
+    updateProgramButtons();
 }
 function stopProgram() {
     if (timeoutId >= 0) {
