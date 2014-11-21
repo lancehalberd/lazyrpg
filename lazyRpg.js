@@ -142,9 +142,11 @@ function mainLoop() {
     for (var i = 0; i < gameSpeed; i++) {
         if (fighting) {
             fightLoop(currentTime, deltaTime);
+            player.time += deltaTime;
         }
         if (mining) {
             miningLoop(currentTime, deltaTime);
+            player.time += deltaTime;
         }
     }
     if (mineral) {

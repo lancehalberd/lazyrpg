@@ -1,3 +1,14 @@
+
+function freshBattleStatus() {
+    return {
+        'armorReduction': 0,
+        'dealtPoisonDamage': 0,
+        'poisonDamage': 0,
+        'poisonRate': 0,
+        'crippled': 0
+    }
+}
+
 var player = {
     'inventory': {
         'items' : {},
@@ -9,8 +20,11 @@ var player = {
     'skillTrees' : {
         'youth' : true
     },
+    'isPlayer': true,
     'gold': 10,
-    'poachingSkill': 0
+    'poachingSkill': 0,
+    'time': 0,
+    'battleStatus': freshBattleStatus()
 };
 var baseEquipment = {
     'weapon' : weapons.fists,
@@ -42,8 +56,11 @@ player.getAttackSpeed = function () {
     if (player.specialSkills.focus) {
         total = total / 2;
     }
-    return total;
+    return applyCripple(total, player.battleStatus.crippled);
 };
+function applyCripple(attackSpeed, cripple) {
+    return attackSpeed / (1 + Math.log(1 + cripple / 6));
+}
 player.getArmor = function () {
     //double damage, 0 armor
     if (player.specialSkills.fury) {
@@ -51,8 +68,54 @@ player.getArmor = function () {
     }
     var armorBonus = player.bonuses.armor;
     var baseValue = player.armor.armor + player.helmet.armor + player.boots.armor + armorBonus.plus;
-    return Math.floor(baseValue * armorBonus.multi);
+    return Math.max(0, Math.floor(baseValue * armorBonus.multi) - player.battleStatus.armorReduction);
 };
+player.getArmorPierce = function () {
+    if (player.weapon.type != 'bow' && player.weapon.type != 'sword') {
+        return 0;
+    }
+    var base = player.weapon.armorPierce ? player.weapon.armorPierce : 0;
+    return applyBonus(base, player.bonuses.armorPierce);
+}
+player.getArmorBreak = function () {
+    if (player.weapon.type != 'fist' && player.weapon.type != 'club') {
+        return 0;
+    }
+    var base = player.weapon.armorBreak ? player.weapon.armorBreak : 0;
+    return applyBonus(base, player.bonuses.armorBreak);
+}
+player.getLifeSteal = function () {
+    if (player.weapon.type != 'fist' && player.weapon.type != 'sword') {
+        return 0;
+    }
+    var base = player.weapon.lifeSteal ? player.weapon.lifeSteal : 0;
+    return applyBonus(base, player.bonuses.lifeSteal);
+}
+player.getPoison = function () {
+    if (player.weapon.type != 'fist' && player.weapon.type != 'bow') {
+        return 0;
+    }
+    var base = player.weapon.poison ? player.weapon.poison : 0;
+    return applyBonus(base, player.bonuses.poison);
+}
+player.getCripple = function () {
+    if (player.weapon.type != 'bow' && player.weapon.type != 'club') {
+        return 0;
+    }
+    var base = player.weapon.cripple ? player.weapon.cripple : 0;
+    return applyBonus(base, player.bonuses.cripple);
+}
+player.getParry = function () {
+    if (player.weapon.type != 'sword' && player.weapon.type != 'club') {
+        return 0;
+    }
+    var base = player.weapon.parry ? player.weapon.parry : 0;
+    return applyBonus(base, player.bonuses.parry);
+}
+
+function applyBonus(value, bonus) {
+    return (value + bonus.plus) * bonus.multi;
+}
 
 function getItemName(item) {
     if (item.slot == 'armors') {
@@ -109,6 +172,12 @@ function resetCharacter() {
         'club': {'damage': zeroBonus(), 'attackSpeed': zeroBonus()},
         'bow': {'damage': zeroBonus(), 'attackSpeed': zeroBonus()},
         'armor': zeroBonus(),
+        'armorPierce': zeroBonus(),
+        'armorBreak': zeroBonus(),
+        'poison': zeroBonus(),
+        'cripple': zeroBonus(),
+        'parry': zeroBonus(),
+        'lifeSteal': zeroBonus()
     };
     player.specialSkills = [];
     resetSkillTree();
@@ -117,9 +186,7 @@ function resetCharacter() {
 }
 
 function updatePlayerStats() {
-    $('.js-characterStats .js-currentHealth').text(player.health);
-    $('.js-characterStats .js-maxHealth').text(player.maxHealth);
-    $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.maxHealth) + '%');
+    updatePlayerLife();
     $('.js-characterStats .js-damage').text(player.getDamage());
     $('.js-characterStats .js-attackSpeed').text(player.getAttackSpeed().toFixed(2));
     $('.js-characterStats .js-armor').text(player.getArmor());
@@ -148,6 +215,13 @@ function updatePlayerStats() {
     $('.js-characterStatsContainer .js-swordSkill').text(player.weaponLevels['sword']);
     $('.js-characterStatsContainer .js-clubSkill').text(player.weaponLevels['club']);
     $('.js-characterStatsContainer .js-bowSkill').text(player.weaponLevels['bow']);
+    updateTime();
+}
+
+function updatePlayerLife() {
+    $('.js-characterStats .js-currentHealth').text(player.health);
+    $('.js-characterStats .js-maxHealth').text(player.maxHealth);
+    $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.maxHealth) + '%');
 }
 
 function updateGold() {
@@ -177,4 +251,21 @@ function gainExperience(experience, level) {
 
 function zeroBonus() {
     return {'plus': 0, 'multi': 1};
+}
+
+function updateTime(args) {
+    var parts = [Math.floor(player.time / 1000)];
+    parts.unshift(Math.floor(parts[0] / 60));
+    parts[1] = parts[1] % 60;
+    if (parts[1] < 10) {
+        parts[1] = '0' + parts[1];
+    }
+    if (parts[0] > 60) {
+        parts.unshift(Math.floor(parts[0] / 60));
+        parts[1] = parts[1] % 60;
+        if (parts[1] < 10) {
+            parts[1] = '0' + parts[1];
+        }
+    }
+    $('.js-time').text(parts.join(':'));
 }

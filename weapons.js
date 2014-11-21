@@ -25,7 +25,8 @@ weapons.brassKnuckles = {
     'attackSpeed': 2,
     'type': 'fist',
     'level': 1,
-    'value': 500
+    'value': 500,
+    'armorBreak': 1
 };
 //Fists 2
 weapons.claws = {
@@ -35,7 +36,8 @@ weapons.claws = {
     'attackSpeed': 2,
     'type': 'fist',
     'level': 2,
-    'value': 1000
+    'value': 1000,
+    'poison': 10
 };
 weapons.cestus = {
     'name': 'Cestus',
@@ -44,7 +46,8 @@ weapons.cestus = {
     'attackSpeed': 2.5,
     'type': 'fist',
     'level': 2,
-    'value': 5000
+    'value': 5000,
+    'armorBreak': 2
 };
 weapons.tigerClaws = {
     'name': 'Tiger Claws',
@@ -53,7 +56,8 @@ weapons.tigerClaws = {
     'attackSpeed': 3,
     'type': 'fist',
     'level': 2,
-    'value': 10000
+    'value': 10000,
+    'lifeSteal': .1
 };
 //Fists 3
 weapons.midasTouch = {
@@ -63,7 +67,8 @@ weapons.midasTouch = {
     'attackSpeed': 3,
     'type': 'fist',
     'level': 3,
-    'value': 50000
+    'value': 50000,
+    'armorBreak': 2
 };
 weapons.titanFists = {
     'name': "Titan's Fists",
@@ -72,7 +77,8 @@ weapons.titanFists = {
     'attackSpeed': 3.5,
     'type': 'fist',
     'level': 3,
-    'value': 100000
+    'value': 100000,
+    'armorBreak': 5
 };
 weapons.dragonFangs = {
     'name': 'Dragon Fangs',
@@ -81,7 +87,8 @@ weapons.dragonFangs = {
     'attackSpeed': 4,
     'type': 'fist',
     'level': 3,
-    'value': 500000
+    'value': 500000,
+    'poison': 50
 };
 
 //Swords 1
@@ -120,7 +127,8 @@ weapons.claymore ={
     'attackSpeed': 2,
     'type': 'sword',
     'level': 2,
-    'value': 6000
+    'value': 6000,
+    'parry': 20
 };
 weapons.silverSword ={
     'name': 'Silver Sword',
@@ -129,7 +137,8 @@ weapons.silverSword ={
     'attackSpeed': 2,
     'type': 'sword',
     'level': 2,
-    'value': 12000
+    'value': 12000,
+    'armorPierce': .4
 };
 weapons.katana ={
     'name': 'Katana',
@@ -138,35 +147,40 @@ weapons.katana ={
     'attackSpeed': 2,
     'type': 'sword',
     'level': 2,
-    'value': 40000
+    'value': 40000,
+    'parry': 30,
+    'armorPierce': .3
 };
 //Swords 3
-weapons.kotetsu ={
+weapons.kotetsu = {
     'name': 'Kotetsu',
     'helpText': 'A blood thirsty sword that feeds on the souls of monsters.',
     'damage': 180,
     'attackSpeed': 2.5,
     'type': 'sword',
     'level': 3,
-    'value': 60000
+    'value': 60000,
+    'lifeSteal': .1
 };
-weapons.excalibur ={
+weapons.excalibur = {
     'name': 'Excalibur',
     'helpText': 'A famous sword of legend.',
     'damage': 240,
     'attackSpeed': 2.5,
     'type': 'sword',
     'level': 3,
-    'value': 120000
+    'value': 120000,
+    'parry': 50
 };
-weapons.blackSwordYoru ={
+weapons.blackSwordYoru = {
     'name': 'Black Sword Yoru',
     'helpText': 'A giant black sword wielded by the greatest swordsmen in the world.',
     'damage': 250,
     'attackSpeed': 3,
     'type': 'sword',
     'level': 3,
-    'value': 400000
+    'value': 400000,
+    'armorPierce': .5
 };
 
 //Clubs 1
@@ -186,7 +200,8 @@ weapons.cudgel ={
     'attackSpeed': 1,
     'type': 'club',
     'level': 1,
-    'value': 200
+    'value': 200,
+    'armorBreak': 5
 };
 weapons.hammer ={
     'name': 'Hammer',
@@ -195,35 +210,39 @@ weapons.hammer ={
     'attackSpeed': 1,
     'type': 'club',
     'level': 1,
-    'value': 1000
+    'value': 1000,
+    'cripple': 1
 };
 //Clubs 2
-weapons.mace ={
+weapons.mace = {
     'name': 'Mace',
     'helpText': 'A steel club with a heavy studded ball on one end.',
     'damage': 150,
     'attackSpeed': 1.25,
     'type': 'club',
     'level': 1,
-    'value': 10000
+    'value': 10000,
+    'armorBreak': 5
 };
-weapons.silverMallet ={
+weapons.silverMallet = {
     'name': 'Silver Mallet',
     'helpText': 'A hammer made from a silver alloy that monsters hate.',
     'damage': 190,
     'attackSpeed': 1.25,
     'type': 'club',
     'level': 2,
-    'value': 20000
+    'value': 20000,
+    'cripple': 3
 };
-weapons.morningStar ={
+weapons.morningStar = {
     'name': 'Morning Star',
     'helpText': 'A club with a larged spiked ball on the end.',
     'damage': 230,
     'attackSpeed': 1.25,
     'type': 'club',
     'level': 2,
-    'value': 40000
+    'value': 40000,
+    'armorBreak': 10
 };
 //Clubs 3
 weapons.warHammer ={
@@ -233,7 +252,8 @@ weapons.warHammer ={
     'attackSpeed': 1.5,
     'type': 'club',
     'level': 3,
-    'value': 100000
+    'value': 100000,
+    'cripple': 5
 };
 weapons.maceOfTheDarkLord ={
     'name': 'Mace of the Dark Lord',
@@ -242,7 +262,8 @@ weapons.maceOfTheDarkLord ={
     'attackSpeed': 1.75,
     'type': 'club',
     'level': 3,
-    'value': 200000
+    'value': 200000,
+    'parry': 30
 };
 weapons.mjolnir ={
     'name': 'Mjolnir',
@@ -251,7 +272,8 @@ weapons.mjolnir ={
     'attackSpeed': 2,
     'type': 'club',
     'level': 3,
-    'value': 400000
+    'value': 400000,
+    'armorBreak': 15
 };
 
 //Bows 1
@@ -275,12 +297,13 @@ weapons.crossbow ={
 };
 weapons.longBow ={
     'name': 'Long Bow',
-    'helpText': 'A full sized bow. Powerful, but difficult to use',
+    'helpText': 'A full sized bow. Powerful, but difficult to use.',
     'damage': 200,
     'attackSpeed': .5,
     'type': 'bow',
     'level': 1,
-    'value': 1000
+    'value': 1000,
+    'cripple': 1
 };
 //Bows 2
 weapons.compositeBow ={
@@ -290,7 +313,8 @@ weapons.compositeBow ={
     'attackSpeed': .75,
     'type': 'bow',
     'level': 2,
-    'value': 5000
+    'value': 5000,
+    'armorPierce': .2
 };
 weapons.handBalista ={
     'name': 'Hand Balista',
@@ -299,7 +323,8 @@ weapons.handBalista ={
     'attackSpeed': .5,
     'type': 'bow',
     'level': 2,
-    'value': 20000
+    'value': 20000,
+    'cripple': 3
 };
 weapons.vampireSlayer ={
     'name': 'Vampire Slayer',
@@ -308,7 +333,8 @@ weapons.vampireSlayer ={
     'attackSpeed': .75,
     'type': 'bow',
     'level': 2,
-    'value': 30000
+    'value': 30000,
+    'poison': 40,
 };
 //Bows 3
 weapons.compoundBow ={
@@ -318,7 +344,8 @@ weapons.compoundBow ={
     'attackSpeed': .75,
     'type': 'bow',
     'level': 3,
-    'value': 50000
+    'value': 50000,
+    'cripple': 2
 };
 weapons.deathBow ={
     'name': 'Death Bow',
@@ -327,7 +354,8 @@ weapons.deathBow ={
     'attackSpeed': .5,
     'type': 'bow',
     'level': 3,
-    'value': 300000
+    'value': 300000,
+    'poison': 200
 };
 weapons.runeBow ={
     'name': 'Rune Bow',
@@ -336,5 +364,6 @@ weapons.runeBow ={
     'attackSpeed': 1,
     'type': 'bow',
     'level': 3,
-    'value': 400000
+    'value': 400000,
+    'armorPierce': .4
 };

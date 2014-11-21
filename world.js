@@ -58,6 +58,8 @@ function MoveAction(target, slot) {
         closeAll();
         setArea(areas[target]);
         recordAction(this.actionName, this.actionTarget);
+        player.time += 5000;
+        updateTime();
     }
 }
 
@@ -68,6 +70,7 @@ function RestAction(slot) {
     };
     this.perform = function () {
         resetCharacter();
+        player.time += 10000;
         recordAction(this.actionName, this.actionTarget);
     };
 }
@@ -292,7 +295,7 @@ areas.marshCave = {
 };
 areas.remoteAbode = {
     'name': 'Remote Abode',
-    '$graphic': $img('town.png'),
+    '$graphic': $img('castle.png'),
     'actions': [
         new MoveAction('marsh', 4),
         new BattleAction(monsters.giantRat, 1),
@@ -323,7 +326,7 @@ areas.cellar = {
 
 areas.castleGates = {
     'name': 'Castle Gates',
-    '$graphic': $img('town.png'),
+    '$graphic': $img('castle.png'),
     'actions': [
         new BattleAction(monsters.possessedGuard, 1, function () {
             //can fight possessed captain after defeating possessed guard
@@ -339,7 +342,7 @@ areas.castleGates = {
 };
 areas.courtyard = {
     'name': 'Courtyard',
-    '$graphic': $img('town.png'),
+    '$graphic': $img('field.png'),
     'actions': [
         new BattleAction(monsters.tRex, 2, function () {
             //remove the trex boss, add the castle location
@@ -352,7 +355,7 @@ areas.courtyard = {
 };
 areas.castle = {
     'name': 'Castle',
-    '$graphic': $img('town.png'),
+    '$graphic': $img('castle.png'),
     'actions': [
         new BattleAction(monsters.royalGuard, 1, function () {
             //remove the trex boss, add the castle location
@@ -365,7 +368,7 @@ areas.castle = {
 };
 areas.throneRoom = {
     'name': 'Throne Room',
-    '$graphic': $img('town.png'),
+    '$graphic': $img('castle.png'),
     'actions': [
         //enchanted king cannot actually be defeated, defeat the witch to fight imposterKing instead
         new BattleAction(monsters.enchantedKing, 2),

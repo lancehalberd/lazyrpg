@@ -94,14 +94,15 @@ monsters.hyena = {
 monsters.lion = {
     'name': 'Lion',
     'level': 7,
-    'health': 200,
+    'health': 400,
     'armor': 13,
-    'damage': 60,
+    'damage': 40,
     'attackSpeed': 1,
     'experience': 40,
     '$graphic': $ff2Monster('lion'),
     'spoils': ['lionsMane', 'largePelt', 'furScrap'],
-    'helpText': 'A large cat with a beard.'
+    'armorBreak': 5,
+    'helpText': 'A large cat with a beard. Its attacks are so powerful it can reduce the effectiveness of my armor over time.'
 };
 monsters.pirate = {
     'name': 'Pirate',
@@ -125,7 +126,8 @@ monsters.crocodile = {
     'experience': 80,
     '$graphic': $ff2Monster('crocodile'),
     'spoils': ['reptileSkin', 'tooth', 'tooth'],
-    'helpText': 'A large lizard. Maybe?'
+    'helpText': 'A large lizard. Maybe? Its strong jaws can reduce my armor.',
+    'armorBreak': 5
 };
 monsters.fowler = {
     'name': 'Fowler',
@@ -137,7 +139,8 @@ monsters.fowler = {
     'experience': 90,
     '$graphic': $ff2Monster('flower'),
     'spoils': ['timber','timber'],
-    'helpText': 'The pollen from this flower makes me dizzy and sneeze, reducing my opportunities to attack.'
+    'helpText': 'The pollen from this flower makes me dizzy and sneeze, reducing my opportunities to attack.',
+    'cripple': 5
 };
 monsters.scorpion = {
     'name': 'Scorpion',
@@ -149,7 +152,8 @@ monsters.scorpion = {
     'experience': 90,
     '$graphic': $ff2Monster('scorpion'),
     'spoils': ['stinger'],
-    'helpText': 'The poison in its tail makes this a deceptively dangerous foe.'
+    'helpText': 'The poison in its tail makes this a deceptively dangerous foe.',
+    'poison': 10
 };
 monsters.vampireBat = {
     'name': 'Vampire Bat',
@@ -161,7 +165,8 @@ monsters.vampireBat = {
     'experience': 120,
     '$graphic': $ff2Monster('bee'),
     'spoils': ['vampireFang', 'wingScraps', 'wingScraps'],
-    'helpText': 'This bat will drain my life as it attacks me.'
+    'helpText': 'This bat will drain my life as it attacks me.',
+    'lifeSteal': .1
 };
 monsters.mudGolem = {
     'name': 'Mud Golem',
@@ -185,7 +190,8 @@ monsters.darkKnight = {
     'experience': 1000,
     '$graphic': $ff2Monster('darkKnight'),
     'spoils': ['ironIngot'],
-    'helpText': 'This servant of the king has been posted here to prevent people from accessing the iron mines.'
+    'helpText': 'This servant of the king has been posted here to prevent people from accessing the iron mines.',
+    'armorPierce': .2
 };
 monsters.mercenary = {
     'name': 'Mercenary',
@@ -245,7 +251,8 @@ monsters.maverick = {
     'experience': 300,
     '$graphic': $ff2Monster('maverick'),
     'spoils': ['tinScraps'],
-    'helpText': 'An old malfunctioning robot. Not necessairly aggressive, but it could do a lot of damage if I\'m not careful.'
+    'helpText': 'An old malfunctioning robot. Not necessairly aggressive, but it could do a lot of damage if I\'m not careful.',
+    'cripple': 10
 };
 monsters.woodGolem = {
     'name': 'Wood Golem',
@@ -269,7 +276,8 @@ monsters.whelp = {
     'experience': 400,
     '$graphic': $hillaryMonster('dragon'),
     'spoils': ['dragonFang', 'charcoal', 'charcoal'],
-    'helpText': 'Even a baby dragon is a force to be reckoned with.'
+    'helpText': 'Even a baby dragon is a force to be reckoned with.',
+    'poison': 20
 };
 monsters.spider = {
     'name': 'Spider',
@@ -281,7 +289,8 @@ monsters.spider = {
     'experience': 1000,
     '$graphic': $ff2Monster('spider'),
     'spoils': ['spiderWeb', 'spiderWeb'],
-    'helpText': 'A large poisonous spider.'
+    'helpText': 'A large poisonous spider.',
+    'poison': 20
 };
 monsters.possessedCaptain = {
     'name': 'Possessed Captain',
@@ -365,7 +374,9 @@ monsters.doomFlower = {
     'experience': 1000,
     '$graphic': $ff2Monster('flower'),
     'spoils': ['suppleTimber', 'timber'],
-    'helpText': 'These flowers appear to have been... modified.'
+    'helpText': 'These flowers appear to have been... modified.',
+    'poison': 10,
+    'cripple': 5
 };
 monsters.giantSpider = {
     'name': 'Giant Spider',
@@ -377,7 +388,8 @@ monsters.giantSpider = {
     'experience': 1200,
     '$graphic': $ff2Monster('spider'),
     'spoils': ['strongWeb', 'spiderWeb', 'spiderWeb'],
-    'helpText': 'Why are there giant spiders living in the castle?'
+    'helpText': 'Why are there giant spiders living in the castle?',
+    'poison': 40,
 };
 monsters.royalGuard = {
     'name': 'Royal Guard',

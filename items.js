@@ -567,6 +567,24 @@ function refreshInventoryPanel(typeKey) {
             item.$element.toggleClass('isEquipped', equipped);
             var canEquipItem = canEquip(item);
             item.$element.toggleClass('canEquip', canEquipItem);
+            if (item.armorBreak) {
+                helpText += "<br/><br/>This weapon reduces the armor of enemies each time it hits.";
+            }
+            if (item.armorPierce) {
+                helpText += "<br/><br/>This weapon ignores some of the armor of enemies.";
+            }
+            if (item.lifeSteal) {
+                helpText += "<br/><br/>This weapon steals a percentage of the damage dealt as life.";
+            }
+            if (item.cripple) {
+                helpText += "<br/><br/>Attacks from this weapon reduces the attack speed of enemies.";
+            }
+            if (item.parry) {
+                helpText += "<br/><br/>You can block using this weapon, increasing your armor.";
+            }
+            if (item.poison) {
+                helpText += "<br/><br/>This weapon deals damage over time to enemies.";
+            }
             if (!canEquipItem) {
                 helpText += "<br/><br/>" + (item.isWeapon ? "Your " + item.type+" skill is not high enough to equip this yet." : "Your level is not high enough to equip this yet.");
             }
