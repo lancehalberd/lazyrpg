@@ -214,7 +214,7 @@ function addLoopsToProgram(program) {
             count++;
         }
         if (count > 2) {
-            lines.splice(i + 2, count - 2);
+            lines.splice(i + 2, count - 3);
             lines[i] = 'loop ' + count + ' {';
             lines[i+1] = '  ' + line;
             lines[i+2] = '}';
