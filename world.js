@@ -186,6 +186,7 @@ areas.savanna = {
         new MoveAction('river', 2),
         new BattleAction(monsters.lion, 3),
         new BattleAction(monsters.hyena, 1),
+        new BattleAction(monsters.fowler, 6),
         new MoveAction('portTown', 5)
     ]
 };
@@ -295,7 +296,7 @@ areas.marshCave = {
 };
 areas.remoteAbode = {
     'name': 'Remote Abode',
-    '$graphic': $img('castle.png'),
+    '$graphic': $img('remoteAbode.png'),
     'actions': [
         new MoveAction('marsh', 4),
         new BattleAction(monsters.giantRat, 1),

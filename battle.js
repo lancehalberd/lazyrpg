@@ -109,6 +109,9 @@ function fightLoop(currentTime, deltaTime) {
         }
         if (monster.lifeSteal) {
             monster.health = Math.min(monster.maxHealth, monster.health + Math.floor(damage * monster.lifeSteal));
+            if (gameSpeed < 30) {
+                updateMonster(monster);
+            }
         }
         monster.nextAttack += 1000 / applyCripple(monster.attackSpeed, monster.battleStatus.crippled);
         if (gameSpeed < 30) {

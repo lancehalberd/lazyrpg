@@ -38,7 +38,7 @@ var recipes = [
     'steelLeggings': {'result': 'steelLeggings', 'ingredients': {'steelPlating': 5, 'leather': 5}},
     'claymore': {'result': 'claymore', 'ingredients': {'steelPlating': 5, 'copperOre': 40, 'tin': 5}},
     'mace': {'result': 'mace', 'ingredients': {'ironOre': 160, 'charcoal': 40}},
-    'compositeBow': {'result': 'longBow', 'ingredients': {'suppleTimber': 3, 'strongTimber': 3, 'ironOre': 20, 'charcoal': 5}},
+    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 3, 'sturdyTimber': 3, 'ironOre': 20, 'charcoal': 5}},
     'silverIngot': {'result': 'silverIngot', 'ingredients': {'silverOre': 10}},
     'steeledSilver': {'result': 'silverIngot', 'ingredients': {'silverOre': 10,'ironOre': 4, 'charcoal': 1}},
     'cestus': {'result': 'claymore', 'ingredients': {'leatherGlove': 1, 'steelPlating': 2, 'steeledSilver': 1}},

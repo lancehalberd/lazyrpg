@@ -265,7 +265,7 @@ weapons.maceOfTheDarkLord ={
     'value': 200000,
     'parry': 30
 };
-weapons.mjolnir ={
+weapons.mjolnir = {
     'name': 'Mjolnir',
     'helpText': 'The hammer of a god, capable of breaking through any fortification.',
     'damage': 370,
@@ -277,7 +277,7 @@ weapons.mjolnir ={
 };
 
 //Bows 1
-weapons.shortBow ={
+weapons.shortBow = {
     'name': 'Short Bow',
     'helpText': 'A simple bow, slow, but deadly.',
     'damage': 40,
@@ -286,7 +286,7 @@ weapons.shortBow ={
     'level': 1,
     'value': 40
 };
-weapons.crossbow ={
+weapons.crossbow = {
     'name': 'Hand Crossbow',
     'helpText': 'A small mechanized bow that shoots copper bolts. Easy to use but a little weak.',
     'damage': 50,
@@ -295,7 +295,7 @@ weapons.crossbow ={
     'level': 1,
     'value': 500
 };
-weapons.longBow ={
+weapons.longBow = {
     'name': 'Long Bow',
     'helpText': 'A full sized bow. Powerful, but difficult to use.',
     'damage': 200,

@@ -129,19 +129,6 @@ monsters.crocodile = {
     'helpText': 'A large lizard. Maybe? Its strong jaws can reduce my armor.',
     'armorBreak': 5
 };
-monsters.fowler = {
-    'name': 'Fowler',
-    'level': 10,
-    'health': 600,
-    'armor': 10,
-    'damage': 100,
-    'attackSpeed': 1,
-    'experience': 90,
-    '$graphic': $ff2Monster('flower'),
-    'spoils': ['timber','timber'],
-    'helpText': 'The pollen from this flower makes me dizzy and sneeze, reducing my opportunities to attack.',
-    'cripple': 5
-};
 monsters.scorpion = {
     'name': 'Scorpion',
     'level': 10,
@@ -193,9 +180,22 @@ monsters.darkKnight = {
     'helpText': 'This servant of the king has been posted here to prevent people from accessing the iron mines.',
     'armorPierce': .2
 };
+monsters.fowler = {
+    'name': 'Fowler',
+    'level': 13,
+    'health': 600,
+    'armor': 10,
+    'damage': 100,
+    'attackSpeed': 1,
+    'experience': 90,
+    '$graphic': $ff2Monster('flower'),
+    'spoils': ['suppleTimber', 'timber','timber'],
+    'helpText': 'The pollen from this flower makes me dizzy and sneeze, reducing my opportunities to attack.',
+    'cripple': 5
+};
 monsters.mercenary = {
     'name': 'Mercenary',
-    'level': 13,
+    'level': 14,
     'health': 800,
     'armor': 25,
     'damage': 100,
@@ -207,7 +207,7 @@ monsters.mercenary = {
 };
 monsters.bear = {
     'name': 'Bear',
-    'level': 14,
+    'level': 15,
     'health': 1500,
     'armor': 20,
     'damage': 200,
@@ -219,7 +219,7 @@ monsters.bear = {
 };
 monsters.giantTortoise = {
     'name': 'Giant Tortoise',
-    'level': 15,
+    'level': 16,
     'health': 3000,
     'armor': 50,
     'damage': 150,
@@ -231,7 +231,7 @@ monsters.giantTortoise = {
 };
 monsters.possessedGuard = {
     'name': 'Possessed Guard',
-    'level': 16,
+    'level': 17,
     'health': 1500,
     'armor': 30,
     'damage': 180,
@@ -243,7 +243,7 @@ monsters.possessedGuard = {
 };
 monsters.maverick = {
     'name': 'Maverick',
-    'level': 17,
+    'level': 18,
     'health': 2000,
     'armor': 25,
     'damage': 400,
@@ -256,7 +256,7 @@ monsters.maverick = {
 };
 monsters.woodGolem = {
     'name': 'Wood Golem',
-    'level': 18,
+    'level': 19,
     'health': 5000,
     'armor': 20,
     'damage': 200,
@@ -268,7 +268,7 @@ monsters.woodGolem = {
 };
 monsters.whelp = {
     'name': 'Whelp',
-    'level': 20,
+    'level': 21,
     'health': 4000,
     'armor': 40,
     'damage': 200,
@@ -281,7 +281,7 @@ monsters.whelp = {
 };
 monsters.spider = {
     'name': 'Spider',
-    'level': 22,
+    'level': 23,
     'health': 3000,
     'armor': 20,
     'damage': 200,
@@ -294,7 +294,7 @@ monsters.spider = {
 };
 monsters.possessedCaptain = {
     'name': 'Possessed Captain',
-    'level': 24,
+    'level': 25,
     'health': 6000,
     'armor': 30,
     'damage': 200,
@@ -307,9 +307,9 @@ monsters.possessedCaptain = {
 monsters.witch = {
     'name': 'Witch',
     'level': 30,
-    'health': 20000,
+    'health': 15000,
     'armor': 0,
-    'damage': 300,
+    'damage': 250,
     'attackSpeed': 2,
     'experience': 5000,
     '$graphic': $ff2Monster('witch'),
@@ -318,11 +318,11 @@ monsters.witch = {
 };
 monsters.golem = {
     'name': 'Golem',
-    'level': 25,
+    'level': 26,
     'health': 10000,
     'armor': 80,
     'damage': 500,
-    'attackSpeed': 2,
+    'attackSpeed': 1,
     'experience': 600,
     '$graphic': $ff2Monster('golem'),
     'spoils': ['ironOre', 'ironOre', 'copperOre', 'copperOre'],
@@ -373,7 +373,7 @@ monsters.doomFlower = {
     'attackSpeed': 2,
     'experience': 1000,
     '$graphic': $ff2Monster('flower'),
-    'spoils': ['suppleTimber', 'timber'],
+    'spoils': ['suppleTimber', 'suppleTimber', 'timber'],
     'helpText': 'These flowers appear to have been... modified.',
     'poison': 10,
     'cripple': 5
