@@ -1,105 +1,146 @@
-function healthSkill(health, open) {
-    return {'name': '<span class="icon health"></span> +' + health, 'open' : open, 'activate': function () {player.maxHealth += health; player.health += health;}, 'helpText' : 'Gain ' + health + ' health.'};
-}
-function armorMultiSkill(multi, open) {
-    var percent =  (100*multi)+'%';
-    return {'name': '<span class="icon shield"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.armor.multi += multi;}, 'helpText' : 'Increase armor by ' + percent + '.'};
-}
-function armorPlusSkill(amount, open) {
-    return {'name': '<span class="icon shield"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.armor.plus += amount;}, 'helpText' : 'Increase armor by ' + amount + '.'};
-}
-function damageMultiSkill(multi, open) {
-    var percent =  (100*multi)+'%';
-    return {'name': 'DAMAGE ' + percent, 'open' : open, 'activate': function () {player.bonuses.damage.multi += multi;}, 'helpText' : 'Increase damage by ' + percent + '.'};
-}
-function damagePlusSkill(amount, open) {
-    return {'name': 'DAMAGE +' + amount, 'open' : open, 'activate': function () {player.bonuses.damage.plus += amount;}, 'helpText' : 'Increase damage by ' + amount + '.'};
-}
-function speedMultiSkill(multi, open) {
-    var percent =  (100*multi)+'%';
-    return {'name': '<span class="icon speed"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.attackSpeed.multi += multi;}, 'helpText' : 'Increase attacks per second by ' + percent + '.'};
-}
-function speedPlusSkill(amount, open) {
-    return {'name': '<span class="icon speed"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.attackSpeed.plus += amount;}, 'helpText' : 'Increase attacks per second by ' + amount + '.'};
-}
-function basicSkill(name, open) {
-    return {'name': name, 'open' : open, 'activate': function () {}, 'helpText' : 'This is the starting node for this skill tree.'};
-}
-function craftSkill(open) {
-    return {'name': 'CRAFT', 'open' : open, 'activate': function () {player.craftingSkill++;}, 'helpText' : 'Increases your crafting skill, unlocking new recipes.'};
-}
-function mineSkill(open) {
-    return {'name': 'MINE', 'open' : open, 'activate': function () {player.miningSkill++;}, 'helpText' : 'Increases your mining skill so you mine faster and lose less health over time.'};
-}
-function poachSkill(open) {
-    return {'name': 'POACH', 'open' : open, 'activate': function () {player.poachingSkill++;}, 'helpText' : 'Increases your poaching skill allowing you to damage enemies more without degrading their item quality.'};
-}
-function weaponSkill(type, open) {
-    return {'name': '<span class="icon ' + type +'"></span> +LVL', 'open' : open, 'activate': function () {player.weaponLevels[type]++; refreshInventoryPanel('weapons');}, 'helpText' : 'Increases the level of ' + type+' class weapons you can equip.'};
-}
-function specialSkill(type, open) {
-    return {'name': type.toUpperCase(), 'open' : open, 'activate': function () {player.specialSkills[type] = true;}, 'helpText' : specialSkills[type]};
-}
-function fistDamage(amount, open) {
-    return {'name': '<span class="icon fist"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.fist.damage.plus += amount;}, 'helpText' : 'Increase damage with fists by ' + amount + '.'}
-}
-function fistSpeed(amount, open) {
-    var percent = (100*amount)+'%';
-    return {'name': '<span class="icon fist"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.fist.attackSpeed.multi += amount;}, 'helpText' : 'Increase attack speed with fists by ' + percent + '.'}
-}
-function clubDamage(amount, open) {
-    return {'name': '<span class="icon club"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.club.damage.plus += amount;}, 'helpText' : 'Increase damage with clubs by ' + amount + '.'}
-}
-function clubDamageMulti(amount, open) {
-    var percent =  (100 * amount)+'%';
-    return {'name': '<span class="icon club"></span> x' + (1 + amount), 'open' : open, 'activate': function () {player.bonuses.club.damage.multi += amount;}, 'helpText' : 'Increase attack damage with clubs by ' + percent + '.'}
-}
-function clubsSpeed(amount, open) {
-    var percent =  (100*amount)+'%';
-    return {'name': '<span class="icon club"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.club.attackSpeed.multi += amount;}, 'helpText' : 'Increase attack speed with clubs by ' + percent + '.'}
-}
-function bowDamage(amount, open) {
-    return {'name': '<span class="icon bow"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.bow.damage.plus += amount;}, 'helpText' : 'Increase damage with bows by ' + amount + '.'}
-}
-function bowDamageMulti(amount, open) {
-    var percent =  (100 * amount)+'%';
-    return {'name': '<span class="icon bow"></span> x' + (1 + amount), 'open' : open, 'activate': function () {player.bonuses.bow.damage.multi += amount;}, 'helpText' : 'Increase attack damage with bows by ' + percent + '.'}
-}
-function bowSpeed(amount, open) {
-    var percent =  (100*amount)+'%';
-    return {'name': '<span class="icon bow"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.bow.attackSpeed.multi += amount;}, 'helpText' : 'Increase attack speed with bows by ' + percent + '.'}
-}
-function swordDamage(amount, open) {
-    return {'name': '<span class="icon sword"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.sword.damage.plus += amount;}, 'helpText' : 'Increase damage with swords by ' + amount + '.'}
-}
-function swordSpeed(amount, open) {
-    var percent =  (100*amount)+'%';
-    return {'name': '<span class="icon sword"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.sword.attackSpeed.multi += amount;}, 'helpText' : 'Increase attack speed with swords by ' + percent + '.'}
-}
-function miningVitality(amount, open) {
-    var percent =  (100*amount)+'%';
-    return {'name': 'VIGOR ' + percent, 'open' : open, 'activate': function () {player.bonuses.miningVitality.multi += amount;}, 'helpText' : 'Increase mining endurance by ' + percent + '.'}
-}
-function miningSpeed(amount, open) {
-    var percent =  (100*amount)+'%';
-    return {'name': 'MINE ' + percent, 'open' : open, 'activate': function () {player.bonuses.miningSpeed.multi += amount;}, 'helpText' : 'Increase mining speed by ' + percent + '.'}
+var skillTree;
+function populateSkillTree () {
+    function getSkillTree() {
+        return [
+[special('copy', 4),  enchant(5),           speed(.5, 3),        health(500, 3),      damage(30, 6),       health(500, 5),        enchant(6),            special('care', 1), health(500, 3),      speed(.5, 7),          damage(20, 3),       health(500, 3),      special('lucky', 6)],
+[miningSpeed(.5, 13), health(500, 10),      enchant(5),          health(500, 3),      job('sage', 11),     armor(20, 10),         special('gauge', 12),  damage(10, 5),      job('artisan', 6),   craft(12),         special('scan', 5),  damage(20, 3),       health(500, 10)],
+[health(1000, 9),     mine(6),              vigor(.5, 9),        health(500, 6),      armor(20, 5),        special('curse', 2),   health(500, 12),       health(500, 12),    craft(12),           health(500, 12),       health(500, 12),     poach(5),            damage(20, 6)],
+[vigor(.5, 1),        health(500, 15),      damage(20, 3),       miningSpeed(.5, 11), speed(.25, 10),      enchant(5),            special('haggle', 11), craft(14),          health(500, 9),      armor(20, 10),         damage(20, 9),       health(200, 14),     armor(20, 12)],
+[health(500, 5),      job('miner', 15),     damage(20, 3),       health(500, 6),      health(200, 5),      damageMulti(.25, 11),  craft(6),              health(500, 13),    armor(10, 3),        damage(20, 7),         health(200, 3),      job('poacher', 10),  health(500, 12)],
+[mine(12),            armor(10, 9),         vigor(.5, 6),        mine(9),             armor(10, 11),       special('stoic', 2),   health(100, 12),       poach(9),           special('poach', 2), health(200, 12),       poach(5),            special('snipe', 3), damage(20, 14)],
+[special('tank', 9),  armor(20, 6),         health(500, 13),     miningSpeed(.5, 6),  mine(5),             health(200, 7),        job('youth', 15),      weapon('bow', 3),   health(100, 3),      poach(14),             health(500, 12),     health(500, 5),      special('focus', 10)],
+[armorMulti(.6, 4),   health(500, 12),      swordSpeed(.5, 12),  armorMulti(.2, 9),   health(500, 10),     speed(.5, 12),         fistDamage(5, 12),     health(500, 5),     bowDamage(20, 3),    bowSpeed(.5, 11),      armor(10, 14),       weapon('bow', 13),   bowSpeed(.5, 2)],
+[health(1000, 12),    job('knight', 13),    swordDamage(30, 11), health(500, 3),      armorMulti(.2, 6),   armor(5, 12),          health(100, 12),       weapon('bow', 8),   special('stun', 5),  health(200, 3),        bowDamage(50, 11),   job('archer', 15),   bowDamage(10, 6)],
+[armor(20, 12),       weapon('sword', 9),   armor(20, 6),        health(500, 5),      swordDamage(20, 11), weapon('sword', 10),   weapon('club', 9),     health(200, 7),     weapon('fist', 10),  fistSpeed(.5, 5),      health(500, 6),      health(200, 12),     health(500, 12)],
+[swordSpeed(.5, 9),   special('pierce', 7), health(500, 10),     swordSpeed(.5, 12),  health(500, 5),      clubDamage(30, 6),     special('break', 5),   clubSpeed(.5, 14),  health(200, 5),      special('ignite', 10), special('venom', 9), bowSpeed(.25, 10),   bowDamage(20, 12)],
+[weapon('sword', 5),  swordSpeed(.5, 10),   special('rend', 5),  clubDamage(50, 11),  job('warlord', 14),  health(500, 12),       health(500, 12),       health(500, 12),    job('monk', 13),     fistDamage(20, 3),     health(500, 3),      fistDamage(20, 6),   bowDamageMulti(1, 8)],
+[special('parry', 9), health(1000, 3),      weapon('club', 10),  weapon('club', 1),   clubSpeed(.5, 10),   clubDamageMulti(1, 9), special('haste', 10),  fistDamage(20, 9),  weapon('fist', 11),  health(200, 3),        fistSpeed(.5, 2),    weapon('fist', 9),   special('fury', 2)],
+        ];
+    }
+
+    function health(health, open) {
+        return {'name': '<span class="icon health"></span> +' + health, 'open' : open, 'activate': function () {player.maxHealth += health; player.health += health;}, 'helpText' : 'Gain ' + health + ' health.'};
+    }
+    function armorMulti(multi, open) {
+        var percent =  (100*multi)+'%';
+        return {'name': '<span class="icon shield"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.armor.multi += multi;}, 'helpText' : 'Increase armor by ' + percent + '.'};
+    }
+    function armor(amount, open) {
+        return {'name': '<span class="icon shield"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.armor.plus += amount;}, 'helpText' : 'Increase armor by ' + amount + '.'};
+    }
+    function damageMulti(multi, open) {
+        var percent =  (100*multi)+'%';
+        return {'name': 'DAMAGE ' + percent, 'open' : open, 'activate': function () {player.bonuses.damage.multi += multi;}, 'helpText' : 'Increase damage by ' + percent + '.'};
+    }
+    function damage(amount, open) {
+        return {'name': 'DAMAGE +' + amount, 'open' : open, 'activate': function () {player.bonuses.damage.plus += amount;}, 'helpText' : 'Increase damage by ' + amount + '.'};
+    }
+    function speed(multi, open) {
+        var percent =  (100*multi)+'%';
+        return {'name': '<span class="icon speed"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.attackSpeed.multi += multi;}, 'helpText' : 'Increase attacks per second by ' + percent + '.'};
+    }
+    function job(name, open) {
+        var skill = {'name': name, 'type': 'classSkill', 'open' : open, 'activate': function () {
+            if (player.inventory.items.memoryCrystal > 0) {
+                player.inventory.items.memoryCrystal--;
+                player.unlockedClasses[name] = true;
+                alert('You have used a memory crystal to permanently unlocked the ' + name + ' class!');
+                skill.helpText = 'The starting node for the ' + name + ' class.';
+            }
+        }, 'helpText' : name == 'youth' ? 'The starting node for the ' + name + ' class.' : 'I will need a special item to restore my memories of this skill.'};
+        return skill;
+    }
+    function enchant(open) {
+        return {'name': 'IMBUE', 'open' : open, 'activate': function () {player.enchantingSkill++;}, 'helpText' : 'Increases your enchanting skill, unlocking new recipes.'};
+    }
+    function craft(open) {
+        return {'name': 'CRAFT', 'open' : open, 'activate': function () {player.craftingSkill++;}, 'helpText' : 'Increases your crafting skill, unlocking new recipes.'};
+    }
+    function mine(open) {
+        return {'name': 'MINE', 'open' : open, 'activate': function () {player.miningSkill++;}, 'helpText' : 'Increases your mining skill so you mine faster and lose less health over time.'};
+    }
+    function poach(open) {
+        return {'name': 'POACH', 'open' : open, 'activate': function () {player.poachingSkill++;}, 'helpText' : 'Increases your poaching skill allowing you to damage enemies more without degrading their item quality.'};
+    }
+    function weapon(type, open) {
+        return {'name': '<span class="icon ' + type +'"></span> +LVL', 'open' : open, 'activate': function () {player.weaponLevels[type]++; refreshInventoryPanel('weapons');}, 'helpText' : 'Increases the level of ' + type+' class weapons you can equip.'};
+    }
+    function special(type, open) {
+        return {'name': type.toUpperCase(), 'open' : open, 'activate': function () {player.specialSkills[type] = true;}, 'helpText' : specialSkills[type]};
+    }
+    function fistDamage(amount, open) {
+        return {'name': '<span class="icon fist"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.fist.damage.plus += amount;}, 'helpText' : 'Increase damage with fists by ' + amount + '.'}
+    }
+    function fistSpeed(amount, open) {
+        var percent = (100*amount)+'%';
+        return {'name': '<span class="icon fist"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.fist.attackSpeed.multi += amount;}, 'helpText' : 'Increase attack speed with fists by ' + percent + '.'}
+    }
+    function clubDamage(amount, open) {
+        return {'name': '<span class="icon club"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.club.damage.plus += amount;}, 'helpText' : 'Increase damage with clubs by ' + amount + '.'}
+    }
+    function clubDamageMulti(amount, open) {
+        var percent =  (100 * amount)+'%';
+        return {'name': '<span class="icon club"></span> x' + (1 + amount), 'open' : open, 'activate': function () {player.bonuses.club.damage.multi += amount;}, 'helpText' : 'Increase attack damage with clubs by ' + percent + '.'}
+    }
+    function clubSpeed(amount, open) {
+        var percent =  (100*amount)+'%';
+        return {'name': '<span class="icon club"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.club.attackSpeed.multi += amount;}, 'helpText' : 'Increase attack speed with clubs by ' + percent + '.'}
+    }
+    function bowDamage(amount, open) {
+        return {'name': '<span class="icon bow"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.bow.damage.plus += amount;}, 'helpText' : 'Increase damage with bows by ' + amount + '.'}
+    }
+    function bowDamageMulti(amount, open) {
+        var percent =  (100 * amount)+'%';
+        return {'name': '<span class="icon bow"></span> x' + (1 + amount), 'open' : open, 'activate': function () {player.bonuses.bow.damage.multi += amount;}, 'helpText' : 'Increase attack damage with bows by ' + percent + '.'}
+    }
+    function bowSpeed(amount, open) {
+        var percent =  (100*amount)+'%';
+        return {'name': '<span class="icon bow"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.bow.attackSpeed.multi += amount;}, 'helpText' : 'Increase attack speed with bows by ' + percent + '.'}
+    }
+    function swordDamage(amount, open) {
+        return {'name': '<span class="icon sword"></span> +' + amount, 'open' : open, 'activate': function () {player.bonuses.sword.damage.plus += amount;}, 'helpText' : 'Increase damage with swords by ' + amount + '.'}
+    }
+    function swordSpeed(amount, open) {
+        var percent =  (100*amount)+'%';
+        return {'name': '<span class="icon sword"></span> ' + percent, 'open' : open, 'activate': function () {player.bonuses.sword.attackSpeed.multi += amount;}, 'helpText' : 'Increase attack speed with swords by ' + percent + '.'}
+    }
+    function vigor(amount, open) {
+        var percent =  (100*amount)+'%';
+        return {'name': 'VIGOR ' + percent, 'open' : open, 'activate': function () {player.bonuses.miningVitality.multi += amount;}, 'helpText' : 'Increase mining endurance by ' + percent + '.'}
+    }
+    function miningSpeed(amount, open) {
+        var percent =  (100*amount)+'%';
+        return {'name': 'MINE ' + percent, 'open' : open, 'activate': function () {player.bonuses.miningSpeed.multi += amount;}, 'helpText' : 'Increase mining speed by ' + percent + '.'}
+    }
+    skillTree = getSkillTree();
 }
 
 var specialSkills = {
+    'copy': 'Create an extra item when crafting or enchanting at no additional cost.',
+    'parry': '10% of weapon damage is applied to armor when wielding swords or clubs.',
+    'venom': 'Double the effects of damage over time on fists and bows.',
+    'gauge': 'Sell items for 50% more at shops.',
+    'haggle': 'Buy items for 20% less at shops.',
+    'lucky': 'Gain double the items when you defeat a monster.',
+    'curse': 'Doubles the effect of all special attacks, but damage dealt is reduced by 90%.',
+    'snipe': 'Attacks ignore 20% of the targets armor when using bows or swords.',
+    'pierce': 'Attacks ignore 10% of the targets armor when using bows or swords.',
+    'ignite': 'Attacks ignite the target dealing damage over time when using fists or bows.',
+    'poach': 'Attacks never reduce the quality of items dropped, but damage dealt is reduced by 90%.',
+    'rend': 'Attacks reduce the enemies armor by when using fists or clubs.',
+    'break': 'Doubles the effect of armor breaking when using fists or clubs.',
+    'stoic': 'Halves the effects of monster\'s special abilities.',
+    'stun': 'Attacks reduce the enemies attack speed when using clubs or bows.',
+    'care': 'Use 25% less ingredients when crafting or enchanting.',
+    'scan': 'Find a targets weak spot. Ignore all armor, but reduces attack speed by 50%.',
+    'tank': 'Gain double health, but reduces attack speed by 50%.',
+    'haste': 'Doubles attack speed, but halves damage.',
+    '': '',
     'focus': 'Halves your attack speed so you can carefully plan each blow for double damage.',
     'fury': 'Unleash your inner fury, doubling your damage, but rendering your armor useless.'
 };
 
-var skillTree = [
-    [armorMultiSkill(.65, 4), mineSkill(1),         healthSkill(200, 7),      miningSpeed(.5, 3),      healthSkill(500, 3),     miningVitality(.5, 3),  craftSkill(2)],
-    [healthSkill(500, 12),    craftSkill(5),        mineSkill(11),            weaponSkill('club', 6),  poachSkill(5),           damagePlusSkill(10, 3), specialSkill('focus', 6)],
-    [armorPlusSkill(10, 12),  healthSkill(200, 9),  weaponSkill('club', 2),   craftSkill(12),          damagePlusSkill(20, 9),  poachSkill(2),          healthSkill(200, 12)],
-    [healthSkill(300, 12),    armorPlusSkill(5, 5), healthSkill(100, 7),      basicSkill('Youth', 15), weaponSkill('bow', 3),   healthSkill(100, 3),    poachSkill(14)],
-    [armorMultiSkill(.25, 9), healthSkill(300, 10), speedMultiSkill(.25, 12), fistDamage(3, 12),       weaponSkill('bow', 5),   bowSpeed(.5, 3),        bowDamage(10, 10)],
-    [swordDamage(10, 5),       healthSkill(200, 3), weaponSkill('sword', 10), healthSkill(100, 12),    bowDamageMulti(1, 8),    fistDamage(15, 5),      healthSkill(500, 6)],
-    [swordSpeed(.5, 9),       armorPlusSkill(5, 3), weaponSkill('sword', 2),  weaponSkill('fist', 9),  healthSkill(200, 3),     fistSpeed(.5, 10),       weaponSkill('fist', 8)]
-];
-
+populateSkillTree();
 var allSkills = [];
 skillTree.forEach(function (row) {allSkills = allSkills.concat(row)});
 
@@ -120,6 +161,19 @@ function initializeSkillTree() {
     }
 }
 
+//maps each class to its starting location on the skill tree
+var classSkills = {
+    'youth': [6, 6],
+    'miner': [1, 4],
+    'sage': [4, 1],
+    'artisan': [8, 1],
+    'poacher': [11, 4],
+    'knight': [1, 8],
+    'warlord': [4, 11],
+    'monk': [8, 11],
+    'archer': [11, 8]
+};
+
 function resetSkillTree() {
     allSkills.forEach(function (skill) {
         skill.activated = false;
@@ -127,10 +181,14 @@ function resetSkillTree() {
         skill.distance = 9999;
         skill.lastSkill = null;
     });
-    var startingSkill = skillTree[3][3];
-    startingSkill.available = true;
-    startingSkill.activated = true;
-    revealSkillsAround(startingSkill.col, startingSkill.row);
+    //unlock the starting node for each class the player has unlocked
+    $.each(player.unlockedClasses, function (key) {
+        var coords = classSkills[key];
+        var startingSkill = skillTree[coords[0]][coords[1]];
+        startingSkill.available = true;
+        startingSkill.activated = true;
+        revealSkillsAround(startingSkill.col, startingSkill.row);
+    });
     updateSkillTree();
 }
 
@@ -206,6 +264,9 @@ function chooseSkill(skill) {
     if (!skill.available || skill.distance * player.skillCost > player.skillPoints) {
         return;
     }
+    if (skill.type == 'classSkill' && !player.inventory.items.memoryCrystal > 0) {
+        return;
+    }
     var learnedSkills = [];
     var nextSkill = skill;
     while (nextSkill && !nextSkill.activated) {
@@ -240,6 +301,9 @@ function revealSkillsAround(col, row) {
             if (!skill.activated && i < skill.distance) {
                 skill.distance = i;
                 skill.lastSkill = lastSkill;
+            }
+            if (skill.type == 'classSkill' && !player.unlockedClasses[skill.name]) {
+                break;
             }
             if (!(skill.open & delta[2])) {
                 break;

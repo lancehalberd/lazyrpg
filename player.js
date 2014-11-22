@@ -17,7 +17,7 @@ var player = {
         'helmets' : {},
         'boots' : {}
     },
-    'skillTrees' : {
+    'unlockedClasses' : {
         'youth' : true
     },
     'isPlayer': true,
@@ -146,6 +146,7 @@ function resetCharacter() {
     player.maxHealth = 200;
     player.level = 0;
     player.experience = 0;
+    player.enchantingSkill = 0;
     player.craftingSkill = 0;
     player.poachingSkill = 0;
     player.miningSkill = 0;
