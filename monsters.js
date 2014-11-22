@@ -9,7 +9,7 @@ var monsters = {};
 
 monsters.bat = {
     'name': 'Bat',
-    'level': 1,
+    'level': 2,
     'health': 20,
     'armor': 0,
     'damage': 5,
@@ -21,7 +21,7 @@ monsters.bat = {
 };
 monsters.zombie = {
     'name': 'Zombie',
-    'level': 5,
+    'level': 6,
     'health': 200,
     'armor': 0,
     'damage': 100,
@@ -33,7 +33,7 @@ monsters.zombie = {
 };
 monsters.rat = {
     'name': 'Rat',
-    'level': 2,
+    'level': 3,
     'health': 20,
     'armor': 0,
     'damage': 20,
@@ -45,7 +45,7 @@ monsters.rat = {
 };
 monsters.turtus = {
     'name': 'Turtus',
-    'level': 3,
+    'level': 4,
     'health': 50,
     'armor': 10,
     'damage': 35,
@@ -57,7 +57,7 @@ monsters.turtus = {
 };
 monsters.bandit = {
     'name': 'Bandit',
-    'level': 4,
+    'level': 5,
     'health': 100,
     'armor': 5,
     'damage': 60,
@@ -69,7 +69,7 @@ monsters.bandit = {
 };
 monsters.troll = {
     'name': 'Troll',
-    'level': 6,
+    'level': 8,
     'health': 1000,
     'armor': 10,
     'damage': 80,
@@ -81,7 +81,7 @@ monsters.troll = {
 };
 monsters.hyena = {
     'name': 'Hyena',
-    'level': 5,
+    'level': 6,
     'health': 160,
     'armor': 5,
     'damage': 40,
@@ -93,7 +93,7 @@ monsters.hyena = {
 };
 monsters.lion = {
     'name': 'Lion',
-    'level': 7,
+    'level': 8,
     'health': 400,
     'armor': 13,
     'damage': 40,
@@ -106,7 +106,7 @@ monsters.lion = {
 };
 monsters.pirate = {
     'name': 'Pirate',
-    'level': 8,
+    'level': 9,
     'health': 250,
     'armor': 15,
     'damage': 80,
@@ -118,7 +118,7 @@ monsters.pirate = {
 };
 monsters.crocodile = {
     'name': 'Crocodile',
-    'level': 9,
+    'level': 10,
     'health': 400,
     'armor': 15,
     'damage': 100,
@@ -131,7 +131,7 @@ monsters.crocodile = {
 };
 monsters.scorpion = {
     'name': 'Scorpion',
-    'level': 10,
+    'level': 11,
     'health': 500,
     'armor': 5,
     'damage': 80,
@@ -144,7 +144,7 @@ monsters.scorpion = {
 };
 monsters.vampireBat = {
     'name': 'Vampire Bat',
-    'level': 11,
+    'level': 12,
     'health': 500,
     'armor': 0,
     'damage': 70,
@@ -157,7 +157,7 @@ monsters.vampireBat = {
 };
 monsters.mudGolem = {
     'name': 'Mud Golem',
-    'level': 12,
+    'level': 13,
     'health': 1000,
     'armor': 10,
     'damage': 100,
@@ -169,20 +169,20 @@ monsters.mudGolem = {
 };
 monsters.darkKnight = {
     'name': 'Dark Knight',
-    'level': 12,
+    'level': 15,
     'health': 10000,
     'armor': 30,
     'damage': 120,
     'attackSpeed': 3,
     'experience': 1000,
     '$graphic': $ff2Monster('darkKnight'),
-    'spoils': ['ironIngot'],
+    'spoils': ['memoryCrystal'],
     'helpText': 'This servant of the king has been posted here to prevent people from accessing the iron mines.',
     'armorPierce': .2
 };
 monsters.fowler = {
     'name': 'Fowler',
-    'level': 13,
+    'level': 14,
     'health': 600,
     'armor': 10,
     'damage': 100,
@@ -207,7 +207,7 @@ monsters.mercenary = {
 };
 monsters.bear = {
     'name': 'Bear',
-    'level': 15,
+    'level': 16,
     'health': 1500,
     'armor': 20,
     'damage': 200,
@@ -219,7 +219,7 @@ monsters.bear = {
 };
 monsters.giantTortoise = {
     'name': 'Giant Tortoise',
-    'level': 16,
+    'level': 17,
     'health': 3000,
     'armor': 50,
     'damage': 150,
@@ -231,7 +231,7 @@ monsters.giantTortoise = {
 };
 monsters.possessedGuard = {
     'name': 'Possessed Guard',
-    'level': 17,
+    'level': 18,
     'health': 1500,
     'armor': 30,
     'damage': 180,
@@ -243,7 +243,7 @@ monsters.possessedGuard = {
 };
 monsters.maverick = {
     'name': 'Maverick',
-    'level': 18,
+    'level': 19,
     'health': 2000,
     'armor': 25,
     'damage': 400,
@@ -256,7 +256,7 @@ monsters.maverick = {
 };
 monsters.woodGolem = {
     'name': 'Wood Golem',
-    'level': 19,
+    'level': 20,
     'health': 5000,
     'armor': 20,
     'damage': 200,
@@ -268,7 +268,7 @@ monsters.woodGolem = {
 };
 monsters.whelp = {
     'name': 'Whelp',
-    'level': 21,
+    'level': 22,
     'health': 4000,
     'armor': 40,
     'damage': 200,
@@ -281,7 +281,7 @@ monsters.whelp = {
 };
 monsters.spider = {
     'name': 'Spider',
-    'level': 23,
+    'level': 24,
     'health': 3000,
     'armor': 20,
     'damage': 200,
@@ -294,7 +294,7 @@ monsters.spider = {
 };
 monsters.possessedCaptain = {
     'name': 'Possessed Captain',
-    'level': 25,
+    'level': 26,
     'health': 6000,
     'armor': 30,
     'damage': 200,
@@ -313,12 +313,12 @@ monsters.witch = {
     'attackSpeed': 2,
     'experience': 5000,
     '$graphic': $ff2Monster('witch'),
-    'spoils': ['dragonFang'],
+    'spoils': ['memoryCrystal'],
     'helpText': 'This witch is casting a spell to grant the evil king immense powers.'
 };
 monsters.golem = {
     'name': 'Golem',
-    'level': 26,
+    'level': 27,
     'health': 10000,
     'armor': 80,
     'damage': 500,
@@ -330,7 +330,7 @@ monsters.golem = {
 };
 monsters.giantRat = {
     'name': 'Giant Rat',
-    'level': 28,
+    'level': 29,
     'health': 6000,
     'armor': 30,
     'damage': 300,
@@ -342,7 +342,7 @@ monsters.giantRat = {
 };
 monsters.gargoyle = {
     'name': 'Gargoyle',
-    'level': 30,
+    'level': 31,
     'health': 8000,
     'armor': 80,
     'damage': 200,
@@ -361,12 +361,12 @@ monsters.tRex = {
     'attackSpeed': 2,
     'experience': 10000,
     '$graphic': $ff2Monster('tRex'),
-    'spoils': ['goldIngot'],
+    'spoils': ['memoryCrystal'],
     'helpText': 'A giant prehistoric beast blocks my path further into the castle. Where did the king come by such a creature?'
 };
 monsters.doomFlower = {
     'name': 'Doom Flower',
-    'level': 32,
+    'level': 33,
     'health': 9000,
     'armor': 40,
     'damage': 200,
@@ -380,7 +380,7 @@ monsters.doomFlower = {
 };
 monsters.giantSpider = {
     'name': 'Giant Spider',
-    'level': 34,
+    'level': 35,
     'health': 12000,
     'armor': 50,
     'damage': 400,
@@ -393,7 +393,7 @@ monsters.giantSpider = {
 };
 monsters.royalGuard = {
     'name': 'Royal Guard',
-    'level': 36,
+    'level': 37,
     'health':10000,
     'armor': 80,
     'damage': 300,
@@ -412,7 +412,7 @@ monsters.enchantedKing = {
     'attackSpeed': 2,
     'experience': 10000,
     '$graphic': $ff2Monster('king'),
-    'spoils': ['platinumIngot'],
+    'spoils': ['memoryCrystal'],
     'helpText': 'The enchantment placed on this king makes him almost invulnerable. I should retreat and think of a way to defeat him.'
 };
 monsters.imposterKing = {
@@ -424,7 +424,7 @@ monsters.imposterKing = {
     'attackSpeed': 3,
     'experience': 10000,
     '$graphic': $ff2Monster('king'),
-    'spoils': ['platinumIngot'],
+    'spoils': ['memoryCrystal'],
     'helpText': 'With the enchantment gone, I may have a chance to do away with this imposter once and for all.'
 };
 

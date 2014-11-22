@@ -104,65 +104,6 @@
         <div class="js-currentArea currentArea">
         </div>
 
-        <div class="js-characterStatsContainer characterStatsContainer">
-            <div class="skills">
-                <div class="skill">Crafting: <span class="skillLevel js-craftingSkill">0</span></div>
-                <div class="skill">Poaching: <span class="skillLevel js-poachingSkill">0</span></div>
-                <div class="skill">Mining: <span class="skillLevel js-miningSkill">0</span></div>
-                <div class="skill"><span class="icon fist"></span> <span class="skillLevel js-fistSkill">0</span></div>
-                <div class="skill"><span class="icon sword"></span> <span class="skillLevel js-swordSkill">0</span></div>
-                <div class="skill"><span class="icon club"></span> <span class="skillLevel js-clubSkill">0</span></div>
-                <div class="skill"><span class="icon bow"></span> <span class="skillLevel js-bowSkill">0</span></div>
-            </div>
-            <div class="equipment">
-                <div class="equipmentSlot"><span class="js-weaponName"></span></div>
-                <div class="equipmentSlot"><span class="js-armorName"></span></div>
-                <div class="equipmentSlot"><span class="js-helmetName"></span></div>
-                <div class="equipmentSlot"><span class="js-bootsName"></span></div>
-            </div>
-            <div class="js-skillContainer skillContainer">
-            </div>
-            <div class="js-characterStats characterStats">
-                <div class="levelAndExperience">
-                    <div>
-                        <span>Level <span class="js-level">1</span> Youth</span>
-                    </div>
-                    <div>
-                        <span class="js-experienceBar experienceBar">
-                            <span class="js-experienceFill experienceFill"></span>
-                        </span>
-                        <span class="status" helpText="Gold is earned by selling items and defeating certain enemies. Use it at shops to buy new items and equipment.">
-                            <span class="icon gold"></span><span class="js-gold value">0</span>
-                        </span>
-                    </div>
-                    <div class="js-skillPoints skillPoints" helpText="Click here to open the skill tree and spend your skill points.">0 skpt</div>
-                </div>
-                <div class="healthAndStats">
-                    <span class="status" helpText="Fighting monsters and mining for resources reduces your health over time. If it is reduced to zero, you will be unable to fight or mine until you rest or drink a potion.">
-                        <span class="icon health"></span>
-                        <div class="healthBar">
-                            <div class="js-healthFill healthFill"></div>
-                            <span class="js-currentHealth currentHealth">200</span>
-                            <span class="slash">/</span>
-                            <span class="js-maxHealth maxHealth">200</span>
-                        </div>
-                    </span>
-                    <span class="status" helpText="This clock tracks how much time passes in the game as you explore.">
-                        <span class="icon clock"></span><span class="js-time time value">0</span>
-                    </span>
-                    <span class="status" helpText="The damage you deal to enemies on each attack.">
-                        <span class="icon damage"></span><span class="js-damage value">5</span>
-                    </span>
-                    <span class="status" helpText="The number of times you attack each second.">
-                        <span class="icon speed"></span><span class="js-attackSpeed value">2</span>
-                    </span>
-                    <span class="status" helpText="Armor gives flat reduction to damage from enemies.">
-                        <span class="icon shield"></span><span class="js-armor value">0</span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
         <div class="js-craftContainer craftContainer">
             <div class="heading">
                 Craft
@@ -298,6 +239,66 @@
             </div>
         </div>
 
+
+        <div class="js-characterStatsContainer characterStatsContainer">
+            <div class="skills">
+                <div class="skill">Mine:<span class="skillLevel js-miningSkill">0</span></div>
+                <div class="skill">Imbue:<span class="skillLevel js-miningSkill">0</span></div>
+                <div class="skill">Craft:<span class="skillLevel js-craftingSkill">0</span></div>
+                <div class="skill">Poach:<span class="skillLevel js-poachingSkill">0</span></div>
+                <div class="skill"><span class="icon fist"></span> <span class="skillLevel js-fistSkill">0</span></div>
+                <div class="skill"><span class="icon sword"></span> <span class="skillLevel js-swordSkill">0</span></div>
+                <div class="skill"><span class="icon club"></span> <span class="skillLevel js-clubSkill">0</span></div>
+                <div class="skill"><span class="icon bow"></span> <span class="skillLevel js-bowSkill">0</span></div>
+            </div>
+            <div class="equipment">
+                <div class="equipmentSlot"><span class="js-weaponName"></span></div>
+                <div class="equipmentSlot"><span class="js-armorName"></span></div>
+                <div class="equipmentSlot"><span class="js-helmetName"></span></div>
+                <div class="equipmentSlot"><span class="js-bootsName"></span></div>
+            </div>
+            <div class="js-skillContainer skillContainer">
+            </div>
+            <div class="js-characterStats characterStats">
+                <div class="levelAndExperience">
+                    <div>
+                        <span>Level <span class="js-level">1</span> Youth</span>
+                    </div>
+                    <div>
+                        <span class="js-experienceBar experienceBar">
+                            <span class="js-experienceFill experienceFill"></span>
+                        </span>
+                        <span class="status" helpText="Gold is earned by selling items and defeating certain enemies. Use it at shops to buy new items and equipment.">
+                            <span class="icon gold"></span><span class="js-gold value">0</span>
+                        </span>
+                    </div>
+                    <div class="js-skillPoints skillPoints" helpText="Click here to open the skill tree and spend your skill points.">0 skpt</div>
+                </div>
+                <div class="healthAndStats">
+                    <span class="status" helpText="Fighting monsters and mining for resources reduces your health over time. If it is reduced to zero, you will be unable to fight or mine until you rest or drink a potion.">
+                        <span class="icon health"></span>
+                        <div class="healthBar">
+                            <div class="js-healthFill healthFill"></div>
+                            <span class="js-currentHealth currentHealth">200</span>
+                            <span class="slash">/</span>
+                            <span class="js-maxHealth maxHealth">200</span>
+                        </div>
+                    </span>
+                    <span class="status" helpText="This clock tracks how much time passes in the game as you explore.">
+                        <span class="icon clock"></span><span class="js-time time value">0</span>
+                    </span>
+                    <span class="status" helpText="The damage you deal to enemies on each attack.">
+                        <span class="icon damage"></span><span class="js-damage value">5</span>
+                    </span>
+                    <span class="status" helpText="The number of times you attack each second.">
+                        <span class="icon speed"></span><span class="js-attackSpeed value">2</span>
+                    </span>
+                    <span class="status" helpText="Armor gives flat reduction to damage from enemies.">
+                        <span class="icon shield"></span><span class="js-armor value">0</span>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

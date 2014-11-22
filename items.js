@@ -3,7 +3,7 @@ var items = {};
 items.smallPotion = {
     'name': 'Small Potion',
     'use': function () {
-        player.health = Math.min(player.maxHealth, player.health + 100);
+        player.health = Math.min(player.getMaxHealth(), player.health + 100);
         updatePlayerStats();
     },
     'helpText': 'Drink this to recover 100 health.',
@@ -12,7 +12,7 @@ items.smallPotion = {
 items.mediumPotion = {
     'name': 'Medium Potion',
     'use': function () {
-        player.health = Math.min(player.maxHealth, player.health + 500);
+        player.health = Math.min(player.getMaxHealth(), player.health + 500);
         updatePlayerStats();
     },
     'helpText': 'Drink this to recover 500 health.',
@@ -20,7 +20,7 @@ items.mediumPotion = {
 };
 items.memoryCrystal = {
     'name': 'Memory Crystal',
-    'helpText': 'Use this to recover a lost memory.',
+    'helpText': 'Use this to recover a lost memory. <br/><br/> This will automatically be consumed to permanently unlock new starting classes on the skill tree if you attempt to unlock them.',
     'value': 0
 };
 items.copperOre = {
@@ -243,6 +243,13 @@ items.magicRubble = {
     'value': 100
 };
 
+function getSellPrice(item) {
+    return Math.round(item.value * (player.specialSkills.gouge ? 1.5 : 1));
+}
+function getBuyPrice(item) {
+    return Math.round(item.value * 2 * (player.specialSkills.haggle ? .8 : 1));
+}
+
 function setupInventory() {
     $('.js-inventoryPanel .js-inventoryTab').on('click', function () {
         if (!$('.js-inventoryContainer').is('.open')) {
@@ -338,10 +345,10 @@ function removeItem(item) {
 }
 
 function buyItem(item, quantity) {
-    if (quantity * item.value * 2 > player.gold) {
+    if (quantity * getBuyPrice(item) > player.gold) {
         return;
     }
-    player.gold -= quantity * item.value * 2;
+    player.gold -= quantity * getBuyPrice(item);
     player.inventory[item.slot][item.key] += quantity;
     refreshInventoryPanel(item.slot);
     //show the inventory page that the item was added to
@@ -359,7 +366,7 @@ function sellItem(item, quantity) {
         return;
     }
     owned -= quantity;
-    player.gold += item.value * quantity;
+    player.gold += getSellPrice(item) * quantity;
     player.inventory[item.slot][item.key] = owned;
     if (owned) {
         item.$element.find('.js-itemQuantity').text(owned + 'x');
@@ -393,7 +400,7 @@ actions.buy = function (params, successCallback, errorCallback) {
         errorCallback('Quantity must be at least 1');
         return;
     }
-    if (quantity * item.value * 2 > player.gold) {
+    if (quantity * getBuyPrice(item) > player.gold) {
         errorCallback("You don't have enough gold for this purchase.");
         return;
     }
@@ -590,8 +597,8 @@ function refreshInventoryPanel(typeKey) {
             }
         }
         item.$element.find('.js-itemQuantity').text(amount + 'x');
-        item.$element.find('.js-goldOne').text(item.value);
-        item.$element.find('.js-goldAll').text(item.value * amount);
+        item.$element.find('.js-goldOne').text(getSellPrice(item));
+        item.$element.find('.js-goldAll').text(getSellPrice(item) * amount);
         item.$element.find('.js-sellActions').toggle(isShopOpen);
         item.$element.attr('helpText', helpText);
         item.$element.data('item', item);

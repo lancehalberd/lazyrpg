@@ -52,7 +52,10 @@ function fightLoop(currentTime, deltaTime) {
     player.nextAttack -= deltaTime;
     if (player.nextAttack <= 0) {
         var armorPierce = player.getArmorPierce();
-        var damage = Math.max(0, player.getDamage() - Math.max(0, (monster.armor - monster.battleStatus.armorReduction) * (1 - armorPierce)));
+        var damage = player.getDamage();
+        if (!player.specialSkills.scan) {
+            damage = Math.max(0, damage - Math.max(0, (monster.armor - monster.battleStatus.armorReduction) * (1 - armorPierce)));
+        }
         if (gameSpeed < 30) {
             //show damage animation only when the game speed is below 30
             var $damage = $('<span style="color: #f04; position: absolute; top: 0px; font-size: 30px; font-weight: bold;">' + damage + '</span>');
@@ -65,7 +68,9 @@ function fightLoop(currentTime, deltaTime) {
         }
         if (damage > 0) {
             monster.health = Math.max(0, monster.health - damage);
-            monster.damaged++;
+            if (!player.specialSkills.poach) {
+                monster.damaged++;
+            }
         }
         var armorBreak = player.getArmorBreak();
         if (armorBreak) {
@@ -82,7 +87,7 @@ function fightLoop(currentTime, deltaTime) {
         }
         var lifeSteal = player.getLifeSteal();
         if (lifeSteal) {
-            player.health = Math.min(player.maxHealth, player.health + Math.floor(damage * lifeSteal));
+            player.health = Math.min(player.getMaxHealth(), player.health + Math.floor(damage * lifeSteal));
             if (gameSpeed < 30) {
                 updatePlayerLife();
             }
@@ -94,21 +99,22 @@ function fightLoop(currentTime, deltaTime) {
     }
     monster.nextAttack -= deltaTime;
     if (monster.nextAttack <= 0) {
-        var armorPierce = monster.armorPierce ? monster.armorPierce : 0;
+        var factor = player.specialSkills.stoic ? .5 : 1;
+        var armorPierce = monster.armorPierce ? (factor * monster.armorPierce) : 0;
         var damage = Math.max(0, monster.damage - player.getArmor() * (1 - armorPierce));
         player.health = Math.max(0, player.health - damage);
         if (monster.armorBreak) {
-            player.battleStatus.armorReduction += monster.armorBreak;
+            player.battleStatus.armorReduction += Math.floor(factor * monster.armorBreak);
         }
         if (monster.cripple) {
-            player.battleStatus.crippled += monster.cripple;
+            player.battleStatus.crippled += Math.floor(factor * monster.cripple);
         }
         if (monster.poison) {
-            player.battleStatus.poisonDamage += monster.poison;
-            player.battleStatus.poisonRate++;
+            player.battleStatus.poisonDamage += Math.floor(factor * monster.poison);
+            player.battleStatus.poisonRate += Math.floor(factor);
         }
         if (monster.lifeSteal) {
-            monster.health = Math.min(monster.maxHealth, monster.health + Math.floor(damage * monster.lifeSteal));
+            monster.health = Math.min(monster.maxHealth, monster.health + Math.floor(damage * factor * monster.lifeSteal));
             if (gameSpeed < 30) {
                 updateMonster(monster);
             }
@@ -127,9 +133,15 @@ function fightLoop(currentTime, deltaTime) {
             if (typeof(dropValue) === 'string' && allItems[dropValue]) {
                 var item = allItems[dropValue];
                 player.inventory[item.slot][dropValue]++;
+                if (player.specialSkills.lucky) {
+                    player.inventory[item.slot][dropValue]++;
+                }
                 refreshInventoryPanel(item.slot);
             } else if (typeof(dropValue) === 'number') {
                 player.gold += dropValue;
+                if (player.specialSkills.lucky) {
+                    player.gold += dropValue;
+                }
                 updateGold();
             }
         }

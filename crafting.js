@@ -145,6 +145,10 @@ function craftRecipe(recipe) {
     }
     var item = allItems[recipe.result];
     player.inventory[item.slot][item.key]++;
+    //copy duplicates items you craft
+    if (player.specialSkills.copy) {
+        player.inventory[item.slot][item.key]++;
+    }
     $.each(recipe.ingredients, function (key, amount) {
         var ingredient = allItems[key];
         player.inventory[ingredient.slot][ingredient.key] -= amount;

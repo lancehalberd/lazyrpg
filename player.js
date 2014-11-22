@@ -45,6 +45,15 @@ player.getDamage = function () {
     if (player.specialSkills.fury) {
         total = total * 2;
     }
+    if (player.specialSkills.haste) {
+        total = total / 2;
+    }
+    if (player.specialSkills.curse) {
+        total *= .1;
+    }
+    if (player.specialSkills.poach) {
+        total *= .1;
+    }
     return Math.floor(total);
 };
 player.getAttackSpeed = function () {
@@ -52,8 +61,14 @@ player.getAttackSpeed = function () {
     var weaponBonus = player.bonuses[player.weapon.type];
     var sum = player.weapon.attackSpeed + attackSpeedBonus.plus + weaponBonus.attackSpeed.plus;
     var total = sum * attackSpeedBonus.multi * weaponBonus.attackSpeed.multi;
+    if (player.specialSkills.haste) {
+        total = total * 2;
+    }
     //focus double damage, half attack speed
     if (player.specialSkills.focus) {
+        total = total / 2;
+    }
+    if (player.specialSkills.scan) {
         total = total / 2;
     }
     return applyCripple(total, player.battleStatus.crippled);
@@ -75,6 +90,15 @@ player.getArmorPierce = function () {
         return 0;
     }
     var base = player.weapon.armorPierce ? player.weapon.armorPierce : 0;
+    if (player.specialSkills.pierce) {
+        base += .1;
+    }
+    if (player.specialSkills.snipe) {
+        base += .2;
+    }
+    if (player.specialSkills.curse) {
+        base *= 2;
+    }
     return applyBonus(base, player.bonuses.armorPierce);
 }
 player.getArmorBreak = function () {
@@ -82,6 +106,15 @@ player.getArmorBreak = function () {
         return 0;
     }
     var base = player.weapon.armorBreak ? player.weapon.armorBreak : 0;
+    if (player.specialSkills.rend) {
+        base += 5;
+    }
+    if (player.specialSkills.curse) {
+        base *= 2;
+    }
+    if (player.specialSkills.smash) {
+        base *= 2;
+    }
     return applyBonus(base, player.bonuses.armorBreak);
 }
 player.getLifeSteal = function () {
@@ -89,6 +122,9 @@ player.getLifeSteal = function () {
         return 0;
     }
     var base = player.weapon.lifeSteal ? player.weapon.lifeSteal : 0;
+    if (player.specialSkills.curse) {
+        base *= 2;
+    }
     return applyBonus(base, player.bonuses.lifeSteal);
 }
 player.getPoison = function () {
@@ -96,6 +132,15 @@ player.getPoison = function () {
         return 0;
     }
     var base = player.weapon.poison ? player.weapon.poison : 0;
+    if (player.specialSkills.ignite) {
+        base += 20;
+    }
+    if (player.specialSkills.venom) {
+        base *= 2;
+    }
+    if (player.specialSkills.curse) {
+        base *= 2;
+    }
     return applyBonus(base, player.bonuses.poison);
 }
 player.getCripple = function () {
@@ -103,6 +148,12 @@ player.getCripple = function () {
         return 0;
     }
     var base = player.weapon.cripple ? player.weapon.cripple : 0;
+    if (player.specialSkills.stun) {
+        base += 2;
+    }
+    if (player.specialSkills.curse) {
+        base *= 2;
+    }
     return applyBonus(base, player.bonuses.cripple);
 }
 player.getParry = function () {
@@ -110,7 +161,16 @@ player.getParry = function () {
         return 0;
     }
     var base = player.weapon.parry ? player.weapon.parry : 0;
+    if (player.specialSkills.parry) {
+        base += .2;
+    }
+    if (player.specialSkills.curse) {
+        base *= 2;
+    }
     return applyBonus(base, player.bonuses.parry);
+}
+player.getMaxHealth = function () {
+    return player.maxHealth * (player.specialSkills.tank ? 2 : 1);
 }
 
 function applyBonus(value, bonus) {
@@ -221,8 +281,8 @@ function updatePlayerStats() {
 
 function updatePlayerLife() {
     $('.js-characterStats .js-currentHealth').text(player.health);
-    $('.js-characterStats .js-maxHealth').text(player.maxHealth);
-    $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.maxHealth) + '%');
+    $('.js-characterStats .js-maxHealth').text(player.getMaxHealth());
+    $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.getMaxHealth()) + '%');
 }
 
 function updateGold() {
