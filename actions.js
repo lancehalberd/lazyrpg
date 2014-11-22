@@ -227,13 +227,13 @@ function addLoopsToProgram(program) {
 /*
 //make a fur coat
 setSpeed 100
-loop 2 {
+loop 3 {
     move forest
     loop 5 {
       loop 3 {
         fight rat
       }
-      learn 3 4
+      learn 6 7
       loop 3 {
         fight rat
       }
@@ -248,8 +248,9 @@ loop 2 {
     make furCoat
 }
 shop
-sell 1 furCoat
+sell 2 furCoat
 buy 1 shortBow
+buy 1 club
 buy 7 smallPotion
 equip furCoat
 

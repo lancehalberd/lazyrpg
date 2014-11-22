@@ -54,7 +54,7 @@ function fightLoop(currentTime, deltaTime) {
         var armorPierce = player.getArmorPierce();
         var damage = player.getDamage();
         if (!player.specialSkills.scan) {
-            damage = Math.max(0, damage - Math.max(0, (monster.armor - monster.battleStatus.armorReduction) * (1 - armorPierce)));
+            damage = applyArmorToDamage(damage, Math.max(0, (monster.armor - monster.battleStatus.armorReduction) * (1 - armorPierce)));
         }
         if (gameSpeed < 30) {
             //show damage animation only when the game speed is below 30
@@ -101,7 +101,7 @@ function fightLoop(currentTime, deltaTime) {
     if (monster.nextAttack <= 0) {
         var factor = player.specialSkills.stoic ? .5 : 1;
         var armorPierce = monster.armorPierce ? (factor * monster.armorPierce) : 0;
-        var damage = Math.max(0, monster.damage - player.getArmor() * (1 - armorPierce));
+        var damage = applyArmorToDamage(monster.damage, player.getArmor() * (1 - armorPierce));
         player.health = Math.max(0, player.health - damage);
         if (monster.armorBreak) {
             player.battleStatus.armorReduction += Math.floor(factor * monster.armorBreak);
@@ -154,6 +154,14 @@ function fightLoop(currentTime, deltaTime) {
     if (player.health <= 0) {
         stopFighting();
     }
+}
+function applyArmorToDamage(damage, armor) {
+    //This equation looks a bit funny but is designed to have the following properties:
+    //100% damage at 0 armor
+    //50% damage when armor is 1/3 of base damage
+    //25% damage when armor is 2/3 of base damage
+    //1/(2^N) damage when armor is N/3 of base damage
+    return Math.max(1, Math.round(damage / Math.pow(2, 3 * armor / damage)));
 }
 function processStatusEffects(target, deltaTime) {
     if (target.battleStatus.poisonDamage) {
