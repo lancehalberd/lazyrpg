@@ -100,7 +100,7 @@ helmets.bronzeHelmet = {
 helmets.fullHelm = {
     'name': 'Full Helm',
     'helpText': 'A plate iron helm the covers the entire head.',
-    'armor': 15,
+    'armor': 30,
     'level': 27,
     'value': 6000
 };
