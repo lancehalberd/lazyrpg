@@ -139,7 +139,7 @@ var specialSkills = {
     'smash': 'Doubles the effect of armor breaking when using fists or clubs.', //implemented
     'stoic': 'Halves the effects of monster\'s special abilities.', //implemented
     'stun': 'Attacks reduce the enemies attack speed when using clubs or bows.', //implemented
-    'care': 'Use 25% less ingredients when crafting or enchanting.',
+    'care': 'Use 25% less ingredients when crafting or enchanting.', //implemented for crafting
     'scan': 'Find a targets weak spot. Ignore all armor, but reduces attack speed by 50%.', //implemented
     'tank': 'Gain double health, but reduces attack speed by 50%.', //implemented
     'haste': 'Doubles attack speed, but halves damage.', //implemented

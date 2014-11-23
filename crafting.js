@@ -27,21 +27,21 @@ var recipes = [
     'ironIngot': {'result': 'ironIngot', 'ingredients': {'ironOre': 10}},
     'chainMail': {'result': 'chainMail','ingredients': {'ironIngot': 10}},
     'ironBoots': {'result': 'ironBoots', 'ingredients': {'ironIngot': 10, 'leather': 3}},
-    'plateArmor': {'result': 'plateArmor', 'ingredients': {'ironIngot': 80, 'leather': 5}},
-    'fullHelm': {'result': 'fullHelm', 'ingredients': {'ironIngot': 60, 'leather': 5}},
-    'broadSword': {'result': 'longSword', 'ingredients': {'ironIngot': 50}},
+    'plateArmor': {'result': 'plateArmor', 'ingredients': {'ironIngot': 50, 'leather': 5}},
+    'fullHelm': {'result': 'fullHelm', 'ingredients': {'ironIngot': 30, 'leather': 5}},
+    'broadSword': {'result': 'longSword', 'ingredients': {'ironIngot': 30}},
     'hammer': {'result': 'hammer', 'ingredients': {'timber': 5, 'ironIngot': 10}},
     'longBow': {'result': 'longBow', 'ingredients': {'suppleTimber': 10, 'ironIngot': 5}},
 },{
-    'steelPlating': {'result': 'steelPlating', 'ingredients': {'ironOre': 40, 'charcoal': 20}},
+    'steelPlating': {'result': 'steelPlating', 'ingredients': {'ironOre': 20, 'charcoal': 10}},
     'steelArmor': {'result': 'steelArmor', 'ingredients': {'steelPlating': 20, 'leather': 5}},
     'steelHelmet': {'result': 'steelHelmet', 'ingredients': {'steelPlating': 5, 'ironIngot': 5, 'leather': 3}},
     'steelLeggings': {'result': 'steelLeggings', 'ingredients': {'steelPlating': 5, 'leather': 5}},
     'claymore': {'result': 'claymore', 'ingredients': {'steelPlating': 5, 'copperOre': 40, 'tin': 5}},
-    'mace': {'result': 'mace', 'ingredients': {'ironOre': 160, 'charcoal': 40}},
-    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 3, 'sturdyTimber': 3, 'ironOre': 20, 'charcoal': 5}},
+    'mace': {'result': 'mace', 'ingredients': {'ironOre': 100, 'charcoal': 30}},
+    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 3, 'sturdyTimber': 3, 'ironOre': 10, 'charcoal': 5}},
     'silverIngot': {'result': 'silverIngot', 'ingredients': {'silverOre': 10}},
-    'steeledSilver': {'result': 'steeledSilver', 'ingredients': {'silverOre': 10,'ironOre': 4, 'charcoal': 1}},
+    'steeledSilver': {'result': 'steeledSilver', 'ingredients': {'silverOre': 10, 'ironOre': 4, 'charcoal': 1}},
     'cestus': {'result': 'cestus', 'ingredients': {'leatherGloves': 1, 'steelPlating': 2, 'steeledSilver': 1}},
     'silverSword': {'result': 'silverSword', 'ingredients': {'steeledSilver': 5, 'copperOre': 40, 'tin': 5}},
     'silk': {'result': 'silk', 'ingredients': {'strongWeb': 10}},
@@ -112,6 +112,7 @@ function CraftAction(slot) {
                 var canCraft = true;
                 var $ingredient = $recipe.find('.js-ingredient').remove();
                 $.each(recipe.ingredients, function (key, amount) {
+                    amount = ingredientAmount(amount);
                     $ingredient = $ingredient.clone();
                     var ingredient = allItems[key];
                     var amountOwned = player.inventory[ingredient.slot][key];
@@ -130,6 +131,11 @@ function CraftAction(slot) {
         }
         recordAction(this.actionName, this.actionTarget);
     };
+}
+
+function ingredientAmount(baseAmount) {
+    //the 'care' skill reduces crafting costs by 25%
+    return Math.max(1, Math.round(baseAmount * (player.specialSkills.care ? .75 : 1)));
 }
 
 function setupCrafting() {
@@ -151,6 +157,7 @@ function craftRecipe(recipe) {
         player.inventory[item.slot][item.key]++;
     }
     $.each(recipe.ingredients, function (key, amount) {
+        amount = ingredientAmount(amount);
         var ingredient = allItems[key];
         player.inventory[ingredient.slot][ingredient.key] -= amount;
     });
@@ -185,6 +192,7 @@ function canCraft(recipe) {
     }
     var canCraft = true;
     $.each(recipe.ingredients, function (key, amount) {
+        amount = ingredientAmount(amount);
         var ingredient = allItems[key];
         var amountOwned = player.inventory[ingredient.slot][ingredient.key];
         if (amountOwned < amount) {
