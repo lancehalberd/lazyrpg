@@ -47,7 +47,7 @@
 
 .characterStatsContainer {
     position: absolute;
-    left: 0px;
+    left: 80px;
     top: -550px;
     width: 800px;
     height: 550px;
@@ -226,12 +226,12 @@
 
 .inventoryContainer {
     position: absolute;
-    left: 800px;
+    left: 960px;
     top: 50px;
     transition: left .5s;
 }
 .inventoryContainer.open {
-    left: 450px;
+    left: 710px;
 }
 .inventoryPanel {
     position: absolute;
@@ -286,7 +286,7 @@
     position: absolute;
     width: 400px;
     height: 300px;
-    left: 200px;
+    left: 280px;
     top: 550px;
     border: 2px solid #fff;
     border-bottom: none;
@@ -330,7 +330,7 @@
 
 .currentArea {
     position: absolute;
-    left: 400px;
+    left: 480px;
     top: 300px;
 }
 
@@ -363,7 +363,7 @@
 
 .action.slot1 {
     top: -150px;
-    left: -250px;
+    left: -300px;
 }
 .action.slot2 {
     top: -200px;
@@ -371,12 +371,12 @@
 }
 .action.slot3 {
     top: -150px;
-    left: 250px;
+    left: 300px;
 }
 
 .action.slot4 {
     top: 110px;
-    left: -250px;
+    left: -300px;
 }
 .action.slot5 {
     top: 130px;
@@ -384,7 +384,7 @@
 }
 .action.slot6 {
     top: 110px;
-    left: 250px;
+    left: 300px;
 }
 
 .action img {
