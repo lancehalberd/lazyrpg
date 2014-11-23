@@ -47,7 +47,7 @@ var recipes = [
     'silk': {'result': 'silk', 'ingredients': {'strongWeb': 10}},
     'ninjaTabi': {'result': 'ninjaTabi', 'ingredients': {'leather': 5, 'silk': 3}},
 },{
-    'mithrilSilver': {'result': 'mithrilSilver', 'ingredients': {'silverOre': 40,'ironOre': 8, 'charcoal': 2, 'bronzeOre': 4, 'tin': 1}}
+    'mithrilSilver': {'result': 'mithrilSilver', 'ingredients': {'silverOre': 40, 'ironOre': 8, 'charcoal': 2, 'copperOre': 4, 'tin': 1}}
 }];
 
 //populate allRecipes, and key/level on each recipe

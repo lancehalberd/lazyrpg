@@ -277,6 +277,11 @@
     left: 0px;
 }
 
+.ingredient {
+    display: inline-block;
+    margin-right: 10px;
+}
+
 .programContainer {
     position: absolute;
     width: 400px;
