@@ -203,7 +203,7 @@ areas.portTown = {
 };
 areas.ship = {
     'name': 'Ship',
-    '$graphic': $img('volcano.png'),
+    '$graphic': $img('ship.png'),
     'actions': [
         new MoveAction('portTown', 2),
         new BattleAction(monsters.pirate, 3, function () {
