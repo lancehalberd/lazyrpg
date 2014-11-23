@@ -47,6 +47,12 @@ function populateSkillTree () {
         var skill = {'name': name, 'type': 'classSkill', 'open' : open, 'activate': function () {
             if (player.inventory.items.memoryCrystal > 0) {
                 player.inventory.items.memoryCrystal--;
+                //gain one bonus point for each class unlocked so far (1,+2,+3, etc)
+                $.each(player.unlockedClasses, function (key, value) {
+                    if (value) {
+                        player.bonusPoints++;
+                    }
+                });
                 player.unlockedClasses[name] = true;
                 alert('You have used a memory crystal to permanently unlocked the ' + name + ' class!');
                 skill.helpText = 'The starting node for the ' + name + ' class.';

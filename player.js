@@ -83,7 +83,7 @@ player.getArmor = function () {
     }
     var armorBonus = player.bonuses.armor;
     var baseValue = player.armor.armor + player.helmet.armor + player.boots.armor + armorBonus.plus;
-    return Math.max(0, Math.floor(baseValue * armorBonus.multi) - player.battleStatus.armorReduction);
+    return Math.floor(player.getParry()) + Math.max(0, Math.floor(baseValue * armorBonus.multi) - player.battleStatus.armorReduction);
 };
 player.getArmorPierce = function () {
     if (player.weapon.type != 'bow' && player.weapon.type != 'sword') {
@@ -162,7 +162,7 @@ player.getParry = function () {
     }
     var base = player.weapon.parry ? player.weapon.parry : 0;
     if (player.specialSkills.parry) {
-        base += .2;
+        base += .2 * player.weapon.damage;
     }
     if (player.specialSkills.curse) {
         base *= 2;
@@ -210,7 +210,7 @@ function resetCharacter() {
     player.craftingSkill = 0;
     player.poachingSkill = 0;
     player.miningSkill = 0;
-    player.skillPoints = 0;
+    player.skillPoints = player.bonusPoints;
     player.skillCost = 1;
     player.weapon = weapons.fists;
     player.armor = armors.shirt;
@@ -280,8 +280,8 @@ function updatePlayerStats() {
 }
 
 function updatePlayerLife() {
-    $('.js-characterStats .js-currentHealth').text(player.health);
-    $('.js-characterStats .js-maxHealth').text(player.getMaxHealth());
+    $('.js-characterStats .js-currentHealth').text(Math.floor(player.health));
+    $('.js-characterStats .js-maxHealth').text(Math.floor(player.getMaxHealth()));
     $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.getMaxHealth()) + '%');
 }
 
