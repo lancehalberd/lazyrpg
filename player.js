@@ -24,7 +24,8 @@ var player = {
     'gold': 10,
     'poachingSkill': 0,
     'time': 0,
-    'battleStatus': freshBattleStatus()
+    'battleStatus': freshBattleStatus(),
+    'bonusPoints': 0
 };
 var baseEquipment = {
     'weapon' : weapons.fists,
