@@ -189,7 +189,7 @@ monsters.fowler = {
     'attackSpeed': 1,
     'experience': 90,
     '$graphic': $ff2Monster('flower'),
-    'spoils': ['suppleTimber', 'timber','timber'],
+    'spoils': ['suppleTimber', 'suppleTimber','timber'],
     'helpText': 'The pollen from this flower makes me dizzy and sneeze, reducing my opportunities to attack.',
     'cripple': 5
 };
@@ -337,7 +337,7 @@ monsters.giantRat = {
     'attackSpeed': 2,
     'experience': 800,
     '$graphic': $hillaryMonster('rat'),
-    'spoils': ['largePelt', 'smallPelt', 'smallPelt', 'furScrap'],
+    'spoils': ['largePelt', 'largePelt', 'smallPelt', 'smallPelt'],
     'helpText': 'The results of arcane magics, common pests, and boredom.'
 };
 monsters.gargoyle = {

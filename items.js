@@ -64,7 +64,7 @@ items.silverOre = {
     'value': 50
 };
 items.silverIngot = {
-    'name': 'Silver Ore',
+    'name': 'Silver Ingot',
     'helpText': 'Refined silver that can be used for crafting, but it isn\'t very hard.',
     'value': 600
 };

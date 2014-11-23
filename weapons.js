@@ -1,6 +1,6 @@
 var weapons = {};
 //Fists 1
-weapons.fists = {
+weapons.fists = { //starting weapon
     'name': 'Fists',
     'helpText': 'Your barehands.',
     'damage': 5,
@@ -9,7 +9,7 @@ weapons.fists = {
     'level': 0,
     'value': 0
 };
-weapons.leatherGloves = {
+weapons.leatherGloves = { //can be crafted from leather by poaching rats
     'name': 'Leather Gloves',
     'helpText': 'These gloves protect your hands allowing you to punch harder and faster.',
     'damage': 20,
@@ -18,7 +18,7 @@ weapons.leatherGloves = {
     'level': 1,
     'value': 100
 };
-weapons.brassKnuckles = {
+weapons.brassKnuckles = { //can be crafted from copper ingots by mining copper
     'name': 'Brass Knuckles',
     'helpText': 'These metal knuckles worn on your fingers can do some serious damage.',
     'damage': 40,
@@ -29,7 +29,7 @@ weapons.brassKnuckles = {
     'armorBreak': 1
 };
 //Fists 2
-weapons.claws = {
+weapons.claws = { //can be purchased when first arriving at the city
     'name': 'Claws',
     'helpText': 'Iron claws for hand to hand combat.',
     'damage': 70,
@@ -39,7 +39,7 @@ weapons.claws = {
     'value': 1000,
     'poison': 10
 };
-weapons.cestus = {
+weapons.cestus = { //can be crafted from gloves, steel plating and silvered steel when silver can be mined
     'name': 'Cestus',
     'helpText': 'Fighting gloves lined with silver and iron. Easy on your hands, tough on monsters.',
     'damage': 80,
@@ -49,7 +49,7 @@ weapons.cestus = {
     'value': 5000,
     'armorBreak': 2
 };
-weapons.tigerClaws = {
+weapons.tigerClaws = { //need claws from saver tooth tigers
     'name': 'Tiger Claws',
     'helpText': 'These razor sharp tiger claws are stronger and sharper than most metals.',
     'damage': 90,
@@ -60,7 +60,7 @@ weapons.tigerClaws = {
     'lifeSteal': .1
 };
 //Fists 3
-weapons.midasTouch = {
+weapons.midasTouch = { //need to mine gold
     'name': 'The Midas Touch',
     'helpText': 'Gaudy gauntlets made of gold and platinum.',
     'damage': 110,
@@ -70,7 +70,7 @@ weapons.midasTouch = {
     'value': 50000,
     'armorBreak': 2
 };
-weapons.titanFists = {
+weapons.titanFists = { //need to mine titanium
     'name': "Titan's Fists",
     'helpText': 'Lightweight gloves plated with titanium. Hit fast, hit hard.',
     'damage': 140,
@@ -80,7 +80,7 @@ weapons.titanFists = {
     'value': 100000,
     'armorBreak': 5
 };
-weapons.dragonFangs = {
+weapons.dragonFangs = { //need poached dragon fangs and adamantium
     'name': 'Dragon Fangs',
     'helpText': 'Claws made from the fangs of a venomous dragon.',
     'damage': 150,
@@ -92,7 +92,7 @@ weapons.dragonFangs = {
 };
 
 //Swords 1
-weapons.copperSword ={
+weapons.copperSword = { //mine copper
     'name': 'Copper Sword',
     'helpText': 'This copper blade is short but sturdy.',
     'damage': 40,
@@ -101,7 +101,7 @@ weapons.copperSword ={
     'level': 1,
     'value': 600
 };
-weapons.longSword ={
+weapons.longSword = { //mine tin
     'name': 'Long Sword',
     'helpText': 'A sword made from bronze with a long blade.',
     'damage': 60,
@@ -110,7 +110,7 @@ weapons.longSword ={
     'level': 1,
     'value': 1200
 };
-weapons.broadSword ={
+weapons.broadSword = { //mine iron
     'name': 'Broad Sword',
     'helpText': 'A large, two-handed sword made from iron.',
     'damage': 80,
@@ -120,7 +120,7 @@ weapons.broadSword ={
     'value': 4000
 };
 //Swords 2
-weapons.claymore ={
+weapons.claymore = { //charcoal from whelps
     'name': 'Claymore',
     'helpText': 'The cross hilt on this large sword can be used to deflect enemy attacks.',
     'damage': 90,
@@ -130,7 +130,7 @@ weapons.claymore ={
     'value': 6000,
     'parry': 20
 };
-weapons.silverSword ={
+weapons.silverSword = { //mine silver
     'name': 'Silver Sword',
     'helpText': 'The silver alloy in this sword is anethema to monsters.',
     'damage': 120,
@@ -140,7 +140,7 @@ weapons.silverSword ={
     'value': 12000,
     'armorPierce': .4
 };
-weapons.katana ={
+weapons.katana = { //craft mithril
     'name': 'Katana',
     'helpText': 'A sword with a slender curved blade wielded by Samurai.',
     'damage': 150,
@@ -184,7 +184,7 @@ weapons.blackSwordYoru = {
 };
 
 //Clubs 1
-weapons.club ={
+weapons.club = {//first shop
     'name': 'Club',
     'helpText': 'A club made from hard, durable wood.',
     'damage': 30,
@@ -193,7 +193,7 @@ weapons.club ={
     'level': 1,
     'value': 50
 };
-weapons.cudgel ={
+weapons.cudgel = {//city shop
     'name': 'Cudgel',
     'helpText': 'A larger club sporting iron spikes.',
     'damage': 70,
@@ -203,7 +203,7 @@ weapons.cudgel ={
     'value': 200,
     'armorBreak': 5
 };
-weapons.hammer ={
+weapons.hammer = {//timber and iron
     'name': 'Hammer',
     'helpText': 'An iron hammer with a long wooden shaft.',
     'damage': 110,
@@ -214,7 +214,7 @@ weapons.hammer ={
     'cripple': 1
 };
 //Clubs 2
-weapons.mace = {
+weapons.mace = {//charcoal -> steel
     'name': 'Mace',
     'helpText': 'A steel club with a heavy studded ball on one end.',
     'damage': 150,
@@ -224,7 +224,7 @@ weapons.mace = {
     'value': 10000,
     'armorBreak': 5
 };
-weapons.silverMallet = {
+weapons.silverMallet = { //silver
     'name': 'Silver Mallet',
     'helpText': 'A hammer made from a silver alloy that monsters hate.',
     'damage': 190,
@@ -277,7 +277,7 @@ weapons.mjolnir = {
 };
 
 //Bows 1
-weapons.shortBow = {
+weapons.shortBow = { //village shop
     'name': 'Short Bow',
     'helpText': 'A simple bow, slow, but deadly.',
     'damage': 40,
@@ -286,7 +286,7 @@ weapons.shortBow = {
     'level': 1,
     'value': 40
 };
-weapons.crossbow = {
+weapons.crossbow = { //port shop
     'name': 'Hand Crossbow',
     'helpText': 'A small mechanized bow that shoots copper bolts. Easy to use but a little weak.',
     'damage': 50,
@@ -295,7 +295,7 @@ weapons.crossbow = {
     'level': 1,
     'value': 500
 };
-weapons.longBow = {
+weapons.longBow = { //craft with iron and supple timber
     'name': 'Long Bow',
     'helpText': 'A full sized bow. Powerful, but difficult to use.',
     'damage': 200,
@@ -306,7 +306,7 @@ weapons.longBow = {
     'cripple': 1
 };
 //Bows 2
-weapons.compositeBow ={
+weapons.compositeBow = { //supple+strudy timber and steel
     'name': 'Composit Bow',
     'helpText': 'By combining materials, this compact bow is easier to use and more powerful than a simple long bow.',
     'damage': 220,
@@ -316,7 +316,7 @@ weapons.compositeBow ={
     'value': 5000,
     'armorPierce': .2
 };
-weapons.handBalista ={
+weapons.handBalista = {
     'name': 'Hand Balista',
     'helpText': 'A siege weapon, shrunken so that it can be used by one person. Barely.',
     'damage': 450,
@@ -326,7 +326,7 @@ weapons.handBalista ={
     'value': 20000,
     'cripple': 3
 };
-weapons.vampireSlayer ={
+weapons.vampireSlayer = { //timber + mithril
     'name': 'Vampire Slayer',
     'helpText': 'A stronger crossbow loaded with silver bolts.',
     'damage': 400,
@@ -337,7 +337,7 @@ weapons.vampireSlayer ={
     'poison': 40,
 };
 //Bows 3
-weapons.compoundBow ={
+weapons.compoundBow = {
     'name': 'Compound Bow',
     'helpText': 'An engineering masterpiece, this bow uses pulleys to increase power and easy of use.',
     'damage': 500,
@@ -347,7 +347,7 @@ weapons.compoundBow ={
     'value': 50000,
     'cripple': 2
 };
-weapons.deathBow ={
+weapons.deathBow = {
     'name': 'Death Bow',
     'helpText': 'The complex mechanism in this bow coats each arrow in the corrosive blood of the hydra as it is fired.',
     'damage': 1000,
@@ -357,7 +357,7 @@ weapons.deathBow ={
     'value': 300000,
     'poison': 200
 };
-weapons.runeBow ={
+weapons.runeBow = {
     'name': 'Rune Bow',
     'helpText': 'This enchanted bow fires arrows of pure energy.',
     'damage': 600,
