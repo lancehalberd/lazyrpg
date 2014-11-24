@@ -55,11 +55,12 @@ function setupProgrammingWindow() {
         var name = $('.js-programName').val();
         $('.js-program.selected').data('program').name = name;
         $('.js-program.selected').text(name);
+        $('.js-program.selected').attr('helpText', getProgramHelpText($('.js-program.selected').data('program')));
     });
     $('.js-programDescription').on('paste keyup', function () {
         var description = $.trim($('.js-programDescription').val());
         $('.js-program.selected').data('program').description = description;
-        $('.js-program.selected').attr('helpText', (description ? description : 'This program has no description.') + '<br/><br/>Select this program to edit or run it.');
+        $('.js-program.selected').attr('helpText', getProgramHelpText($('.js-program.selected').data('program')));
     });
     $('.js-programs').sortable({
         'cancel': '',

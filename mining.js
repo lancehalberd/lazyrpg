@@ -54,7 +54,7 @@ function MiningAction(mineral, slot) {
         mineral.$element = $('.js-mineral').clone().removeClass('js-mineral').show();
         mineral.$element.find('.js-graphic').html(mineral.$graphic);
         mineral.$element.find('.js-name').text(mineral.item.name);
-        updateMineral(mineral);
+        uiNeedsUpdate.miningStats = true;
         return $div('action slot' + slot, mineral.$element).attr('helpText', 'You can mine here, but it will drain your health over time.');
     };
     this.perform = function () {
@@ -67,7 +67,7 @@ function MiningAction(mineral, slot) {
             //track floating point life, but need to track floating point damage
             mineral.damageDealt = 0;
             mineral.initialPlayerHealth = player.health;
-            updateMineral(mineral);
+            uiNeedsUpdate.miningStats = true
         }
     };
 }
@@ -82,13 +82,15 @@ function miningLoop(currentTime, deltaTime) {
     if (mineral.timeLeft <= 0) {
         var item = mineral.item;
         player.inventory[item.slot][item.key]++;
-        refreshInventoryPanel(item.slot);
+        uiNeedsUpdate[item.slot] = true;
         stopMining();
         recordAction('mine', mineral.key);
     }
     if (player.health <= 0) {
         stopMining();
     }
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate.miningStats = true;
 }
 
 function stopMining() {
@@ -97,6 +99,7 @@ function stopMining() {
         mining = null;
         mineral.timeLeft = mineral.time;
         updateMineral(mineral);
+        uiNeedsUpdate.miningStats = false;
         if (endMiningCallback) {
             endMiningCallback();
             endMiningCallback = null;

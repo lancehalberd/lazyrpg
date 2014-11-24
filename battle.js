@@ -40,7 +40,6 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
             fighting = monster;
             player.nextAttack = 1000 / player.getAttackSpeed();
             monster.nextAttack = 1000 / monster.attackSpeed;
-            updateMonster(monster);
         }
     }
 }
@@ -90,13 +89,9 @@ function fightLoop(currentTime, deltaTime) {
         var lifeSteal = player.getLifeSteal();
         if (lifeSteal) {
             player.health = Math.min(player.getMaxHealth(), player.health + Math.floor(damage * lifeSteal));
-            if (gameSpeed < 30) {
-                updatePlayerLife();
-            }
+            uiNeedsUpdate.playerStats = true;
         }
-        if (gameSpeed < 30) {
-            updateMonster(monster);
-        }
+        uiNeedsUpdate.monsterStats = true;
         player.nextAttack += 1000 / player.getAttackSpeed();
     }
     monster.nextAttack -= deltaTime;
@@ -117,14 +112,10 @@ function fightLoop(currentTime, deltaTime) {
         }
         if (monster.lifeSteal) {
             monster.health = Math.min(monster.maxHealth, monster.health + Math.floor(damage * factor * monster.lifeSteal));
-            if (gameSpeed < 30) {
-                updateMonster(monster);
-            }
+            uiNeedsUpdate.monsterStats = true;
         }
         monster.nextAttack += 1000 / applyCripple(monster.attackSpeed, monster.battleStatus.crippled);
-        if (gameSpeed < 30) {
-            updatePlayerStats();
-        }
+        uiNeedsUpdate.playerStats = true;
     }
     if (winInstantly || monster.health <= 0) {
         gainExperience(monster.experience, monster.level);
@@ -139,13 +130,13 @@ function fightLoop(currentTime, deltaTime) {
                 if (player.specialSkills.lucky) {
                     player.inventory[item.slot][dropValue]++;
                 }
-                refreshInventoryPanel(item.slot);
+                uiNeedsUpdate[item.slot] = true;
             } else if (typeof(dropValue) === 'number') {
                 player.gold += dropValue;
                 if (player.specialSkills.lucky) {
                     player.gold += dropValue;
                 }
-                updateGold();
+                uiNeedsUpdate.playerStats = true;
             }
         }
         stopFighting();
@@ -178,9 +169,9 @@ function processStatusEffects(target, deltaTime) {
             target.battleStatus.dealtPoisonDamage = target.battleStatus.dealtPoisonDamage % 1;
             if (gameSpeed < 30) {
                 if (target.isPlayer) {
-                    updatePlayerLife();
+                    uiNeedsUpdate.playerStats = true;
                 } else {
-                    updateMonster(target);
+                    uiNeedsUpdate.monsterStats = true;
                 }
             }
         }
@@ -193,9 +184,9 @@ function processStatusEffects(target, deltaTime) {
         target.battleStatus.crippled = Math.max(0, target.battleStatus.crippled - deltaTime / 1000);
         if (gameSpeed < 30) {
             if (target.isPlayer) {
-                updatePlayerStats();
+                uiNeedsUpdate.playerStats = true;
             } else {
-                updateMonster(target);
+                uiNeedsUpdate.monsterStats = true;
             }
         }
     }
@@ -203,7 +194,6 @@ function processStatusEffects(target, deltaTime) {
 
 function stopFighting() {
     player.battleStatus = freshBattleStatus();
-    updatePlayerStats();
     if (fighting) {
         var oldMonster = fighting;
         fighting = null;
@@ -211,6 +201,7 @@ function stopFighting() {
         oldMonster.damaged = 0;
         oldMonster.battleStatus = freshBattleStatus();
         updateMonster(oldMonster);
+        uiNeedsUpdate.monsterStats = false;
         if (endBattleCallback) {
             endBattleCallback();
             endBattleCallback = null;

@@ -4,7 +4,7 @@ items.smallPotion = {
     'name': 'Small Potion',
     'use': function () {
         player.health = Math.min(player.getMaxHealth(), player.health + 100);
-        updatePlayerStats();
+        uiNeedsUpdate.playerStats = true;
     },
     'helpText': 'Drink this to recover 100 health.',
     'value': 5
@@ -13,7 +13,7 @@ items.mediumPotion = {
     'name': 'Medium Potion',
     'use': function () {
         player.health = Math.min(player.getMaxHealth(), player.health + 500);
-        updatePlayerStats();
+        uiNeedsUpdate.playerStats = true;
     },
     'helpText': 'Drink this to recover 500 health.',
     'value': 25
@@ -326,8 +326,8 @@ function equipItem(item) {
         return;
     }
     player[item.equipmentSlot] = item;
-    updatePlayerStats();
-    refreshInventoryPanel(item.slot);
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate[item.slot] = true;
     recordAction("equip " + item.key);
 }
 
@@ -339,8 +339,8 @@ function removeItem(item) {
         return;
     }
     player[item.equipmentSlot] = baseEquipment[item.equipmentSlot];
-    updatePlayerStats();
-    refreshInventoryPanel(item.slot);
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate[item.slot] = true;
     recordAction("remove " + item.key);
 }
 
@@ -350,13 +350,13 @@ function buyItem(item, quantity) {
     }
     player.gold -= quantity * getBuyPrice(item);
     player.inventory[item.slot][item.key] += quantity;
-    refreshInventoryPanel(item.slot);
+    uiNeedsUpdate[item.slot] = true;
     //show the inventory page that the item was added to
     $('.js-inventoryPanel').removeClass('selected');
     $('.js-inventoryPanel.js-' + item.slot).addClass('selected');
-    updateGold();
+    uiNeedsUpdate.playerStats = true;
     //update buy buttons now that you have less gold
-    updateShop();
+    uiNeedsUpdate.shop = true;
     recordAction("buy " + quantity + " " + item.key);
 }
 
@@ -369,13 +369,13 @@ function sellItem(item, quantity) {
     player.gold += getSellPrice(item) * quantity;
     player.inventory[item.slot][item.key] = owned;
     if (owned) {
-        item.$element.find('.js-itemQuantity').text(owned + 'x');
+        uiNeedsUpdate[item.slot] = true;
     } else {
         loseLastItem(item);
     }
-    updateGold();
+    uiNeedsUpdate.playerStats = true;
     //update buy buttons now that you have more gold
-    updateShop();
+    uiNeedsUpdate.shop = true;
     recordAction("sell " + quantity + " " + item.key);
 }
 
@@ -470,8 +470,8 @@ function optimizeArmor() {
     $.each(player.inventory.armors, equipArmorIfBetter);
     $.each(player.inventory.helmets, equipArmorIfBetter);
     $.each(player.inventory.boots, equipArmorIfBetter);
-    updatePlayerStats();
-    refreshAllInventoryPanels();
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate.inventory = true;
     recordAction('optimizeArmor');
 }
 
@@ -495,9 +495,11 @@ function loseLastItem(item) {
     //unequip this item if it was equipped
     if (item.equipmentSlot && player[item.equipmentSlot] == item) {
         player[item.equipmentSlot] = baseEquipment[item.equipmentSlot];
-        updatePlayerStats();
+        uiNeedsUpdate.playerStats = true;
     }
-    item.$element.remove();
+    if (item.$element) {
+        item.$element.remove();
+    }
 }
 
 function $baseInventoryItem() {

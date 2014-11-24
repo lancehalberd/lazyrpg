@@ -73,7 +73,10 @@ function populateSkillTree () {
         return {'name': 'POACH', 'open' : open, 'activate': function () {player.poachingSkill++;}, 'helpText' : 'Increases your poaching skill allowing you to damage enemies more without degrading their item quality.'};
     }
     function weapon(type, open) {
-        return {'name': iconValue(type, '+LVL'), 'open' : open, 'activate': function () {player.weaponLevels[type]++; refreshInventoryPanel('weapons');}, 'helpText' : 'Increases the level of ' + type+' class weapons you can equip.'};
+        return {'name': iconValue(type, '+LVL'), 'open' : open, 'activate': function () {
+            player.weaponLevels[type]++;
+            uiNeedsUpdate.weapons = true;
+        }, 'helpText' : 'Increases the level of ' + type+' class weapons you can equip.'};
     }
     function special(type, open) {
         return {'name': type.toUpperCase(), 'open' : open, 'activate': function () {player.specialSkills[type] = true;}, 'helpText' : specialSkills[type]};
@@ -202,7 +205,7 @@ function resetSkillTree() {
         startingSkill.activated = true;
         revealSkillsAround(startingSkill.col, startingSkill.row);
     });
-    updateSkillTree();
+    uiNeedsUpdate.skillTree = true;
 }
 
 function updateSkillTree() {
@@ -290,8 +293,8 @@ function chooseSkill(skill) {
         revealSkillsAround(skill.col, skill.row);
     });
     player.skillCost++;
-    updatePlayerStats();
-    updateSkillTree();
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate.skillTree = true;
     recordAction("learn " + skill.col + " " + skill.row);
 }
 

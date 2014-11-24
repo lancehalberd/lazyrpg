@@ -310,12 +310,14 @@ function resetCharacter() {
     };
     player.specialSkills = [];
     resetSkillTree();
-    updatePlayerStats();
-    refreshAllInventoryPanels();
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate.inventory = true;
 }
 
 function updatePlayerStats() {
-    updatePlayerLife();
+    $('.js-characterStats .js-currentHealth').text(Math.floor(player.health));
+    $('.js-characterStats .js-maxHealth').text(Math.floor(player.getMaxHealth()));
+    $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.getMaxHealth()) + '%');
     $('.js-characterStats .js-damage').text(player.getDamage());
     $('.js-characterStats .js-attackSpeed').text(player.getAttackSpeed().toFixed(2));
     $('.js-characterStats .js-armor').text(player.getArmor());
@@ -324,7 +326,7 @@ function updatePlayerStats() {
     var expPercent = Math.min(1, player.experience / expForNextLevel);
     $('.js-characterStats .js-experienceFill').css('width', (100 * expPercent) + '%');
     $('.js-characterStats .js-experienceBar').attr('helpText', 'You have ' + player.experience + ' of ' + expForNextLevel + ' experience needed for your next level.');
-    updateGold();
+    $('.js-characterStats .js-gold').text(player.gold);
     $('.js-skillPoints').show();
     if (player.skillPoints > 1) {
         $('.js-skillPoints').text('+' + player.skillPoints + ' skill pt');
@@ -347,16 +349,6 @@ function updatePlayerStats() {
     updateTime();
 }
 
-function updatePlayerLife() {
-    $('.js-characterStats .js-currentHealth').text(Math.floor(player.health));
-    $('.js-characterStats .js-maxHealth').text(Math.floor(player.getMaxHealth()));
-    $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.getMaxHealth()) + '%');
-}
-
-function updateGold() {
-    $('.js-characterStats .js-gold').text(player.gold);
-}
-
 function experienceForNextLevel(currentLevel) {
     return (currentLevel + 1) * (currentLevel + 1) * 10;
 }
@@ -371,11 +363,11 @@ function gainExperience(experience, level) {
             player.experience = 0;
             player.level++;
             player.skillPoints += player.level;
-            refreshAllInventoryPanels();
+            uiNeedsUpdate.inventory = true;
         }
-        updatePlayerStats();
+        uiNeedsUpdate.playerStats = true;
+        uiNeedsUpdate.skillTree = true;
     }
-    updateSkillTree();
 }
 
 function zeroBonus() {

@@ -157,12 +157,12 @@ function craftRecipe(recipe) {
         var ingredient = allItems[key];
         player.inventory[ingredient.slot][ingredient.key] -= amount;
     });
-    refreshAllInventoryPanels();
+    uiNeedsUpdate.inventory = true;
     //show the inventory page that the item was added to
     $('.js-inventoryPanel').removeClass('selected');
     $('.js-inventoryPanel.js-' + item.slot).addClass('selected');
     //update buy buttons now that you have less gold
-    updateCrafting();
+    uiNeedsUpdate.craft = true;
     recordAction('make', recipe.key);
 }
 

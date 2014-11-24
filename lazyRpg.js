@@ -102,8 +102,6 @@ $(function () {
     initializeTitleScene();
     initializeSkillTree();
     resetCharacter();
-    updateSkillTree();
-    refreshAllInventoryPanels();
     setupCrafting();
     setupProgrammingWindow();
     $('body').append('<style type="text/css" >.icon { background-image: url("gfx/iconSet.png");}</style>');
@@ -159,9 +157,81 @@ function mainLoop() {
             player.time += deltaTime;
         }
     }
-    if (mineral) {
-        updateMineral(mineral);
-        updatePlayerStats();
-    }
+    updateUI();
     lastTime = now();
+}
+
+var uiNeedsUpdate = {
+    'playerStats': false,
+    'monsterStats': false,
+    'miningStats': false,
+    'inventory': false,
+    'items': false,
+    'weapons': false,
+    'helments': false,
+    'armors': false,
+    'boots': false,
+    'skillTree': false,
+    'craft': false,
+    'shop': false
+};
+
+function updateUI() {
+    if (uiNeedsUpdate.playerStats) {
+        updatePlayerStats();
+        uiNeedsUpdate.playerStats = false;
+    }
+    if (uiNeedsUpdate.monsterStats) {
+        if (fighting) {
+            updateMonster(fighting);
+        }
+        uiNeedsUpdate.monsterStats = false;
+    }
+    if (uiNeedsUpdate.miningStats) {
+        if (mining) {
+            updateMineral(mining);
+        }
+        uiNeedsUpdate.miningStats = false;
+    }
+    if (uiNeedsUpdate.inventory && $('.js-inventoryContainer').is('.open')) {
+        refreshAllInventoryPanels();
+        uiNeedsUpdate.inventory = false;
+        uiNeedsUpdate.items = false;
+        uiNeedsUpdate.weapons = false;
+        uiNeedsUpdate.helments = false;
+        uiNeedsUpdate.armors = false;
+        uiNeedsUpdate.boots = false;
+    }
+    if (uiNeedsUpdate.items && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-items').is('.selected')) {
+        refreshInventoryPanel('items');
+        uiNeedsUpdate.items = false;
+    }
+    if (uiNeedsUpdate.weapons && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-weapons').is('.selected')) {
+        refreshInventoryPanel('weapons');
+        uiNeedsUpdate.weapons = false;
+    }
+    if (uiNeedsUpdate.helmets && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-helmets').is('.selected')) {
+        refreshInventoryPanel('helmets');
+        uiNeedsUpdate.helmets = false;
+    }
+    if (uiNeedsUpdate.armors && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-armors').is('.selected')) {
+        refreshInventoryPanel('armors');
+        uiNeedsUpdate.armors = false;
+    }
+    if (uiNeedsUpdate.boots && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-boots').is('.selected')) {
+        refreshInventoryPanel('boots');
+        uiNeedsUpdate.boots = false;
+    }
+    if (uiNeedsUpdate.skillTree && $('.js-characterStatsContainer').is('.open')) {
+        updateSkillTree();
+        uiNeedsUpdate.skillTree = false;
+    }
+    if (uiNeedsUpdate.craft && $('.js-craftContainer').is('.open')) {
+        updateCrafting();
+        uiNeedsUpdate.craft = false;
+    }
+    if (uiNeedsUpdate.shop && $('.js-shopContainer').is('.open')) {
+        updateShop();
+        uiNeedsUpdate.shop = false;
+    }
 }
