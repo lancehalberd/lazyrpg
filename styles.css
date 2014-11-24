@@ -285,7 +285,7 @@
 .programContainer {
     position: absolute;
     left: 0px;
-    top: 550px;
+    top: 600px;
     width: 960px;
     height: 450px;
     border: 2px solid #fff;
@@ -345,13 +345,15 @@
     display: table-cell;
     left: -50px;
     font-size: 30px;
-    line-height: 50px;
+    line-height: 30px;
     text-align: center;
     vertical-align: middle;
     background-color: #4080F0;
     border: 2px solid #ddf;
     height: 50px;
-    width: 100px;
+    min-width: 100px;
+    padding: 10px;
+    box-sizing: border-box;
     border-radius: 5px;
 }
 
@@ -803,4 +805,33 @@ button {
     width: 98%;
     height: 330px;
     resize: none;
+}
+
+.savedGames {
+    position: relative;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 200px;
+    border-radius: 7px;
+    background-color: white;
+    top: 300px;
+    overflow-y: scroll;
+}
+.newGame {
+    margin-left: 30px;
+}
+.savedGame {
+    height: 25px;
+}
+.gameName {
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+}
+
+.deleteGame, .playGame, .resetGame {
+    float: right;
+    margin-right: 5px;
 }

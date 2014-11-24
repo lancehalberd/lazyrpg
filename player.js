@@ -9,30 +9,64 @@ function freshBattleStatus() {
     }
 }
 
-var player = {
-    'inventory': {
-        'items' : {},
-        'weapons' : {},
-        'armors' : {},
-        'helmets' : {},
-        'boots' : {}
-    },
-    'unlockedClasses' : {
-        'youth' : true
-    },
-    'isPlayer': true,
-    'gold': 10,
-    'poachingSkill': 0,
-    'time': 0,
-    'battleStatus': freshBattleStatus(),
-    'bonusPoints': 0,
-    'programs': [{'name': 'Find Village', 'description': 'This sample program moves you from the shore to the village and rests there.', 'text': "move forest\nmove village\nrest"}]
-};
+/**
+ * Returns the data used to create a new game.
+ */
+function newGameData() {
+    return {
+        'area': 'shore',
+        'inventory': {
+            'items' : {},
+            'weapons' : {},
+            'armors' : {},
+            'helmets' : {},
+            'boots' : {}
+        },
+        'defeatedMonsters': {},
+        'unlockedClasses' : {'youth' : true},
+        'gold': 10,
+        'time': 0,
+        'bonusPoints': 0,
+        'programs': [{'name': 'Find Village', 'description': 'This sample program moves you from the shore to the village and rests there.', 'text': "move forest\nmove village\nrest"}]
+    };
+}
+/**
+ * Returns the data to be saved for the current state of the game. Characters
+ * level and skills are reset.
+ */
+function getSavedData() {
+    return {
+        'area': player.area,
+        'inventory': copy(player.inventory),
+        'defeatedMonsters': copy(player.defeatedMonsters),
+        'unlockedClasses' : copy(player.unlockedClasses),
+        'gold': player.gold,
+        'time': player.time,
+        'bonusPoints': player.bonusPoints,
+        'programs': player.programs,
+        'name': player.name
+    };
+}
+function applySavedData(savedData) {
+    $.each(savedData, function (key, value) {
+        player[key] = value;
+    });
+}
+
+function applyBonus(value, bonus) {
+    return (value + bonus.plus) * bonus.multi;
+}
+//setup player here (even though most of this will get overwritten on loading game)
+//just in case some of the initialization code panics without the player populated
+var player = {};
+applySavedData(newGameData());
+player.isPlayer =  true,
+player.battleStatus = freshBattleStatus();
 var baseEquipment = {
     'weapon' : weapons.fists,
     'armor': armors.shirt,
     'helmet': helmets.hair,
-    'boots': boots.bareFeet,
+    'boots': boots.bareFeet
 };
 player.getDamage = function () {
     var damageBonus = player.bonuses.damage;
@@ -75,9 +109,6 @@ player.getAttackSpeed = function () {
     }
     return applyCripple(total, player.battleStatus.crippled);
 };
-function applyCripple(attackSpeed, cripple) {
-    return attackSpeed / (1 + Math.log(1 + cripple / 6));
-}
 player.getArmor = function () {
     //double damage, 0 armor
     if (player.specialSkills.fury) {
@@ -175,10 +206,6 @@ player.getMaxHealth = function () {
     return player.maxHealth * (player.specialSkills.tank ? 2 : 1);
 }
 
-function applyBonus(value, bonus) {
-    return (value + bonus.plus) * bonus.multi;
-}
-
 function getItemName(item) {
     if (item.slot == 'armors') {
         return '<span class="icon armor"></span><span class="value">' + item.name + '</span>';
@@ -196,14 +223,53 @@ function getItemName(item) {
 }
 
 var allItems = {};
-var startingItems = 0;
-$.each(items, function(key, value) {player.inventory.items[key] = startingItems; allItems[key] = value; value.key = key; value.slot = 'items';});
-$.each(weapons, function(key, value) {player.inventory.weapons[key] = startingItems; allItems[key] = value; value.key = key; value.isWeapon = true; value.slot = 'weapons'; value.equipmentSlot = 'weapon';});
-$.each(armors, function(key, value) {player.inventory.armors[key] = startingItems; allItems[key] = value; value.key = key; value.isArmor = true; value.slot = 'armors'; value.equipmentSlot = 'armor';});
-$.each(helmets, function(key, value) {player.inventory.helmets[key] = startingItems; allItems[key] = value; value.key = key; value.isArmor = true; value.slot = 'helmets'; value.equipmentSlot = 'helmet';});
-$.each(boots, function(key, value) {player.inventory.boots[key] = startingItems; allItems[key] = value; value.key = key; value.isArmor = true; value.slot = 'boots'; value.equipmentSlot = 'boots';});
+function fillInPlayerItems() {
+    var startingItems = 0;
+    $.each(items, function(key, value) {
+        player.inventory.items[key] = player.inventory.items[key] ? player.inventory.items[key] : startingItems;
+        allItems[key] = value;
+        value.key = key;
+        value.slot = 'items';
+    });
+    $.each(weapons, function(key, value) {
+        player.inventory.weapons[key] = player.inventory.weapons[key] ? player.inventory.weapons[key] : startingItems;
+        allItems[key] = value;
+        value.key = key;
+        value.isWeapon = true;
+        value.slot = 'weapons';
+        value.equipmentSlot = 'weapon';
+    });
+    $.each(armors, function(key, value) {
+        player.inventory.armors[key] = player.inventory.armors[key] ? player.inventory.armors[key] : startingItems;
+        allItems[key] = value;
+        value.key = key;
+        value.isArmor = true;
+        value.slot = 'armors';
+        value.equipmentSlot = 'armor';
+    });
+    $.each(helmets, function(key, value) {
+        player.inventory.helmets[key] = player.inventory.helmets[key] ? player.inventory.helmets[key] : startingItems;
+        allItems[key] = value; value.key =
+        key; value.isArmor = true;
+        value.slot = 'helmets';
+        value.equipmentSlot = 'helmet';
+    });
+    $.each(boots, function(key, value) {
+        player.inventory.boots[key] = player.inventory.boots[key] ? player.inventory.boots[key] : startingItems;
+        allItems[key] = value;
+        value.key = key;
+        value.isArmor = true;
+        value.slot = 'boots';
+        value.equipmentSlot = 'boots';
+    });
+}
+fillInPlayerItems();
 
 function resetCharacter() {
+    fillInPlayerItems();
+    $.each(monsters, function (key, value) {
+        player.defeatedMonsters[key] = player.defeatedMonsters[key] ? player.defeatedMonsters[key] : 0;
+    });
     player.health = 200;
     player.maxHealth = 200;
     player.level = 0;

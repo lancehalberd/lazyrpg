@@ -40,6 +40,7 @@
 </script>
 <script src="jquery.min.js"></script>
 <script src="../jquery-ui/ui/jquery-ui.js"></script>
+<script src="jstorage.min.js"></script>
 <script src="actions.js"></script>
 <script src="battle.js"></script>
 <script src="items.js"></script>
@@ -52,10 +53,25 @@
 <script src="monsters.js"></script>
 <script src="mining.js"></script>
 <script src="world.js"></script>
+<script src="titleScene.js"></script>
 </head>
 <body class="documentBody">
 <div class="js-gameContainer gameContainer">
     <div class="js-scene js-loadingScene loadingScene">Loading...</div>
+    <div class="js-titleScene" style="display: none;">
+        <div class="js-savedGames savedGames">
+            <div class="js-savedGame savedGame" style="display: none;">
+                <span class="js-gameName gameName">Save 1</span>
+                <button class="js-deleteGame deleteGame">Delete</button>
+                <button class="js-resetGame resetGame" helpText="Restart from the beggining, but keep your saved programs.">Start Over</button>
+                <button class="js-playGame playGame">Play</button>
+            </div>
+            <div class="js-newGame newGame">
+                <input class="js-newGameName" placeholder="New Save File Name" />
+                <button class="js-startNewGame" disabled="disabled">Create</button>
+            </div>
+        </div>
+    </div>
     <div class="js-scene js-mapScene" style="display: none;">
         <button class="js-toggleHelp">Disable Tooltips</button><br/>
         <button class="js-optimize" helpText="Click this to automatically equip the best armor available">Equip Best Armor</button>

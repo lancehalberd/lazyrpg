@@ -45,6 +45,9 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
         }
     }
 }
+function applyCripple(attackSpeed, cripple) {
+    return attackSpeed / (1 + Math.log(1 + cripple / 6));
+}
 function fightLoop(currentTime, deltaTime) {
     var monster = fighting;
     processStatusEffects(player, deltaTime);
@@ -126,6 +129,7 @@ function fightLoop(currentTime, deltaTime) {
     }
     if (winInstantly || monster.health <= 0) {
         gainExperience(monster.experience, monster.level);
+        player.defeatedMonsters[monster.key]++;
 
         var dropIndex = Math.min(monster.spoils.length - 1, Math.floor(monster.damaged / (1 + player.poachingSkill)));
         for (var i = dropIndex; i < monster.spoils.length; i++) {

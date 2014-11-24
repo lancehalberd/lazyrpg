@@ -59,6 +59,7 @@ function MoveAction(target, slot) {
         setArea(areas[target]);
         recordAction(this.actionName, this.actionTarget);
         player.time += 5000;
+        player.area = target;
         updateTime();
     }
 }
@@ -66,12 +67,28 @@ function MoveAction(target, slot) {
 function RestAction(slot) {
     this.actionName = "rest";
     this.getDiv = function () {
-        return $div('action slot' + slot, $div('box', 'Rest')).attr('helpText', 'Resting will restore your health, but you will also lose all your experience and skills and unequip all items.');
+        return $div('action slot' + slot, $div('box', 'Rest+Save')).attr('helpText', 'Resting will restore your health and save your current progress, but you will also lose all your experience and skills and unequip all items.');
     };
     this.perform = function () {
         resetCharacter();
         player.time += 10000;
+        saveCurrentGame();
         recordAction(this.actionName, this.actionTarget);
+    };
+}
+
+//action only available if the condition method returns true
+function ToggleAction(innerAction, condition) {
+    this.actionName = innerAction.actionName;
+    this.actionTarget = innerAction.actionTarget;
+    this.getDiv = function () {
+        return condition() ? innerAction.getDiv() : $div('').hide();
+    };
+    this.perform = function () {
+        if (!condition()) {
+            return;
+        }
+        innerAction.perform();
     };
 }
 
@@ -125,6 +142,9 @@ function setArea(area) {
         });
     });
 }
+function refreshArea() {
+    setArea(areas[player.area]);
+}
 
 var areas = {};
 areas.shore =  {
@@ -170,10 +190,11 @@ areas.river =  {
     'name': 'River',
     '$graphic': $img('river.png'),
     'actions': [
-        new BattleAction(monsters.troll, 1, function () {
-            //remove the troll boss, add the volcano location
-            areas.river.actions[0] = new MoveAction('savanna', 5);
-            setArea(areas.river);
+        new ToggleAction(new BattleAction(monsters.troll, 1, refreshArea), function() {
+            return !(player.defeatedMonsters.troll > 0);
+        }),
+        new ToggleAction(new MoveAction('savanna', 5), function() {
+            return (player.defeatedMonsters.troll > 0);
         }),
         new MoveAction('village', 3)
         //new MoveAction('savanna', 5)
@@ -206,11 +227,9 @@ areas.ship = {
     '$graphic': $img('ship.png'),
     'actions': [
         new MoveAction('portTown', 2),
-        new BattleAction(monsters.pirate, 3, function () {
-            //player can pass now that they defeated the pirate.
-            //TD: this should happen each time they travel by ship
-            areas.ship.actions[2] = new MoveAction('city', 5),
-            setArea(areas.ship);
+        new BattleAction(monsters.pirate, 3, refreshArea),
+        new ToggleAction(new MoveAction('city', 5), function() {
+            return (player.defeatedMonsters.pirate > 0);
         })
     ]
 };
@@ -255,12 +274,12 @@ areas.desertCave = {
         new BattleAction(monsters.vampireBat, 1),
         new BattleAction(monsters.bear, 3),
         new MoveAction('desert', 4),
-        new BattleAction(monsters.darkKnight, 6, function () {
-            //remove the dark knight and open the iron mine
-            areas.desertCave.actions[3] = new MoveAction('ironMine', 6),
-            setArea(areas.desertCave);
+        new ToggleAction(new BattleAction(monsters.darkKnight, 6, refreshArea), function() {
+            return !(player.defeatedMonsters.darkKnight > 0);
         }),
-        //new MoveAction('ironMine', 6)
+        new ToggleAction(new MoveAction('ironMine', 6), function() {
+            return (player.defeatedMonsters.darkKnight > 0);
+        })
     ]
 };
 areas.ironMine = {
@@ -300,19 +319,12 @@ areas.remoteAbode = {
     'actions': [
         new MoveAction('marsh', 4),
         new BattleAction(monsters.giantRat, 1),
-        new BattleAction(monsters.witch, 3, function () {
-            //remove the witch and open the cellar
-            areas.remoteAbode.actions[2] = new MoveAction('cellar', 6),
-            //replace enchantedKing with imposterKing now that the witch is defeated
-            areas.throneRoom.actions[0] = new BattleAction(monsters.imposterKing, 2, function () {
-                //remove the trex boss, add the castle location
-                areas.throneRoom.actions.shift();
-                setArea(areas.throneRoom);
-                alert("You defeated the imposter king, but just what was he plotting anyway?");
-            });
-            setArea(areas.remoteAbode);
+        new ToggleAction(new BattleAction(monsters.witch, 3, refreshArea), function() {
+            return !(player.defeatedMonsters.witch > 0);
         }),
-        //new MoveAction('cellar', 6)
+        new ToggleAction(new MoveAction('cellar', 6), function() {
+            return (player.defeatedMonsters.witch > 0);
+        })
     ]
 };
 areas.cellar = {
@@ -329,14 +341,12 @@ areas.castleGates = {
     'name': 'Castle Gates',
     '$graphic': $img('castle.png'),
     'actions': [
-        new BattleAction(monsters.possessedGuard, 1, function () {
-            //can fight possessed captain after defeating possessed guard
-            areas.castleGates.actions[2] = new BattleAction(monsters.possessedCaptain, 2, function () {
-                //can move to the courtyard after defeating possessed captain
-                areas.castleGates.actions[3] = new MoveAction('courtyard', 4),
-                setArea(areas.castleGates);
-            });
-            setArea(areas.castleGates);
+        new BattleAction(monsters.possessedGuard, 1, refreshArea),
+        new ToggleAction(new BattleAction(monsters.possessedCaptain, 2, refreshArea), function() {
+            return player.defeatedMonsters.possessedGuard > 0;
+        }),
+        new ToggleAction(new MoveAction('courtyard', 4), function() {
+            return (player.defeatedMonsters.possessedCaptain > 0);
         }),
         new MoveAction('city', 6)
     ]
@@ -345,12 +355,12 @@ areas.courtyard = {
     'name': 'Courtyard',
     '$graphic': $img('field.png'),
     'actions': [
-        new BattleAction(monsters.tRex, 2, function () {
-            //remove the trex boss, add the castle location
-            areas.courtyard.actions[0] = new MoveAction('castle', 4),
-            setArea(areas.courtyard);
+        new ToggleAction(new BattleAction(monsters.tRex, 2, refreshArea), function() {
+            return !(player.defeatedMonsters.tRex > 0);
         }),
-        //new MoveAction('castle', 4),
+        new ToggleAction(new MoveAction('castle', 4), function() {
+            return (player.defeatedMonsters.tRex > 0);
+        }),
         new MoveAction('castleGates', 6)
     ]
 };
@@ -358,21 +368,28 @@ areas.castle = {
     'name': 'Castle',
     '$graphic': $img('castle.png'),
     'actions': [
-        new BattleAction(monsters.royalGuard, 1, function () {
-            //remove the trex boss, add the castle location
-            areas.castle.actions[3] = new MoveAction('throneRoom', 4);
-            setArea(areas.castle);
+        new BattleAction(monsters.royalGuard, 1, refreshArea),
+        new ToggleAction(new MoveAction('throneRoom', 4), function() {
+            return (player.defeatedMonsters.royalGuard > 0);
         }),
         new BattleAction(monsters.giantSpider, 2),
         new MoveAction('courtyard', 6)
     ]
 };
+function defeatImposterKing() {
+    refreshArea();
+    alert("You defeated the imposter king, but just what was he plotting anyway?");
+}
 areas.throneRoom = {
     'name': 'Throne Room',
     '$graphic': $img('castle.png'),
     'actions': [
-        //enchanted king cannot actually be defeated, defeat the witch to fight imposterKing instead
-        new BattleAction(monsters.enchantedKing, 2),
+        new ToggleAction(new BattleAction(monsters.enchantedKing, 2, defeatImposterKing), function() {
+            return !(player.defeatedMonsters.witch > 0) && !(player.defeatedMonsters.enchantedKing > 0);
+        }),
+        new ToggleAction(new BattleAction(monsters.imposterKing, 2, defeatImposterKing), function() {
+            return player.defeatedMonsters.witch > 0 && !(player.defeatedMonsters.imposterKing > 0);
+        }),
         new MoveAction('castle', 6)
     ]
 };

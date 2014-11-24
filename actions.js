@@ -41,17 +41,14 @@ function setupProgrammingWindow() {
         showTooltips = !showTooltips;
         updateProgramButtons();
     });
-    $.each(player.programs, function (index, program) {
-        $('.js-programs').append($('<button class="js-program program programButton" helpText="' + (program.description ? program.description : 'This program has no description.') + '<br/><br/>Select this program to edit or run it.">' + program.name + '</button>').data('program', program));
-    });
     $('.js-programContainer').on('mousedown', '.js-program', function (event) {
-        var currentProgram = $('.js-program.selected').data('program');
-        currentProgram.text = $('.js-programText').val();
+        applyChangesToCurrentProgram();
         selectProgram($(this));
     });
     $('.js-addProgram').on('click', function (event) {
         var $newProgram = $programButton({'name': 'New Program', 'description': '', 'text': ''});
         $('.js-programs').append($newProgram);
+        applyChangesToCurrentProgram();
         selectProgram($newProgram);
     });
     $('.js-programName').on('paste keyup', function () {
@@ -64,7 +61,6 @@ function setupProgrammingWindow() {
         $('.js-program.selected').data('program').description = description;
         $('.js-program.selected').attr('helpText', (description ? description : 'This program has no description.') + '<br/><br/>Select this program to edit or run it.');
     });
-    selectProgram($('.js-program').first());
     $('.js-programs').sortable({
         'cancel': '',
         'helper': function (event, element) {
@@ -74,8 +70,26 @@ function setupProgrammingWindow() {
     updateProgramButtons();
 }
 
+//commits the text of the current program to the selected program
+//we don't do this every key stroke for performance, but this needs to be called
+//when:
+//the user selects a different program
+//the user creates a new program
+//the user saves the game
+function applyChangesToCurrentProgram() {
+    var currentProgram = $('.js-program.selected').data('program');
+    currentProgram.text = $('.js-programText').val();
+}
+function refreshPrograms() {
+    $('.js-program').remove();
+    $.each(player.programs, function (index, program) {
+        $('.js-programs').append($('<button class="js-program program programButton" helpText="' + getProgramHelpText(program) + '">' + program.name + '</button>').data('program', program));
+    });
+    selectProgram($('.js-program').first());
+}
+
 function $programButton(program) {
-    return $('<button class="js-program program programButton" helpText="' + (program.description ? program.description : 'This program has no description.') + '<br/><br/>Select this program to edit or run it.">' + program.name + '</button>').data('program', program);
+    return $('<button class="js-program program programButton" helpText="'+ getProgramHelpText(program) + '">' + program.name + '</button>').data('program', program);
 }
 
 function selectProgram($program) {
@@ -85,6 +99,10 @@ function selectProgram($program) {
     $('.js-programName').val(program.name);
     $('.js-programDescription').val(program.description);
     $('.js-programText').val(program.text);
+}
+
+function getProgramHelpText(program) {
+    return (program.description ? program.description : 'This program has no description.') + '<br/><br/>Select this program to edit or run it. <br/><br/>Click and drag to arrange programs.'
 }
 
 actions.setSpeed = function (params, successCallback, errorCallback) {

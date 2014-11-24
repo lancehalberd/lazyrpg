@@ -50,7 +50,7 @@ function timeSpan(value) {
 }
 $(function () {
     $('.js-loadingScene').hide();
-    $('.js-mapScene').show();
+    $('.js-titleScene').show();
     $('.js-optimize').on('click', optimizeArmor);
     setupInventory();
     $('.js-characterStats').on('click', function () {
@@ -87,9 +87,8 @@ $(function () {
         var y = event.pageY - $('.js-gameContainer').offset().top;
         updateToolTip(x, y, $popup);
     });
-
-    setArea(areas.shore);
     setInterval(mainLoop, 20);
+    initializeTitleScene();
     initializeSkillTree();
     resetCharacter();
     updateSkillTree();
