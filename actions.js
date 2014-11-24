@@ -9,20 +9,11 @@ var runningProgram = false;
 var gameSpeed = 1;
 var showTooltips = true;
 function setupProgrammingWindow() {
-    $('.js-editProgram').on('click', function (){
-        if ($('.js-programContainer').is('.open')) {
-            closeAll();
-        } else {
-            closeAll();
-            $('.js-programContainer').addClass('open');
-        }
-        updateProgramButtons();
-    });
     $('.js-runProgram').on('click', function (){
         if (runningProgram) {
             stopProgram();
         } else {
-            var program = $('.js-program').val();
+            var program = $('.js-programText').val();
             if (program.length) {
                 runProgram(program);
             }
@@ -32,8 +23,8 @@ function setupProgrammingWindow() {
         stopProgram();
         recording = !recording;
         if (!recording) {
-            var program = $('.js-program').val();
-            $('.js-program').val(addLoopsToProgram(program));
+            var program = $('.js-programText').val();
+            $('.js-programText').val(addLoopsToProgram(program));
         }
         updateProgramButtons();
     });
@@ -50,7 +41,50 @@ function setupProgrammingWindow() {
         showTooltips = !showTooltips;
         updateProgramButtons();
     });
+    $.each(player.programs, function (index, program) {
+        $('.js-programs').append($('<button class="js-program program programButton" helpText="' + (program.description ? program.description : 'This program has no description.') + '<br/><br/>Select this program to edit or run it.">' + program.name + '</button>').data('program', program));
+    });
+    $('.js-programContainer').on('mousedown', '.js-program', function (event) {
+        var currentProgram = $('.js-program.selected').data('program');
+        currentProgram.text = $('.js-programText').val();
+        selectProgram($(this));
+    });
+    $('.js-addProgram').on('click', function (event) {
+        var $newProgram = $programButton({'name': 'New Program', 'description': '', 'text': ''});
+        $('.js-programs').append($newProgram);
+        selectProgram($newProgram);
+    });
+    $('.js-programName').on('paste keyup', function () {
+        var name = $('.js-programName').val();
+        $('.js-program.selected').data('program').name = name;
+        $('.js-program.selected').text(name);
+    });
+    $('.js-programDescription').on('paste keyup', function () {
+        var description = $.trim($('.js-programDescription').val());
+        $('.js-program.selected').data('program').description = description;
+        $('.js-program.selected').attr('helpText', (description ? description : 'This program has no description.') + '<br/><br/>Select this program to edit or run it.');
+    });
+    selectProgram($('.js-program').first());
+    $('.js-programs').sortable({
+        'cancel': '',
+        'helper': function (event, element) {
+            return $(element).css({'width': $(element).outerWidth() + 'px', 'height': $(element).outerHeight() + 'px'});
+        }
+    });
     updateProgramButtons();
+}
+
+function $programButton(program) {
+    return $('<button class="js-program program programButton" helpText="' + (program.description ? program.description : 'This program has no description.') + '<br/><br/>Select this program to edit or run it.">' + program.name + '</button>').data('program', program);
+}
+
+function selectProgram($program) {
+    $('.js-program').removeClass('selected');
+    $program.addClass('selected');
+    var program = $program.data('program');
+    $('.js-programName').val(program.name);
+    $('.js-programDescription').val(program.description);
+    $('.js-programText').val(program.text);
 }
 
 actions.setSpeed = function (params, successCallback, errorCallback) {
@@ -119,7 +153,7 @@ function recordAction(name, target) {
     if (!recording) {
         return;
     }
-    var program = $('.js-program').val();
+    var program = $('.js-programText').val();
     var lines = program.length ? program.split("\n") : [];
     if (typeof(target) == 'object') {
         target = target.key;
@@ -127,7 +161,7 @@ function recordAction(name, target) {
         target = '';
     }
     lines.push(name + (target ? ' ' + target : ''));
-    $('.js-program').val(lines.join("\n"));
+    $('.js-programText').val(lines.join("\n"));
 }
 
 function runNextLine() {

@@ -231,7 +231,7 @@
     transition: left .5s;
 }
 .inventoryContainer.open {
-    left: 710px;
+    left: 610px;
 }
 .inventoryPanel {
     position: absolute;
@@ -284,21 +284,15 @@
 
 .programContainer {
     position: absolute;
-    width: 400px;
-    height: 300px;
-    left: 280px;
+    left: 0px;
     top: 550px;
+    width: 960px;
+    height: 450px;
     border: 2px solid #fff;
     border-bottom: none;
     box-sizing: border-box;
     transition: top .5s;
     background-color: #4080F0;
-}
-
-.programContainer textarea {
-    margin-top: 25px;
-    width: 98%;
-    height: 200px;
 }
 
 .programContainer.open {
@@ -773,4 +767,40 @@ button {
 
 .time {
     font-size: 14px;
+}
+
+.programsAndAddButton {
+    width: 500px;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: top;
+}
+.programButton {
+    width: 100px;
+    height: 25px;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+    background-color: #888;
+    vertical-align: middle;
+}
+.programButton.selected, .programButton.addProgramButton {
+    background-color: #eee;
+}
+.programEditor {
+    display: inline-block;
+    vertical-align: top;
+}
+.programDescription {
+    margin-top: 5px;
+    width: 98%;
+    height: 50px;
+    resize: none;
+}
+
+.programText {
+    margin-top: 5px;
+    width: 98%;
+    height: 330px;
+    resize: none;
 }

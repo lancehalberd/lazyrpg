@@ -12,11 +12,11 @@
     }
     .gameContainer {
         position: relative;
-        margin-top: 20px;
+        margin-top: 100px;
         margin-left: auto;
         margin-right: auto;
         width: 960px;
-        height: 600px;
+        height: 1000px;
         background-color: #002060;
         background-repeat: repeat;
         top: 0px;
@@ -34,10 +34,12 @@
         font-size: 50px;
     }
 </style>
+<link rel="stylesheet" href="../jquery-ui/themes/base/jquery.ui.all.css">
 <script type="text/javascript">
     var testing = false;
 </script>
 <script src="jquery.min.js"></script>
+<script src="../jquery-ui/ui/jquery-ui.js"></script>
 <script src="actions.js"></script>
 <script src="battle.js"></script>
 <script src="items.js"></script>
@@ -227,15 +229,21 @@
         </div>
 
         <div class="js-programContainer programContainer">
-            <div class="heading">
-                Program
-                <button class="js-editProgram" helpText="Write a program to automate tedious tasks like farming ingredients or experience. Try using the record button to generate sample programs to get started.">Edit</button>
-                <button class="js-recordProgram">Record</button>
-                <button class="js-runProgram">Run</button>
-                <button class="js-changeSpeed">Normal Speed</button>
+            <div class="programsAndAddButton">
+                <span class="js-programs">
+                </span><button class="js-addProgram programButton addProgramButton" helpText="Click here to create a new program. You can use programs to automate tedious tasks like farming ingredients or experience. Try using the record button to generate sample programs to get started.">+</button>
             </div>
-            <div class="js-body">
-                <textarea class="js-program"></textarea>
+            <div class="programEditor">
+                <div>
+                    <input class="js-programName" type="text" value="firstProgram" placeholder="Program Name">
+                    <button class="js-runProgram">Run</button>
+                    <button class="js-recordProgram">Record</button>
+                    <button class="js-changeSpeed">Normal Speed</button>
+                </div>
+                <div class="js-body">
+                    <textarea class="js-programDescription programDescription" placeholder="This description will appear in the hover text for this program's button."></textarea>
+                    <textarea class="js-programText programText" placeholder="Write your program here, or use the record button to create a program from your actions."></textarea>
+                </div>
             </div>
         </div>
 

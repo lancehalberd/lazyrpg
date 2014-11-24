@@ -25,7 +25,8 @@ var player = {
     'poachingSkill': 0,
     'time': 0,
     'battleStatus': freshBattleStatus(),
-    'bonusPoints': 0
+    'bonusPoints': 0,
+    'programs': [{'name': 'Find Village', 'description': 'This sample program moves you from the shore to the village and rests there.', 'text': "move forest\nmove village\nrest"}]
 };
 var baseEquipment = {
     'weapon' : weapons.fists,
