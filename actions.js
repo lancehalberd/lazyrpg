@@ -106,15 +106,13 @@ function getProgramHelpText(program) {
 }
 
 actions.setSpeed = function (params, successCallback, errorCallback) {
-    if (paramError(1, params, errorCallback)) return;
+    checkParams(1, params);
     var speed = params[0];
     if (speed < 1) {
-        errorCallback("Speed cannot be less than 1.");
-        return;
+        throw new ProgrammingError("Speed cannot be less than 1.");
     }
     if (speed > 100) {
-        errorCallback("Speed cannot be higher than 100");
-        return;
+        throw new ProgrammingError("Speed cannot be higher than 100");
     }
     setSpeed(speed);
     successCallback();
@@ -232,7 +230,15 @@ function runNextLine() {
         onActionError("uknown action '" + action+ "'");
         return;
     }
-    actions[action](tokens, onActionSuccess, onActionError);
+    try {
+        actions[action](tokens, onActionSuccess, onActionError);
+    } catch(e) {
+        if (e instanceof ProgrammingError) {
+            onActionError(e.message);
+        } else {
+            throw e;
+        }
+    }
 }
 
 function onActionSuccess() {
@@ -246,12 +252,11 @@ function onActionError(errorMessage) {
     alert('error on line ' + lineNumber + " (" + lines[lineNumber - 1] + "): " + errorMessage);
 }
 
-function paramError(expected, params, errorCallback) {
+function checkParams(expected, params, errorCallback) {
     if (expected == params.length) {
-        return false;
+        return;
     }
-    errorCallback("Expected " + expected + " but found " + params.join(','));
-    return true;
+    throw new ProgrammingError("Expected " + expected + " parameter(s) but found " + params.length + ": " + params.join(','));
 }
 
 function addLoopsToProgram(program) {

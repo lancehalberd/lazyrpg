@@ -4,31 +4,28 @@
  * or if there is no route to that area.
  */
 actions.move = function (params, successCallback, errorCallback) {
-    if (paramError(1, params, errorCallback)) return;
+    checkParams(1, params);
     var areaKey = params[0];
     var moveAction = getAreaAction('move', areaKey);
     if (!moveAction) {
-        errorCallback("There is no path to '" + areaKey + "' from here.");
-        return;
+        throw new ProgrammingError("There is no path to '" + areaKey + "' from here.");
     }
     moveAction.perform();
     successCallback();
 }
 actions.shop = function (params, successCallback, errorCallback) {
-    if (paramError(0, params, errorCallback)) return;
+    checkParams(0, params);
     var shopAction = getAreaAction('shop', null);
     if (!shopAction) {
-        errorCallback("There is no shop here.");
-        return;
+        throw new ProgrammingError("There is no shop here.");
     }
     successCallback();
 }
 actions.rest = function (params, successCallback, errorCallback) {
-    if (paramError(0, params, errorCallback)) return;
+    checkParams(0, params);
     var restAction = getAreaAction('rest', null);
     if (!restAction) {
-        errorCallback("You cannot rest here.");
-        return;
+        throw new ProgrammingError("You cannot rest here.");
     }
     restAction.perform();
     successCallback();

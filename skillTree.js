@@ -249,24 +249,21 @@ function updateSkillTree() {
 }
 
 actions.learn = function (params, successCallback, errorCallback) {
-    if (paramError(2, params, errorCallback)) return;
+    checkParams(2, params);
     var col = params[0];
     var row = params[1];
     var skill = getSkill(col, row);
     if (!skill) {
-        errorCallback("There is no skill at coords (" + col +"," + row + ").");
-        return;
+        throw new ProgrammingError("There is no skill at coords (" + col +"," + row + ").");
     }
     if (!skill.available) {
-        errorCallback("That skill is not available yet.");
-        return;
+        throw new ProgrammingError("That skill is not available yet.");
     }
     if (skill.activated) {
-        errorCallback("You already learned the skill at (" + col +"," + row + ").");
+        throw new ProgrammingError("You already learned the skill at (" + col +"," + row + ").");
     }
     if (skill.distance * player.skillCost > player.skillPoints) {
-        errorCallback("You need more skill points to learn the skill at (" + col +"," + row + ").");
-        return;
+        throw new ProgrammingError("You need more skill points to learn the skill at (" + col +"," + row + ").");
     }
     chooseSkill(skill);
     successCallback();

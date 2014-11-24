@@ -61,30 +61,26 @@ recipes.forEach(function (recipeLevelList, level) {
 });
 
 actions.craft = function (params, successCallback, errorCallback) {
-    if (paramError(0, params, errorCallback)) return;
+    checkParams(0, params);
     var craftAction = getAreaAction('craft', null);
     if (!craftAction) {
-        errorCallback("You cannot craft here.");
-        return;
+        throw new ProgrammingError("You cannot craft here.");
     }
     successCallback();
 }
 actions.make = function (params, successCallback, errorCallback) {
-    if (paramError(1, params, errorCallback)) return;
+    checkParams(1, params);
     var craftAction = getAreaAction('craft', null);
     if (!craftAction) {
-        errorCallback("You cannot craft here.");
-        return;
+        throw new ProgrammingError("You cannot craft here.");
     }
     var recipeKey = params[0];
     var recipe = allRecipes[recipeKey];
     if (!recipe || recipe.level > player.craftingSkill) {
-        errorCallback("There is no unlocked recipe called '" + recipeKey+"'.");
-        return;
+        throw new ProgrammingError("There is no unlocked recipe called '" + recipeKey+"'.");
     }
     if (!canCraft(recipe)) {
-        errorCallback("You don't have the necessary ingredients to craft '" + recipeKey+"'.");
-        return;
+        throw new ProgrammingError("You don't have the necessary ingredients to craft '" + recipeKey+"'.");
     }
     craftRecipe(recipe);
     successCallback();

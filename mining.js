@@ -32,13 +32,12 @@ minerals.silver = {
 $.each(minerals, function (key, value) { value.key = key;});
 
 actions.mine = function (params, successCallback, errorCallback) {
-    if (paramError(1, params, errorCallback)) return;
+    checkParams(1, params);
     var mineralKey = params[0];
     var mineral = minerals[mineralKey];
     var mineAction = getAreaAction('mine', mineralKey);
     if (!mineAction) {
-        errorCallback("There is no '" + mineralKey + "' to mine here.");
-        return;
+        throw new ProgrammingError("There is no '" + mineralKey + "' to mine here.");
     }
     mineAction.perform();
     endMiningCallback = successCallback;

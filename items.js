@@ -380,102 +380,87 @@ function sellItem(item, quantity) {
 }
 
 actions.buy = function (params, successCallback, errorCallback) {
-    if (paramError(2, params, errorCallback)) return;
+    checkParams(2, params);
     var shopAction = getAreaAction('shop');
     if (!shopAction) {
-        errorCallback("There is no shop here.");
-        return;
+        throw new ProgrammingError("There is no shop here.");
     }
     var item = shopAction.itemsForSale[params[1]];
     if (!item) {
-        errorCallback("'" + params[1]+"' is not for sale here.");
-        return;
+        throw new ProgrammingError("'" + params[1]+"' is not for sale here.");
     }
     var quantity = parseInt(params[0]);
     if (isNaN(quantity)) {
-        errorCallback("Expected a number, but got '" + params[0] + "'");
-        return
+        throw new ProgrammingError("Expected a number, but got '" + params[0] + "'");
     }
     if (quantity < 1) {
-        errorCallback('Quantity must be at least 1');
-        return;
+        throw new ProgrammingError('Quantity must be at least 1');
     }
     if (quantity * getBuyPrice(item) > player.gold) {
-        errorCallback("You don't have enough gold for this purchase.");
-        return;
+        throw new ProgrammingError("You don't have enough gold for this purchase.");
     }
     buyItem(item, quantity);
     successCallback();
 }
 
 actions.sell = function (params, successCallback, errorCallback) {
-    if (paramError(2, params, errorCallback)) return;
+    checkParams(2, params);
     var shopAction = getAreaAction('shop');
     if (!shopAction) {
-        errorCallback("There is no shop here.");
-        return;
+        throw new ProgrammingError("There is no shop here.");
     }
     var item = allItems[params[1]];
     if (!item || player.inventory[item.slot][item.key] == 0) {
-        errorCallback("You don't have a '" + params[1] + "'.");
-        return;
+        throw new ProgrammingError("You don't have a '" + params[1] + "'.");
     }
     var quantity = parseInt(params[0]);
     if (isNaN(quantity)) {
-        errorCallback("Expected a number, but got '" + params[0] + "'");
-        return;
+        throw new ProgrammingError("Expected a number, but got '" + params[0] + "'");
     }
     if (quantity < 1) {
-        errorCallback('Quantity must be at least 1');
-        return;
+        throw new ProgrammingError('Quantity must be at least 1');
     }
     if (player.inventory[item.slot][item.key] < quantity) {
-        errorCallback("You don't own " + quantity + " '" + params[1] + "'.");
-        return;
+        throw new ProgrammingError("You don't own " + quantity + " '" + params[1] + "'.");
     }
     sellItem(item, quantity);
     successCallback();
 }
 
 actions.use = function (params, successCallback, errorCallback) {
-    if (paramError(1, params, errorCallback)) return;
+    checkParams(1, params);
     var key = params[0];
     var item = allItems[key];
     if (!item || player.inventory[item.slot][item.key] == 0) {
-        errorCallback("You don't have a '" + key + "'.");
-        return;
+        throw new ProgrammingError("You don't have a '" + key + "'.");
     }
     if (!item.use) {
-        errorCallback("You cane use that item.");
-        return;
+        throw new ProgrammingError("You cane use that item.");
     }
     useItem(item);
     successCallback();
 }
 
 actions.equip = function (params, successCallback, errorCallback) {
-    if (paramError(1, params, errorCallback)) return;
+    checkParams(1, params);
     var key = params[0];
     var item = allItems[key];
     if (!item || player.inventory[item.slot][item.key] == 0) {
-        errorCallback("You don't have a '" + key + "'.");
-        return;
+        throw new ProgrammingError("You don't have a '" + key + "'.");
     }
     if (!canEquip(item)) {
-        errorCallback("You aren't skilled enough to equip that.");
-        return;
+        throw new ProgrammingError("You aren't skilled enough to equip that.");
     }
     equipItem(item);
     successCallback();
 }
 
 actions.remove = function (params, successCallback, errorCallback) {
-    if (paramError(1, params, errorCallback)) return;
+    checkParams(1, params);
     var key = params[0];
     var item = allItems[key];
     if (!item || !item.equipmentSlot || player[item.equipmentSlot] != item) {
-        errorCallback("You don't have that equipped.");
-        return;
+        throw new ProgrammingError("You don't have that equipped.");
     }
     removeItem(item);
     successCallback();

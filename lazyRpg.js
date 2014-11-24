@@ -15,6 +15,17 @@ function $window(classes, content) {
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
+//http://stackoverflow.com/questions/783818/how-do-i-create-a-custom-error-in-javascript
+function ProgrammingError() {
+    var tmp = Error.apply(this, arguments);
+    tmp.name = this.name = 'MyError';
+    this.stack = tmp.stack;
+    this.message = tmp.message;
+    return this;
+}
+var IntermediateInheritor = function() {};
+IntermediateInheritor.prototype = Error.prototype;
+ProgrammingError.prototype = new IntermediateInheritor();
 
 /**
  * Makes a deep copy of an object. Note that this will not make deep copies of

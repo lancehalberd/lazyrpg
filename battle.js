@@ -1,13 +1,12 @@
 
 
 actions.fight = function (params, successCallback, errorCallback) {
-    if (paramError(1, params, errorCallback)) return;
+    checkParams(1, params);
     var monsterKey = params[0];
     var monster = monsters[monsterKey];
     var fightAction = getAreaAction('fight', monster);
     if (!fightAction) {
-        errorCallback("There is no '" + monsterKey + "' to fight here.");
-        return;
+        throw new ProgrammingError("There is no '" + monsterKey + "' to fight here.");
     }
     fightAction.perform();
     endBattleCallback = successCallback;
