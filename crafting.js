@@ -67,13 +67,13 @@ actions.craft = function (params, successCallback, errorCallback) {
         errorCallback("You cannot craft here.");
         return;
     }
-    craftAction.perform();
     successCallback();
 }
 actions.make = function (params, successCallback, errorCallback) {
     if (paramError(1, params, errorCallback)) return;
-    if (!$('.js-craftContainer').is('.open')) {
-        errorCallback("You must be crafting to make things.");
+    var craftAction = getAreaAction('craft', null);
+    if (!craftAction) {
+        errorCallback("You cannot craft here.");
         return;
     }
     var recipeKey = params[0];

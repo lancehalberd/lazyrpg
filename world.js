@@ -21,7 +21,6 @@ actions.shop = function (params, successCallback, errorCallback) {
         errorCallback("There is no shop here.");
         return;
     }
-    shopAction.perform();
     successCallback();
 }
 actions.rest = function (params, successCallback, errorCallback) {
