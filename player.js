@@ -49,7 +49,18 @@ function getSavedData() {
 }
 function applySavedData(savedData) {
     $.each(savedData, function (key, value) {
-        player[key] = value;
+        if (key == 'inventory') {
+            //special code to populate inventory so that we don't mess up
+            //the given item order. Otherwise items the player has on load
+            //are always above items they gain while playing
+            $.each(value, function (itemSlot, items) {
+                $.each(items, function (itemKey, amount) {
+                    player.inventory[itemSlot][itemKey] = amount;
+                });
+            });
+        } else {
+            player[key] = value;
+        }
     });
 }
 
@@ -58,7 +69,54 @@ function applyBonus(value, bonus) {
 }
 //setup player here (even though most of this will get overwritten on loading game)
 //just in case some of the initialization code panics without the player populated
-var player = {};
+var player = {'inventory': {
+        'items' : {},
+        'weapons' : {},
+        'armors' : {},
+        'helmets' : {},
+        'boots' : {}
+    }
+};
+
+var allItems = {};
+var startingItems = 0;
+$.each(items, function(key, value) {
+    player.inventory.items[key] = player.inventory.items[key] ? player.inventory.items[key] : startingItems;
+    allItems[key] = value;
+    value.key = key;
+    value.slot = 'items';
+});
+$.each(weapons, function(key, value) {
+    player.inventory.weapons[key] = player.inventory.weapons[key] ? player.inventory.weapons[key] : startingItems;
+    allItems[key] = value;
+    value.key = key;
+    value.isWeapon = true;
+    value.slot = 'weapons';
+    value.equipmentSlot = 'weapon';
+});
+$.each(armors, function(key, value) {
+    player.inventory.armors[key] = player.inventory.armors[key] ? player.inventory.armors[key] : startingItems;
+    allItems[key] = value;
+    value.key = key;
+    value.isArmor = true;
+    value.slot = 'armors';
+    value.equipmentSlot = 'armor';
+});
+$.each(helmets, function(key, value) {
+    player.inventory.helmets[key] = player.inventory.helmets[key] ? player.inventory.helmets[key] : startingItems;
+    allItems[key] = value; value.key =
+    key; value.isArmor = true;
+    value.slot = 'helmets';
+    value.equipmentSlot = 'helmet';
+});
+$.each(boots, function(key, value) {
+    player.inventory.boots[key] = player.inventory.boots[key] ? player.inventory.boots[key] : startingItems;
+    allItems[key] = value;
+    value.key = key;
+    value.isArmor = true;
+    value.slot = 'boots';
+    value.equipmentSlot = 'boots';
+});
 applySavedData(newGameData());
 player.isPlayer =  true,
 player.battleStatus = freshBattleStatus();
@@ -222,51 +280,7 @@ function getItemName(item) {
     return '<span class="value">' + item.name + '</span>';
 }
 
-var allItems = {};
-function fillInPlayerItems() {
-    var startingItems = 0;
-    $.each(items, function(key, value) {
-        player.inventory.items[key] = player.inventory.items[key] ? player.inventory.items[key] : startingItems;
-        allItems[key] = value;
-        value.key = key;
-        value.slot = 'items';
-    });
-    $.each(weapons, function(key, value) {
-        player.inventory.weapons[key] = player.inventory.weapons[key] ? player.inventory.weapons[key] : startingItems;
-        allItems[key] = value;
-        value.key = key;
-        value.isWeapon = true;
-        value.slot = 'weapons';
-        value.equipmentSlot = 'weapon';
-    });
-    $.each(armors, function(key, value) {
-        player.inventory.armors[key] = player.inventory.armors[key] ? player.inventory.armors[key] : startingItems;
-        allItems[key] = value;
-        value.key = key;
-        value.isArmor = true;
-        value.slot = 'armors';
-        value.equipmentSlot = 'armor';
-    });
-    $.each(helmets, function(key, value) {
-        player.inventory.helmets[key] = player.inventory.helmets[key] ? player.inventory.helmets[key] : startingItems;
-        allItems[key] = value; value.key =
-        key; value.isArmor = true;
-        value.slot = 'helmets';
-        value.equipmentSlot = 'helmet';
-    });
-    $.each(boots, function(key, value) {
-        player.inventory.boots[key] = player.inventory.boots[key] ? player.inventory.boots[key] : startingItems;
-        allItems[key] = value;
-        value.key = key;
-        value.isArmor = true;
-        value.slot = 'boots';
-        value.equipmentSlot = 'boots';
-    });
-}
-fillInPlayerItems();
-
 function resetCharacter() {
-    fillInPlayerItems();
     $.each(monsters, function (key, value) {
         player.defeatedMonsters[key] = player.defeatedMonsters[key] ? player.defeatedMonsters[key] : 0;
     });

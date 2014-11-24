@@ -33,6 +33,7 @@ var recipes = [
     'hammer': {'result': 'hammer', 'ingredients': {'timber': 5, 'ironIngot': 10}},
     'longBow': {'result': 'longBow', 'ingredients': {'suppleTimber': 10, 'ironIngot': 5}},
 },{
+    'largePotion': {'result': 'largePotion','ingredients': {'mediumPotion': 4}},
     'steelPlating': {'result': 'steelPlating', 'ingredients': {'ironOre': 20, 'charcoal': 10}},
     'steelArmor': {'result': 'steelArmor', 'ingredients': {'steelPlating': 20, 'leather': 5}},
     'steelHelmet': {'result': 'steelHelmet', 'ingredients': {'steelPlating': 5, 'ironIngot': 5, 'leather': 3}},

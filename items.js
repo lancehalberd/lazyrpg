@@ -1,13 +1,13 @@
 
 var items = {};
-items.smallPotion = {
-    'name': 'Small Potion',
+items.largePotion = {
+    'name': 'Large Potion',
     'use': function () {
-        player.health = Math.min(player.getMaxHealth(), player.health + 100);
+        player.health = Math.min(player.getMaxHealth(), player.health + 3000);
         uiNeedsUpdate.playerStats = true;
     },
-    'helpText': 'Drink this to recover 100 health.',
-    'value': 5
+    'helpText': 'Drink this to recover 3000 health.',
+    'value': 150
 };
 items.mediumPotion = {
     'name': 'Medium Potion',
@@ -17,6 +17,15 @@ items.mediumPotion = {
     },
     'helpText': 'Drink this to recover 500 health.',
     'value': 25
+};
+items.smallPotion = {
+    'name': 'Small Potion',
+    'use': function () {
+        player.health = Math.min(player.getMaxHealth(), player.health + 100);
+        uiNeedsUpdate.playerStats = true;
+    },
+    'helpText': 'Drink this to recover 100 health.',
+    'value': 5
 };
 items.memoryCrystal = {
     'name': 'Memory Crystal',
@@ -307,7 +316,9 @@ function useItem(item) {
     player.inventory[item.slot][item.key] = amount;
     item.use();
     if (amount) {
-        item.$element.find('.js-itemQuantity').text(amount + 'x');
+        if (item.$element) {
+            item.$element.find('.js-itemQuantity').text(amount + 'x');
+        }
     } else {
         loseLastItem(item);
     }

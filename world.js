@@ -238,7 +238,7 @@ areas.city = {
         new RestAction(3),
         new CraftAction(4),
         //Shop has limited iron equipment because the dark knight has taken over the iron mines
-        new ShopAction([items.smallPotion, items.mediumPotion, weapons.claws, weapons.cudgel, armors.chainMail], 5),
+        new ShopAction([items.mediumPotion, items.largePotion, weapons.claws, weapons.cudgel, armors.chainMail], 5),
         new MoveAction('field', 6)
     ]
 };
