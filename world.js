@@ -56,7 +56,7 @@ function MoveAction(target, slot) {
         recordAction(this.actionName, this.actionTarget);
         player.time += 5000;
         player.area = target;
-        updateTime();
+        uiNeedsUpdate.playerStats = true;
     }
 }
 

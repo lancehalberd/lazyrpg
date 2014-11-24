@@ -151,10 +151,12 @@ function mainLoop() {
         if (fighting) {
             fightLoop(currentTime, deltaTime);
             player.time += deltaTime;
+            uiNeedsUpdate.playerStats = true;
         }
         if (mining) {
             miningLoop(currentTime, deltaTime);
             player.time += deltaTime;
+            uiNeedsUpdate.playerStats = true;
         }
     }
     updateUI();
