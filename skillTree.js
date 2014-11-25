@@ -234,6 +234,7 @@ function updateSkillTree() {
                 } else {
                     if (skill.available) {
                         skill.$element.addClass('available');
+                        skill.$element.append($div('skillCost', skill.distance * player.skillCost));
                         if (skill.distance * player.skillCost <= player.skillPoints) {
                             skill.$element.addClass('purchaseable');
                             skill.$element.attr('helpText', skill.helpText + '<br/><br/>Learn for ' + skill.distance * player.skillCost + ' skill points.');

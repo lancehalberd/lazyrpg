@@ -101,7 +101,7 @@
 }
 .skillSlot {
     text-align: center;
-    padding-top: 10px;
+    padding-top: 15px;
     position: absolute;
     width: 40px;
     height: 40px;
@@ -141,6 +141,26 @@
     width: 100%;
     margin: 0;
     text-align: center;
+}
+.skillCost {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    font-size: 12px;
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 12px;
+    max-width: 40px;
+    min-width: 12px;
+    overflow: hidden;
+    background-color: white;
+    color: #800;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.skillSlot.purchaseable .skillCost {
+    color: #080;
 }
 
 .characterStats {
