@@ -38,6 +38,8 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
         } else {
             closeAll();
             fighting = monster;
+            monster.accruedDamageForDisplay = 0;
+            monster.hasHitsToDisplay = false;
             player.nextAttack = 1000 / player.getAttackSpeed();
             monster.nextAttack = 1000 / monster.attackSpeed;
         }
@@ -57,18 +59,10 @@ function fightLoop(currentTime, deltaTime) {
         if (!player.specialSkills.scan) {
             damage = applyArmorToDamage(damage, Math.max(0, (monster.armor - monster.battleStatus.armorReduction) * (1 - armorPierce)));
         }
-        if (gameSpeed < 30) {
-            //show damage animation only when the game speed is below 30
-            var $damage = $('<span style="color: #f04; position: absolute; top: 0px; font-size: 30px; font-weight: bold;">' + damage + '</span>');
-            monster.$element.find('.js-graphic').append($damage);
-            $damage.animate({top: "-=50"}, 500,
-                function () {
-                    $damage.remove();
-                }
-            );
-        }
+        monster.hasHitsToDisplay = true;
         if (damage > 0) {
             monster.health = Math.max(0, monster.health - damage);
+            monster.accruedDamageForDisplay += damage;
             if (!player.specialSkills.poach) {
                 monster.damaged++;
             }
@@ -149,6 +143,29 @@ function fightLoop(currentTime, deltaTime) {
         stopFighting();
     }
 }
+/**
+ * Shows a number on the enemy graphic indicating how much damage has happened
+ * since the last time this method has been called (or the start of battle),
+ * if the player has hit the monster since then. Damage will show even if 0,
+ * although 0 damage may not be possible in the game any longer
+ */
+function showAccruedDamageOnMonster() {
+    var monster = fighting;
+    if (!monster || !monster.hasHitsToDisplay || damageCounterRefresh > 0) {
+        return;
+    }
+    damageCounterRefresh = 3;
+    //show damage animation only when the game speed is below 30
+    var $damage = $('<span style="color: #f04; position: absolute; top: 0px; font-size: 30px; font-weight: bold;">' + monster.accruedDamageForDisplay + '</span>');
+    monster.$element.find('.js-graphic').append($damage);
+    $damage.animate({top: "-=50"}, 500,
+        function () {
+            $damage.remove();
+        }
+    );
+    monster.hasHitsToDisplay = false;
+    monster.accruedDamageForDisplay = 0;
+}
 function applyArmorToDamage(damage, armor) {
     //This equation looks a bit funny but is designed to have the following properties:
     //100% damage at 0 armor
@@ -195,6 +212,7 @@ function processStatusEffects(target, deltaTime) {
 function stopFighting() {
     player.battleStatus = freshBattleStatus();
     if (fighting) {
+        showAccruedDamageOnMonster();
         var oldMonster = fighting;
         fighting = null;
         oldMonster.health = oldMonster.maxHealth;

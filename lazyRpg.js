@@ -140,6 +140,7 @@ function now() {
     return new Date().getTime();
 }
 var lastTime = 0;
+var damageCounterRefresh = 0;
 function mainLoop() {
     if (!lastTime) {
         lastTime = now();
@@ -158,6 +159,11 @@ function mainLoop() {
             player.time += deltaTime;
             uiNeedsUpdate.playerStats = true;
         }
+    }
+    //show a damage indicator at most once a frame
+    if (fighting) {
+        damageCounterRefresh--;
+        showAccruedDamageOnMonster();
     }
     updateUI();
     lastTime = now();
