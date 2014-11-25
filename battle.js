@@ -9,11 +9,13 @@ actions.fight = function (params, successCallback, errorCallback) {
         throw new ProgrammingError("There is no '" + monsterKey + "' to fight here.");
     }
     fightAction.perform();
-    endBattleCallback = successCallback;
+    winBattleCallback = successCallback;
+    loseBattleCallback = errorCallback;
 }
 
 var fighting = null;
-var endBattleCallback = null;
+var winBattleCallback = null;
+var loseBattleCallback = null;
 var winInstantly = false;
 
 function BattleAction(sourceMonster, slot, victoryFunction) {
@@ -133,14 +135,15 @@ function fightLoop(currentTime, deltaTime) {
                 uiNeedsUpdate.playerStats = true;
             }
         }
-        stopFighting();
+        stopFighting(true);
         if (monster.victoryFunction) {
             monster.victoryFunction();
         }
         recordAction('fight', monster.key);
+        return;
     }
     if (player.health <= 0) {
-        stopFighting();
+        stopFighting(false);
     }
 }
 /**
@@ -209,7 +212,7 @@ function processStatusEffects(target, deltaTime) {
     }
 }
 
-function stopFighting() {
+function stopFighting(victory) {
     player.battleStatus = freshBattleStatus();
     if (fighting) {
         showAccruedDamageOnMonster();
@@ -220,9 +223,12 @@ function stopFighting() {
         oldMonster.battleStatus = freshBattleStatus();
         updateMonster(oldMonster);
         uiNeedsUpdate.monsterStats = false;
-        if (endBattleCallback) {
-            endBattleCallback();
-            endBattleCallback = null;
+        if (victory && winBattleCallback) {
+            winBattleCallback();
+            winBattleCallback = null;
+        }
+        if (!victory && loseBattleCallback) {
+            loseBattleCallback('You did not defeat the ' + oldMonster.name);
         }
     }
 }
