@@ -13,7 +13,7 @@ function freshBattleStatus() {
  * Returns the data used to create a new game.
  */
 function newGameData() {
-    return {
+    var data = {
         'area': 'shore',
         'inventory': {
             'items' : {},
@@ -22,6 +22,7 @@ function newGameData() {
             'helmets' : {},
             'boots' : {}
         },
+        'visibleSkills': [],
         'defeatedMonsters': {},
         'unlockedClasses' : {'youth' : true},
         'gold': 10,
@@ -29,6 +30,13 @@ function newGameData() {
         'bonusPoints': 0,
         'programs': [{'name': 'Find Village', 'description': 'This sample program moves you from the shore to the village and rests there.', 'text': "move forest\nmove village\nrest"}]
     };
+    for (var i = 0; i < 13; i++) {
+        data.visibleSkills[i] = [];
+        for (var j = 0; j < 13; j++) {
+            data.visibleSkills[i][j] = false;
+        }
+    }
+    return data;
 }
 /**
  * Returns the data to be saved for the current state of the game. Characters
@@ -38,6 +46,7 @@ function getSavedData() {
     return {
         'area': player.area,
         'inventory': copy(player.inventory),
+        'visibleSkills': copy(player.visibleSkills),
         'defeatedMonsters': copy(player.defeatedMonsters),
         'unlockedClasses' : copy(player.unlockedClasses),
         'gold': player.gold,

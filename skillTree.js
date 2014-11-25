@@ -205,6 +205,11 @@ function resetSkillTree() {
         startingSkill.activated = true;
         revealSkillsAround(startingSkill.col, startingSkill.row);
     });
+    for (var i = 0; i < 13; i++) {
+        for (var j = 0; j < 13; j++) {
+            skillTree[i][j].revealed = player.visibleSkills[i][j];
+        }
+    }
     uiNeedsUpdate.skillTree = true;
 }
 
@@ -310,6 +315,7 @@ function revealSkillsAround(col, row) {
             }
             //permanently marks skill as revealed
             skill.revealed = true;
+            player.visibleSkills[skill.row][skill.col] = true;
             //marks skill as purchasable for this round
             skill.available = true;
             if (!skill.activated && i < skill.distance) {
