@@ -412,7 +412,23 @@ actions.buy = function (params, successCallback, errorCallback) {
     }
     buyItem(item, quantity);
     successCallback();
-}
+};
+actions.buyMax = function (params, successCallback, errorCallback) {
+    checkParams(1, params);
+    var shopAction = getAreaAction('shop');
+    if (!shopAction) {
+        throw new ProgrammingError("There is no shop here.");
+    }
+    var item = shopAction.itemsForSale[params[0]];
+    if (!item) {
+        throw new ProgrammingError("'" + params[0] + "' is not for sale here.");
+    }
+    var quantity = Math.floor(player.gold / getBuyPrice(item));
+    if (quantity) {
+        buyItem(item, quantity);
+    }
+    successCallback();
+};
 
 actions.sell = function (params, successCallback, errorCallback) {
     checkParams(2, params);
@@ -436,7 +452,21 @@ actions.sell = function (params, successCallback, errorCallback) {
     }
     sellItem(item, quantity);
     successCallback();
-}
+};
+actions.sellAll = function (params, successCallback, errorCallback) {
+    checkParams(1, params);
+    var shopAction = getAreaAction('shop');
+    if (!shopAction) {
+        throw new ProgrammingError("There is no shop here.");
+    }
+    var item = allItems[params[0]];
+    if (!item || player.inventory[item.slot][item.key] == 0) {
+        throw new ProgrammingError("You don't have any '" + params[0] + "'.");
+    }
+    var quantity = player.inventory[item.slot][item.key];
+    sellItem(item, quantity);
+    successCallback();
+};
 
 actions.use = function (params, successCallback, errorCallback) {
     checkParams(1, params);
