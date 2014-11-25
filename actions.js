@@ -2,12 +2,12 @@
 var actions = {};
 
 var lines = [];
-var lineNumber = 0;
 var timeoutId = -1;
 var recording = false;
 var runningProgram = false;
 var gameSpeed = 1;
 var showTooltips = true;
+var callStack = [];
 function setupProgrammingWindow() {
     $('.js-runProgram').on('click', function (){
         if (runningProgram) {
@@ -52,9 +52,10 @@ function setupProgrammingWindow() {
         selectProgram($newProgram);
     });
     $('.js-programName').on('paste keyup', function () {
-        var name = $('.js-programName').val();
+        var name = $.trim($('.js-programName').val());
         $('.js-program.selected').data('program').name = name;
         $('.js-program.selected').text(name);
+        $('.js-program.selected').attr('programName', name);
         $('.js-program.selected').attr('helpText', getProgramHelpText($('.js-program.selected').data('program')));
     });
     $('.js-programDescription').on('paste keyup', function () {
@@ -84,13 +85,13 @@ function applyChangesToCurrentProgram() {
 function refreshPrograms() {
     $('.js-program').remove();
     $.each(player.programs, function (index, program) {
-        $('.js-programs').append($('<button class="js-program program programButton" helpText="' + getProgramHelpText(program) + '">' + program.name + '</button>').data('program', program));
+        $('.js-programs').append($programButton(program));
     });
     selectProgram($('.js-program').first());
 }
 
 function $programButton(program) {
-    return $('<button class="js-program program programButton" helpText="'+ getProgramHelpText(program) + '">' + program.name + '</button>').data('program', program);
+    return $('<button class="js-program program programButton" helpText="'+ getProgramHelpText(program) + '" programName="' + program.name + '">' + program.name + '</button>').data('program', program);
 }
 
 function selectProgram($program) {
@@ -151,20 +152,40 @@ function updateProgramButtons() {
 }
 
 function runProgram(program) {
-    lines = program.split("\n");
-    loopStack = [];
-    lineNumber = 0;
+    //this is needed in case the program calls itself directly or otherwise
+    applyChangesToCurrentProgram();
     runningProgram = true;
-    runNextLine();
     updateProgramButtons();
+    runMethod(program);
 }
 function stopProgram() {
     if (timeoutId >= 0) {
         clearTimeout(timeoutId);
         timeoutId = -1;
     }
+    callStack = [];
     runningProgram = false;
     updateProgramButtons();
+}
+function runMethod(program) {
+    if (callStack.length >= 100) {
+        onActionError("Too much recursion, cannot nest more than 100 programs.");
+        return;
+    }
+    callStack.push({
+        lines: program.split("\n"),
+        currentLine: 0,
+        loopStack: []
+    });
+    runNextLine();
+}
+function stopMethod() {
+    callStack.pop();
+    if (callStack.length) {
+        runNextLine();
+    } else {
+        stopProgram();
+    }
 }
 function recordAction(name, target) {
     if (!recording) {
@@ -182,22 +203,40 @@ function recordAction(name, target) {
 }
 
 function runNextLine() {
-    if (lineNumber >= lines.length) {
-        if (loopStack.length) {
+    var functionContext = callStack[callStack.length - 1];
+    var lines = functionContext.lines;
+    if (functionContext.currentLine >= lines.length) {
+        if (functionContext.loopStack.length) {
             onActionError("Expected end of loop '}' but reached end of program");
             return;
         }
-        stopProgram();
+        stopMethod();
         return;
     }
-    if (!$.trim(lines[lineNumber]).length) {
-        lineNumber++;
+    if (!$.trim(lines[functionContext.currentLine]).length) {
+        functionContext.currentLine++;
         runNextLine();
         return;
     }
-    var tokens = $.trim(lines[lineNumber]).split(" ");
-    lineNumber++;
+    var currentLine = $.trim(lines[functionContext.currentLine]);
+    var tokens = currentLine.split(" ");
+    functionContext.currentLine++;
     var action = tokens.shift();
+    if (action == "runProgram") {
+        var programName = $.trim(currentLine.substring(11));
+        var $element = $('.js-program[programName="' + programName +'"]');
+        if (!$element.length) {
+            onActionError('You have no program named "' + programName +'".');
+            return;
+        }
+        if ($element.length > 1) {
+            onActionError('You have multiple programs named "' + programName +'".');
+            return;
+        }
+        var program = $element.data('program');
+        runMethod(program.text);
+        return;
+    }
     if (action == "loop") {
         var amount = parseInt(tokens[0]);
         if (isNaN(amount) || amount < 1) {
@@ -208,21 +247,21 @@ function runNextLine() {
             onActionError("Loops must be of the form 'loop # {'");
             return;
         }
-        loopStack.push({'startingLine': lineNumber, 'loops': amount});
+        functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': amount});
         runNextLine();
         return;
     }
     if (action == "}") {
-        if (!loopStack.length) {
+        if (!functionContext.loopStack.length) {
             onActionError("Found '}' with no matching '{'");
             return;
         }
-        var loopDetails = loopStack[loopStack.length - 1];
+        var loopDetails = functionContext.loopStack[functionContext.loopStack.length - 1];
         loopDetails.loops--;
         if (!loopDetails.loops) {
-            loopStack.pop();
+            functionContext.loopStack.pop();
         } else {
-            lineNumber = loopDetails.startingLine;
+            functionContext.currentLine = loopDetails.startingLine;
         }
         runNextLine();
         return;
@@ -249,8 +288,9 @@ function onActionSuccess() {
 }
 
 function onActionError(errorMessage) {
+    var functionContext = callStack[callStack.length - 1];
     stopProgram();
-    alert('error on line ' + lineNumber + " (" + lines[lineNumber - 1] + "): " + errorMessage);
+    alert('error on line ' + functionContext.currentLine + " (" + functionContext.lines[functionContext.currentLine - 1] + "): " + errorMessage);
 }
 
 function checkParams(expected, params, errorCallback) {

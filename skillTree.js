@@ -221,6 +221,7 @@ function updateSkillTree() {
             if (skill.revealed) {
                 skill.$element.html(skill.name ? skill.name : 'empty');
                 skill.$element.addClass('revealed');
+
                 if (skill.open & 8) {
                     skill.$element.css('border-top', 'none');
                 }
