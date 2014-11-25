@@ -35,6 +35,10 @@ function getAreaAction(name, target) {
     for (var i = 0; i < currentArea.actions.length; i++) {
         var action = currentArea.actions[i];
         if (action.actionName == name && (!target || action.actionTarget == target)) {
+            //hidden actions aren't valid targets
+            if (action.isHidden && !action.isHidden()) {
+                return null;
+            }
             return action;
         }
     }
@@ -86,6 +90,9 @@ function ToggleAction(innerAction, condition) {
         }
         innerAction.perform();
     };
+    this.isHidden = function () {
+        return condition();
+    }
 }
 
 function updateShop() {

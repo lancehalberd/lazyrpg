@@ -247,7 +247,7 @@ function updateSkillTree() {
                             skill.$element.attr('helpText', skill.helpText + '<br/><br/>You need ' + skill.distance * player.skillCost + ' skill points to learn this.');
                         }
                     } else {
-                        skill.$element.attr('helpText', 'You cannot reach this skill yet.<br/><br/>You can only unlock skills that are in a staight path from a currently unlocked tiled.<br/><br/>' + skill.helpText);
+                        skill.$element.attr('helpText', 'You cannot reach this skill yet.<br/><br/>You can only unlock skills that are in a straight path from a currently unlocked tiled.<br/><br/>' + skill.helpText);
                     }
                 }
             } else {
