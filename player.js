@@ -222,6 +222,9 @@ player.getLifeSteal = function () {
         return 0;
     }
     var base = player.weapon.lifeSteal ? player.weapon.lifeSteal : 0;
+    if (player.specialSkills.leech) {
+        base += .1;
+    }
     if (player.specialSkills.curse) {
         base *= 2;
     }
