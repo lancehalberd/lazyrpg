@@ -262,6 +262,8 @@ function runNextLine() {
         }
         var condition = $.trim(currentLine.substring(2, currentLine.length - 1));
         if (isConditionTrue(condition)) {
+            //just add to the context to indicate we are another code block deeper
+            functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
             runNextLine();
             return;
         } else {

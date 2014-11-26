@@ -309,12 +309,13 @@ monsters.witch = {
     'level': 30,
     'health': 15000,
     'armor': 0,
-    'damage': 250,
+    'damage': 200,
     'attackSpeed': 2,
     'experience': 5000,
     '$graphic': $ff2Monster('witch'),
     'spoils': ['memoryCrystal'],
-    'helpText': 'This witch is casting a spell to grant the evil king immense powers.'
+    'helpText': 'This witch is casting a spell to grant the evil king immense powers. Her magic spells ignore your armor entirely!',
+    'armorPierce': 1
 };
 monsters.golem = {
     'name': 'Golem',
@@ -413,7 +414,8 @@ monsters.enchantedKing = {
     'experience': 10000,
     '$graphic': $ff2Monster('king'),
     'spoils': ['memoryCrystal'],
-    'helpText': 'The enchantment placed on this king makes him almost invulnerable. I should retreat and think of a way to defeat him.'
+    'helpText': 'The enchantment placed on this king makes him almost invulnerable. I should retreat and think of a way to defeat him.',
+    'armorPierce': .5
 };
 monsters.imposterKing = {
     'name': 'Imposter King',

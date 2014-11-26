@@ -174,6 +174,9 @@ player.getAttackSpeed = function () {
     if (player.specialSkills.scan) {
         total = total / 2;
     }
+    if (player.specialSkills.tank) {
+        total = total / 2;
+    }
     return applyCripple(total, player.battleStatus.crippled);
 };
 player.getArmor = function () {
