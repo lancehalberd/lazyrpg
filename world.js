@@ -297,7 +297,7 @@ areas.ironMine = {
 };
 areas.marsh = {
     'name': 'Marsh',
-    '$graphic': $img('river.png'),
+    '$graphic': $img('marsh.png'),
     'actions': [
         new BattleAction(monsters.crocodile, 1),
         new BattleAction(monsters.mudGolem, 3),
