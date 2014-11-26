@@ -201,7 +201,25 @@ function recordAction(name, target) {
     lines.push(name + (target ? ' ' + target : ''));
     $('.js-programText').val(lines.join("\n"));
 }
-
+function moveToClosingBracket(functionContext) {
+    //assuming we are starting on the line after the bracket opened
+    var bracketDepth = 1;
+    var currentLineNumber = functionContext.currentLine;
+    while (currentLineNumber < functionContext.lines.length) {
+        var currentLine = $.trim(functionContext.lines[currentLineNumber]);
+        if (currentLine.indexOf('{') >= 0 ) {
+            bracketDepth++;
+        } else if (currentLine.indexOf('}') >= 0) {
+            bracketDepth--;
+            if (bracketDepth <= 0) {
+                functionContext.currentLine = currentLineNumber + 1;
+                return;
+            }
+        }
+        currentLineNumber++
+    }
+    onActionError("Mismatched brackets, found more '{' than '}'");
+}
 function runNextLine() {
     var functionContext = callStack[callStack.length - 1];
     var lines = functionContext.lines;
@@ -237,6 +255,37 @@ function runNextLine() {
         runMethod(program.text);
         return;
     }
+    if (action == "if") {
+        if (currentLine.charAt(currentLine.length - 1) != '{') {
+            onActionError("if loop must be of the form 'if [condition] {'");
+            return;
+        }
+        var condition = $.trim(currentLine.substring(2, currentLine.length - 1));
+        if (isConditionTrue(condition)) {
+            runNextLine();
+            return;
+        } else {
+            moveToClosingBracket(functionContext);
+            runNextLine();
+            return;
+        }
+    }
+    if (action == "while") {
+        if (currentLine.charAt(currentLine.length - 1) != '{') {
+            onActionError("while loop must be of the form 'while [condition] {'");
+            return;
+        }
+        var condition = $.trim(currentLine.substring(5, currentLine.length - 1));
+        if (isConditionTrue(condition)) {
+            functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'condition': condition});
+            runNextLine();
+            return;
+        } else {
+            moveToClosingBracket(functionContext);
+            runNextLine();
+            return;
+        }
+    }
     if (action == "loop") {
         var amount = parseInt(tokens[0]);
         if (isNaN(amount) || amount < 1) {
@@ -257,11 +306,21 @@ function runNextLine() {
             return;
         }
         var loopDetails = functionContext.loopStack[functionContext.loopStack.length - 1];
-        loopDetails.loops--;
-        if (!loopDetails.loops) {
-            functionContext.loopStack.pop();
+        if (loopDetails.condition) {
+            //while loop
+            if (!isConditionTrue(loopDetails.condition)) {
+                functionContext.loopStack.pop();
+            } else {
+                functionContext.currentLine = loopDetails.startingLine;
+            }
         } else {
-            functionContext.currentLine = loopDetails.startingLine;
+            //basic loop
+            loopDetails.loops--;
+            if (!loopDetails.loops) {
+                functionContext.loopStack.pop();
+            } else {
+                functionContext.currentLine = loopDetails.startingLine;
+            }
         }
         runNextLine();
         return;
@@ -279,6 +338,79 @@ function runNextLine() {
             throw e;
         }
     }
+}
+
+function isConditionTrue(condition) {
+    //console.log("condition " + condition);
+    try {
+        var tokens = condition.split(' ');
+        if (tokens.length != 3) {
+            throw new ProgrammingError("Invalid condition. Conditions must have exactly 3 parts, for instance 'my.health < 200'.");
+        }
+        var A = evaluateExpression(tokens[0]);
+        var B = evaluateExpression(tokens[2]);
+        switch (tokens[1]) {
+            case '=': return A == B;
+            case '!=': return A != B;
+            case '<': return A < B;
+            case '<=': return A <= B;
+            case '>': return A > B;
+            case '>=': return A >= B;
+        }
+        throw new ProgrammingError("Unrecognized comparison operator: '" + tokens[1] + "'");
+    } catch(e) {
+        if (e instanceof ProgrammingError) {
+            onActionError(e.message);
+        } else {
+            throw e;
+        }
+    }
+    return false;
+}
+function evaluateExpression(expression) {
+    //console.log("expression " + expression);
+    if (expression.indexOf('.') >= 0) {
+        parts = expression.split('.');
+        if (parts[0] == 'my') {
+            switch (parts[1]) {
+                case 'health':
+                case 'currentHealth': return player.health;
+                case 'maxHealth': return player.getMaxHealth();
+                case 'level': return player.level;
+                case 'gold': return player.gold;
+                case 'area': return player.area;
+                case 'items':
+                    if (parts.length < 3) {
+                        throw new ProgrammingError("Invalid expression: '" + expression + "'.");
+                    }
+                    var item = allItems[parts[2]];
+                    if (!item) {
+                        return 0;
+                    }
+                    return player.inventory[item.slot][item.key];
+                default:
+                    throw new ProgrammingError("Invalid expression: '" + expression + "'.");
+            }
+        }
+        var monster = monsters[parts[0]];
+        if (monster) {
+            switch (parts[1]) {
+                case 'health':
+                case 'maxHealth': return monster.health;
+                case 'damage': return monster.damage;
+                case 'attackSpeed': return monster.attackSpeed;
+                case 'armor': return monster.armor;
+                default:
+                    throw new ProgrammingError("Invalid expression: '" + expression + "'.");
+            }
+        }
+    }
+    var number = parseInt(expression);
+    if (!isNaN(number)) {
+        return number;
+    }
+    //just assume the expression is a string otherwise
+    return expression;
 }
 
 function onActionSuccess() {
