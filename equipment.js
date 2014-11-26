@@ -76,6 +76,13 @@ helmets.hair = {
     'level': 0,
     'value': 0
 };
+helmets.cap = {
+    'name': 'Cap',
+    'helpText': 'A small cloth cap.',
+    'armor': 2,
+    'level': 0,
+    'value': 5
+};
 helmets.shellHat = {
     'name': 'Shell Hat',
     'helpText': 'A hard hat made from shells.',

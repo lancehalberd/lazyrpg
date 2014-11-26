@@ -750,7 +750,7 @@ button {
 .toolTip {
     position: absolute;
     padding: 5px;
-    width: 180px;
+    width: 220px;
     font-size: 16px;
     border: 2px solid #fff;
     box-sizing: border-box;

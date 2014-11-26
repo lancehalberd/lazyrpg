@@ -59,6 +59,7 @@ function timeSpan(value) {
     }
     return iconSpan('clock', hours+":"+ minutes+":"+seconds);
 }
+var $popup = null;
 $(function () {
     $('.js-loadingScene').hide();
     $('.js-titleScene').show();
@@ -72,11 +73,11 @@ $(function () {
             $('.js-characterStatsContainer').toggleClass('open');
         }
     });
-    var $popup = null;
-    $('.js-gameContainer').on('mouseover mouseout', '[helpText]', function (event) {
-        if (!showTooltips) {
+    $('.js-gameContainer').on('mouseover mousemove', '[helpText]', function (event) {
+        if (!showTooltips || $popup) {
             return;
         }
+        removeToolTip();
         var $currentHelpTarget = $(this);
         var x = event.pageX - $('.js-gameContainer').offset().left;
         var y = event.pageY - $('.js-gameContainer').offset().top;
@@ -86,8 +87,6 @@ $(function () {
         $('.js-gameContainer').append($popup);
     });
     $('.js-gameContainer').on('mouseout', '[helpText]', function (event) {
-        var x = event.pageX - $('.js-gameContainer').offset().left;
-        var y = event.pageY - $('.js-gameContainer').offset().top;
         removeToolTip();
     });
     $('.js-gameContainer').on('mousemove', function (event) {
@@ -103,6 +102,7 @@ $(function () {
     initializeSkillTree();
     resetCharacter();
     setupCrafting();
+    setupEnchantments();
     setupProgrammingWindow();
     $('body').append('<style type="text/css" >.icon { background-image: url("gfx/iconSet.png");}</style>');
 });

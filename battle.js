@@ -93,8 +93,15 @@ function fightLoop(currentTime, deltaTime) {
     monster.nextAttack -= deltaTime;
     if (monster.nextAttack <= 0) {
         var factor = player.specialSkills.stoic ? .5 : 1;
+        factor *= Math.max(0, 1 - getTotalEnchantment('tenacity'));
         var armorPierce = monster.armorPierce ? (factor * monster.armorPierce) : 0;
-        var damage = applyArmorToDamage(monster.damage, player.getArmor() * (1 - armorPierce));
+        var damage = applyArmorToDamage(monster.damage, Math.max(0, player.getArmor() * (1 - armorPierce)));
+        var mitigatedDamage = monster.damage - damage;
+        var reflectedDamage = Math.floor(mitigatedDamage * getTotalEnchantment('reflect'));
+        if (reflectedDamage) {
+            monster.health = Math.max(0, monster.health - reflectedDamage);
+            uiNeedsUpdate.monsterStats = true;
+        }
         player.health = Math.max(0, player.health - damage);
         if (monster.armorBreak) {
             player.battleStatus.armorReduction += Math.floor(factor * monster.armorBreak);
@@ -114,7 +121,7 @@ function fightLoop(currentTime, deltaTime) {
         uiNeedsUpdate.playerStats = true;
     }
     if (winInstantly || monster.health <= 0) {
-        gainExperience(monster.experience, monster.level);
+        gainExperience(Math.floor(monster.experience * (1 + getTotalEnchantment('experience'))), monster.level);
         player.defeatedMonsters[monster.key]++;
 
         var dropIndex = Math.min(monster.spoils.length - 1, Math.floor(monster.damaged / (1 + player.poachingSkill)));

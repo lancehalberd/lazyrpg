@@ -124,6 +124,7 @@ function ShopAction(items, slot) {
         $('.js-shopContainer .js-body').empty();
         items.forEach(function (item) {
             var $shopItem = $item(item, $baseShopItem());
+            $shopItem.attr('helpText', item.helpText);
             $shopItem.find('.js-goldBuy').text(item.value * 2);
             $shopItem.data('item', item);
             $shopItem.toggleClass('canBuy', item.value * 2 <= player.gold);
@@ -184,7 +185,7 @@ areas.village =  {
     'actions': [
         new MoveAction('forest', 3),
         new RestAction(4),
-        new ShopAction([items.smallPotion, weapons.shortBow, weapons.club], 2),
+        new ShopAction([items.smallPotion, helmets.cap, weapons.clothGloves, weapons.shortBow, weapons.club], 2),
         new CraftAction(1),
         new MoveAction('river', 5)
     ]

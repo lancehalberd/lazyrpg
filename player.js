@@ -144,6 +144,8 @@ player.getDamage = function () {
     if (player.specialSkills.focus) {
         total = total * 2;
     }
+    total *= (1 + getTotalEnchantment('damage'));
+    total *= (1 + getTotalEnchantment('poach'));
     //double damage, 0 armor
     if (player.specialSkills.fury) {
         total = total * 2;
@@ -164,6 +166,8 @@ player.getAttackSpeed = function () {
     var weaponBonus = player.bonuses[player.weapon.type];
     var sum = player.weapon.attackSpeed + attackSpeedBonus.plus + weaponBonus.attackSpeed.plus;
     var total = sum * attackSpeedBonus.multi * weaponBonus.attackSpeed.multi;
+    total *= (1 + getTotalEnchantment('attackSpeed'));
+    total /= (1 + getTotalEnchantment('poach'));
     if (player.specialSkills.haste) {
         total = total * 2;
     }
@@ -186,6 +190,7 @@ player.getArmor = function () {
     }
     var armorBonus = player.bonuses.armor;
     var baseValue = player.armor.armor + player.helmet.armor + player.boots.armor + armorBonus.plus;
+    baseValue *= (1 + getTotalEnchantment('armor'));
     return Math.floor(player.getParry()) + Math.max(0, Math.floor(baseValue * armorBonus.multi) - player.battleStatus.armorReduction);
 };
 player.getArmorPierce = function () {
@@ -199,6 +204,7 @@ player.getArmorPierce = function () {
     if (player.specialSkills.snipe) {
         base += .2;
     }
+    base += getTotalEnchantment('armorPierce');
     if (player.specialSkills.curse) {
         base *= 2;
     }
@@ -212,6 +218,7 @@ player.getArmorBreak = function () {
     if (player.specialSkills.rend) {
         base += 5;
     }
+    base += getTotalEnchantment('armorBreak');
     if (player.specialSkills.curse) {
         base *= 2;
     }
@@ -228,6 +235,7 @@ player.getLifeSteal = function () {
     if (player.specialSkills.leech) {
         base += .1;
     }
+    base += getTotalEnchantment('lifeSteal');
     if (player.specialSkills.curse) {
         base *= 2;
     }
@@ -241,6 +249,7 @@ player.getPoison = function () {
     if (player.specialSkills.ignite) {
         base += 20;
     }
+    base += getTotalEnchantment('poison');
     if (player.specialSkills.venom) {
         base *= 2;
     }
@@ -257,6 +266,7 @@ player.getCripple = function () {
     if (player.specialSkills.stun) {
         base += 2;
     }
+    base += getTotalEnchantment('cripple');
     if (player.specialSkills.curse) {
         base *= 2;
     }
@@ -270,13 +280,14 @@ player.getParry = function () {
     if (player.specialSkills.parry) {
         base += .2 * player.weapon.damage;
     }
+    base += getTotalEnchantment('parry');
     if (player.specialSkills.curse) {
         base *= 2;
     }
     return applyBonus(base, player.bonuses.parry);
 }
 player.getMaxHealth = function () {
-    return player.maxHealth * (player.specialSkills.tank ? 2 : 1);
+    return player.maxHealth * (player.specialSkills.tank ? 2 : 1) * (1 + getTotalEnchantment('health'));
 }
 
 function getItemName(item) {
@@ -313,12 +324,17 @@ function resetCharacter() {
     player.armor = armors.shirt;
     player.helmet = helmets.hair;
     player.boots = boots.bareFeet;
+    player.enchantments = {
+        'weapon': emptyEnchantments(),
+        'armor': emptyEnchantments(),
+        'helmet': emptyEnchantments(),
+        'boots': emptyEnchantments()
+    };;
     player.weaponLevels = {
         'fist': 0,
-        'club': 0,
         'sword': 0,
-        'bow': 0,
-        'spear': 0
+        'club': 0,
+        'bow': 0
     };
     player.bonuses = {
         'damage': zeroBonus(),

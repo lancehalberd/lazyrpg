@@ -9,6 +9,15 @@ weapons.fists = { //starting weapon
     'level': 0,
     'value': 0
 };
+weapons.clothGloves = { //can be purchased in the village
+    'name': 'Cloth Gloves',
+    'helpText': 'Wearing these is a little bit better than fighting with your bare hands.',
+    'damage': 7,
+    'attackSpeed': 2,
+    'type': 'fist',
+    'level': 0,
+    'value': 5
+};
 weapons.leatherGloves = { //can be crafted from leather by poaching rats
     'name': 'Leather Gloves',
     'helpText': 'These gloves protect your hands allowing you to punch harder and faster.',

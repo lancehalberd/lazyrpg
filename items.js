@@ -124,6 +124,7 @@ items.quartz = {
 items.wingScraps = {
     'name': 'Wing Scraps',
     'helpText': 'Scraps of bat wings.',
+    'enchantFist': {'attackSpeed' : .05},
     'value': 1
 };
 items.spiderWeb = {
@@ -154,31 +155,37 @@ items.suppleTimber = {
 items.furScrap = {
     'name': 'Scrap of Fur',
     'helpText': 'Tattered animal fur.',
+    'enchantHelmet': {'experience' : .05},
     'value': 1
 };
 items.smallPelt = {
     'name': 'Small Pelt',
     'helpText': 'A small but well preserved animal pelt.',
+    'enchantArmor': {'health' : .05},
     'value': 3
 };
 items.fur = {
     'name': 'Fur',
     'helpText': 'Patched together animal furs that can be used for crafting.',
+    'enchantArmor': {'armor' : .05},
     'value': 10
 };
 items.leather = {
     'name': 'Leather',
     'helpText': 'Treated animal hide that can be used for crafting.',
+    'enchantBoots': {'tenacity' : .05},
     'value': 30
 };
 items.lionsMane = {
     'name': "Lion's Mane",
     'helpText': 'The magnificent beard of a lion.',
+    'enchantHelmet': {'armor' : .05},
     'value': 50
 }
 items.largePelt = {
     'name': "Large Pelt",
     'helpText': 'A pelt from a large animal.',
+    'enchantArmor': {'vigor' : .05},
     'value': 50
 }
 items.silk = {
@@ -189,21 +196,25 @@ items.silk = {
 items.brokenShell = {
     'name': 'Broken Shell',
     'helpText': 'Broken pieces of shell.',
+    'enchantClub': {'damage' : .05},
     'value': 5
 };
 items.smallShell = {
     'name': 'Small Shell',
     'helpText': 'An entire shell.',
+    'enchantHelmet': {'armor' : .02},
     'value': 15
 };
 items.shellPlating = {
     'name': 'Shell Plating',
     'helpText': 'A hard material made from shells that can be used for crafting.',
+    'enchantArmor': {'reflect' : .05},
     'value': 100
 };
 items.stinger = {
     'name': 'Stinger',
     'helpText': 'A scorpions stinger.',
+    'enchantBow': {'poison' : 5},
     'value': 100
 };
 items.reptileSkin = {
@@ -214,16 +225,19 @@ items.reptileSkin = {
 items.tooth = {
     'name': 'Tooth',
     'helpText': 'A large predators tooth.',
+    'enchantBow': {'damage' : .05},
     'value': 100
 };
 items.vampireFang = {
     'name': 'Vampire Fang',
     'helpText': 'The fang of a blood sucking creature.',
+    'enchantFist': {'lifeSteal' : .02},
     'value': 100
 };
 items.largeShell = {
     'name': 'Large Shell',
     'helpText': 'The fang of a blood sucking creature.',
+    'enchantArmor': {'armor' : .1},
     'value': 100
 };
 items.tinScraps = {
@@ -234,6 +248,7 @@ items.tinScraps = {
 items.dragonFang = {
     'name': 'Dragon Fang',
     'helpText': 'The fang of a dragon.',
+    'enchantFist': {'poison' : 5},
     'value': 100
 };
 items.charcoal = {
@@ -339,6 +354,10 @@ function equipItem(item) {
     player[item.equipmentSlot] = item;
     uiNeedsUpdate.playerStats = true;
     uiNeedsUpdate[item.slot] = true;
+    //need to update items to adjust enchantment help text
+    uiNeedsUpdate.items = true;
+    //enchantments where off when changing or removing equipment
+    resetEnchantment[item.equipmentSlot];
     recordAction("equip " + item.key);
 }
 
@@ -352,6 +371,10 @@ function removeItem(item) {
     player[item.equipmentSlot] = baseEquipment[item.equipmentSlot];
     uiNeedsUpdate.playerStats = true;
     uiNeedsUpdate[item.slot] = true;
+    //need to update items to adjust enchantment help text
+    uiNeedsUpdate.items = true;
+    //enchantments where off when changing or removing equipment
+    resetEnchantment[item.equipmentSlot];
     recordAction("remove " + item.key);
 }
 
@@ -571,6 +594,10 @@ function $item(item, $item) {
         $item.find('.equipAction').remove();
         $item.find('.unequipAction').remove();
     }
+    var $enchantButton = $makeEnchantButton(item);
+    if ($enchantButton) {
+        $item.find('.js-use').after($enchantButton);
+    }
     if (!item.use) {
         $item.find('.js-use').remove();
     }
@@ -628,8 +655,9 @@ function refreshInventoryPanel(typeKey) {
         item.$element.find('.js-goldOne').text(getSellPrice(item));
         item.$element.find('.js-goldAll').text(getSellPrice(item) * amount);
         item.$element.find('.js-sellActions').toggle(isShopOpen);
-        item.$element.attr('helpText', helpText);
+        item.$element.find('.js-itemName').attr('helpText', helpText);
         item.$element.data('item', item);
+        updatEnchantmentState(item);
         $('.js-inventoryPanel.js-' + typeKey + ' .js-body').append(item.$element);
     });
 }

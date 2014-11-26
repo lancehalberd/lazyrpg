@@ -74,8 +74,8 @@ function MiningAction(mineral, slot) {
 
 function miningLoop(currentTime, deltaTime) {
     var mineral = mining;
-    var miningSpeed = (1 + player.miningSkill + player.bonuses.miningSpeed.plus) * (player.bonuses.miningSpeed.multi);
-    var miningVitality = (1 + player.miningSkill + player.bonuses.miningVitality.plus) * (player.bonuses.miningVitality.multi);
+    var miningSpeed = (1 + player.miningSkill + player.bonuses.miningSpeed.plus) * (player.bonuses.miningSpeed.multi) * (1 + getTotalEnchantment('miningSpeed'));
+    var miningVitality = (1 + player.miningSkill + player.bonuses.miningVitality.plus) * (player.bonuses.miningVitality.multi) * (1 + getTotalEnchantment('vigor'));
     mineral.timeLeft -= miningSpeed * deltaTime / 1000;
     mineral.damageDealt += mineral.damage * deltaTime / 1000 / miningVitality;
     player.health = Math.max(0, Math.round(mineral.initialPlayerHealth - mineral.damageDealt));
