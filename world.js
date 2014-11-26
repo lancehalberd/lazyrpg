@@ -262,7 +262,7 @@ areas.field = {
 };
 areas.desert = {
     'name': 'Desert',
-    '$graphic': $img('field.png'),
+    '$graphic': $img('desert.png'),
     'actions': [
         new BattleAction(monsters.scorpion, 1),
         new BattleAction(monsters.giantTortoise, 3),
