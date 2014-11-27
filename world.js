@@ -222,7 +222,7 @@ areas.portTown = {
         new MoveAction('savanna', 2),
         new RestAction(4),
         new ShopAction([items.smallPotion, items.mediumPotion, weapons.crossbow, armors.bronzeArmor], 3),
-        new CraftAction(1),
+        new EnchantAction(1),
         new MoveAction('ship', 5)
     ]
 };

@@ -357,7 +357,7 @@ function equipItem(item) {
     //need to update items to adjust enchantment help text
     uiNeedsUpdate.items = true;
     //enchantments where off when changing or removing equipment
-    resetEnchantment[item.equipmentSlot];
+    resetEnchantment(item.equipmentSlot);
     recordAction("equip " + item.key);
 }
 
@@ -374,7 +374,7 @@ function removeItem(item) {
     //need to update items to adjust enchantment help text
     uiNeedsUpdate.items = true;
     //enchantments where off when changing or removing equipment
-    resetEnchantment[item.equipmentSlot];
+    resetEnchantment(item.equipmentSlot);
     recordAction("remove " + item.key);
 }
 

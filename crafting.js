@@ -1,66 +1,3 @@
-
-
-var recipes = [
-{
-    'fur': {'result': 'fur', 'ingredients': {'furScrap': 5}},
-    'fur2': {'result': 'fur', 'ingredients': {'smallPelt': 2}},
-    'shellPlating': {'result': 'shellPlating', 'ingredients': {'brokenShell': 10}},
-    'shellPlating2': {'result': 'shellPlating', 'ingredients': {'smallShell': 5}},
-    'furCoat': {'result': 'furCoat', 'ingredients': {'fur': 5}},
-    'copperIngot': {'result': 'copperIngot', 'ingredients': {'copperOre': 10}},
-    'leather': {'result': 'leather', 'ingredients': {'smallPelt': 5}},
-    'leather2': {'result': 'leather', 'ingredients': {'largePelt': 2}},
-    'leatherGloves': {'result': 'leatherGloves', 'ingredients': {'leather': 6}},
-    'leatherBoots': {'result': 'leatherBoots', 'ingredients': {'leather': 5}},
-    'shellHat': {'result': 'shellHat', 'ingredients': {'shellPlating': 5}},
-    'brassKnuckles': {'result': 'brassKnuckles', 'ingredients': {'copperIngot': 2}},
-    'copperSword': {'result': 'copperSword', 'ingredients': {'copperIngot': 5}},
-    'copperGreaves': {'result': 'copperGreaves', 'ingredients': {'copperIngot': 5, 'leatherBoots': 1, 'fur': 2}},
-    'proudHat': {'result': 'proudHat', 'ingredients': {'shellHat': 1, 'lionsMane': 1, 'largePelt': 3}}
-},{
-    'mediumPotion': {'result': 'mediumPotion','ingredients': {'smallPotion': 3}},
-    'bronzePlating': {'result': 'bronzePlating','ingredients': {'copperOre': 40, 'tin': 5}},
-    'bronzeArmor': {'result': 'bronzeArmor','ingredients': {'bronzePlating': 20, 'leather': 5}},
-    'bronzeHelmet': {'result': 'bronzeHelmet', 'ingredients': {'bronzePlating': 5, 'copperIngot': 5, 'leather': 3}},
-    'bronzeLeggings': {'result': 'bronzeLeggings', 'ingredients': {'bronzePlating': 5, 'leather': 2}},
-    'longSword': {'result': 'longSword', 'ingredients': {'copperOre': 100, 'tin': 12}},
-    'ironIngot': {'result': 'ironIngot', 'ingredients': {'ironOre': 10}},
-    'chainMail': {'result': 'chainMail','ingredients': {'ironIngot': 10}},
-    'ironBoots': {'result': 'ironBoots', 'ingredients': {'ironIngot': 10, 'leather': 3}},
-    'plateArmor': {'result': 'plateArmor', 'ingredients': {'ironIngot': 50, 'leather': 5}},
-    'fullHelm': {'result': 'fullHelm', 'ingredients': {'ironIngot': 30, 'leather': 5}},
-    'broadSword': {'result': 'longSword', 'ingredients': {'ironIngot': 30}},
-    'hammer': {'result': 'hammer', 'ingredients': {'timber': 5, 'ironIngot': 10}},
-    'longBow': {'result': 'longBow', 'ingredients': {'suppleTimber': 10, 'ironIngot': 5}},
-},{
-    'largePotion': {'result': 'largePotion','ingredients': {'mediumPotion': 4}},
-    'steelPlating': {'result': 'steelPlating', 'ingredients': {'ironOre': 20, 'charcoal': 10}},
-    'steelArmor': {'result': 'steelArmor', 'ingredients': {'steelPlating': 20, 'leather': 5}},
-    'steelHelmet': {'result': 'steelHelmet', 'ingredients': {'steelPlating': 5, 'ironIngot': 5, 'leather': 3}},
-    'steelLeggings': {'result': 'steelLeggings', 'ingredients': {'steelPlating': 5, 'leather': 5}},
-    'claymore': {'result': 'claymore', 'ingredients': {'steelPlating': 5, 'copperOre': 40, 'tin': 5}},
-    'mace': {'result': 'mace', 'ingredients': {'ironOre': 100, 'charcoal': 30}},
-    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 3, 'sturdyTimber': 3, 'ironOre': 10, 'charcoal': 5}},
-    'silverIngot': {'result': 'silverIngot', 'ingredients': {'silverOre': 10}},
-    'steeledSilver': {'result': 'steeledSilver', 'ingredients': {'silverOre': 10, 'ironOre': 4, 'charcoal': 1}},
-    'cestus': {'result': 'cestus', 'ingredients': {'leatherGloves': 1, 'steelPlating': 2, 'steeledSilver': 1}},
-    'silverSword': {'result': 'silverSword', 'ingredients': {'steeledSilver': 5, 'copperOre': 40, 'tin': 5}},
-    'silk': {'result': 'silk', 'ingredients': {'strongWeb': 10}},
-    'ninjaTabi': {'result': 'ninjaTabi', 'ingredients': {'leather': 5, 'silk': 3}},
-},{
-    'mithrilSilver': {'result': 'mithrilSilver', 'ingredients': {'silverOre': 40, 'ironOre': 8, 'charcoal': 2, 'copperOre': 4, 'tin': 1}}
-}];
-
-//populate allRecipes, and key/level on each recipe
-var allRecipes = {};
-recipes.forEach(function (recipeLevelList, level) {
-    $.each(recipeLevelList, function (key, recipe) {
-        recipe.key = key;
-        recipe.level = level;
-        allRecipes[key] = recipe;
-    });
-});
-
 actions.craft = function (params, successCallback, errorCallback) {
     checkParams(0, params);
     var craftAction = getAreaAction('craft', null);
@@ -71,13 +8,20 @@ actions.craft = function (params, successCallback, errorCallback) {
 }
 actions.make = function (params, successCallback, errorCallback) {
     checkParams(1, params);
-    var craftAction = getAreaAction('craft', null);
-    if (!craftAction) {
-        throw new ProgrammingError("You cannot craft here.");
+    if (recipe.type == 'crafting') {
+        var craftAction = getAreaAction('craft', null);
+        if (!craftAction) {
+            throw new ProgrammingError("You cannot craft here.");
+        }
+    } else if (recip.type == 'enchanting') {
+        var enchantAction = getAreaAction('enchant', null);
+        if (!enchantAction) {
+            throw new ProgrammingError("You cannot enchant here.");
+        }
     }
     var recipeKey = params[0];
     var recipe = allRecipes[recipeKey];
-    if (!recipe || recipe.level > player.craftingSkill) {
+    if (!recipe || (recipe.type == 'crafting' && recipe.level > player.craftingSkill) || (recipe.type == 'enchanting' && recipe.level > player.enchantingSkill)) {
         throw new ProgrammingError("There is no unlocked recipe called '" + recipeKey+"'.");
     }
     if (!canCraft(recipe)) {
@@ -93,41 +37,55 @@ function CraftAction(slot) {
         return $div('action slot' + slot, $div('box', 'Craft')).attr('helpText', 'Craft items from the ingredients you have bought or collected. Learn more Craft skills in the skill tree to unlock new recipes.');
     };
     this.perform = function () {
-        closeAll();
-        $('.js-craftContainer').addClass('open');
-        $('.js-inventoryContainer').addClass('open');
-        $('.js-inventoryPanel').removeClass('selected');
-        $('.js-inventoryPanel.js-items').addClass('selected');
-        $('.js-craftContainer .js-body').empty();
-        for (var i = 0; i < recipes.length && i <= player.craftingSkill; i++) {
-            $('.js-craftContainer .js-body').append($div('heading', 'Level ' + i));
-            $.each(recipes[i], function (key, recipe) {
-                //{'result': 'fur', 'ingredients': {'furScrap': 5}},
-                var item = allItems[recipe.result];
-                var $recipe = $('.js-baseRecipe').clone().removeClass('js-baseRecipe').show();
-                $recipe.find('.js-result').html(getItemName(item));
-                var canCraft = true;
-                var $ingredient = $recipe.find('.js-ingredient').remove();
-                $.each(recipe.ingredients, function (key, amount) {
-                    amount = ingredientAmount(amount);
-                    $ingredient = $ingredient.clone();
-                    var ingredient = allItems[key];
-                    var amountOwned = player.inventory[ingredient.slot][key];
-                    $ingredient.find('.js-current').text(amountOwned);
-                    $ingredient.find('.js-cost').text(amount);
-                    $ingredient.find('.js-name').html(getItemName(ingredient));
-                    $ingredient.data('ingredient', ingredient);
-                    $ingredient.data('amount', amount);
-                    $recipe.append($ingredient);
-                    canCraft = canCraft && (amountOwned >= amount);
-                });
-                $recipe.toggleClass('canCraft', canCraft);
-                $recipe.data('recipe', recipe);
-                $('.js-craftContainer .js-body').append($recipe);
-            });
-        }
+        displyCraftingPage($('.js-craftContainer'), player.enchantcraftingSkillingSkill, craftingRecipes);
         recordAction(this.actionName, this.actionTarget);
     };
+}
+function EnchantAction(slot) {
+    this.actionName = "enchant";
+    this.getDiv = function () {
+        return $div('action slot' + slot, $div('box', 'Enchant')).attr('helpText', 'Craft enchantments that can be used later to power up the gear you are wearing. Enchantments are lost when the enchanted item is unequiped or when you rest. Learn more Enchantment skills in the skill tree to unlock new recipes.');
+    };
+    this.perform = function () {
+        displyCraftingPage($('.js-enchantContainer'), player.enchantingSkill, enchantingRecipes);
+        recordAction(this.actionName, this.actionTarget);
+    };
+};
+
+function displyCraftingPage($container, skillLevel, recipeList) {
+    closeAll();
+    $container.addClass('open');
+    $('.js-inventoryContainer').addClass('open');
+    $('.js-inventoryPanel').removeClass('selected');
+    $('.js-inventoryPanel.js-items').addClass('selected');
+    $container.find('.js-body').empty();
+    for (var i = 0; i < recipeList.length && i <= skillLevel; i++) {
+        $('.js-enchantContainer .js-body').append($div('heading', 'Level ' + i));
+        $.each(recipeList[i], function (key, recipe) {
+            //{'result': 'fur', 'ingredients': {'furScrap': 5}},
+            var item = allItems[recipe.result];
+            var $recipe = $container.find('.js-baseRecipe').clone().removeClass('js-baseRecipe').show();
+            $recipe.find('.js-result').html(getItemName(item)).attr('helpText', getItemHelpTextWithEnchantments(item));
+            var canCraft = true;
+            var $ingredient = $recipe.find('.js-ingredient').remove();
+            $.each(recipe.ingredients, function (key, amount) {
+                amount = ingredientAmount(amount);
+                $ingredient = $ingredient.clone();
+                var ingredient = allItems[key];
+                var amountOwned = player.inventory[ingredient.slot][key];
+                $ingredient.find('.js-current').text(amountOwned);
+                $ingredient.find('.js-cost').text(amount);
+                $ingredient.find('.js-name').html(getItemName(ingredient));
+                $ingredient.data('ingredient', ingredient);
+                $ingredient.data('amount', amount);
+                $recipe.append($ingredient);
+                canCraft = canCraft && (amountOwned >= amount);
+            });
+            $recipe.toggleClass('canCraft', canCraft);
+            $recipe.data('recipe', recipe);
+            $container.find('.js-body').append($recipe);
+        });
+    }
 }
 
 function ingredientAmount(baseAmount) {
@@ -137,6 +95,11 @@ function ingredientAmount(baseAmount) {
 
 function setupCrafting() {
     $('.js-craftContainer').on('click', '.js-craft', function () {
+        //get the amount to make sure it can be sold
+        var recipe = $(this).closest('.js-recipe').data('recipe');
+        craftRecipe(recipe);
+    });
+    $('.js-enchantContainer').on('click', '.js-enchant', function () {
         //get the amount to make sure it can be sold
         var recipe = $(this).closest('.js-recipe').data('recipe');
         craftRecipe(recipe);
@@ -164,11 +127,12 @@ function craftRecipe(recipe) {
     $('.js-inventoryPanel.js-' + item.slot).addClass('selected');
     //update buy buttons now that you have less gold
     uiNeedsUpdate.craft = true;
+    uiNeedsUpdate.enchant = true;
     recordAction('make', recipe.key);
 }
 
-function updateCrafting() {
-    $('.js-craftContainer .js-body .js-recipe').each(function () {
+function updateCrafting($container) {
+    $container.find('.js-body .js-recipe').each(function () {
         var $recipe = $(this);
         var canCraft = true;
         $recipe.find('.js-ingredient').each(function () {
@@ -184,7 +148,7 @@ function updateCrafting() {
 }
 
 function canCraft(recipe) {
-    if (recipe.level > player.craftingSkill) {
+    if ((recipe.type == 'crafting' && recipe.level > player.craftingSkill) || (recipe.type == 'enchanting' && recipe.level > player.enchantingSkill) ) {
         return false;
     }
     var canCraft = true;

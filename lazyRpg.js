@@ -128,6 +128,7 @@ function closeAll() {
     $('.js-characterStatsContainer').removeClass('open');
     $('.js-inventoryContainer').removeClass('open');
     $('.js-craftContainer').removeClass('open');
+    $('.js-enchantContainer').removeClass('open');
     $('.js-shopContainer').removeClass('open');
     $('.js-inventoryPanel .js-sellActions').hide();
     $('.js-programContainer').removeClass('open');
@@ -235,8 +236,12 @@ function updateUI() {
         uiNeedsUpdate.skillTree = false;
     }
     if (uiNeedsUpdate.craft && $('.js-craftContainer').is('.open')) {
-        updateCrafting();
+        updateCrafting($('.js-craftContainer'));
         uiNeedsUpdate.craft = false;
+    }
+    if (uiNeedsUpdate.enchant && $('.js-enchantContainer').is('.open')) {
+        updateCrafting($('.js-enchantContainer'));
+        uiNeedsUpdate.enchant = false;
     }
     if (uiNeedsUpdate.shop && $('.js-shopContainer').is('.open')) {
         updateShop();
