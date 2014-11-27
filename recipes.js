@@ -52,31 +52,31 @@ var craftingRecipes = [
 
 items.windCharm = {
     'name': 'Wind Charm',
-    'helpText': 'An enchantment that makes you light on your feet.',
+    'helpText': 'A boots enchantment that makes you light on your feet.',
     'enchantBoots': {'attackSpeed' : .2},
     'value': 20
 };
 items.huntersCharm = {
     'name': 'Hunters Charm',
-    'helpText': 'An enchantment that bestows you with a hunter\'s patience.',
+    'helpText': 'A helmet enchantment that bestows you with a hunter\'s patience.',
     'enchantHelmet': {'poach' : .2},
     'value': 20
 };
 items.minersCharm = {
     'name': 'Miners Charm',
-    'helpText': 'An enchantment that makes your club sturdy enough to mine ore with.',
+    'helpText': 'A club enchantment that makes your club sturdy enough to mine ore with.',
     'enchantClub': {'miningSpeed' : .2},
     'value': 20
 };
 items.fightersCharm = {
     'name': 'Fighters Charm',
-    'helpText': 'An enchantment that makes your punches hit harder.',
+    'helpText': 'An fist enchantment that makes your punches hit harder.',
     'enchantFist': {'damage' : .2},
     'value': 20
 };
 items.vitalityCharm = {
     'name': 'Vitality Charm',
-    'helpText': 'An enchantment that increases your health.',
+    'helpText': 'An armor enchantment that increases your health.',
     'enchantArmor': {'health' : .2},
     'value': 20
 };
@@ -85,9 +85,9 @@ var enchantingRecipes = [
 {
     'windCharm': {'ingredients': {'wingScraps': 10}},
     'huntersCharm': {'ingredients': {'furScrap': 10}},
+    'minersCharm': {'ingredients': {'brokenShell': 10}},
 },
 {
-    'minersCharm': {'ingredients': {'brokenShell': 10}},
     'fightersCharm': {'ingredients': {'smallShell': 5}},
     'vitalityCharm': {'ingredients': {'smallPelt': 5}},
 }];
