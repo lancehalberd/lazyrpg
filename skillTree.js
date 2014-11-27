@@ -75,7 +75,7 @@ function populateSkillTree () {
     function weapon(type, open) {
         return {'name': iconValue(type, '+LVL'), 'open' : open, 'activate': function () {
             player.weaponLevels[type]++;
-            uiNeedsUpdate.weapons = true;
+            uiNeedsUpdate.weapon = true;
         }, 'helpText' : 'Increases the level of ' + type+' class weapons you can equip.'};
     }
     function special(type, open) {

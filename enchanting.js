@@ -28,7 +28,6 @@ function setupEnchantments() {
         try {
             useEnchantment(key, itemKey);
         } catch(e) {
-            throw e;
             //ignore this error, only used for programming alerts
         }
     });
@@ -64,6 +63,7 @@ function useEnchantment(key, itemKey) {
     currentEnchantments.count++;
     player.inventory[item.slot][item.key]--;
     uiNeedsUpdate.items = true;
+    uiNeedsUpdate[data.slot] = true;
     uiNeedsUpdate.playerStats = true;
     removeToolTip();
     recordAction(key + ' ' + itemKey);
@@ -153,21 +153,21 @@ function getItemHelpTextWithEnchantments(item) {
     return sections.join('<br/>')
 }
 function enchantmentEffectsHelp(enchantment) {
-    var sections =[]
+    var sections = [];
     if (enchantment.attackSpeed) {
         sections.push('Increase your attack speed  by ' + percent(enchantment.attackSpeed) + '.');
     }
     if (enchantment.miningSpeed) {
-        sections.push('Increase your attack speed  by ' + percent(enchantment.miningSpeed) + '.');
+        sections.push('Increase your mining speed  by ' + percent(enchantment.miningSpeed) + '.');
     }
     if (enchantment.lifeSteal) {
         sections.push('Absorb ' + percent(enchantment.lifeSteal) + ' of your damage as life.');
     }
     if (enchantment.poison) {
-        sections.push('Deal ' + enchantment.poison + ' damage over time on hit.');
+        sections.push('Deal ' + Math.floor(enchantment.poison) + ' damage over time on hit.');
     }
     if (enchantment.armorBreak) {
-        sections.push('Weaken your enemies armor by ' + enchantment.armorBreak + ' each hit.');
+        sections.push('Weaken your enemies armor by ' + Math.floor(enchantment.armorBreak) + ' each hit.');
     }
     if (enchantment.parry) {
         sections.push(percent(enchantment.parry) + ' of your weapon damage is added to your armor.');
@@ -179,7 +179,7 @@ function enchantmentEffectsHelp(enchantment) {
         sections.push('Increase your damage by ' + percent(enchantment.damage) + '.');
     }
     if (enchantment.poach) {
-        sections.push('Slow your attacks and increase your damage by a factor of ' + (1 + enchantment.poach) + '.');
+        sections.push('Slow your attacks and increase your damage by a factor of ' + (1 + enchantment.poach).toFixed(2) + '.');
     }
     if (enchantment.cripple) {
         sections.push('Increased the crippling effect of your attacks ' + percent(enchantment.cripple) + ', slowing the attack speed of your opponents.');

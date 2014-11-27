@@ -177,8 +177,11 @@ var uiNeedsUpdate = {
     'miningStats': false,
     'inventory': false,
     'items': false,
+    'weapon': false,
     'weapons': false,
-    'helments': false,
+    'helmet': false,
+    'helmets': false,
+    'armor': false,
     'armors': false,
     'boots': false,
     'skillTree': false,
@@ -207,8 +210,11 @@ function updateUI() {
         refreshAllInventoryPanels();
         uiNeedsUpdate.inventory = false;
         uiNeedsUpdate.items = false;
+        uiNeedsUpdate.weapon = false;
         uiNeedsUpdate.weapons = false;
-        uiNeedsUpdate.helments = false;
+        uiNeedsUpdate.helmet = false;
+        uiNeedsUpdate.helmets = false;
+        uiNeedsUpdate.armor = false;
         uiNeedsUpdate.armors = false;
         uiNeedsUpdate.boots = false;
     }
@@ -216,16 +222,19 @@ function updateUI() {
         refreshInventoryPanel('items');
         uiNeedsUpdate.items = false;
     }
-    if (uiNeedsUpdate.weapons && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-weapons').is('.selected')) {
+    if ((uiNeedsUpdate.weapon || uiNeedsUpdate.weapons) && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-weapons').is('.selected')) {
         refreshInventoryPanel('weapons');
+        uiNeedsUpdate.weapon = false;
         uiNeedsUpdate.weapons = false;
     }
-    if (uiNeedsUpdate.helmets && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-helmets').is('.selected')) {
+    if ((uiNeedsUpdate.helmet || uiNeedsUpdate.helmets)  && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-helmets').is('.selected')) {
         refreshInventoryPanel('helmets');
+        uiNeedsUpdate.helmet = false;
         uiNeedsUpdate.helmets = false;
     }
-    if (uiNeedsUpdate.armors && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-armors').is('.selected')) {
+    if ((uiNeedsUpdate.armor || uiNeedsUpdate.armors)  && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-armors').is('.selected')) {
         refreshInventoryPanel('armors');
+        uiNeedsUpdate.armor = false;
         uiNeedsUpdate.armors = false;
     }
     if (uiNeedsUpdate.boots && $('.js-inventoryContainer').is('.open') && $('.js-inventoryPanel.js-boots').is('.selected')) {

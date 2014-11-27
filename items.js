@@ -650,6 +650,13 @@ function refreshInventoryPanel(typeKey) {
             if (!canEquipItem) {
                 helpText += "<br/><br/>" + (item.isWeapon ? "Your " + item.type+" skill is not high enough to equip this yet." : "Your level is not high enough to equip this yet.");
             }
+            if (player[item.equipmentSlot] == item) {
+                var currentEnchantments = enchantmentEffectsHelp(player.enchantments[item.equipmentSlot]);
+                if (currentEnchantments.length > 0) {
+                    helpText += '<br/><br/>Enchantment bonuses:<br/>';
+                    helpText += currentEnchantments.join('<br/>');
+                }
+            }
         }
         item.$element.find('.js-itemQuantity').text(amount + 'x');
         item.$element.find('.js-goldOne').text(getSellPrice(item));

@@ -236,6 +236,7 @@ function stopFighting(victory) {
         }
         if (!victory && loseBattleCallback) {
             loseBattleCallback('You did not defeat the ' + oldMonster.name);
+            loseBattleCallback = null;
         }
     }
 }
