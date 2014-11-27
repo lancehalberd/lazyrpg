@@ -6,23 +6,31 @@ actions.craft = function (params, successCallback, errorCallback) {
     }
     successCallback();
 }
+actions.enchant = function (params, successCallback, errorCallback) {
+    checkParams(0, params);
+    var enchantAction = getAreaAction('enchant', null);
+    if (!enchantAction) {
+        throw new ProgrammingError("You cannot craft enchantments here.");
+    }
+    successCallback();
+}
 actions.make = function (params, successCallback, errorCallback) {
     checkParams(1, params);
+    var recipeKey = params[0];
+    var recipe = allRecipes[recipeKey];
+    if (!recipe || (recipe.type == 'crafting' && recipe.level > player.craftingSkill) || (recipe.type == 'enchanting' && recipe.level > player.enchantingSkill)) {
+        throw new ProgrammingError("There is no unlocked recipe called '" + recipeKey+"'.");
+    }
     if (recipe.type == 'crafting') {
         var craftAction = getAreaAction('craft', null);
         if (!craftAction) {
             throw new ProgrammingError("You cannot craft here.");
         }
-    } else if (recip.type == 'enchanting') {
+    } else if (recipe.type == 'enchanting') {
         var enchantAction = getAreaAction('enchant', null);
         if (!enchantAction) {
             throw new ProgrammingError("You cannot enchant here.");
         }
-    }
-    var recipeKey = params[0];
-    var recipe = allRecipes[recipeKey];
-    if (!recipe || (recipe.type == 'crafting' && recipe.level > player.craftingSkill) || (recipe.type == 'enchanting' && recipe.level > player.enchantingSkill)) {
-        throw new ProgrammingError("There is no unlocked recipe called '" + recipeKey+"'.");
     }
     if (!canCraft(recipe)) {
         throw new ProgrammingError("You don't have the necessary ingredients to craft '" + recipeKey+"'.");
@@ -37,7 +45,7 @@ function CraftAction(slot) {
         return $div('action slot' + slot, $div('box', 'Craft')).attr('helpText', 'Craft items from the ingredients you have bought or collected. Learn more Craft skills in the skill tree to unlock new recipes.');
     };
     this.perform = function () {
-        displyCraftingPage($('.js-craftContainer'), player.enchantcraftingSkillingSkill, craftingRecipes);
+        displyCraftingPage($('.js-craftContainer'), player.craftingSkill, craftingRecipes);
         recordAction(this.actionName, this.actionTarget);
     };
 }

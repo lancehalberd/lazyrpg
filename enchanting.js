@@ -66,6 +66,7 @@ function useEnchantment(key, itemKey) {
     uiNeedsUpdate.items = true;
     uiNeedsUpdate.playerStats = true;
     removeToolTip();
+    recordAction(key + ' ' + itemKey);
 }
 
 var enchantmentMap = {
@@ -77,6 +78,14 @@ var enchantmentMap = {
     'enchantHelmet': {'label': 'Enchant Helmet', 'slot': 'helmet'},
     'enchantBoots': {'label': 'Enchant Boots', 'slot': 'boots'}
 }
+$.each(enchantmentMap, function (key, data) {
+    actions[key] = function (params, successCallback, errorCallback) {
+        checkParams(1, params);
+        var itemKey = params[0];
+        useEnchantment(key, itemKey);
+        successCallback();
+    }
+});
 function $makeEnchantButton(item) {
     var $button = null;
     $.each(enchantmentMap, function (key, data) {

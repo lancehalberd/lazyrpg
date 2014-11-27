@@ -85,6 +85,8 @@ var enchantingRecipes = [
 {
     'windCharm': {'ingredients': {'wingScraps': 10}},
     'huntersCharm': {'ingredients': {'furScrap': 10}},
+},
+{
     'minersCharm': {'ingredients': {'brokenShell': 10}},
     'fightersCharm': {'ingredients': {'smallShell': 5}},
     'vitalityCharm': {'ingredients': {'smallPelt': 5}},
