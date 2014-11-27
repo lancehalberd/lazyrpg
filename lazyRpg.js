@@ -73,6 +73,7 @@ $(function () {
             $('.js-characterStatsContainer').toggleClass('open');
         }
     });
+    $('.js-closeButton').on('click', closeAll);
     $('.js-gameContainer').on('mouseover mousemove', '[helpText]', function (event) {
         if (!showTooltips || $popup) {
             return;

@@ -855,3 +855,16 @@ button {
     float: right;
     margin-right: 5px;
 }
+
+.closeButton {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    padding: 0;
+}
+/* close button should appear on top of skill tree */
+.characterStatsContainer .closeButton {
+    z-index: 2;
+}
