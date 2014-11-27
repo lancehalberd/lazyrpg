@@ -28,7 +28,7 @@ var craftingRecipes = [
     'ironBoots': {'result': 'ironBoots', 'ingredients': {'ironIngot': 10, 'leather': 3}},
     'plateArmor': {'result': 'plateArmor', 'ingredients': {'ironIngot': 50, 'leather': 5}},
     'fullHelm': {'result': 'fullHelm', 'ingredients': {'ironIngot': 30, 'leather': 5}},
-    'broadSword': {'result': 'longSword', 'ingredients': {'ironIngot': 30}},
+    'broadSword': {'result': 'broadSword', 'ingredients': {'ironIngot': 30}},
     'hammer': {'result': 'hammer', 'ingredients': {'timber': 5, 'ironIngot': 10}},
     'longBow': {'result': 'longBow', 'ingredients': {'suppleTimber': 10, 'ironIngot': 5}},
 },{

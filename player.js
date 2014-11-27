@@ -126,6 +126,22 @@ $.each(boots, function(key, value) {
     value.slot = 'boots';
     value.equipmentSlot = 'boots';
 });
+
+$.each(allRecipes, function (key, recipe) {
+    if (key.indexOf(recipe.result) != 0) {
+        console.log("broken recipe: " + [key, recipe.result]);
+    }
+    if (!allItems[recipe.result]) {
+        console.log("Missing item " + recipe.result);
+    }
+    $.each(recipe.ingredients, function (ingredientKey, amount) {
+        if (!allItems[ingredientKey]) {
+            console.log("Missing item " + ingredientKey);
+        }
+    });
+});
+
+
 applySavedData(newGameData());
 player.isPlayer =  true,
 player.battleStatus = freshBattleStatus();
