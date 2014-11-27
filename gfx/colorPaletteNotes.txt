@@ -1,0 +1,18 @@
+lazyrpg sample color palette:
+  10 colors chosen to use in all images, if possible. Also all backgrounds, menus, etc?
+
+Browns and greys (all slightly red tinged):
+    light off-white: #f7ffd1;
+    medium off-white: #f0d8a8;
+    gray: #c4b9af;
+    dark brown: #3d1c00;
+
+Blues and greens:
+    light green: #C0F0A8;
+    medium green: #7DB386;
+    dark green: #3D3B00;
+    teal: #7dc1b7;
+    gray-blue: #86A6B8;
+
+Red:
+    orange-red: #FA2A00;
