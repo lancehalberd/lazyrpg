@@ -17,28 +17,28 @@ armors.bronzeArmor = {
     'helpText': 'Armor made from an alloy of copper and tin.',
     'armor': 20,
     'level': 10,
-    'value': 1000
+    'value': 2500
 };
 armors.chainMail = {
     'name': 'Chain Mail',
     'helpText': 'Armor made from thousands of iron links.',
     'armor': 40,
     'level': 15,
-    'value': 2200
+    'value': 4000
 };
 armors.plateArmor = {
     'name': 'Plate Armor',
     'helpText': 'Armor made of large iron plates.',
     'armor': 65,
     'level': 25,
-    'value': 9000
+    'value': 20000
 };
 armors.steelArmor = {
     'name': 'Steel Armor',
     'helpText': 'Steel mail with embedded plates.',
     'armor': 100,
     'level': 35,
-    'value': 27000
+    'value': 30000
 };
 armors.mithrilMail = {
     'name': 'Mithril Mail',
@@ -109,7 +109,7 @@ helmets.fullHelm = {
     'helpText': 'A plate iron helm the covers the entire head.',
     'armor': 30,
     'level': 27,
-    'value': 6000
+    'value': 8000
 };
 helmets.steelHelmet = {
     'name': 'Steel Helmet',
@@ -166,21 +166,21 @@ boots.leatherBoots = {
     'helpText': 'Leather boots to protect your feet.',
     'armor': 7,
     'level': 0,
-    'value': 200
+    'value': 500
 };
 boots.copperGreaves = {
     'name': 'Copper Greaves',
     'helpText': 'Leather boots with copper greaves to protect your legs.',
     'armor': 15,
     'level': 5,
-    'value': 1000
+    'value': 1500
 };
 boots.bronzeLeggings = {
     'name': 'Bronze Leggings',
     'helpText': 'Bronze armor that covers your legs.',
     'armor': 20,
     'level': 13,
-    'value': 3000
+    'value': 2500
 };
 boots.ironBoots = {
     'name': 'Iron Boots',
@@ -201,7 +201,7 @@ boots.ninjaTabi = {
     'helpText': 'Leg wear from a far off land that reduces the damage from a monsters first attack by ten percent.',
     'armor': 60,
     'level': 37,
-    'value': 30000
+    'value': 15000
 };
 boots.mithrilGreaves = {
     'name': 'Mithril Greaves',

@@ -145,65 +145,68 @@ function getItemHelpTextWithEnchantments(item) {
     $.each(enchantmentMap, function (key, data) {
         if (item[key]) {
             sections = enchantmentEffectsHelp(item[key]);
+            sections.unshift(data.label);
             return false; //break loop
         }
         return true;
     });
-    sections.unshift(item.helpText + '<br/>');
+    if (item.helpText) {
+        sections.unshift(item.helpText + '<br/>');
+    }
     return sections.join('<br/>')
 }
 function enchantmentEffectsHelp(enchantment) {
     var sections = [];
-    if (enchantment.attackSpeed) {
-        sections.push('Increase your attack speed  by ' + percent(enchantment.attackSpeed) + '.');
-    }
-    if (enchantment.miningSpeed) {
-        sections.push('Increase your mining speed  by ' + percent(enchantment.miningSpeed) + '.');
-    }
-    if (enchantment.lifeSteal) {
-        sections.push('Absorb ' + percent(enchantment.lifeSteal) + ' of your damage as life.');
-    }
-    if (enchantment.poison) {
-        sections.push('Deal ' + Math.floor(enchantment.poison) + ' damage over time on hit.');
-    }
-    if (enchantment.armorBreak) {
-        sections.push('Weaken your enemies armor by ' + Math.floor(enchantment.armorBreak) + ' each hit.');
-    }
-    if (enchantment.parry) {
-        sections.push(percent(enchantment.parry) + ' of your weapon damage is added to your armor.');
-    }
-    if (enchantment.armorPierce) {
-        sections.push('Your attacks ignore ' + percent(enchantment.armorPierce) + ' of your opponents armor.');
-    }
-    if (enchantment.damage) {
-        sections.push('Increase your damage by ' + percent(enchantment.damage) + '.');
-    }
-    if (enchantment.poach) {
-        sections.push('Slow your attacks and increase your damage by a factor of ' + (1 + enchantment.poach).toFixed(2) + '.');
-    }
-    if (enchantment.cripple) {
-        sections.push('Increased the crippling effect of your attacks ' + percent(enchantment.cripple) + ', slowing the attack speed of your opponents.');
-    }
-    if (enchantment.vigor) {
-        sections.push('Increase your vigor by ' + percent(enchantment.vigor) + '. Vigor reduces the health lost while mining and traveling.');
-    }
     if (enchantment.health) {
-        sections.push('Increase your health by ' + percent(enchantment.health) + '.');
+        sections.push('+' + percent(enchantment.health) + ' health.');
     }
     if (enchantment.armor) {
-        sections.push('Increase your armor by ' + percent(enchantment.armor) + '.');
+        sections.push('+' + percent(enchantment.armor) + ' armor.');
     }
     if (enchantment.reflect) {
-        sections.push('Reflect ' + percent(enchantment.reflect) + ' of the damage prevented by your armor.');
+        sections.push('+' + percent(enchantment.reflect) + ' of damage prevented by armor is reflect to enemies.');
+    }
+    if (enchantment.damage) {
+        sections.push('+' + percent(enchantment.damage) + ' damage.');
+    }
+    if (enchantment.attackSpeed) {
+        sections.push('+' + percent(enchantment.attackSpeed) + ' attack speed.');
+    }
+    if (enchantment.poison) {
+        sections.push('+' + Math.floor(enchantment.poison) + ' damage over time on hit.');
+    }
+    if (enchantment.lifeSteal) {
+        sections.push('+' + percent(enchantment.lifeSteal) + ' life steal.');
+    }
+    if (enchantment.armorPierce) {
+        sections.push('+' + percent(enchantment.armorPierce) + ' of armor pierce.');
+    }
+    if (enchantment.armorBreak) {
+        sections.push('+' + Math.floor(enchantment.armorBreak) + ' armor shred on hit.');
+    }
+    if (enchantment.cripple) {
+        sections.push('+' + enchantment.cripple.toFixed() + ' crippling attacks, slowing enemy attack speed on hit.');
+    }
+    if (enchantment.parry) {
+        sections.push('+' + percent(enchantment.parry) + ' of weapon damage added to armor.');
     }
     if (enchantment.experience) {
-        sections.push('Increase the experience you gain by ' + percent(enchantment.experience) + '.');
+        sections.push('+' + percent(enchantment.experience) + ' experience gained.');
+    }
+    if (enchantment.poach) {
+        sections.push((1 + enchantment.poach).toFixed(2) + 'x increased damage and reduced attack speed. Useful for poaching.');
     }
     if (enchantment.tenacity) {
-        sections.push('Reduce the effects of enemy special abilities by ' + percent(enchantment.tenacity) + '.');
+        sections.push('+' + percent(enchantment.tenacity) + ' reduction of enemy special abilities.');
     }
     if (enchantment.travelSpeed) {
-        sections.push('Increase your travel speed by ' + percent(enchantment.travelSpeed) + '.');
+        sections.push('+' + percent(enchantment.travelSpeed) + ' travel speed.');
+    }
+    if (enchantment.vigor) {
+        sections.push('+' + percent(enchantment.vigor) + ' vigor. Vigor reduces the health lost while mining and traveling.');
+    }
+    if (enchantment.miningSpeed) {
+        sections.push('+' + percent(enchantment.miningSpeed) + ' increased mining speed.');
     }
     return sections;
 }

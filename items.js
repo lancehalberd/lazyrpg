@@ -35,12 +35,12 @@ items.memoryCrystal = {
 items.copperOre = {
     'name': 'Copper Ore',
     'helpText': 'Raw copper ore.',
-    'value': 7
+    'value': 10
 };
 items.copperIngot = {
     'name': 'Copper Ingot',
     'helpText': 'Refined copper that can be used for crafting.',
-    'value': 100
+    'value': 150
 };
 items.tin = {
     'name': 'Tin',
@@ -50,7 +50,7 @@ items.tin = {
 items.bronzePlating = {
     'name': 'Bronze Plating',
     'helpText': 'An alloy of copper and tin suitable for crafting armor',
-    'value': 300
+    'value': 200
 };
 items.ironOre = {
     'name': 'Iron Ore',
@@ -65,22 +65,22 @@ items.ironIngot = {
 items.steelPlating = {
     'name': 'Steel Plating',
     'helpText': 'Plates of an alloy of iron and carbon for crafting armor.',
-    'value': 300
+    'value': 1600
 };
 items.silverOre = {
     'name': 'Silver Ore',
     'helpText': 'Raw silver ore.',
-    'value': 50
+    'value': 80
 };
 items.silverIngot = {
     'name': 'Silver Ingot',
     'helpText': 'Refined silver that can be used for crafting, but it isn\'t very hard.',
-    'value': 600
+    'value': 1000
 };
 items.steeledSilver = {
     'name': 'Steeled Silver',
     'helpText': 'A stronger silver alloy. Weaker than regular steel but it repels evil.',
-    'value': 800
+    'value': 1500
 };
 items.mithrilSilver = {
     'name': 'Mithril Silver',
@@ -156,25 +156,25 @@ items.furScrap = {
     'name': 'Scrap of Fur',
     'helpText': 'Tattered animal fur.',
     'enchantHelmet': {'experience' : .05},
-    'value': 1
+    'value': 2
 };
 items.smallPelt = {
     'name': 'Small Pelt',
     'helpText': 'A small but well preserved animal pelt.',
     'enchantArmor': {'health' : .05},
-    'value': 3
+    'value': 8
 };
 items.fur = {
     'name': 'Fur',
     'helpText': 'Patched together animal furs that can be used for crafting.',
     'enchantArmor': {'armor' : .05},
-    'value': 10
+    'value': 16
 };
 items.leather = {
     'name': 'Leather',
     'helpText': 'Treated animal hide that can be used for crafting.',
     'enchantBoots': {'tenacity' : .05},
-    'value': 30
+    'value': 80
 };
 items.lionsMane = {
     'name': "Lion's Mane",
@@ -191,7 +191,7 @@ items.largePelt = {
 items.silk = {
     'name': "Silk",
     'helpText': 'A rare cloth of the finest quality',
-    'value': 500
+    'value': 1500
 }
 items.brokenShell = {
     'name': 'Broken Shell',
@@ -266,6 +266,12 @@ items.magicRubble = {
     'helpText': 'Rubble from a possessed statue',
     'value': 100
 };
+
+items.unobtanium = {
+    'name': 'Unobtanium',
+    'helpText': 'A material said to be unobtainable in this version of the game.',
+    'value': 0
+}
 
 function getSellPrice(item) {
     return Math.round(item.value * (player.specialSkills.gouge ? 1.5 : 1));
@@ -463,6 +469,9 @@ actions.sell = function (params, successCallback, errorCallback) {
     if (!item || player.inventory[item.slot][item.key] == 0) {
         throw new ProgrammingError("You don't have a '" + params[1] + "'.");
     }
+    if (item.value <= 0) {
+        throw new ProgrammingError("You cannot sell '" + params[0] + "'.");
+    }
     var quantity = parseInt(params[0]);
     if (isNaN(quantity)) {
         throw new ProgrammingError("Expected a number, but got '" + params[0] + "'");
@@ -485,6 +494,9 @@ actions.sellAll = function (params, successCallback, errorCallback) {
     var item = allItems[params[0]];
     if (!item || player.inventory[item.slot][item.key] == 0) {
         throw new ProgrammingError("You don't have any '" + params[0] + "'.");
+    }
+    if (item.value <= 0) {
+        throw new ProgrammingError("You cannot sell '" + params[0] + "'.");
     }
     var quantity = player.inventory[item.slot][item.key];
     sellItem(item, quantity);
@@ -661,7 +673,7 @@ function refreshInventoryPanel(typeKey) {
         item.$element.find('.js-itemQuantity').text(amount + 'x');
         item.$element.find('.js-goldOne').text(getSellPrice(item));
         item.$element.find('.js-goldAll').text(getSellPrice(item) * amount);
-        item.$element.find('.js-sellActions').toggle(isShopOpen);
+        item.$element.find('.js-sellActions').toggle(isShopOpen && item.value > 0);
         item.$element.find('.js-itemName').attr('helpText', helpText);
         item.$element.data('item', item);
         updatEnchantmentState(item);

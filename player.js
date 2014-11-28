@@ -134,11 +134,22 @@ $.each(allRecipes, function (key, recipe) {
     if (!allItems[recipe.result]) {
         console.log("Missing item " + recipe.result);
     }
+    var ingredientValue = 0;
     $.each(recipe.ingredients, function (ingredientKey, amount) {
         if (!allItems[ingredientKey]) {
             console.log("Missing item " + ingredientKey);
+        } else {
+            ingredientValue += amount * allItems[ingredientKey].value;
         }
     });
+    //warning to make sure crafting always makes things more valuable
+    if (ingredientValue && allItems[recipe.result] && ingredientValue > allItems[recipe.result].value) {
+        console.log(key + ': ' + recipe.result + ' can be sold for ' + allItems[recipe.result].value + ' but its ingredients can be sold for ' + ingredientValue);
+    }
+    //warning to make sure crafting doesn't allow the user to make money
+    if (ingredientValue && allItems[recipe.result] && ingredientValue * 2 < allItems[recipe.result].value) {
+        console.log(key + ': ' + recipe.result + ' can be sold for ' + allItems[recipe.result].value + ' but its ingredients can be purchased for ' + (2 * ingredientValue));
+    }
 });
 
 

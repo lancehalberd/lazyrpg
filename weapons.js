@@ -25,7 +25,7 @@ weapons.leatherGloves = { //can be crafted from leather by poaching rats
     'attackSpeed': 3,
     'type': 'fist',
     'level': 1,
-    'value': 100
+    'value': 200
 };
 weapons.brassKnuckles = { //can be crafted from copper ingots by mining copper
     'name': 'Brass Knuckles',
@@ -108,7 +108,7 @@ weapons.copperSword = { //mine copper
     'attackSpeed': 1.5,
     'type': 'sword',
     'level': 1,
-    'value': 600
+    'value': 800
 };
 weapons.longSword = { //mine tin
     'name': 'Long Sword',
@@ -126,7 +126,7 @@ weapons.broadSword = { //mine iron
     'attackSpeed': 1.5,
     'type': 'sword',
     'level': 1,
-    'value': 4000
+    'value': 5000
 };
 //Swords 2
 weapons.claymore = { //charcoal from whelps
@@ -136,7 +136,7 @@ weapons.claymore = { //charcoal from whelps
     'attackSpeed': 2,
     'type': 'sword',
     'level': 2,
-    'value': 6000,
+    'value': 10000,
     'parry': 20
 };
 weapons.silverSword = { //mine silver
@@ -146,7 +146,7 @@ weapons.silverSword = { //mine silver
     'attackSpeed': 2,
     'type': 'sword',
     'level': 2,
-    'value': 12000,
+    'value': 15000,
     'armorPierce': .4
 };
 weapons.katana = { //craft mithril
@@ -209,7 +209,7 @@ weapons.cudgel = {//city shop
     'attackSpeed': 1,
     'type': 'club',
     'level': 1,
-    'value': 200,
+    'value': 1000,
     'armorBreak': 5
 };
 weapons.hammer = {//timber and iron
@@ -219,7 +219,7 @@ weapons.hammer = {//timber and iron
     'attackSpeed': 1,
     'type': 'club',
     'level': 1,
-    'value': 1000,
+    'value': 4000,
     'cripple': 1
 };
 //Clubs 2
@@ -311,7 +311,7 @@ weapons.longBow = { //craft with iron and supple timber
     'attackSpeed': .5,
     'type': 'bow',
     'level': 1,
-    'value': 1000,
+    'value': 2000,
     'cripple': 1
 };
 //Bows 2
