@@ -165,7 +165,9 @@ monsters.mudGolem = {
     'experience': 140,
     '$graphic': $ff2Monster('mudGolem'),
     'spoils': ['copperOre'],
-    'helpText': 'Some of the mud here appears to be alive.'
+    'helpText': 'Some of the mud here appears to be alive. This muck slows my attacks while the fumes deal damage over time.',
+    'cripple': 2,
+    'poison': 10
 };
 monsters.darkKnight = {
     'name': 'Dark Knight',
@@ -184,12 +186,12 @@ monsters.fowler = {
     'name': 'Fowler',
     'level': 14,
     'health': 600,
-    'armor': 10,
-    'damage': 100,
-    'attackSpeed': 1,
-    'experience': 90,
+    'armor': 0,
+    'damage': 120,
+    'attackSpeed': 4,
+    'experience': 170,
     '$graphic': $ff2Monster('flower'),
-    'spoils': ['suppleTimber', 'suppleTimber','timber'],
+    'spoils': ['suppleTimber', 'timber'],
     'helpText': 'The pollen from this flower makes me dizzy and sneeze, reducing my opportunities to attack.',
     'cripple': 5
 };
