@@ -87,6 +87,7 @@ function displyCraftingPage($container, skillLevel, recipeList) {
                 $ingredient.data('ingredient', ingredient);
                 $ingredient.data('amount', amount);
                 $recipe.append($ingredient);
+                $ingredient.toggleClass('enoughOwned', amountOwned >= amount);
                 canCraft = canCraft && (amountOwned >= amount);
             });
             $recipe.toggleClass('canCraft', canCraft);

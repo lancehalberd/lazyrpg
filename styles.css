@@ -743,7 +743,7 @@ button {
 .recipe.canCraft .craftAction {
     display: inline-block;
 }
-.recipe.canCraft .current {
+.recipe .enoughOwned .current {
     color: #4F4;
 }
 
