@@ -625,7 +625,6 @@ function refreshAllInventoryPanels() {
 }
 
 function refreshInventoryPanel(typeKey) {
-    var isShopOpen = $('.js-shopContainer').is('.open');
     $('.js-inventoryPanel.js-' + typeKey + ' .js-body').empty();
     $.each(player.inventory[typeKey], function (key, amount) {
         if (amount == 0) {
@@ -673,12 +672,16 @@ function refreshInventoryPanel(typeKey) {
         item.$element.find('.js-itemQuantity').text(amount + 'x');
         item.$element.find('.js-goldOne').text(getSellPrice(item));
         item.$element.find('.js-goldAll').text(getSellPrice(item) * amount);
-        item.$element.find('.js-sellActions').toggle(isShopOpen && item.value > 0);
+        if (item.value <= 0) {
+            item.$element.find('.js-sellActions').remove();
+        }
         item.$element.find('.js-itemName').attr('helpText', helpText);
         item.$element.data('item', item);
         updatEnchantmentState(item);
         $('.js-inventoryPanel.js-' + typeKey + ' .js-body').append(item.$element);
     });
+    //show the sell actions on all these items if the shop is open
+    $('.js-inventoryPanel.js-' + typeKey + ' .js-body').find('.js-sellActions').toggle($('.js-shopContainer').is('.open'));
 }
 
 function canEquip(item) {
