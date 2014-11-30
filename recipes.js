@@ -65,13 +65,13 @@ var enchantData = [
     ['duelist', 'enchantSword', 'armorPierce', .05],
 
     ['warlord', 'enchantClub', 'damage', .25],
-    ['poacher', 'enchantClub', 'poach', .25],
+    ['poacher', 'enchantClub', 'poach', .5],
     ['miner', 'enchantClub', 'miningSpeed', .25],
     ['gangster', 'enchantClub', 'cripple', 5],
     ['sauron', 'enchantClub', 'armorBreak', 10],
 
     ['archer', 'enchantBow', 'damage', .25],
-    ['hunter', 'enchantBow', 'poach', .25],
+    ['hunter', 'enchantBow', 'poach', .5],
     ['sniper', 'enchantBow', 'armorPierce', .05],
     ['assassin', 'enchantBow', 'poison', 50],
     ['trapper', 'enchantBow', 'cripple', 5],
