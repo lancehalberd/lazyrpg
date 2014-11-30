@@ -87,30 +87,24 @@ $.each(enchantmentMap, function (key, data) {
     }
 });
 function $makeEnchantButton(item) {
-    var $button = null;
-    $.each(enchantmentMap, function (key, data) {
-        if (item[key]) {
-            $button = $('<button class="js-enchantment" helpText="' + enchantmentHelp(data, item[key]) + '">' + data.label + '</button>');
-            $button.data('key', key);
-            $button.data('itemKey', item.key);
-            return false; //break loop
-        }
-        return true;
-    });
-    return $button;
+    var enchantmentKey = getEnchantmentKey(item);
+    if (enchantmentKey) {
+        var $button = $('<button class="js-enchantment" helpText="' + enchantmentHelp(enchantmentMap[enchantmentKey], item[enchantmentKey]) + '">' + enchantmentMap[enchantmentKey].label + '</button>');
+        $button.data('key', enchantmentKey);
+        $button.data('itemKey', item.key);
+        return $button;
+    }
+    return null;
 }
 function updatEnchantmentState(item) {
-    $.each(enchantmentMap, function (key, data) {
-        if (item[key]) {
-            var $button = item.$element.find('.js-enchantment');
-            $button.attr('helpText', enchantmentHelp(data, item[key]));
-            //add data back since data is lost when the item was last remove from the dom
-            $button.data('key', key);
-            $button.data('itemKey', item.key)
-            return false; //break loop
-        }
-        return true;
-    });
+    var enchantmentKey = getEnchantmentKey(item);
+    if (enchantmentKey) {
+        var $button = item.$element.find('.js-enchantment');
+        $button.attr('helpText', enchantmentHelp(enchantmentMap[enchantmentKey], item[enchantmentKey]));
+        //add data back since data is lost when the item was last remove from the dom
+        $button.data('key', enchantmentKey);
+        $button.data('itemKey', item.key)
+    }
 }
 function enchantmentHelp(data, enchantment) {
     var sections = [];
@@ -141,15 +135,11 @@ function enchantmentHelp(data, enchantment) {
 }
 
 function getItemHelpTextWithEnchantments(item) {
-    var sections = [];
-    $.each(enchantmentMap, function (key, data) {
-        if (item[key]) {
-            sections = enchantmentEffectsHelp(item[key]);
-            sections.unshift(data.label);
-            return false; //break loop
-        }
-        return true;
-    });
+    var enchantmentKey = getEnchantmentKey(item);
+    if (enchantmentKey) {
+        sections = enchantmentEffectsHelp(item[enchantmentKey]);
+        sections.unshift(enchantmentMap[enchantmentKey].label);
+    }
     if (item.helpText) {
         sections.unshift(item.helpText + '<br/>');
     }
@@ -221,4 +211,15 @@ function resetEnchantment(slot) {
 
 function getTotalEnchantment(type) {
     return player.enchantments.weapon[type] + player.enchantments.armor[type] + player.enchantments.helmet[type] + player.enchantments.boots[type];
+}
+function getEnchantmentKey(item) {
+    var enchantmentKey = null;
+    $.each(enchantmentMap, function (key, data) {
+        if (item[key]) {
+            enchantmentKey = key;
+            return false;
+        }
+        return true;
+    });
+    return enchantmentKey;
 }
