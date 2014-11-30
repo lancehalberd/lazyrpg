@@ -156,6 +156,7 @@ areas.shore =  {
     '$graphic': $img('shore.png'),
     'actions': [
         new BattleAction(monsters.turtus, 2),
+        new BattleAction(monsters.snappingTurtus, 3),
         new MoveAction('cave', 4),
         new MoveAction('forest', 6)
     ]
@@ -165,7 +166,8 @@ areas.cave =  {
     '$graphic': $img('cave.png'),
     'actions': [
         new BattleAction(monsters.bat, 2),
-        new MiningAction(minerals.copper, 1),
+        new BattleAction(monsters.mole, 1),
+        new MiningAction(minerals.copper, 4),
         new MoveAction('shore', 3)
     ]
 };
@@ -210,7 +212,7 @@ areas.savanna = {
     'actions': [
         new MoveAction('river', 2),
         new BattleAction(monsters.lion, 3),
-        new BattleAction(monsters.hyena, 1),
+        new BattleAction(monsters.hawk, 1),
         new BattleAction(monsters.fowler, 6),
         new MoveAction('portTown', 5)
     ]
@@ -230,6 +232,7 @@ areas.ship = {
     'name': 'Ship',
     '$graphic': $img('ship.png'),
     'actions': [
+        new BattleAction(monsters.barnacle, 1),
         new MoveAction('portTown', 2),
         new BattleAction(monsters.pirate, 3, refreshArea),
         new ToggleAction(new MoveAction('city', 5), function() {
@@ -266,6 +269,7 @@ areas.desert = {
     '$graphic': $img('desert.png'),
     'actions': [
         new BattleAction(monsters.scorpion, 1),
+        new BattleAction(monsters.armadilloLizard, 2),
         new BattleAction(monsters.giantTortoise, 3),
         new MoveAction('field', 4),
         new MoveAction('desertCave', 6)

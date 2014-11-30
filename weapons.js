@@ -117,7 +117,7 @@ weapons.longSword = { //mine tin
     'attackSpeed': 1.5,
     'type': 'sword',
     'level': 1,
-    'value': 1200
+    'value': 1500
 };
 weapons.broadSword = { //mine iron
     'name': 'Broad Sword',
@@ -230,7 +230,7 @@ weapons.mace = {//charcoal -> steel
     'attackSpeed': 1.25,
     'type': 'club',
     'level': 1,
-    'value': 10000,
+    'value': 7000,
     'armorBreak': 5
 };
 weapons.silverMallet = { //silver

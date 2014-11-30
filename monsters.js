@@ -16,20 +16,8 @@ monsters.bat = {
     'attackSpeed': 1.5,
     'experience': 2,
     '$graphic': $ff2Monster('bee'),
-    'spoils': ['wingScraps', 'wingScraps'],
+    'spoils': ['batWing', 'guano', 'guano'],
     'helpText': 'A frenzied cave bat. I can fight this and other monsters to gain experience and become more powerful.'
-};
-monsters.zombie = {
-    'name': 'Zombie',
-    'level': 6,
-    'health': 200,
-    'armor': 0,
-    'damage': 100,
-    'attackSpeed': .5,
-    'experience': 15,
-    '$graphic': $ff2Monster('zombie'),
-    'spoils': [10],
-    'helpText': 'I should put this one back to rest.'
 };
 monsters.rat = {
     'name': 'Rat',
@@ -51,7 +39,7 @@ monsters.turtus = {
     'damage': 35,
     'attackSpeed': .5,
     'experience': 8,
-    '$graphic': $hillaryMonster('turtle'),
+    '$graphic': $hillaryMonster('smallTurtle'),
     'spoils': ['smallShell', 'brokenShell', 'brokenShell', 'brokenShell'],
     'helpText': 'I\'ll need a strong weapon to pierce this monster\'s hard shell.'
 };
@@ -79,17 +67,31 @@ monsters.troll = {
     'spoils': [500],
     'helpText': 'This troll is guarding the only crossing of the river. Without proper gear and training, I won\'t be able to proceed.'
 };
-monsters.hyena = {
-    'name': 'Hyena',
+monsters.hawk = {
+    'name': 'Hawk',
     'level': 6,
     'health': 160,
     'armor': 5,
     'damage': 40,
     'attackSpeed': 3,
     'experience': 20,
-    '$graphic': $ff2Monster('hyena'),
-    'spoils': ['largePelt', 'furScrap', 'furScrap'],
-    'helpText': 'A wild hyena.'
+    '$graphic': $ff2Monster('bird'),
+    'spoils': ['birdWing', 'feather', 'feather'],
+    'helpText': 'A fierce bird of prey. It\'s keen eyes can spot weaknesses in my defense, ignoring some of my armor.',
+    'armorPierce': .5
+};
+monsters.mole = {
+    'name': 'Mole',
+    'level': 7,
+    'health': 400,
+    'armor': 20,
+    'damage': 30,
+    'attackSpeed': 1.5,
+    'experience': 40,
+    '$graphic': $ff2Monster('mole'),
+    'spoils': ['moleFur', 'moleClaw', 'moleClaw'],
+    'helpText': 'This monster seems surprisingly powerful, maybe I should avoid it for now and come back when I\'m stronger.',
+    'armorBreak': 5
 };
 monsters.lion = {
     'name': 'Lion',
@@ -100,14 +102,27 @@ monsters.lion = {
     'attackSpeed': 1,
     'experience': 40,
     '$graphic': $ff2Monster('lion'),
-    'spoils': ['lionsMane', 'largePelt', 'furScrap'],
+    'spoils': ['lionMane', 'largePelt', 'furScrap'],
     'armorBreak': 5,
     'helpText': 'A large cat with a beard. Its attacks are so powerful it can reduce the effectiveness of my armor over time.'
+};
+monsters.barnacle = {
+    'name': 'Barnacle',
+    'level': 8,
+    'health': 300,
+    'armor': 30,
+    'damage': 50,
+    'attackSpeed': 1,
+    'experience': 40,
+    '$graphic': $ff2Monster('fish'),
+    'spoils': ['brine', 'brine'],
+    'helpText': 'Some kind of aquatic creature is attached to the hull of the ship. It seems to be secreting a toxic fluid.',
+    'poison': 20
 };
 monsters.pirate = {
     'name': 'Pirate',
     'level': 9,
-    'health': 250,
+    'health': 400,
     'armor': 15,
     'damage': 80,
     'attackSpeed': 2,
@@ -115,6 +130,19 @@ monsters.pirate = {
     '$graphic': $ff2Monster('pirate'),
     'spoils': [100],
     'helpText': 'Pirates have attacked the ship, I can\'t proceed unless I defeat them.'
+};
+monsters.snappingTurtus = {
+    'name': 'Snapping Turtus',
+    'level': 10,
+    'health': 400,
+    'armor': 30,
+    'damage': 50,
+    'attackSpeed': .5,
+    'experience': 70,
+    '$graphic': $hillaryMonster('turtle'),
+    'spoils': ['spikyShell', 'brokenShell', 'brokenShell', 'brokenShell'],
+    'helpText': 'The adult turtus has a spiky shell that hurts me when I try to attack it. I should avoid it until I am much stronger.',
+    'reflect': .5
 };
 monsters.crocodile = {
     'name': 'Crocodile',
@@ -125,7 +153,7 @@ monsters.crocodile = {
     'attackSpeed': 1,
     'experience': 80,
     '$graphic': $ff2Monster('crocodile'),
-    'spoils': ['reptileSkin', 'tooth', 'tooth'],
+    'spoils': ['sharpTooth', 'reptileSkin'],
     'helpText': 'A large lizard. Maybe? Its strong jaws can reduce my armor.',
     'armorBreak': 5
 };
@@ -138,7 +166,7 @@ monsters.scorpion = {
     'attackSpeed': 2,
     'experience': 90,
     '$graphic': $ff2Monster('scorpion'),
-    'spoils': ['stinger'],
+    'spoils': ['venom', 'venom'],
     'helpText': 'The poison in its tail makes this a deceptively dangerous foe.',
     'poison': 10
 };
@@ -151,7 +179,7 @@ monsters.vampireBat = {
     'attackSpeed': 4,
     'experience': 120,
     '$graphic': $ff2Monster('bee'),
-    'spoils': ['vampireFang', 'wingScraps', 'wingScraps'],
+    'spoils': ['batFang', 'batWing', 'batWing', 'guano'],
     'helpText': 'This bat will drain my life as it attacks me.',
     'lifeSteal': .1
 };
@@ -164,7 +192,7 @@ monsters.mudGolem = {
     'attackSpeed': 2,
     'experience': 140,
     '$graphic': $ff2Monster('mudGolem'),
-    'spoils': ['copperOre'],
+    'spoils': ['peatSoil', 'copperOre'],
     'helpText': 'Some of the mud here appears to be alive. This muck slows my attacks while the fumes deal damage over time.',
     'cripple': 2,
     'poison': 10
@@ -207,6 +235,19 @@ monsters.mercenary = {
     'spoils': [200],
     'helpText': 'A formed soldier of the king, he now works for the highest bidder.'
 };
+monsters.armadilloLizard = {
+    'name': 'Armadillo Lizard',
+    'level': 15,
+    'health': 600,
+    'armor': 40,
+    'damage': 80,
+    'attackSpeed': 2,
+    'experience': 90,
+    '$graphic': $hillaryMonster('armadilloLizard'),
+    'spoils': ['spikyScales', 'reptileSkin'],
+    'helpText': 'This odd lizard is covered in spikes that damage me when I attack it.',
+    'reflect': 1
+};
 monsters.bear = {
     'name': 'Bear',
     'level': 16,
@@ -216,7 +257,7 @@ monsters.bear = {
     'attackSpeed': 2,
     'experience': 180,
     '$graphic': $ff2Monster('bear'),
-    'spoils': ['largePelt'],
+    'spoils': ['bone', 'sharpTooth', 'sharpTooth', 'largePelt'],
     'helpText': 'I should think carefully before disturbing its slumber.'
 };
 monsters.giantTortoise = {
@@ -228,7 +269,7 @@ monsters.giantTortoise = {
     'attackSpeed': 1,
     'experience': 200,
     '$graphic': $hillaryMonster('turtle'),
-    'spoils': ['largeShell'],
+    'spoils': ['hardShell', 'crackedShell', 'brokenShell', 'brokenShell'],
     'helpText': 'A bolder with legs. Maybe I shouldn\'t even bother with this one.'
 };
 monsters.possessedGuard = {
@@ -252,7 +293,7 @@ monsters.maverick = {
     'attackSpeed': .8,
     'experience': 300,
     '$graphic': $ff2Monster('maverick'),
-    'spoils': ['tinScraps'],
+    'spoils': ['tinScraps', 'tinScraps', 'tinScraps'],
     'helpText': 'An old malfunctioning robot. Not necessairly aggressive, but it could do a lot of damage if I\'m not careful.',
     'cripple': 10
 };
@@ -277,7 +318,7 @@ monsters.whelp = {
     'attackSpeed': 2,
     'experience': 400,
     '$graphic': $hillaryMonster('dragon'),
-    'spoils': ['dragonFang', 'charcoal', 'charcoal'],
+    'spoils': ['whelpTooth', 'charcoal', 'charcoal'],
     'helpText': 'Even a baby dragon is a force to be reckoned with.',
     'poison': 20
 };
@@ -290,7 +331,7 @@ monsters.spider = {
     'attackSpeed': 3,
     'experience': 1000,
     '$graphic': $ff2Monster('spider'),
-    'spoils': ['spiderWeb', 'spiderWeb'],
+    'spoils': ['venom', 'spiderWeb', 'spiderWeb'],
     'helpText': 'A large poisonous spider.',
     'poison': 20
 };
@@ -328,7 +369,7 @@ monsters.golem = {
     'attackSpeed': 1,
     'experience': 600,
     '$graphic': $ff2Monster('golem'),
-    'spoils': ['ironOre', 'ironOre', 'copperOre', 'copperOre'],
+    'spoils': ['ironOre', 'copperOre', 'ironOre', 'copperOre'],
     'helpText': 'A being made entirely of stone and metal.'
 };
 monsters.giantRat = {
@@ -340,7 +381,7 @@ monsters.giantRat = {
     'attackSpeed': 2,
     'experience': 800,
     '$graphic': $hillaryMonster('rat'),
-    'spoils': ['largePelt', 'largePelt', 'smallPelt', 'smallPelt'],
+    'spoils': ['bone', 'ratClaw', 'smallPelt', 'furScrap'],
     'helpText': 'The results of arcane magics, common pests, and boredom.'
 };
 monsters.gargoyle = {
@@ -365,7 +406,8 @@ monsters.tRex = {
     'experience': 10000,
     '$graphic': $ff2Monster('tRex'),
     'spoils': ['memoryCrystal'],
-    'helpText': 'A giant prehistoric beast blocks my path further into the castle. Where did the king come by such a creature?'
+    'helpText': 'A giant prehistoric beast blocks my path further into the castle. Where did the king come by such a creature?',
+    'armorBreak': 1
 };
 monsters.doomFlower = {
     'name': 'Doom Flower',
@@ -376,10 +418,11 @@ monsters.doomFlower = {
     'attackSpeed': 2,
     'experience': 1000,
     '$graphic': $ff2Monster('flower'),
-    'spoils': ['suppleTimber', 'suppleTimber', 'timber'],
+    'spoils': ['acid', 'suppleTimber', 'timber'],
     'helpText': 'These flowers appear to have been... modified.',
     'poison': 10,
-    'cripple': 5
+    'cripple': 5,
+    'armorBreak': 2
 };
 monsters.giantSpider = {
     'name': 'Giant Spider',
@@ -433,4 +476,11 @@ monsters.imposterKing = {
 };
 
 //populate monster.key for all monsters
-$.each(monsters, function (key, value) { value.key = key;});
+$.each(monsters, function (key, value) {
+    value.key = key;
+    value.spoils.forEach(function (value, index) {
+        if (!allItems[value] && isNaN(parseInt(value))) {
+            console.log("Missing item drop: " + key + ' : ' + value);
+        }
+    });
+});

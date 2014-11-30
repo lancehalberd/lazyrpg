@@ -15,9 +15,10 @@ var craftingRecipes = [
     'brassKnuckles': {'result': 'brassKnuckles', 'ingredients': {'copperIngot': 2}},
     'copperSword': {'result': 'copperSword', 'ingredients': {'copperIngot': 5}},
     'copperGreaves': {'result': 'copperGreaves', 'ingredients': {'copperIngot': 5, 'leatherBoots': 1, 'fur': 2}},
-    'proudHat': {'result': 'proudHat', 'ingredients': {'shellHat': 1, 'lionsMane': 1, 'largePelt': 3}}
+    'proudHat': {'result': 'proudHat', 'ingredients': {'shellHat': 1, 'lionMane': 1, 'largePelt': 3}}
 },{
     'mediumPotion': {'result': 'mediumPotion','ingredients': {'smallPotion': 3}},
+    'tin': {'result': 'tin', 'ingredients': {'tinScraps': 2}},
     'longSword': {'result': 'longSword', 'ingredients': {'copperOre': 100, 'tin': 12}},
     'bronzePlating': {'result': 'bronzePlating','ingredients': {'copperOre': 15, 'tin': 2}},
     'bronzeArmor': {'result': 'bronzeArmor','ingredients': {'bronzePlating': 10, 'leather': 5}},
@@ -39,7 +40,7 @@ var craftingRecipes = [
     'steelLeggings': {'result': 'steelLeggings', 'ingredients': {'steelPlating': 5, 'leather': 5}},
     'claymore': {'result': 'claymore', 'ingredients': {'steelPlating': 5, 'copperOre': 40, 'tin': 5}},
     'mace': {'result': 'mace', 'ingredients': {'ironOre': 100, 'charcoal': 30}},
-    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 3, 'sturdyTimber': 3, 'ironOre': 10, 'charcoal': 5}},
+    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 6, 'sturdyTimber': 6, 'ironOre': 10, 'charcoal': 5}},
     'silverIngot': {'result': 'silverIngot', 'ingredients': {'silverOre': 10}},
     'steeledSilver': {'result': 'steeledSilver', 'ingredients': {'silverOre': 10, 'ironOre': 4, 'charcoal': 1}},
     'cestus': {'result': 'cestus', 'ingredients': {'leatherGloves': 1, 'steelPlating': 2, 'steeledSilver': 1}},
@@ -104,6 +105,7 @@ $.each(enchantData, function (index, data) {
     };
     items[key + 'Charm'][slot] = {};
     items[key + 'Charm'][slot][buff] = value;
+    items[key + 'Charm'].baseEnchantmentValue = value;
 
     items[key + 'Blessing'] = {
         'name': name + '\'s Blessing',
@@ -111,6 +113,7 @@ $.each(enchantData, function (index, data) {
     };
     items[key + 'Blessing'][slot] = {};
     items[key + 'Blessing'][slot][buff] = value * 2;
+    items[key + 'Blessing'].baseEnchantmentValue = value;
 
     items[key + 'Soul'] = {
         'name': name + '\'s Soul',
@@ -118,48 +121,49 @@ $.each(enchantData, function (index, data) {
     };
     items[key + 'Soul'][slot] = {};
     items[key + 'Soul'][slot][buff] = value * 4;
+    items[key + 'Soul'].baseEnchantmentValue = value;
 });
 
 
 var enchantingRecipes = [
 {
-    'moleCharm': {'ingredients': {'unobtanium': 1}},
-    'warriorCharm': {'ingredients': {'unobtanium': 1}},
-    'warlordCharm': {'ingredients': {'unobtanium': 1}},
-    'hunterCharm': {'ingredients': {'unobtanium': 1}},
-    'giantCharm': {'ingredients': {'unobtanium': 1}},
-    'squireCharm': {'ingredients': {'unobtanium': 1}},
-    'travelerCharm': {'ingredients': {'unobtanium': 1}}, //7 7
+    'tigerCharm': {'ingredients': {'ratClaw': 10}},
+    'ninjaCharm': {'ingredients': {'feather': 10}},
+    'minerCharm': {'ingredients': {'brokenShell': 10}},
+    'hunterCharm': {'ingredients': {'guano': 10}},
+    'giantCharm': {'ingredients': {'smallPelt': 10}},
+    'squireCharm': {'ingredients': {'furScrap': 10}},
+    'travelerCharm': {'ingredients': {'batWing': 10}}, //7 7
 },
 {
-    'tigerCharm': {'ingredients': {'unobtanium': 1}},
-    'leechCharm': {'ingredients': {'unobtanium': 1}},
-    'ninjaCharm': {'ingredients': {'unobtanium': 1}},
-    'duelistCharm': {'ingredients': {'unobtanium': 1}},
-    'poacherCharm': {'ingredients': {'unobtanium': 1}},
-    'minerCharm': {'ingredients': {'unobtanium': 1}},
-    'gangsterCharm': {'ingredients': {'unobtanium': 1}},
-    'archerCharm': {'ingredients': {'unobtanium': 1}},
-    'assassinCharm': {'ingredients': {'unobtanium': 1}},
-    'monkCharm': {'ingredients': {'unobtanium': 1}},
-    'knightCharm': {'ingredients': {'unobtanium': 1}},
-    'trackerCharm': {'ingredients': {'unobtanium': 1}},
-    'prospectorCharm': {'ingredients': {'unobtanium': 1}},
-    'dancerCharm': {'ingredients': {'unobtanium': 1}},
-    'satyrCharm': {'ingredients': {'unobtanium': 1}},
+    'moleCharm': {'ingredients': {'moleClaw': 10}},
+    'leechCharm': {'ingredients': {'batFang': 10}},
+    'warriorCharm': {'ingredients': {'charcoal': 10}},
+    'duelistCharm': {'ingredients': {'brine': 10}},
+    'warlordCharm': {'ingredients': {'spikyShell': 10}},
+    'poacherCharm': {'ingredients': {'smallShell': 10}},
+    'gangsterCharm': {'ingredients': {'crackedShell': 10}},
+    'archerCharm': {'ingredients': {'spiderWeb': 10}},
+    'assassinCharm': {'ingredients': {'venom': 10}},
+    'monkCharm': {'ingredients': {'largePelt': 10}},
+    'knightCharm': {'ingredients': {'reptileSkin': 10}},
+    'trackerCharm': {'ingredients': {'lionMane': 10}},
+    'prospectorCharm': {'ingredients': {'moleFur': 10}},
+    'dancerCharm': {'ingredients': {'birdWing': 10}},
+    'satyrCharm': {'ingredients': {'leather': 10}},
     'hunterBlessing': {'ingredients': {'unobtanium': 1}},
     'squireBlessing': {'ingredients': {'unobtanium': 1}}, //17 24
 }, {
-    'viperCharm': {'ingredients': {'unobtanium': 1}},
-    'bearCharm': {'ingredients': {'unobtanium': 1}},
-    'fencerCharm': {'ingredients': {'unobtanium': 1}},
-    'vampireCharm': {'ingredients': {'unobtanium': 1}},
-    'sauronCharm': {'ingredients': {'unobtanium': 1}},
-    'sniperCharm': {'ingredients': {'unobtanium': 1}},
-    'trapperCharm': {'ingredients': {'unobtanium': 1}},
-    'urchinCharm': {'ingredients': {'unobtanium': 1}},
-    'healerCharm': {'ingredients': {'unobtanium': 1}},
-    'thiefCharm': {'ingredients': {'unobtanium': 1}},
+    'viperCharm': {'ingredients': {'whelpTooth': 10}},
+    'bearCharm': {'ingredients': {'sharpTooth': 10}},
+    'fencerCharm': {'ingredients': {'peatSoil': 10}},
+    'vampireCharm': {'ingredients': {'bone': 10}},
+    'sauronCharm': {'ingredients': {'hardShell': 10}},
+    'sniperCharm': {'ingredients': {'acid': 10}},
+    'trapperCharm': {'ingredients': {'strongWeb': 10}},
+    'urchinCharm': {'ingredients': {'spikyScales': 10}},
+    'healerCharm': {'ingredients': {'stoneHead': 10}},
+    'thiefCharm': {'ingredients': {'magicRubble': 10}},
     'tigerBlessing': {'ingredients': {'unobtanium': 1}},
     'moleBlessing': {'ingredients': {'unobtanium': 1}},
     'ninjaBlessing': {'ingredients': {'unobtanium': 1}},
@@ -223,7 +227,7 @@ var enchantingRecipes = [
     'squireSoul': {'ingredients': {'unobtanium': 1}},
     'healerSoul': {'ingredients': {'unobtanium': 1}},
     'dancerSoul': {'ingredients': {'unobtanium': 1}},
-    'thiefSoul': {'ingredients': {'unobtanium': 1}},
+    'thiefSoul': {'ingredients': {'unobtanium': 1}}, //22 96
 }];
 
 //populate allRecipes, and key/level on each recipe
@@ -243,5 +247,42 @@ enchantingRecipes.forEach(function (recipeLevelList, level) {
         recipe.level = level;
         recipe.type = 'enchanting';
         allRecipes[key] = recipe;
+        var totalValue = 0;
+        var result = items[recipe.result];
+        var enchantmentKey = getEnchantmentKey(result);
+        $.each(recipe.ingredients, function (ingredientKey, amount) {
+            if (!items[ingredientKey]) {
+                console.log("Missing ingredient: " + ingredientKey);
+                return;
+            }
+            totalValue += items[ingredientKey].value * amount;
+            items[ingredientKey][enchantmentKey] = copy(result[enchantmentKey]);
+            $.each(items[ingredientKey][enchantmentKey], function (effect, value) {
+                if (result.baseEnchantmentValue >= 1) {
+                    items[ingredientKey][enchantmentKey][effect] = Math.floor(result.baseEnchantmentValue * (level + 1) / 5);
+                } else {
+                    items[ingredientKey][enchantmentKey][effect] = Math.floor(100 * result.baseEnchantmentValue * (level + 1) / 5) / 100;
+                }
+            });
+        });
+        result.value = Math.floor(1.5 * totalValue);
+        //some checks to make sure the value is set reasonably on recipe ingredients
+        if (result.value) {
+            if (level == 0 && result.value > 200) {
+                console.log(key + ' recipe should not be worth more than 200, is currently ' + result.value);
+            }
+            if (level == 1 && result.value < 200) {
+                console.log(key + ' recipe should not be worth less than 200, is currently ' + result.value);
+            }
+            if (level == 1 && result.value > 1500) {
+                console.log(key + ' recipe should not be worth more than 1500, is currently ' + result.value);
+            }
+            if (level == 2 && result.value < 1500) {
+                console.log(key + ' recipe should not be worth less than 1500, is currently ' + result.value);
+            }
+            if (level == 2 && result.value > 3000) {
+                console.log(key + ' recipe should not be worth more than 2000, is currently ' + result.value);
+            }
+        }
     });
 });

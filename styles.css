@@ -423,6 +423,16 @@
 .hillaryMonster.rat {
     background-image: url('gfx/critter-rat.png');
 }
+.hillaryMonster.armadilloLizard {
+    background-image: url('gfx/critter-armadilloLizard.png');
+}
+.hillaryMonster.smallTurtle {
+    background-image: url('gfx/critter-turtus.png');
+    width: 100px;
+    height: 50px;
+    left: -50px;
+    top: -25px;
+}
 .hillaryMonster.turtle {
     background-image: url('gfx/critter-turtus.png');
     width: 150px;
@@ -448,6 +458,12 @@
 
 .ff2Monster.bee {
     background-position: -240px -30px;
+}
+.ff2Monster.mole {
+    background-position: -345px -280px;
+}
+.ff2Monster.bird {
+    background-position: -1120px -160px;
 }
 .ff2Monster.rat {
     background-position: -1579px -30px;
@@ -477,6 +493,9 @@
     width: 90px;
     height: 90px;
     left: -50px;
+}
+.ff2Monster.fish {
+    background-position: -970px -140px;
 }
 .ff2Monster.pirate {
     background-position: -1414px -150px;
@@ -580,14 +599,18 @@
     left: -45px;
 }
 .ff2Monster.flower {
-    background-position: -800px -120px;
+    background-position: -795px -130px;
+    width: 90px;
     height:  90px;
     top: -40px;
+    left: -45px;
 }
 .ff2Monster.doomFlower {
-    background-position: -880px -120px;
+    background-position: -885px -130px;
+    width: 90px;
     height:  90px;
     top: -40px;
+    left: -45px;
 }
 .ff2Monster.king {
     background-position: -160px -405px;

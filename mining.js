@@ -1,36 +1,4 @@
 
-var minerals = {};
-function $mineralGraphic(name) {
-    return $div('mineralGraphic '+name);
-}
-minerals.copper = {
-    'item': items.copperOre,
-    'time': 20,
-    'damage' : 20,
-    '$graphic': $mineralGraphic('copper')
-};
-minerals.tin = {
-    'item': items.tin,
-    'time': 30,
-    'damage' : 40,
-    '$graphic': $mineralGraphic('copper')
-};
-minerals.iron = {
-    'item': items.ironOre,
-    'time': 40,
-    'damage' : 50,
-    '$graphic': $mineralGraphic('iron')
-};
-minerals.silver = {
-    'item': items.silverOre,
-    'time': 60,
-    'damage' : 100,
-    '$graphic': $mineralGraphic('iron')
-};
-
-//populate monster.key for all monsters
-$.each(minerals, function (key, value) { value.key = key;});
-
 items.copperOre = {
     'name': 'Copper Ore',
     'helpText': 'Raw copper ore.',
@@ -44,7 +12,7 @@ items.copperIngot = {
 items.tin = {
     'name': 'Tin',
     'helpText': 'Raw tin.',
-    'value': 15
+    'value': 20
 };
 items.bronzePlating = {
     'name': 'Bronze Plating',
@@ -54,7 +22,7 @@ items.bronzePlating = {
 items.ironOre = {
     'name': 'Iron Ore',
     'helpText': 'Raw iron ore.',
-    'value': 25
+    'value': 30
 };
 items.ironIngot = {
     'name': 'Iron Ingot',
@@ -120,6 +88,39 @@ items.quartz = {
     'name': 'Quartz',
     'value': 14
 };
+
+var minerals = {};
+function $mineralGraphic(name) {
+    return $div('mineralGraphic '+name);
+}
+
+minerals.copper = {
+    'item': items.copperOre,
+    'time': 20,
+    'damage' : 20,
+    '$graphic': $mineralGraphic('copper')
+};
+minerals.tin = {
+    'item': items.tin,
+    'time': 30,
+    'damage' : 40,
+    '$graphic': $mineralGraphic('copper')
+};
+minerals.iron = {
+    'item': items.ironOre,
+    'time': 40,
+    'damage' : 50,
+    '$graphic': $mineralGraphic('iron')
+};
+minerals.silver = {
+    'item': items.silverOre,
+    'time': 60,
+    'damage' : 100,
+    '$graphic': $mineralGraphic('iron')
+};
+
+//populate monster.key for all monsters
+$.each(minerals, function (key, value) { value.key = key;});
 
 actions.mine = function (params, successCallback, errorCallback) {
     checkParams(1, params);
