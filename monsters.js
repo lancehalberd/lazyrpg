@@ -360,36 +360,36 @@ monsters.witch = {
     'helpText': 'This witch is casting a spell to grant the evil king immense powers. Her magic spells ignore your armor entirely!',
     'armorPierce': 1
 };
-monsters.golem = {
-    'name': 'Golem',
-    'level': 27,
-    'health': 10000,
-    'armor': 80,
-    'damage': 500,
-    'attackSpeed': 1,
-    'experience': 600,
-    '$graphic': $ff2Monster('golem'),
-    'spoils': ['ironOre', 'copperOre', 'ironOre', 'copperOre'],
-    'helpText': 'A being made entirely of stone and metal.'
-};
 monsters.giantRat = {
     'name': 'Giant Rat',
-    'level': 29,
+    'level': 27,
     'health': 6000,
     'armor': 30,
     'damage': 300,
     'attackSpeed': 2,
-    'experience': 800,
+    'experience': 600,
     '$graphic': $hillaryMonster('rat'),
     'spoils': ['bone', 'ratClaw', 'smallPelt', 'furScrap'],
     'helpText': 'The results of arcane magics, common pests, and boredom.'
+};
+monsters.golem = {
+    'name': 'Golem',
+    'level': 29,
+    'health': 10000,
+    'armor': 80,
+    'damage': 500,
+    'attackSpeed': 1,
+    'experience': 800,
+    '$graphic': $ff2Monster('golem'),
+    'spoils': ['ironOre', 'copperOre', 'ironOre', 'copperOre'],
+    'helpText': 'A being made entirely of stone and metal.'
 };
 monsters.gargoyle = {
     'name': 'Gargoyle',
     'level': 31,
     'health': 8000,
     'armor': 80,
-    'damage': 200,
+    'damage': 300,
     'attackSpeed': 3,
     'experience': 900,
     '$graphic': $ff2Monster('gargoyle'),
@@ -440,14 +440,17 @@ monsters.giantSpider = {
 monsters.royalGuard = {
     'name': 'Royal Guard',
     'level': 37,
-    'health':10000,
+    'health': 10000,
     'armor': 80,
     'damage': 300,
     'attackSpeed': 4,
     'experience': 1500,
     '$graphic': $ff2Monster('royalGuard'),
     'spoils': [1500],
-    'helpText': 'The elite guards of the king\'s inner sanctum. I will have to defeat them to proceed.'
+    'helpText': 'The elite guards of the king\'s inner sanctum. I will have to defeat them to proceed.',
+    'parry': 20,
+    'armorPierce': .5,
+    'lifeSteal': .05
 };
 monsters.enchantedKing = {
     'name': 'Enchanted King',

@@ -59,7 +59,8 @@ function fightLoop(currentTime, deltaTime) {
         var armorPierce = player.getArmorPierce();
         var damage = player.getDamage();
         if (!player.specialSkills.scan) {
-            damage = applyArmorToDamage(damage, Math.max(0, (monster.armor - monster.battleStatus.armorReduction) * (1 - armorPierce)));
+            var parry = monster.parry ? monster.parry : 0;
+            damage = applyArmorToDamage(damage, Math.max(0, ((parry + Math.max(0, monster.armor - monster.battleStatus.armorReduction))) * (1 - armorPierce)));
             if (monster.reflect) {
                 var mitigatedDamage = player.getDamage() - damage;
                 var reflectedDamage = Math.floor(mitigatedDamage * monster.reflect);
