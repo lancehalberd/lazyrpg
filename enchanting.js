@@ -136,6 +136,7 @@ function enchantmentHelp(data, enchantment) {
 
 function getItemHelpTextWithEnchantments(item) {
     var enchantmentKey = getEnchantmentKey(item);
+    sections = [];
     if (enchantmentKey) {
         sections = enchantmentEffectsHelp(item[enchantmentKey]);
         sections.unshift(enchantmentMap[enchantmentKey].label);
