@@ -358,7 +358,7 @@ function refreshInventoryPanel(typeKey) {
         }
         var item = allItems[key];
         if (!item) {
-            console.log("missing item " + key);
+            //console.log("missing item " + key);
             return;
         }
         var helpText = item.helpText;
