@@ -124,7 +124,7 @@ function fightLoop(currentTime, deltaTime) {
         gainExperience(Math.floor(monster.experience * (1 + getTotalEnchantment('experience'))), monster.level);
         player.defeatedMonsters[monster.key]++;
 
-        var dropIndex = Math.min(monster.spoils.length - 1, Math.floor(monster.damaged / (1 + player.poachingSkill)));
+        var dropIndex = getDropIndex(monster);
         for (var i = dropIndex; i < monster.spoils.length; i++) {
             var dropValue = monster.spoils[i];
             if (typeof(dropValue) === 'string' && allItems[dropValue]) {
@@ -251,9 +251,9 @@ function updateMonster(monster) {
     $monster.find('.js-armor').text(Math.max(0, monster.armor - monster.battleStatus.armorReduction));
     var healthPercent = monster.health / monster.maxHealth;
     $monster.find('.js-healthFill').css('width', (100 * healthPercent) + '%');
-    var index = Math.min(monster.spoils.length - 1, Math.floor(monster.damaged / (1 + player.poachingSkill)));
+    var dropIndex = getDropIndex(monster)
     var $itemRow = $monster.find('.js-spoils').remove().first();
-    for (var i = index; i < monster.spoils.length; i++) {
+    for (var i = dropIndex; i < monster.spoils.length; i++) {
         item = monster.spoils[i];
         if (typeof(item) === 'string' && allItems[item]) {
             $itemRow.find('.js-item').text(allItems[item].name);
@@ -265,4 +265,8 @@ function updateMonster(monster) {
         }
         $monster.find('.js-spoilsContainer').append($itemRow.clone());
     }
+}
+
+function getDropIndex(monster) {
+    return Math.min(monster.spoils.length - 1, Math.floor(Math.log(1 + (monster.damaged ? monster.damaged : 0) / (1 + player.poachingSkill)) / Math.log(2)));
 }
