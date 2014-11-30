@@ -61,7 +61,7 @@ var enchantData = [
     ['ninja', 'enchantSword', 'attackSpeed', .25],
     ['warrior', 'enchantSword', 'damage', .25],
     ['fencer', 'enchantSword', 'parry', .05],
-    ['vampire', 'enchantSword', 'lifeSteal', .25],
+    ['vampire', 'enchantSword', 'lifeSteal', .05],
     ['duelist', 'enchantSword', 'armorPierce', .05],
 
     ['warlord', 'enchantClub', 'damage', .25],
