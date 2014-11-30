@@ -402,6 +402,7 @@ function evaluateExpression(expression) {
                 case 'damage': return monster.damage;
                 case 'attackSpeed': return monster.attackSpeed;
                 case 'armor': return monster.armor;
+                case 'level': return monster.level;
                 default:
                     throw new ProgrammingError("Invalid expression: '" + expression + "'.");
             }
