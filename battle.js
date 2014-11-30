@@ -60,6 +60,14 @@ function fightLoop(currentTime, deltaTime) {
         var damage = player.getDamage();
         if (!player.specialSkills.scan) {
             damage = applyArmorToDamage(damage, Math.max(0, (monster.armor - monster.battleStatus.armorReduction) * (1 - armorPierce)));
+            if (monster.reflect) {
+                var mitigatedDamage = player.getDamage() - damage;
+                var reflectedDamage = Math.floor(mitigatedDamage * monster.reflect);
+                if (reflectedDamage) {
+                    player.health = Math.max(0, player.health - reflectedDamage);
+                    uiNeedsUpdate.playerStats = true;
+                }
+            }
         }
         monster.hasHitsToDisplay = true;
         if (damage > 0) {
