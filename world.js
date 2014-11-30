@@ -327,6 +327,7 @@ areas.remoteAbode = {
     'actions': [
         new MoveAction('marsh', 4),
         new BattleAction(monsters.giantRat, 1),
+        new BattleAction(monsters.gargoyle, 2),
         new ToggleAction(new BattleAction(monsters.witch, 3, refreshArea), function() {
             return !(player.defeatedMonsters.witch > 0);
         }),
@@ -340,7 +341,6 @@ areas.cellar = {
     '$graphic': $img('cave.png'),
     'actions': [
         new BattleAction(monsters.doomFlower, 1),
-        new BattleAction(monsters.gargoyle, 3),
         new MoveAction('remoteAbode', 4)
     ]
 };
