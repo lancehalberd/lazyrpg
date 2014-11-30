@@ -259,9 +259,9 @@ enchantingRecipes.forEach(function (recipeLevelList, level) {
             items[ingredientKey][enchantmentKey] = copy(result[enchantmentKey]);
             $.each(items[ingredientKey][enchantmentKey], function (effect, value) {
                 if (result.baseEnchantmentValue >= 1) {
-                    items[ingredientKey][enchantmentKey][effect] = Math.floor(result.baseEnchantmentValue * (level + 1) / 5);
+                    items[ingredientKey][enchantmentKey][effect] = Math.floor(result.baseEnchantmentValue * (level + 1) / 10);
                 } else {
-                    items[ingredientKey][enchantmentKey][effect] = Math.floor(100 * result.baseEnchantmentValue * (level + 1) / 5) / 100;
+                    items[ingredientKey][enchantmentKey][effect] = Math.floor(100 * result.baseEnchantmentValue * (level + 1) / 10) / 100;
                 }
             });
         });
