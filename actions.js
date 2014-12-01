@@ -257,7 +257,7 @@ function runNextLine() {
     }
     if (action == "if") {
         if (currentLine.charAt(currentLine.length - 1) != '{') {
-            onActionError("if loop must be of the form 'if [condition] {'");
+            onActionError("if loop must be of the form 'if condition {'");
             return;
         }
         var condition = $.trim(currentLine.substring(2, currentLine.length - 1));
@@ -274,7 +274,7 @@ function runNextLine() {
     }
     if (action == "while") {
         if (currentLine.charAt(currentLine.length - 1) != '{') {
-            onActionError("while loop must be of the form 'while [condition] {'");
+            onActionError("while loop must be of the form 'while condition {'");
             return;
         }
         var condition = $.trim(currentLine.substring(5, currentLine.length - 1));
