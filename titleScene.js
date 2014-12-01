@@ -1,9 +1,6 @@
 var savedGames;
 function initializeTitleScene() {
-    savedGames = $.jStorage.get("lazyrpg-savedGames");
-    if (!savedGames) {
-        savedGames = {};
-    }
+    loadData();
     //Update the state of the new game button based on the input field
     $('.js-newGameName').on('keyup change paste', function (event) {
         var name = $.trim($(this).val());
@@ -16,6 +13,7 @@ function initializeTitleScene() {
     });
     //Create a new save file
     $('.js-startNewGame').on('click', function (event) {
+        loadData();
         var newGame = new newGameData();
         newGame.name = $.trim($('.js-newGameName').val());
         $('.js-newGameName').val('');
@@ -23,6 +21,7 @@ function initializeTitleScene() {
         savedGames[newGame.name] = newGame;
         displaySavedGameOption(newGame);
         saveData();
+        refreshSavedGamesDisplayed();
     });
     //Clicking on a saved game loads the game and sends them to the map
     $('.js-titleScene').on('click', '.js-playGame,.js-gameName', function (event) {
@@ -46,16 +45,15 @@ function initializeTitleScene() {
     });
     //Delete a saved game
     $('.js-titleScene').on('click', '.js-deleteGame', function (event) {
+        loadData();
         var $game = $(this).closest('.js-savedGame');
         var game = $game.data('game');
         $game.remove();
         delete savedGames[game.name];
         saveData();
+        refreshSavedGamesDisplayed();
     });
-    //show initial list of games
-    $.each(savedGames, function (index, game) {
-        displaySavedGameOption(game);
-    });
+    refreshSavedGamesDisplayed();
 }
 
 function startGame(savedData) {
@@ -72,6 +70,23 @@ function displaySavedGameOption(game) {
     var $option = $('.js-savedGame').first().clone();
     $option.data('game', game).show().find('.js-gameName').text(game.name);
     $('.js-newGame').before($option);
+}
+
+function loadData() {
+    $.jStorage.reInit();
+    savedGames = $.jStorage.get("lazyrpg-savedGames");
+    if (!savedGames) {
+        savedGames = {};
+    }
+}
+
+function refreshSavedGamesDisplayed() {
+    //refresh the list of saved games in case it is different
+    $('.js-savedGame').first().nextAll('.js-savedGame').remove();
+    //show initial list of games
+    $.each(savedGames, function (index, game) {
+        displaySavedGameOption(game);
+    });
 }
 
 function saveData() {
