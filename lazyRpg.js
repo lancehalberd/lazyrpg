@@ -2,7 +2,7 @@ function $div(classes, content) {
     return $('<div></div').attr('class', classes).html(content ? content : '');
 }
 function $img(source) {
-    return '<img src="gfx/' + source + '" />';
+    return $('<img src="gfx/' + source + '" />');
 }
 function $window(classes, content) {
     return $div(classes, content)
@@ -138,6 +138,7 @@ function closeAll() {
     $('.js-programContainer').removeClass('open');
     stopFighting();
     stopMining();
+    stopTraveling();
     removeToolTip();
 }
 
@@ -152,7 +153,6 @@ function mainLoop() {
     }
     var currentTime = now();
     var deltaTime = currentTime - lastTime;
-    var mineral = mining;
     for (var i = 0; i < gameSpeed; i++) {
         if (fighting) {
             fightLoop(currentTime, deltaTime);
@@ -161,6 +161,11 @@ function mainLoop() {
         }
         if (mining) {
             miningLoop(currentTime, deltaTime);
+            player.time += deltaTime;
+            uiNeedsUpdate.playerStats = true;
+        }
+        if (targetArea) {
+            travelingLoop(currentTime, deltaTime);
             player.time += deltaTime;
             uiNeedsUpdate.playerStats = true;
         }
@@ -178,6 +183,7 @@ var uiNeedsUpdate = {
     'playerStats': false,
     'monsterStats': false,
     'miningStats': false,
+    'travelingStats': false,
     'inventory': false,
     'items': false,
     'weapon': false,
@@ -208,6 +214,10 @@ function updateUI() {
             updateMineral(mining);
         }
         uiNeedsUpdate.miningStats = false;
+    }
+    if (uiNeedsUpdate.travelingStats) {
+        updateTravelBar();
+        uiNeedsUpdate.travelingStats = false;
     }
     if (uiNeedsUpdate.inventory && $('.js-inventoryContainer').is('.open')) {
         refreshAllInventoryPanels();

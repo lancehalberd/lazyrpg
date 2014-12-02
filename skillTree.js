@@ -123,7 +123,7 @@ function populateSkillTree () {
     }
     function vigor(amount, open) {
         var percent =  (100*amount)+'%';
-        return {'name': 'VIGOR ' + percent, 'open' : open, 'activate': function () {player.bonuses.miningVitality.multi += amount;}, 'helpText' : 'Increase mining endurance by ' + percent + '.'}
+        return {'name': 'VIGOR ' + percent, 'open' : open, 'activate': function () {player.bonuses.vigor.multi += amount;}, 'helpText' : 'Increase mining and traveling endurance by ' + percent + '.'}
     }
     function miningSpeed(amount, open) {
         var percent =  (100*amount)+'%';

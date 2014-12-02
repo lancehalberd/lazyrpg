@@ -366,7 +366,7 @@ function resetCharacter() {
     player.bonuses = {
         'damage': zeroBonus(),
         'miningSpeed': zeroBonus(),
-        'miningVitality': zeroBonus(),
+        'vigor': zeroBonus(), //used for reducing damage from mining and traveling
         'attackSpeed': zeroBonus(),
         'fist': {'damage': zeroBonus(), 'attackSpeed': zeroBonus()},
         'sword': {'damage': zeroBonus(), 'attackSpeed': zeroBonus()},
