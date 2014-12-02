@@ -17,7 +17,7 @@ function emptyEnchantments() {
         'reflect': 0, //implemented
         'experience': 0, //implemented
         'tenacity': 0, //implemented
-        'travelSpeed': 0
+        'travelingSpeed': 0
     };
 }
 
@@ -190,8 +190,8 @@ function enchantmentEffectsHelp(enchantment) {
     if (enchantment.tenacity) {
         sections.push('+' + percent(enchantment.tenacity) + ' increased resistance to enemy special abilities.');
     }
-    if (enchantment.travelSpeed) {
-        sections.push('+' + percent(enchantment.travelSpeed) + ' travel speed.');
+    if (enchantment.travelingSpeed) {
+        sections.push('+' + percent(enchantment.travelingSpeed) + ' travel speed.');
     }
     if (enchantment.vigor) {
         sections.push('+' + percent(enchantment.vigor) + ' vigor. Vigor reduces the health lost while mining and traveling.');

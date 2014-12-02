@@ -145,27 +145,22 @@ function closeAll() {
 function now() {
     return new Date().getTime();
 }
-var lastTime = 0;
 var damageCounterRefresh = 0;
 function mainLoop() {
-    if (!lastTime) {
-        lastTime = now();
-    }
-    var currentTime = now();
-    var deltaTime = currentTime - lastTime;
+    var deltaTime = 20;
     for (var i = 0; i < gameSpeed; i++) {
         if (fighting) {
-            fightLoop(currentTime, deltaTime);
+            fightLoop(player.time, deltaTime);
             player.time += deltaTime;
             uiNeedsUpdate.playerStats = true;
         }
         if (mining) {
-            miningLoop(currentTime, deltaTime);
+            miningLoop(player.time, deltaTime);
             player.time += deltaTime;
             uiNeedsUpdate.playerStats = true;
         }
         if (targetArea) {
-            travelingLoop(currentTime, deltaTime);
+            travelingLoop(player.time, deltaTime);
             player.time += deltaTime;
             uiNeedsUpdate.playerStats = true;
         }
@@ -176,7 +171,6 @@ function mainLoop() {
         showAccruedDamageOnMonster();
     }
     updateUI();
-    lastTime = now();
 }
 
 var uiNeedsUpdate = {

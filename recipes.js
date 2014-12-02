@@ -86,7 +86,7 @@ var enchantData = [
     ['healer', 'enchantHelmet', 'tenacity', .05],
     ['prospector', 'enchantHelmet', 'miningSpeed', .25],
 
-    ['traveler', 'enchantBoots', 'travelSpeed', .25],
+    ['traveler', 'enchantBoots', 'travelingSpeed', .25],
     ['dancer', 'enchantBoots', 'attackSpeed', .2],
     ['thief', 'enchantBoots', 'tenacity', .05],
     ['satyr', 'enchantBoots', 'armor', .1]

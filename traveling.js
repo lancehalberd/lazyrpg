@@ -44,13 +44,14 @@ function MoveAction(target, slot) {
 }
 
 function travelingLoop(currentTime, deltaTime) {
-    var travelingSpeed = (1 + getTotalEnchantment('miningSpeed'));
+    var travelingSpeed = (1 + getTotalEnchantment('travelingSpeed'));
     var vigor = player.bonuses.vigor.multi * (1 + getTotalEnchantment('vigor'));
     var damageLevel = (currentArea.travelDamage + areas[targetArea].travelDamage) / 2;
     var factor = player.health > 0 ? 1 : .5;
     var timeTraveled = Math.min(player.travelTimeLeft, travelingSpeed * factor * deltaTime / 1000);
     player.travelTimeLeft -= timeTraveled;
-    player.travelDamage += timeTraveled * damageLevel / vigor;
+    //divide by travelingSpeed because a player doesn't take more damage for traveling faster
+    player.travelDamage += timeTraveled * damageLevel / travelingSpeed / vigor;
     player.health = Math.max(0, Math.round(player.initialPlayerHealth - player.travelDamage));
     if (player.travelTimeLeft <= 0) {
         setArea(areas[targetArea]);
