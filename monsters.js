@@ -456,14 +456,14 @@ monsters.enchantedKing = {
     'name': 'Enchanted King',
     'level': 50,
     'health': 1000000,
-    'armor': 200,
+    'armor': 300,
     'damage': 1000,
     'attackSpeed': 2,
     'experience': 10000,
     '$graphic': $ff2Monster('king'),
     'spoils': ['memoryCrystal'],
-    'helpText': 'The enchantment placed on this king makes him almost invulnerable. I should retreat and think of a way to defeat him.',
-    'armorPierce': .5
+    'helpText': 'The enchantment placed on the king makes him almost invulnerable. I should retreat and think of a way to defeat him.',
+    'armorPierce': .8,
 };
 monsters.imposterKing = {
     'name': 'Imposter King',

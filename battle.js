@@ -101,8 +101,7 @@ function fightLoop(currentTime, deltaTime) {
     }
     monster.nextAttack -= deltaTime;
     if (monster.nextAttack <= 0) {
-        var factor = player.specialSkills.stoic ? .5 : 1;
-        factor *= Math.max(0, 1 - getTotalEnchantment('tenacity'));
+        var factor = 1 / (1 + (player.specialSkills.stoic ? .5 : 0) + getTotalEnchantment('tenacity'));
         var armorPierce = monster.armorPierce ? (factor * monster.armorPierce) : 0;
         var damage = applyArmorToDamage(monster.damage, Math.max(0, player.getArmor() * (1 - armorPierce)));
         var mitigatedDamage = monster.damage - damage;
@@ -248,6 +247,7 @@ function stopFighting(victory) {
             loseBattleCallback = null;
         }
     }
+    uiNeedsUpdate.playerStats = true;
 }
 
 function updateMonster(monster) {

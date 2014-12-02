@@ -188,7 +188,7 @@ function enchantmentEffectsHelp(enchantment) {
         sections.push((1 + enchantment.poach).toFixed(2) + 'x increased damage and reduced attack speed. Useful for poaching.');
     }
     if (enchantment.tenacity) {
-        sections.push('+' + percent(enchantment.tenacity) + ' reduction of enemy special abilities.');
+        sections.push('+' + percent(enchantment.tenacity) + ' increased resistance to enemy special abilities.');
     }
     if (enchantment.travelSpeed) {
         sections.push('+' + percent(enchantment.travelSpeed) + ' travel speed.');

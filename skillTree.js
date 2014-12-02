@@ -147,7 +147,7 @@ var specialSkills = {
     'poach': 'Attacks never reduce the quality of items dropped, but damage dealt is reduced by 90%.',//implemented
     'rend': 'Attacks reduce the enemies armor by when using fists or clubs.', //implemented
     'smash': 'Doubles the effect of armor breaking when using fists or clubs.', //implemented
-    'stoic': 'Halves the effects of monster\'s special abilities.', //implemented
+    'stoic': 'Increases your resistance to monster\'s special abilities by 50%.', //implemented
     'stun': 'Attacks reduce the enemies attack speed when using clubs or bows.', //implemented
     'care': 'Use 25% less ingredients when crafting or enchanting.', //implemented for crafting
     'scan': 'Find a targets weak spot. Ignore all armor, but reduces attack speed by 50%.', //implemented
