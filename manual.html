@@ -25,12 +25,6 @@
         font-weight: bold;
     }
 </style>
-<link rel="stylesheet" href="../jquery-ui/themes/base/jquery.ui.all.css">
-<script type="text/javascript">
-    var testing = false;
-</script>
-<script src="jquery.min.js"></script>
-<script src="../jquery-ui/ui/jquery-ui.js"></script>
 </head>
 <body class="documentBody">
     <div class="helpContainer">
@@ -39,24 +33,24 @@
         <p class="answer">
             When you rest your character loses all levels, experience and learned skills.
             Early on this may make it difficult to progress because resting is the only way to restore lost health until
-            you can afford potions, but later in the game it is very helpful to be able to reset your skill tree so that
+            you can afford potions, but later in the game it is very helpful to be able to reset your Skill Board so that
             you can specialize in different skills in response to changing objectives.
         </p>
         <p class="question">How do I get to a higher level when I can't afford potions?</p>
         <p class="answer">
             You may have a hard time getting past level 1 at first, but remember, you keep all items you gain even when you rest.
             Try saving up Fur Scraps from fighting rats until you can make a Fur Coat by crafting in the village. Afterwards,
-            remember to equip your furcoat each time you rest.
+            remember to equip your Fur Coat each time you rest.
         </p>
-        <p class="question">How do I get leather? (How does poaching work?)</p>
+        <p class="question">How do I get Leather? (How does poaching work?)</p>
         <p class="answer">
-            To get leather early on, you need to craft them from Small Pelts that can be won from rats, but the rats will not drop them normally.
+            To get Leather early on, you need to craft them from Small Pelts that can be won from rats, but the rats will not drop them normally.
             <br/><br/>
             Every time you attack a monster that drops materials, it degrades the quality of what it drops.
             Normally, a single attack will remove the first items, two more attacks will remove the second item,
             and four more will remove the third item. The last item on the list is always dropped.
             <br/><br/>
-            In order to get the top item from a monster, you must learn an ability called poaching, which is on the east side of the skill tree.
+            In order to get the top item from a monster, you must learn an ability called poaching, which is on the east side of the Skill Board.
             Each poaching skill you learn will increase the number of times you can hit an enemy before you lose items. To get Small Pelts from a rat
             you need to learn one level of poaching, and then defeat the rat using a single attack.
             <br/><br/>
@@ -65,28 +59,28 @@
         </p>
         <p class="question">Why can't I equip the leather gloves?</p>
         <p class="answer">
-            Leather gloves are a level 1 Fist weapon, so you must have learned at least one Fist +Lvl skill in the skill tree before
+            Leather gloves are a level 1 Fist weapon, so you must have learned at least one Fist +Lvl skill in the Skill Board before
             you can equip them. The only way to do this early on is in a node 2 squares south and 2 squares east of the 'Youth' class.
             <br/><br/>
             If you learn skills every level, you won't be able to unlock this node until level 5, but it can actually be opened by level 4 if you
             save your skill points.
             <br/><br/>
-            As long as you are moving in a straight line on the skill board, you can learn any number of skills for the same cost per skill.
-            For instance, if you haven't learned any skills yet, it only costs 3 skill points (1 per skill), to learn the Club +lvl skill or
-            the first Poach skill. Every time you make a move on the skill board, the cost per skill for the next move increases by 1, so to get
+            As long as you are moving in a straight line on the Skill Board, you can learn any number of skills for the same cost per skill.
+            For instance, if you haven't learned any skills yet, it only costs 3 skill points (1 per skill), to learn the Club +Lvl skill or
+            the first Poach skill. Every time you make a move on the Skill Board, the cost per skill for the next move increases by 1, so to get
             as far as possible, try to save up points and go after skills in straight lines before pursuing skills that require making many turns.
         </p>
         <p class="question">How do I beat the troll?</p>
         <p class="answer">
             Here are some tips for beating the troll:<br/><br/>
             Make sure you have the Fur Coat, Leather Boots and Shell Hat equipped for protection.<br/><br/>
-            Use a strong weapon like the short bow, the club, the brass knuckles or the copper sword.<br/><br/>
+            Use a strong weapon like the Short Bow, Club, Brass Knuckles or Copper Sword.<br/><br/>
             Get to a high level (5 or 6) and learn as many combat skills as you can find for your weapon.<br/><br/>
             Remember that you can learn more skills overall if you save points up to learn multiple skills in a straight line.
         </p>
         <p class="question">What is a memory crystal?</p>
         <p class="answer">
-            Memory crystals are items you need to consume in order to unlock special squares on the skill board. They are used automatically
+            Memory crystals are items you need to consume in order to unlock special squares on the Skill Board. They are used automatically
             if you have one and attempt to unlock one of these squares and their effect is permanent, so be careful when deciding how to use them!
             <br/><br/>
             There are currently only 4 memory crystals available in the alpha, so you will not be able to unlock all 8 special squares.
@@ -141,6 +135,7 @@ if my.items.fur > 5 {
 <p>Values can be any of the following:</p>
 <pre>
 A character stat such as: my.gold, my.experience, my.health, my.maxHealth, my.area
+The quantity of an item in your inventory such as: my.items.smallPotion, my.items.shortBow, my.items.furScrap
 A monster stat such as: rat.level, turtus.experience, troll.damage
 An integer such as 0, -1, 1337
 An area name like shore, cave, remoteAbode
@@ -155,7 +150,7 @@ while condition {
 <pre class="code">
 while my.level < 3 {
   while my.health < 100 {
-    if my.smallPotion < 1 {
+    if my.items.smallPotion < 1 {
       move village
       buy 10 smallPotion
       move forest

@@ -65,7 +65,7 @@ $(function () {
     $('.js-titleScene').show();
     $('.js-optimize').on('click', optimizeArmor);
     $('.js-faq').on('click', function () {
-        window.open('manual.html', '_blank', 'location=no,width=500,height=400');
+        window.open('manual.html', '_blank', 'location=no,scrollbars=yes,width=500,height=400');
     });
     setupInventory();
     $('.js-characterStats').on('click', function () {
