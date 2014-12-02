@@ -54,7 +54,6 @@ function populateSkillTree () {
                     }
                 });
                 player.unlockedClasses[name] = true;
-                alert('You have used a memory crystal to permanently unlocked the ' + name + ' class!');
                 skill.helpText = 'The starting node for the ' + name + ' class.';
             }
         }, 'helpText' : name == 'youth' ? 'The starting node for the ' + name + ' class.' : 'I will have to use a memory crystal to recover these memories.'};
@@ -285,8 +284,14 @@ function chooseSkill(skill) {
     if (!skill.available || skill.distance * player.skillCost > player.skillPoints) {
         return;
     }
-    if (skill.type == 'classSkill' && !player.inventory.items.memoryCrystal > 0) {
-        return;
+    if (skill.type == 'classSkill') {
+        if (!player.inventory.items.memoryCrystal > 0) {
+            return;
+        }
+        //warn the user before consuming the memory crystal, which cannot be undone
+        if (!confirm('Are you sure you want to use a memory crystal to permanently unlock the ' + skill.name + ' class?')) {
+            return;
+        }
     }
     var learnedSkills = [];
     var nextSkill = skill;
