@@ -38,6 +38,7 @@ function initializeTitleScene() {
         var newGame = new newGameData();
         newGame.name = player.name;
         newGame.programs = programs;
+        resetItems();
         //replace the old game with the new one
         $game.data('game', newGame)
         //now start the game as normal

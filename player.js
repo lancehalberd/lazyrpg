@@ -89,43 +89,46 @@ var player = {'inventory': {
 
 var allItems = {};
 var startingItems = 0;
-$.each(items, function(key, value) {
-    player.inventory.items[key] = player.inventory.items[key] ? player.inventory.items[key] : startingItems;
-    allItems[key] = value;
-    value.key = key;
-    value.slot = 'items';
-});
-$.each(weapons, function(key, value) {
-    player.inventory.weapons[key] = player.inventory.weapons[key] ? player.inventory.weapons[key] : startingItems;
-    allItems[key] = value;
-    value.key = key;
-    value.isWeapon = true;
-    value.slot = 'weapons';
-    value.equipmentSlot = 'weapon';
-});
-$.each(armors, function(key, value) {
-    player.inventory.armors[key] = player.inventory.armors[key] ? player.inventory.armors[key] : startingItems;
-    allItems[key] = value;
-    value.key = key;
-    value.isArmor = true;
-    value.slot = 'armors';
-    value.equipmentSlot = 'armor';
-});
-$.each(helmets, function(key, value) {
-    player.inventory.helmets[key] = player.inventory.helmets[key] ? player.inventory.helmets[key] : startingItems;
-    allItems[key] = value; value.key =
-    key; value.isArmor = true;
-    value.slot = 'helmets';
-    value.equipmentSlot = 'helmet';
-});
-$.each(boots, function(key, value) {
-    player.inventory.boots[key] = player.inventory.boots[key] ? player.inventory.boots[key] : startingItems;
-    allItems[key] = value;
-    value.key = key;
-    value.isArmor = true;
-    value.slot = 'boots';
-    value.equipmentSlot = 'boots';
-});
+function resetItems() {
+    $.each(items, function(key, value) {
+        player.inventory.items[key] = startingItems;
+        allItems[key] = value;
+        value.key = key;
+        value.slot = 'items';
+    });
+    $.each(weapons, function(key, value) {
+        player.inventory.weapons[key] = startingItems;
+        allItems[key] = value;
+        value.key = key;
+        value.isWeapon = true;
+        value.slot = 'weapons';
+        value.equipmentSlot = 'weapon';
+    });
+    $.each(armors, function(key, value) {
+        player.inventory.armors[key] = startingItems;
+        allItems[key] = value;
+        value.key = key;
+        value.isArmor = true;
+        value.slot = 'armors';
+        value.equipmentSlot = 'armor';
+    });
+    $.each(helmets, function(key, value) {
+        player.inventory.helmets[key] = startingItems;
+        allItems[key] = value; value.key =
+        key; value.isArmor = true;
+        value.slot = 'helmets';
+        value.equipmentSlot = 'helmet';
+    });
+    $.each(boots, function(key, value) {
+        player.inventory.boots[key] = startingItems;
+        allItems[key] = value;
+        value.key = key;
+        value.isArmor = true;
+        value.slot = 'boots';
+        value.equipmentSlot = 'boots';
+    });
+}
+resetItems();
 
 $.each(allRecipes, function (key, recipe) {
     if (key.indexOf(recipe.result) != 0) {
