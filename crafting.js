@@ -150,6 +150,7 @@ function updateCrafting($container) {
             var amount = $ingredient.data('amount');
             var amountOwned = player.inventory[ingredient.slot][ingredient.key];
             canCraft = canCraft && (amountOwned >= amount);
+            $ingredient.toggleClass('enoughOwned', amountOwned >= amount);
             $ingredient.find('.js-current').text(amountOwned);
         });
         $recipe.toggleClass('canCraft', canCraft);
