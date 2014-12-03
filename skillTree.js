@@ -280,6 +280,10 @@ actions.learn = function (params, successCallback, errorCallback) {
 }
 
 function chooseSkill(skill) {
+    //they already know this skill, do nothing.
+    if (skill.activated) {
+        return;
+    }
     //make sure skill is revealed and purchaseable
     if (!skill.available || skill.distance * player.skillCost > player.skillPoints) {
         return;
