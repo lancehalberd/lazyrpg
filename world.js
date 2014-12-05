@@ -160,7 +160,7 @@ areas.village =  {
     'name': 'Village',
     'travelTime': 5,
     'travelDamage': 0,
-    '$graphic': $img('town.png'),
+    '$graphic': $img('poorVillage.png'),
     'actions': [
         new MoveAction('forest', 3),
         new RestAction(4),
