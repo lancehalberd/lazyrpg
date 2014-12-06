@@ -62,8 +62,9 @@ function fightLoop(currentTime, deltaTime) {
         var armorPierce = player.getArmorPierce();
         var damage = player.getDamage();
         if (!player.specialSkills.scan) {
+            var factor = 1 / (1 + (player.specialSkills.stoic ? .5 : 0) + getTotalEnchantment('tenacity'));
             var parry = monster.parry ? monster.parry : 0;
-            damage = applyArmorToDamage(damage, Math.max(0, ((parry + Math.max(0, monster.armor - monster.battleStatus.armorReduction))) * (1 - armorPierce)));
+            damage = applyArmorToDamage(damage, Math.max(0, ((parry * factor + Math.max(0, monster.armor - monster.battleStatus.armorReduction))) * (1 - armorPierce)));
             if (monster.reflect) {
                 var mitigatedDamage = player.getDamage() - damage;
                 var reflectedDamage = Math.floor(mitigatedDamage * monster.reflect);
