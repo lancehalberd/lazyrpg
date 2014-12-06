@@ -148,7 +148,7 @@ function now() {
 var damageCounterRefresh = 0;
 function mainLoop() {
     var deltaTime = 20;
-    for (var i = 0; i < gameSpeed && (fighting || mining || targetArea); i++) {
+    for (var i = 0; i < player.gameSpeed && (fighting || mining || targetArea); i++) {
         player.time += deltaTime;
         if (player.inventory.items.coolingMagma > 0) {
             items.coolingMagma.timer -= deltaTime;

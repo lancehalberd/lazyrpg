@@ -1,0 +1,228 @@
+.hillaryMonster {
+    position: absolute;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    left: -60px;
+    top: -35px;
+    background-size: 100%;
+}
+
+.hillaryMonster.bat {
+    background-image: url('../gfx/critter-bat.png');
+}
+.hillaryMonster.rat {
+    background-image: url('../gfx/critter-rat.png');
+}
+.hillaryMonster.armadilloLizard {
+    background-image: url('../gfx/critter-armadilloLizard.png');
+}
+.hillaryMonster.smallTurtle {
+    background-image: url('../gfx/critter-turtus.png');
+    height: 50px;
+    top: -25px;
+}
+.hillaryMonster.turtle {
+    background-image: url('../gfx/critter-turtus.png');
+    width: 150px;
+    height: 80px;
+    left: -100px;
+    top: -25px;
+}
+.hillaryMonster.dragon {
+    background-image: url('../gfx/critter-dragon.png');
+}
+
+.ff2Monster {
+    position: absolute;
+    left: -40px;
+    top: -40px;
+    display: inline-block;
+    width: 64px;
+    height: 80px;
+    background-image: url('../gfx/ff2Monsters.png');
+    background-size: 2202px;
+}
+
+.ff2Monster.bee {
+    background-position: -240px -30px;
+}
+.ff2Monster.mole {
+    background-position: -345px -280px;
+}
+.ff2Monster.bird {
+    background-position: -1120px -160px;
+}
+.ff2Monster.rat {
+    background-position: -1579px -30px;
+}
+.ff2Monster.rat2 {
+    background-position: -1654px -30px;
+}
+.ff2Monster.turtle {
+    background-position: -910px -30px;
+    width: 80px;
+    height: 80px;
+}
+.ff2Monster.snake {
+    background-position: -1840px -160px;
+    width: 80px;
+    height: 80px;
+}
+.ff2Monster.bandit {
+    background-position: -1264px -140px;
+}
+.ff2Monster.hyena {
+    background-position: -236px -1150px;
+}
+.ff2Monster.troll {
+    background-position: -1840px -840px;
+    left: -50px;
+    width: 90px;
+    height: 180px;
+}
+.ff2Monster.lion {
+    background-position: -450px -1150px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.fish {
+    background-position: -970px -140px;
+}
+.ff2Monster.pirate {
+    background-position: -1414px -150px;
+}
+.ff2Monster.crocodile {
+    background-position: -1050px -284px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.scorpion {
+    background-position: -246px -132px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.mudGolem {
+    background-position: -932px -1160px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.darkKnight {
+    background-position: -1130px -900px;
+}
+.ff2Monster.mercenary {
+    background-position: -340px -130px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.bear {
+    background-position: -1270px -900px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.guard {
+    background-position: -1590px -480px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.maverick {
+    background-position: -635px -270px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.captain {
+    background-position: -610px -460px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.witch {
+    background-position: -1895px -500px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.golem {
+    background-position: -900px -395px;
+    width: 100px;
+    height: 180px;
+    left: -50px;
+    top: -30px;
+}
+.ff2Monster.woodGolem {
+    background-position: -800px -395px;
+    width: 100px;
+    height: 180px;
+    left: -50px;
+    top: -30px;
+}
+.ff2Monster.gargoyle {
+    background-position: -300px -1150px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.tRex {
+    background-position: -800px -600px;
+    width: 180px;
+    height: 180px;
+    top: -50px;
+    left: -130px;
+}
+.ff2Monster.royalGuard {
+    background-position: -1820px -480px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+
+.ff2Monster.spider {
+    background-position: -355px -470px;
+    width: 90px;
+    height:  90px;
+    top: -40px;
+    left: -45px;
+}
+.ff2Monster.flower {
+    background-position: -795px -130px;
+    width: 90px;
+    height:  90px;
+    top: -40px;
+    left: -45px;
+}
+.ff2Monster.doomFlower {
+    background-position: -885px -130px;
+    width: 90px;
+    height:  90px;
+    top: -40px;
+    left: -45px;
+}
+.ff2Monster.king {
+    background-position: -160px -405px;
+    width: 90px;
+    height: 140px;
+    top: -50px;
+    left: -45px;
+}
+.ff2Monster.rhino {
+    background-position: -1560px -140px;
+    width: 90px;
+    height: 90px;
+    top: -50px;
+    left: -45px;
+}
+.ff2Monster.hydra {
+    background-position: -20px -1280px;
+    width: 180px;
+    height: 180px;
+    top: -50px;
+    left: -130px;
+}

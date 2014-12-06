@@ -15,7 +15,7 @@ monsters.bat = {
     'damage': 5,
     'attackSpeed': 1.5,
     'experience': 2,
-    '$graphic': $ff2Monster('bee'),
+    '$graphic': $hillaryMonster('bat'),
     'spoils': ['batWing', 'guano', 'guano'],
     'helpText': 'A frenzied cave bat. I can fight this and other monsters to gain experience and become more powerful.'
 };
@@ -178,7 +178,7 @@ monsters.vampireBat = {
     'damage': 70,
     'attackSpeed': 4,
     'experience': 120,
-    '$graphic': $ff2Monster('bee'),
+    '$graphic': $hillaryMonster('bat'),
     'spoils': ['batFang', 'batWing', 'batWing', 'guano'],
     'helpText': 'This bat will drain my life as it attacks me.',
     'lifeSteal': .1

@@ -214,12 +214,10 @@ function processStatusEffects(target, deltaTime) {
         if (target.battleStatus.dealtPoisonDamage > 1) {
             target.health = Math.max(0, target.health - Math.floor(target.battleStatus.dealtPoisonDamage));
             target.battleStatus.dealtPoisonDamage = target.battleStatus.dealtPoisonDamage % 1;
-            if (gameSpeed < 30) {
-                if (target.isPlayer) {
-                    uiNeedsUpdate.playerStats = true;
-                } else {
-                    uiNeedsUpdate.monsterStats = true;
-                }
+            if (target.isPlayer) {
+                uiNeedsUpdate.playerStats = true;
+            } else {
+                uiNeedsUpdate.monsterStats = true;
             }
         }
         target.battleStatus.poisonDamage -= damage;
@@ -229,12 +227,10 @@ function processStatusEffects(target, deltaTime) {
     }
     if (target.battleStatus.crippled) {
         target.battleStatus.crippled = Math.max(0, target.battleStatus.crippled - deltaTime / 1000);
-        if (gameSpeed < 30) {
-            if (target.isPlayer) {
-                uiNeedsUpdate.playerStats = true;
-            } else {
-                uiNeedsUpdate.monsterStats = true;
-            }
+        if (target.isPlayer) {
+            uiNeedsUpdate.playerStats = true;
+        } else {
+            uiNeedsUpdate.monsterStats = true;
         }
     }
 }

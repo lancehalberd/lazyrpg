@@ -27,6 +27,7 @@ function newGameData() {
         'unlockedClasses' : {'youth' : true},
         'gold': 10,
         'time': 0,
+        'gameSpeed': 1,
         'bonusPoints': 0,
         'programs': [{'name': 'Find Village', 'description': 'This sample program moves you from the shore to the village and rests there.', 'text': "move forest\nmove village\nrest"}]
     };
@@ -51,6 +52,7 @@ function getSavedData() {
         'unlockedClasses' : copy(player.unlockedClasses),
         'gold': player.gold,
         'time': player.time,
+        'gameSpeed': player.gameSpeed,
         'bonusPoints': player.bonusPoints,
         'programs': player.programs,
         'name': player.name

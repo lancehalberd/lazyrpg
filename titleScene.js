@@ -63,6 +63,7 @@ function startGame(savedData) {
     resetCharacter();
     $('.js-titleScene').hide();
     refreshPrograms();
+    updateProgramButtons();
     setArea(areas[player.area]);
     $('.js-mapScene').show();
 }

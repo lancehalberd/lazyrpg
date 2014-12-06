@@ -5,7 +5,6 @@ var lines = [];
 var timeoutId = -1;
 var recording = false;
 var runningProgram = false;
-var gameSpeed = 1;
 var showTooltips = true;
 var callStack = [];
 function setupProgrammingWindow() {
@@ -29,13 +28,13 @@ function setupProgrammingWindow() {
         updateProgramButtons();
     });
     $('.js-changeSpeed').on('click', function () {
-        if (gameSpeed < 1 || gameSpeed >= 500) {
+        if (player.gameSpeed < 1 || player.gameSpeed >= 500) {
             setSpeed(1);
-        } else if (gameSpeed < 2) {
+        } else if (player.gameSpeed < 2) {
             setSpeed(2);
-        } else if (gameSpeed < 30) {
+        } else if (player.gameSpeed < 30) {
             setSpeed(30)
-        } else if (gameSpeed < 100) {
+        } else if (player.gameSpeed < 100) {
             setSpeed(100)
         } else {
             setSpeed(500)
@@ -128,13 +127,13 @@ function setSpeed(speed) {
     if (speed < 1 || speed > 500) {
         return;
     }
-    gameSpeed = Math.floor(speed);
+    player.gameSpeed = Math.floor(speed);
     updateProgramButtons();
     recordAction("setSpeed " + speed);
 }
 
 function updateProgramButtons() {
-    $('.js-changeSpeed').text("Speed x" + gameSpeed).attr('helpText', 'Click to change game speed');
+    $('.js-changeSpeed').text("Speed x" + player.gameSpeed).attr('helpText', 'Click to change game speed');
     if ($('.js-programContainer').is('.open')) {
         $('.js-editProgram').text('Close').attr('helpText', 'Click to close the program panel');
     } else {
