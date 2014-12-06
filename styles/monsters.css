@@ -29,6 +29,12 @@
     left: -100px;
     top: -25px;
 }
+.hillaryMonster.bandit {
+    background-image: url('../gfx/critter-bandit.png');
+    width: 150px;
+    height: 150px;
+    left: -80px;
+}
 .hillaryMonster.dragon {
     background-image: url('../gfx/critter-dragon.png');
 }

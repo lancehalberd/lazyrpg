@@ -90,7 +90,7 @@ areas.volcano =  {
         new MoveAction('volcanoCave', 2),
         new BattleAction(monsters.silverSnake, 3),
         new MoveAction('jungle', 5),
-        new MoveAction('magmaFlow', 6)
+        new MoveAction('magmaFlow', 8)
     ]
 };
 areas.volcanoCave =  {
@@ -133,7 +133,7 @@ areas.magmaFlow =  {
         moltenGolemAction,
         silverMiningAction,
         new BattleAction(monsters.imp, 2),
-        new MoveAction('volcano', 5),
+        new MoveAction('volcano', 7),
         new ToggleAction(new MoveAction('cove', 6), function() {
             return player.defeatedMonsters.magmaTitan > 0;
         })

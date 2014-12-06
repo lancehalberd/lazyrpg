@@ -378,28 +378,36 @@
 }
 
 .action.slot1 {
-    top: -150px;
+    top: -190px;
     left: -320px;
 }
 .action.slot2 {
-    top: -200px;
+    top: -210px;
     left: -5px;
 }
 .action.slot3 {
-    top: -150px;
+    top: -190px;
     left: 310px;
 }
 
 .action.slot4 {
-    top: 110px;
+    top: 150px;
     left: -320px;
 }
 .action.slot5 {
-    top: 130px;
+    top: 150px;
     left: -5px;
 }
 .action.slot6 {
-    top: 110px;
+    top: 150px;
+    left: 310px;
+}
+.action.slot7 {
+    top: -40px;
+    left: -320px;
+}
+.action.slot8 {
+    top: -40px;
     left: 310px;
 }
 
@@ -486,7 +494,7 @@
     padding: 5px;
 }
 
-.item {
+.inventoryItem {
     margin-bottom: 10px;
 }
 .itemHeading {

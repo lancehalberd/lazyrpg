@@ -51,7 +51,7 @@ monsters.bandit = {
     'damage': 60,
     'attackSpeed': 1,
     'experience': 15,
-    '$graphic': $ff2Monster('bandit'),
+    '$graphic': $hillaryMonster('bandit'),
     'spoils': [30],
     'helpText': 'This should be a good test of my skills. Only monsters that are higher level than me will grant experience when I defeat them.'
 };
@@ -231,7 +231,7 @@ monsters.mercenary = {
     'damage': 100,
     'attackSpeed': 3,
     'experience': 160,
-    '$graphic': $ff2Monster('mercenary'),
+    '$graphic': $hillaryMonster('bandit'),
     'spoils': [200],
     'helpText': 'A formed soldier of the king, he now works for the highest bidder.'
 };
