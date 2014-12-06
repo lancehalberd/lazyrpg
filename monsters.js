@@ -15,7 +15,7 @@ monsters.bat = {
     'damage': 5,
     'attackSpeed': 1.5,
     'experience': 2,
-    '$graphic': $hillaryMonster('bat'),
+    '$graphic': $hillaryMonster('small bat'),
     'spoils': ['batWing', 'guano', 'guano'],
     'helpText': 'A frenzied cave bat. I can fight this and other monsters to gain experience and become more powerful.'
 };
@@ -51,7 +51,7 @@ monsters.bandit = {
     'damage': 60,
     'attackSpeed': 1,
     'experience': 15,
-    '$graphic': $hillaryMonster('bandit'),
+    '$graphic': $hillaryMonster('medium bandit'),
     'spoils': [30],
     'helpText': 'This should be a good test of my skills. Only monsters that are higher level than me will grant experience when I defeat them.'
 };
@@ -63,7 +63,7 @@ monsters.troll = {
     'damage': 80,
     'attackSpeed': .5,
     'experience':100,
-    '$graphic': $hillaryMonster('troll'),
+    '$graphic': $hillaryMonster('large troll'),
     'spoils': [500],
     'helpText': 'This troll is guarding the only crossing of the river. Without proper gear and training, I won\'t be able to proceed.'
 };
@@ -88,7 +88,7 @@ monsters.mole = {
     'damage': 30,
     'attackSpeed': 1.5,
     'experience': 40,
-    '$graphic': $ff2Monster('mole'),
+    '$graphic': $hillaryMonster('small mole'),
     'spoils': ['moleFur', 'moleClaw', 'moleClaw'],
     'helpText': 'This monster seems surprisingly powerful, maybe I should avoid it for now and come back when I\'m stronger.',
     'armorBreak': 5
@@ -178,7 +178,7 @@ monsters.vampireBat = {
     'damage': 70,
     'attackSpeed': 4,
     'experience': 120,
-    '$graphic': $hillaryMonster('bat'),
+    '$graphic': $hillaryMonster('small bat'),
     'spoils': ['batFang', 'batWing', 'batWing', 'guano'],
     'helpText': 'This bat will drain my life as it attacks me.',
     'lifeSteal': .1
@@ -231,7 +231,7 @@ monsters.mercenary = {
     'damage': 100,
     'attackSpeed': 3,
     'experience': 160,
-    '$graphic': $hillaryMonster('bandit'),
+    '$graphic': $hillaryMonster('medium bandit'),
     'spoils': [200],
     'helpText': 'A formed soldier of the king, he now works for the highest bidder.'
 };
@@ -243,7 +243,7 @@ monsters.armadilloLizard = {
     'damage': 80,
     'attackSpeed': 2,
     'experience': 90,
-    '$graphic': $hillaryMonster('armadilloLizard'),
+    '$graphic': $hillaryMonster('small armadilloLizard'),
     'spoils': ['spikyScales', 'reptileSkin'],
     'helpText': 'This odd lizard is covered in spikes that damage me when I attack it.',
     'reflect': 1
@@ -526,7 +526,7 @@ monsters.pangolin = {
     'damage': 80,
     'attackSpeed': 2,
     'experience': 1600,
-    '$graphic': $hillaryMonster('armadilloLizard'),
+    '$graphic': $hillaryMonster('small armadilloLizard'),
     'spoils': ['pangolinScales', 'pangolinScales', 'pangolinScales'],
     'helpText': 'It looks like an ant eater covered in sharp scales.',
     'parry': 100,

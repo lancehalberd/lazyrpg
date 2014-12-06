@@ -140,8 +140,8 @@ areas.cave =  {
     '$graphic': $img('cave.png'),
     'actions': [
         new BattleAction(monsters.bat, 2),
-        new BattleAction(monsters.mole, 1),
-        new MiningAction(minerals.copper, 4),
+        new BattleAction(monsters.mole, 5),
+        new MiningAction(minerals.copper, 7),
         new MoveAction('shore', 3)
     ],
     'story': 'The ore deposits in this cave resonate with something lost to me. I once made things, things of quality and beauty. If I can find the strength to harvest this ore, perhaps I will once more.'
