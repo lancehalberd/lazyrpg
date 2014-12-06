@@ -117,7 +117,7 @@ weapons.longSword = { //mine tin
     'attackSpeed': 1.5,
     'type': 'sword',
     'level': 1,
-    'value': 1500
+    'value': 2000
 };
 weapons.broadSword = { //mine iron
     'name': 'Broad Sword',

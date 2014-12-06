@@ -12,12 +12,12 @@ items.copperIngot = {
 items.tin = {
     'name': 'Tin',
     'helpText': 'Raw tin.',
-    'value': 20
+    'value': 50
 };
 items.bronzePlating = {
     'name': 'Bronze Plating',
     'helpText': 'An alloy of copper and tin suitable for crafting armor',
-    'value': 200
+    'value': 250
 };
 items.ironOre = {
     'name': 'Iron Ore',

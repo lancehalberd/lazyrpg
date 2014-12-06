@@ -151,9 +151,9 @@ var enchantingRecipes = [
     'trackerCharm': {'ingredients': {'lionMane': 10}},
     'prospectorCharm': {'ingredients': {'moleFur': 10}},
     'dancerCharm': {'ingredients': {'birdWing': 10}},
-    'satyrCharm': {'ingredients': {'leather': 10}},
-    'hunterBlessing': {'ingredients': {'unobtanium': 1}},
-    'squireBlessing': {'ingredients': {'unobtanium': 1}}, //17 24
+    'satyrCharm': {'ingredients': {'tinScraps': 10}},
+    'hunterBlessing': {'ingredients': {'pollen': 10}},
+    'squireBlessing': {'ingredients': {'woolyScrap': 10}}, //17 24
 }, {
     'viperCharm': {'ingredients': {'whelpTooth': 10}},
     'bearCharm': {'ingredients': {'sharpTooth': 10}},
@@ -165,70 +165,70 @@ var enchantingRecipes = [
     'urchinCharm': {'ingredients': {'spikyScales': 10}},
     'healerCharm': {'ingredients': {'stoneHead': 10}},
     'thiefCharm': {'ingredients': {'magicRubble': 10}},
-    'tigerBlessing': {'ingredients': {'unobtanium': 1}},
-    'moleBlessing': {'ingredients': {'unobtanium': 1}},
-    'ninjaBlessing': {'ingredients': {'unobtanium': 1}},
-    'warriorBlessing': {'ingredients': {'unobtanium': 1}},
-    'warlordBlessing': {'ingredients': {'unobtanium': 1}},
-    'poacherBlessing': {'ingredients': {'unobtanium': 1}},
-    'minerBlessing': {'ingredients': {'unobtanium': 1}},
-    'archerBlessing': {'ingredients': {'unobtanium': 1}},
-    'monkBlessing': {'ingredients': {'unobtanium': 1}},
-    'giantBlessing': {'ingredients': {'unobtanium': 1}},
-    'trackerBlessing': {'ingredients': {'unobtanium': 1}},
-    'prospectorBlessing': {'ingredients': {'unobtanium': 1}},
-    'travelerBlessing': {'ingredients': {'unobtanium': 1}},
-    'dancerBlessing': {'ingredients': {'unobtanium': 1}},
-    'satyrBlessing': {'ingredients': {'unobtanium': 1}}, //25 49
+    'tigerBlessing': {'ingredients': {'tigerClaw': 10}},
+    'moleBlessing': {'ingredients': {'boarTusk': 10}},
+    'ninjaBlessing': {'ingredients': {'rocFeather': 10}},
+    'warriorBlessing': {'ingredients': {'coolingMagma': 10}},
+    'warlordBlessing': {'ingredients': {'pangolinScales': 10}},
+    'poacherBlessing': {'ingredients': {'clamShell': 10}},
+    'minerBlessing': {'ingredients': {'mithrilDust': 10}},
+    'archerBlessing': {'ingredients': {'impTail': 10}},
+    'monkBlessing': {'ingredients': {'giantPelt': 10}},
+    'giantBlessing': {'ingredients': {'woolyPelt': 10}},
+    'trackerBlessing': {'ingredients': {'horn': 10}},
+    'prospectorBlessing': {'ingredients': {'snout': 10}},
+    'travelerBlessing': {'ingredients': {'impWing': 10}},
+    'dancerBlessing': {'ingredients': {'rocPinion': 10}},
+    'satyrBlessing': {'ingredients': {'lavaStone': 10}}, //25 49
 }, {
-    'leechBlessing': {'ingredients': {'unobtanium': 1}},
-    'viperBlessing': {'ingredients': {'unobtanium': 1}},
-    'bearBlessing': {'ingredients': {'unobtanium': 1}},
-    'fencerBlessing': {'ingredients': {'unobtanium': 1}},
-    'vampireBlessing': {'ingredients': {'unobtanium': 1}},
-    'duelistBlessing': {'ingredients': {'unobtanium': 1}},
-    'gangsterBlessing': {'ingredients': {'unobtanium': 1}},
-    'sauronBlessing': {'ingredients': {'unobtanium': 1}},
-    'sniperBlessing': {'ingredients': {'unobtanium': 1}},
-    'assassinBlessing': {'ingredients': {'unobtanium': 1}},
-    'trapperBlessing': {'ingredients': {'unobtanium': 1}},
-    'knightBlessing': {'ingredients': {'unobtanium': 1}},
-    'urchinBlessing': {'ingredients': {'unobtanium': 1}},
-    'healerBlessing': {'ingredients': {'unobtanium': 1}},
-    'thiefBlessing': {'ingredients': {'unobtanium': 1}},
-    'moleSoul': {'ingredients': {'unobtanium': 1}},
-    'ninjaSoul': {'ingredients': {'unobtanium': 1}},
-    'poacherSoul': {'ingredients': {'unobtanium': 1}},
-    'minerSoul': {'ingredients': {'unobtanium': 1}},
-    'hunterSoul': {'ingredients': {'unobtanium': 1}},
-    'monkSoul': {'ingredients': {'unobtanium': 1}},
-    'trackerSoul': {'ingredients': {'unobtanium': 1}},
-    'prospectorSoul': {'ingredients': {'unobtanium': 1}},
-    'travelerSoul': {'ingredients': {'unobtanium': 1}},
-    'satyrSoul': {'ingredients': {'unobtanium': 1}}, //25 74
+    'leechBlessing': {'ingredients': {'vampireFang': 10}},
+    'viperBlessing': {'ingredients': {'viperFang': 10}},
+    'bearBlessing': {'ingredients': {'unobtanium': 10}},
+    'fencerBlessing': {'ingredients': {'magicSoil': 10}},
+    'vampireBlessing': {'ingredients': {'giantBone': 10}},
+    'duelistBlessing': {'ingredients': {'coral': 10}},
+    'gangsterBlessing': {'ingredients': {'mithrilPieces': 10}},
+    'sauronBlessing': {'ingredients': {'mithrilShell': 10}},
+    'sniperBlessing': {'ingredients': {'solvent': 10}},
+    'assassinBlessing': {'ingredients': {'toxin': 10}},
+    'trapperBlessing': {'ingredients': {'goldenWeb': 10}},
+    'knightBlessing': {'ingredients': {'silverScales': 10}},
+    'urchinBlessing': {'ingredients': {'urchinNeedle': 10}},
+    'healerBlessing': {'ingredients': {'pearl': 10}},
+    'thiefBlessing': {'ingredients': {'lodeStone': 10}},
+    'moleSoul': {'ingredients': {'unobtanium': 10}},
+    'ninjaSoul': {'ingredients': {'unobtanium': 10}},
+    'poacherSoul': {'ingredients': {'unobtanium': 10}},
+    'minerSoul': {'ingredients': {'unobtanium': 10}},
+    'hunterSoul': {'ingredients': {'unobtanium': 10}},
+    'monkSoul': {'ingredients': {'unobtanium': 10}},
+    'trackerSoul': {'ingredients': {'unobtanium': 10}},
+    'prospectorSoul': {'ingredients': {'unobtanium': 10}},
+    'travelerSoul': {'ingredients': {'unobtanium': 10}},
+    'satyrSoul': {'ingredients': {'unobtanium': 10}}, //25 74
 }, {
-    'tigerSoul': {'ingredients': {'unobtanium': 1}},
-    'leechSoul': {'ingredients': {'unobtanium': 1}},
-    'viperSoul': {'ingredients': {'unobtanium': 1}},
-    'bearSoul': {'ingredients': {'unobtanium': 1}},
-    'warriorSoul': {'ingredients': {'unobtanium': 1}},
-    'fencerSoul': {'ingredients': {'unobtanium': 1}},
-    'vampireSoul': {'ingredients': {'unobtanium': 1}},
-    'duelistSoul': {'ingredients': {'unobtanium': 1}},
-    'warlordSoul': {'ingredients': {'unobtanium': 1}},
-    'gangsterSoul': {'ingredients': {'unobtanium': 1}},
-    'sauronSoul': {'ingredients': {'unobtanium': 1}},
-    'archerSoul': {'ingredients': {'unobtanium': 1}},
-    'sniperSoul': {'ingredients': {'unobtanium': 1}},
-    'assassinSoul': {'ingredients': {'unobtanium': 1}},
-    'trapperSoul': {'ingredients': {'unobtanium': 1}},
-    'giantSoul': {'ingredients': {'unobtanium': 1}},
-    'knightSoul': {'ingredients': {'unobtanium': 1}},
-    'urchinSoul': {'ingredients': {'unobtanium': 1}},
-    'squireSoul': {'ingredients': {'unobtanium': 1}},
-    'healerSoul': {'ingredients': {'unobtanium': 1}},
-    'dancerSoul': {'ingredients': {'unobtanium': 1}},
-    'thiefSoul': {'ingredients': {'unobtanium': 1}}, //22 96
+    'tigerSoul': {'ingredients': {'unobtanium': 10}},
+    'leechSoul': {'ingredients': {'unobtanium': 10}},
+    'viperSoul': {'ingredients': {'unobtanium': 10}},
+    'bearSoul': {'ingredients': {'unobtanium': 10}},
+    'warriorSoul': {'ingredients': {'unobtanium': 10}},
+    'fencerSoul': {'ingredients': {'unobtanium': 10}},
+    'vampireSoul': {'ingredients': {'unobtanium': 10}},
+    'duelistSoul': {'ingredients': {'unobtanium': 10}},
+    'warlordSoul': {'ingredients': {'unobtanium': 10}},
+    'gangsterSoul': {'ingredients': {'unobtanium': 10}},
+    'sauronSoul': {'ingredients': {'unobtanium': 10}},
+    'archerSoul': {'ingredients': {'unobtanium': 10}},
+    'sniperSoul': {'ingredients': {'unobtanium': 10}},
+    'assassinSoul': {'ingredients': {'unobtanium': 10}},
+    'trapperSoul': {'ingredients': {'unobtanium': 10}},
+    'giantSoul': {'ingredients': {'unobtanium': 10}},
+    'knightSoul': {'ingredients': {'unobtanium': 10}},
+    'urchinSoul': {'ingredients': {'unobtanium': 10}},
+    'squireSoul': {'ingredients': {'unobtanium': 10}},
+    'healerSoul': {'ingredients': {'unobtanium': 10}},
+    'dancerSoul': {'ingredients': {'unobtanium': 10}},
+    'thiefSoul': {'ingredients': {'unobtanium': 10}}, //22 96
 }];
 
 //populate allRecipes, and key/level on each recipe
@@ -272,18 +272,27 @@ enchantingRecipes.forEach(function (recipeLevelList, level) {
             if (level == 0 && result.value > 200) {
                 console.log(key + ' recipe should not be worth more than 200, is currently ' + result.value);
             }
-            if (level == 1 && result.value < 200) {
-                console.log(key + ' recipe should not be worth less than 200, is currently ' + result.value);
+            if (level == 1 && recipe.result.indexOf('Charm') >= 0) {
+                logOutOfBounds(result, key, 200, 1500);
             }
-            if (level == 1 && result.value > 1500) {
-                console.log(key + ' recipe should not be worth more than 1500, is currently ' + result.value);
+            if (level == 2 && recipe.result.indexOf('Charm') >= 0) {
+                logOutOfBounds(result, key, 1500, 3000);
             }
-            if (level == 2 && result.value < 1500) {
-                console.log(key + ' recipe should not be worth less than 1500, is currently ' + result.value);
+            if (level == 1 && recipe.result.indexOf('Blessing') >= 0) {
+                logOutOfBounds(result, key, 500, 2500);
             }
-            if (level == 2 && result.value > 3000) {
-                console.log(key + ' recipe should not be worth more than 2000, is currently ' + result.value);
+            if (level == 2 && recipe.result.indexOf('Blessing') >= 0) {
+                logOutOfBounds(result, key, 1500, 5000);
             }
         }
     });
 });
+
+function logOutOfBounds(result, key, min, max) {
+    if (result.value < min) {
+        console.log(key + ' recipe should not be worth less than ' + min + ', is currently ' + result.value);
+    }
+    if (result.value > max) {
+        console.log(key + ' recipe should not be worth more than ' + max + ', is currently ' + result.value);
+    }
+}

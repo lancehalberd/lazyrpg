@@ -200,7 +200,7 @@ items.acid = {
 items.tinScraps = {
     'name': 'Tin Scraps',
     'helpText': 'Scraps of tin that you should recycle.',
-    'value': 10
+    'value': 20
 };
 items.whelpTooth = {
     'name': 'Whelp Tooth',
@@ -249,7 +249,7 @@ items.coolingMagma = {
         uiNeedsUpdate.items = true;
     },
     'timer': 30000,
-    'value': 150
+    'value': 200
 };
 
 items.pearl = {
@@ -260,12 +260,12 @@ items.pearl = {
 items.clamShell = {
     'name': 'Clam Shell',
     'helpText': 'The shell of a giant clam.',
-    'value': 100
+    'value': 150
 };
 items.pangolinScales = {
     'name': 'Pangolin Scales',
     'helpText': 'The sharp keratin scales of a pangolin.',
-    'value': 100
+    'value': 150
 };
 items.boarTusk = {
     'name': 'Boar Tusk',
@@ -275,7 +275,7 @@ items.boarTusk = {
 items.snout = {
     'name': 'Snout',
     'helpText': 'The snout of a pig.',
-    'value': 100
+    'value': 150
 };
 items.woolyScrap = {
     'name': 'Wooly Scrap',
@@ -300,7 +300,7 @@ items.silverScales = {
 items.lavaStone = {
     'name': 'Lava Stone',
     'helpText': 'A stone formed from cooled magma.',
-    'value': 50
+    'value': 100
 };
 items.mithrilShell = {
     'name': 'Mithril Shell',
@@ -310,12 +310,12 @@ items.mithrilShell = {
 items.mithrilPieces = {
     'name': 'Mithril Pieces',
     'helpText': 'Pieces of a mithril eater\'s shell.',
-    'value': 150
+    'value': 200
 };
 items.mithrilDust = {
     'name': 'Mithril Dust',
     'helpText': 'A dust that contains trace amounts of mithril.',
-    'value': 50
+    'value': 150
 };
 items.solvent = {
     'name': 'Solvent',
@@ -330,7 +330,7 @@ items.impWing = {
 items.impTail = {
     'name': 'Imp Tail',
     'helpText': 'The barbed tail of an imp.',
-    'value': 100
+    'value': 150
 };
 items.coral = {
     'name': 'Coral',
@@ -360,7 +360,7 @@ items.saberTooth = {
 items.giantPelt = {
     'name': 'Giant Pelt',
     'helpText': 'An unwieldy mammoth hide.',
-    'value': 300
+    'value': 250
 };
 items.giantBone = {
     'name': 'Giant Bone',
@@ -402,12 +402,21 @@ items.lodeStone = {
     'helpText': 'A magnetized stone that seems to be a core component of many constructs.',
     'value': 300
 };
-
+items.viperFang = {
+    'name': 'Viper Fang',
+    'helpText': 'The fang of a venomous snake.',
+    'value': 350
+};
+items.vampireFang = {
+    'name': 'Vampire Fang',
+    'helpText': 'The fang of a bloodsucking vampire.',
+    'value': 350
+};
 
 items.fireCrystal = {
-    'name': 'Solvent',
-    'helpText': 'A secretion that can dissolve mithril.',
-    'value': 100
+    'name': 'Fire Crystal',
+    'helpText': 'The essence of fire distilled into the form of a crystal.',
+    'value': 1000
 };
 items.dreamStone = {
     'name': 'Dream Stone',

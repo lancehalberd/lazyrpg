@@ -17,7 +17,7 @@ armors.bronzeArmor = {
     'helpText': 'Armor made from an alloy of copper and tin.',
     'armor': 20,
     'level': 10,
-    'value': 2500
+    'value': 3000
 };
 armors.chainMail = {
     'name': 'Chain Mail',
