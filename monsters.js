@@ -444,7 +444,7 @@ monsters.royalGuard = {
     'armor': 80,
     'damage': 300,
     'attackSpeed': 4,
-    'experience': 1500,
+    'experience': 1300,
     '$graphic': $ff2Monster('royalGuard'),
     'spoils': [1500],
     'helpText': 'The elite guards of the king\'s inner sanctum. I will have to defeat them to proceed.',
@@ -477,6 +477,169 @@ monsters.imposterKing = {
     'spoils': ['memoryCrystal'],
     'helpText': 'With the enchantment gone, I may have a chance to do away with this imposter once and for all.'
 };
+monsters.firstMate = {
+    'name': 'First Mate',
+    'level': 38,
+    'health': 8000,
+    'armor': 50,
+    'damage': 200,
+    'attackSpeed': 5,
+    'experience': 1400,
+    '$graphic': $ff2Monster('pirate'),
+    'spoils': [2000],
+    'helpText': 'I have to defeat the first mate before I can face the captain. His blades appear to be soaked in poison.',
+    'poison': 100
+};
+monsters.pirateCaptain = {
+    'name': 'Pirate Captain',
+    'level': 40,
+    'health': 40000,
+    'armor': 50,
+    'damage': 200,
+    'attackSpeed': 4,
+    'experience': 15000,
+    '$graphic': $ff2Monster('pirate'),
+    'spoils': ['dreamStone'],
+    'helpText': 'He insists that he is going to be King of the Pirates...',
+    'armorBreak': 10,
+    'parry': 100
+};
+monsters.giantClam = {
+    'name': 'Giant Clam',
+    'level': 39,
+    'health': 20000,
+    'armor': 100,
+    'damage': 300,
+    'attackSpeed': 1,
+    'experience': 1500,
+    '$graphic': $hillaryMonster('turtle'),
+    'spoils': ['pearl', 'clamShell', 'clamShell', 'brine'],
+    'helpText': 'I could collect some beautiful pearls if I can defeat these clams carefully.',
+    'parry': 50,
+    'cripple': 10
+};
+monsters.pangolin = {
+    'name': 'Pangolin',
+    'level': 40,
+    'health': 10000,
+    'armor': 100,
+    'damage': 80,
+    'attackSpeed': 2,
+    'experience': 1600,
+    '$graphic': $hillaryMonster('armadilloLizard'),
+    'spoils': ['pangolinScales', 'pangolinScales', 'pangolinScales'],
+    'helpText': 'It looks like an ant eater covered in sharp scales.',
+    'parry': 100,
+    'reflect': .8
+};
+monsters.giantBoar = {
+    'name': 'Giant Boar',
+    'level': 41,
+    'health': 15000,
+    'armor': 100,
+    'damage': 80,
+    'attackSpeed': 4,
+    'experience': 1700,
+    '$graphic': $hillaryMonster('rat'),
+    'spoils': ['boarTusk', 'snout', 'woolyScrap'],
+    'helpText': 'A giant boar covered in a thick, wooly pelt.',
+    'parry': 100,
+    'reflect': .8
+};
+monsters.woolyRhino = {
+    'name': 'Wooly Rhino',
+    'level': 42,
+    'health': 20000,
+    'armor': 200,
+    'damage': 500,
+    'attackSpeed': 1,
+    'experience': 1800,
+    '$graphic': $ff2Monster('rhino'),
+    'spoils': ['horn', 'woolyPelt', 'woolyScrap'],
+    'helpText': 'This pachyderm\'s charging attacks will render my armor useless after a few hits.',
+    'armorBreak': 100
+};
+monsters.silverSnake = {
+    'name': 'Silver Snake',
+    'level': 42,
+    'health': 20000,
+    'armor': 200,
+    'damage': 500,
+    'attackSpeed': 1,
+    'experience': 1800,
+    '$graphic': $ff2Monster('snake'),
+    'spoils': ['silverScales', 'silverScales', 'sharpTooth'],
+    'helpText': 'A giant snake with silver scales',
+    'armorBreak': 100
+};
+monsters.moltenGolem = {
+    'name': 'Molten Golem',
+    'level': 42,
+    'health': 20000,
+    'armor': 200,
+    'damage': 500,
+    'attackSpeed': 1,
+    'experience': 1800,
+    '$graphic': $ff2Monster('mudGolem'),
+    'spoils': ['coolingMagma', 'coolingMagma', 'coolingMagma', 'lavaStone'],
+    'helpText': 'A golem born from flowing magma. Defeating it seems to be the secret to mining silver.',
+    'armorBreak': 100
+};
+monsters.mithrilEater = {
+    'name': 'Mithril Eater',
+    'level': 42,
+    'health': 20000,
+    'armor': 200,
+    'damage': 500,
+    'attackSpeed': 1,
+    'experience': 1800,
+    '$graphic': $ff2Monster('mole'),
+    'spoils': ['mithrilShell', 'mithrilPieces', 'solvent', 'mithrilDust'],
+    'helpText': 'The solvent this giant snail produces allows it to break down mithril in the rocks and incorporate it into its shell.',
+    'armorBreak': 100
+};
+monsters.magmaTitan = {
+    'name': 'Magma Titan',
+    'level': 60,
+    'health': 80000,
+    'armor': 200,
+    'damage': 100,
+    'attackSpeed': 1,
+    'experience': 30000,
+    '$graphic': $ff2Monster('golem'),
+    'spoils': ['fireCrystal'],
+    'helpText': 'This titan living in the crater must be the source of the increased volcanic activity.',
+    'armorBreak': 20,
+    'poison': 200
+};
+monsters.imp = {
+    'name': 'Imp',
+    'level': 60,
+    'health': 20000,
+    'armor': 200,
+    'damage': 500,
+    'attackSpeed': 1,
+    'experience': 30000,
+    '$graphic': $ff2Monster('gargoyle'),
+    'spoils': ['impWing', 'impTail'],
+    'helpText': 'Small fire demons that are attracted to magma.',
+    'armorBreak': 100
+};
+monsters.neptune = {
+    'name': 'Neptune',
+    'level': 100,
+    'health': 200000,
+    'armor': 1000,
+    'damage': 1000,
+    'attackSpeed': 10,
+    'experience': 100000,
+    '$graphic': $ff2Monster('hydra'),
+    'spoils': ['memoryCrystal'],
+    'helpText': 'A temporary version of the neptune boss. Harder but simpler than the actual boss.',
+    'armorBreak': 1,
+    'poison': 5,
+    'cripple': 1,
+};
 
 //populate monster.key for all monsters
 $.each(monsters, function (key, value) {
@@ -486,4 +649,7 @@ $.each(monsters, function (key, value) {
             console.log("Missing item drop: " + key + ' : ' + value);
         }
     });
+    if (!value.spoils.length) {
+        console.log("no items: " + key);
+    }
 });

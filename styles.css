@@ -476,6 +476,11 @@
     width: 80px;
     height: 80px;
 }
+.ff2Monster.snake {
+    background-position: -1840px -160px;
+    width: 80px;
+    height: 80px;
+}
 .ff2Monster.bandit {
     background-position: -1264px -140px;
 }
@@ -619,6 +624,22 @@
     top: -50px;
     left: -45px;
 }
+.ff2Monster.rhino {
+    background-position: -1560px -140px;
+    width: 90px;
+    height: 90px;
+    top: -50px;
+    left: -45px;
+}
+.ff2Monster.hydra {
+    background-position: -20px -1280px;
+    width: 180px;
+    height: 180px;
+    top: -50px;
+    left: -130px;
+}
+
+
 
 .test {
     position: absolute;

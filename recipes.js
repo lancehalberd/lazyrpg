@@ -20,6 +20,7 @@ var craftingRecipes = [
     'mediumPotion': {'result': 'mediumPotion','ingredients': {'smallPotion': 3}},
     'tin': {'result': 'tin', 'ingredients': {'tinScraps': 2}},
     'longSword': {'result': 'longSword', 'ingredients': {'copperOre': 100, 'tin': 12}},
+    'longBow': {'result': 'longBow', 'ingredients': {'timber': 10, 'copperOre': 15, 'tin': 2}},
     'bronzePlating': {'result': 'bronzePlating','ingredients': {'copperOre': 15, 'tin': 2}},
     'bronzeArmor': {'result': 'bronzeArmor','ingredients': {'bronzePlating': 10, 'leather': 5}},
     'bronzeHelmet': {'result': 'bronzeHelmet', 'ingredients': {'bronzePlating': 5, 'copperIngot': 5, 'leather': 3}},
@@ -27,7 +28,7 @@ var craftingRecipes = [
     'ironIngot': {'result': 'ironIngot', 'ingredients': {'ironOre': 10}},
     'broadSword': {'result': 'broadSword', 'ingredients': {'ironIngot': 15}},
     'hammer': {'result': 'hammer', 'ingredients': {'timber': 5, 'ironIngot': 10}},
-    'longBow': {'result': 'longBow', 'ingredients': {'timber': 5, 'ironIngot': 2}},
+    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 6, 'timber': 6, 'ironIngot': 2}},
     'chainMail': {'result': 'chainMail','ingredients': {'ironIngot': 10}},
     'ironBoots': {'result': 'ironBoots', 'ingredients': {'ironIngot': 10, 'leather': 3}},
     'plateArmor': {'result': 'plateArmor', 'ingredients': {'ironIngot': 50, 'leather': 5}},
@@ -40,7 +41,7 @@ var craftingRecipes = [
     'steelLeggings': {'result': 'steelLeggings', 'ingredients': {'steelPlating': 5, 'leather': 5}},
     'claymore': {'result': 'claymore', 'ingredients': {'steelPlating': 5, 'copperOre': 40, 'tin': 5}},
     'mace': {'result': 'mace', 'ingredients': {'ironOre': 100, 'charcoal': 30}},
-    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 6, 'sturdyTimber': 6, 'ironOre': 10, 'charcoal': 5}},
+    'handBalista': {'result': 'handBalista', 'ingredients': {'sturdyTimber': 20, 'steelPlating': 5, 'ironOre': 4, 'charcoal': 2}},
     'silverIngot': {'result': 'silverIngot', 'ingredients': {'silverOre': 10}},
     'steeledSilver': {'result': 'steeledSilver', 'ingredients': {'silverOre': 10, 'ironOre': 4, 'charcoal': 1}},
     'cestus': {'result': 'cestus', 'ingredients': {'leatherGloves': 1, 'steelPlating': 2, 'steeledSilver': 1}},
@@ -48,7 +49,7 @@ var craftingRecipes = [
     'silk': {'result': 'silk', 'ingredients': {'strongWeb': 10}},
     'ninjaTabi': {'result': 'ninjaTabi', 'ingredients': {'leather': 5, 'silk': 5}},
 },{
-    'mithrilSilver': {'result': 'mithrilSilver', 'ingredients': {'silverOre': 40, 'ironOre': 8, 'charcoal': 2, 'copperOre': 4, 'tin': 1}}
+    'mithrilSilver': {'result': 'mithrilSilver', 'ingredients': {'silverOre': 40, 'ironOre': 8, 'coolingMagma': 2, 'copperOre': 4, 'tin': 1}}
 }];
 
 var enchantData = [

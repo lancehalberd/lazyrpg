@@ -20,6 +20,9 @@ var winInstantly = false;
 
 function BattleAction(sourceMonster, slot, victoryFunction) {
     var monster = copy(sourceMonster);
+    if (!monsters[monster.key]) {
+        throw new Exception("Battle Action expects a monster: " + sourceMonster);
+    }
     monster.maxHealth = monster.health;
     monster.damaged = 0;
     monster.battleStatus = freshBattleStatus();
@@ -193,11 +196,16 @@ function applyArmorToDamage(damage, armor) {
     return Math.max(1, Math.round(damage / Math.pow(2, 3 * armor / damage)));
 }
 function processStatusEffects(target, deltaTime) {
-    if (target.battleStatus.poisonDamage) {
+    //always process this for player in case the player has a special DOT on them
+    if (target.battleStatus.poisonDamage || target.isPlayer) {
         var damage = Math.min(target.battleStatus.poisonDamage, target.battleStatus.poisonRate * deltaTime / 100);
         //console.log(target.battleStatus.dealtPoisonDamage + ' + ' + damage);
         //dealtPoisonDamage accrues the floating point damage from poison over time
         target.battleStatus.dealtPoisonDamage += damage;
+        //use the dealt poison damage to accrue extra DOT from cooling magma and other sources during battles
+        if (target.isPlayer) {
+            target.battleStatus.dealtPoisonDamage += player.getDamageOverTime() * deltaTime / 1000;
+        }
         //when it is greater than 1 damage is dealt to the targets health and remove from dealtPoisonDamage
         if (target.battleStatus.dealtPoisonDamage > 1) {
             target.health = Math.max(0, target.health - Math.floor(target.battleStatus.dealtPoisonDamage));

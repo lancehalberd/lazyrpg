@@ -222,7 +222,10 @@ areas.ship = {
         new BattleAction(monsters.pirate, 3, refreshArea),
         new ToggleAction(new MoveAction('city', 5), function() {
             return (player.defeatedMonsters.pirate > 0);
-        })
+        }),
+        new ToggleAction(new MoveAction('pirateShip', 6), function() {
+            return (player.defeatedMonsters.imposterKing > 0 ||  player.defeatedMonsters.enchantedKing > 0);
+        }),
     ]
 };
 areas.city = {

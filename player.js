@@ -319,6 +319,15 @@ player.getParry = function () {
 player.getMaxHealth = function () {
     return player.maxHealth * (player.specialSkills.tank ? 2 : 1) * (1 + getTotalEnchantment('health'));
 }
+/**
+ * Certain circumstances put a dot on the player, such as carrying cooling magma
+ * or being in the contaminated lab with no hazmat suit on.
+ */
+player.getDamageOverTime = function () {
+    var total = 0;
+    total += 10 * player.inventory.items.coolingMagma;
+    return total;
+}
 
 function getItemName(item) {
     if (item.slot == 'armors') {

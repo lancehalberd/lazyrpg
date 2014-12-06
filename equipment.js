@@ -36,16 +36,30 @@ armors.plateArmor = {
 armors.steelArmor = {
     'name': 'Steel Armor',
     'helpText': 'Steel mail with embedded plates.',
-    'armor': 100,
-    'level': 35,
+    'armor': 90,
+    'level': 33,
     'value': 30000
+};
+armors.silverMail = {
+    'name': 'Silver Mail',
+    'helpText': 'Chain mail made from Steeled Silver links.',
+    'armor': 100,
+    'level': 39,
+    'value': 35000
+};
+armors.silverPlate = {
+    'name': 'Silver Plate',
+    'helpText': 'Plate mail made from Steeled Silver.',
+    'armor': 115,
+    'level': 44,
+    'value': 50000
 };
 armors.mithrilMail = {
     'name': 'Mithril Mail',
     'helpText': 'Chain mail made from Mithril links.',
-    'armor': 120,
-    'level': 45,
-    'value': 65000
+    'armor': 135,
+    'level': 50,
+    'value': 80000
 };
 armors.mithrilPlate = {
     'name': 'Mithril Plate',

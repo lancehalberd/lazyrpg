@@ -118,6 +118,12 @@ minerals.silver = {
     'damage' : 100,
     '$graphic': $mineralGraphic('iron')
 };
+minerals.gold = {
+    'item': items.goldOre,
+    'time': 50,
+    'damage' : 80,
+    '$graphic': $mineralGraphic('copper')
+};
 
 //populate monster.key for all monsters
 $.each(minerals, function (key, value) { value.key = key;});
@@ -137,8 +143,9 @@ actions.mine = function (params, successCallback, errorCallback) {
 var mining = null;
 var endMiningCallback = null;
 
-function MiningAction(mineral, slot) {
+function MiningAction(mineral, slot, onCompleteFunction) {
     mineral.timeLeft = mineral.time;
+    mineral.onCompleteFunction = onCompleteFunction;
     this.actionName = "mine";
     this.actionTarget = mineral.key;
     this.getDiv = function () {
@@ -168,13 +175,16 @@ function miningLoop(currentTime, deltaTime) {
     var miningSpeed = (1 + player.miningSkill + player.bonuses.miningSpeed.plus) * (player.bonuses.miningSpeed.multi) * (1 + getTotalEnchantment('miningSpeed'));
     var vigor = (1 + player.miningSkill) * (player.bonuses.vigor.multi) * (1 + getTotalEnchantment('vigor'));
     mineral.timeLeft -= miningSpeed * deltaTime / 1000;
-    mineral.damageDealt += mineral.damage * deltaTime / 1000 / vigor;
+    mineral.damageDealt += (player.getDamageOverTime() + mineral.damage / vigor) * deltaTime / 1000;
     player.health = Math.max(0, Math.round(mineral.initialPlayerHealth - mineral.damageDealt));
-    if (mineral.timeLeft <= 0) {
+    if (mineral.timeLeft <= 0 || winInstantly) {
         var item = mineral.item;
         player.inventory[item.slot][item.key]++;
         uiNeedsUpdate[item.slot] = true;
         stopMining();
+        if (mineral.onCompleteFunction) {
+            mineral.onCompleteFunction();
+        }
         recordAction('mine', mineral.key);
     }
     if (player.health <= 0) {

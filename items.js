@@ -142,17 +142,17 @@ items.strongWeb = {
 items.timber = {
     'name': 'Timber',
     'helpText': 'Wood for crafting.',
-    'value': 80
+    'value': 90
 }
 items.sturdyTimber = {
     'name': 'Sturdy Timber',
     'helpText': 'Strong, rigid wood.',
-    'value': 150
+    'value': 200
 }
 items.suppleTimber = {
     'name': 'Supple Timber',
     'helpText': 'Strong wood that can bend a lot without breaking.',
-    'value': 200
+    'value': 250
 }
 items.venom = {
     'name': 'Venom',
@@ -237,10 +237,184 @@ items.silk = {
     'name': "Silk",
     'helpText': 'A rare cloth of the finest quality',
     'value': 2000
-}
+};
+
+items.coolingMagma = {
+    'name': "Cooling Magma",
+    'helpText': 'This shell of cooling magma is so hot you take extra damage while holding it. Turns into Lava Stone after 30 seconds of game time, or you can use it to cool all of it immediatly.',
+    'use': function () {
+        player.inventory.items.lavaStone += player.inventory.coolingMagma;
+        player.inventory.coolingMagma = 0;
+        uiNeedsUpdate.items = true;
+    },
+    'value': 150
+};
+
+items.pearl = {
+    'name': 'Pearl',
+    'helpText': 'A fine lustrous pearl.',
+    'value': 200
+};
+items.clamShell = {
+    'name': 'Clam Shell',
+    'helpText': 'The shell of a giant clam.',
+    'value': 100
+};
+items.pangolinScales = {
+    'name': 'Pangolin Scales',
+    'helpText': 'The sharp keratin scales of a pangolin.',
+    'value': 100
+};
+items.boarTusk = {
+    'name': 'Boar Tusk',
+    'helpText': 'Tusk that was once used for digging.',
+    'value': 200
+};
+items.snout = {
+    'name': 'Snout',
+    'helpText': 'The snout of a pig.',
+    'value': 100
+};
+items.woolyScrap = {
+    'name': 'Wooly Scrap',
+    'helpText': 'A scrap of thick, wooly hide.',
+    'value': 50
+};
+items.horn = {
+    'name': 'Horn',
+    'helpText': 'A large rhinocerous horn.',
+    'value': 200
+};
+items.woolyPelt = {
+    'name': 'Wooly Pelt',
+    'helpText': 'A thick, wooly hide.',
+    'value': 150
+};
+items.silverScales = {
+    'name': 'Silver Scales',
+    'helpText': 'Silver snake scales.',
+    'value': 100
+};
+items.lavaStone = {
+    'name': 'Lava Stone',
+    'helpText': 'A stone formed from cooled magma.',
+    'value': 50
+};
+items.mithrilShell = {
+    'name': 'Mithril Shell',
+    'helpText': 'A large snail shell containing mithril silver.',
+    'value': 250
+};
+items.mithrilPieces = {
+    'name': 'Mithril Pieces',
+    'helpText': 'Pieces of a mithril eater\'s shell.',
+    'value': 150
+};
+items.mithrilDust = {
+    'name': 'Mithril Dust',
+    'helpText': 'A dust that contains trace amounts of mithril.',
+    'value': 50
+};
+items.solvent = {
+    'name': 'Solvent',
+    'helpText': 'A secretion that can dissolve mithril.',
+    'value': 100
+};
+items.impWing = {
+    'name': 'Imp Wing',
+    'helpText': 'The wings of a mischevious imp.',
+    'value': 250
+};
+items.impTail = {
+    'name': 'Imp Tail',
+    'helpText': 'The barbed tail of an imp.',
+    'value': 100
+};
+items.coral = {
+    'name': 'Coral',
+    'helpText': 'Fossilized remains of various aquatic creatures.',
+    'value': 150
+};
+items.toxin = {
+    'name': 'Toxin',
+    'helpText': 'A chemical that interferes with neuroligical functions.',
+    'value': 300
+};
+items.urchinNeedle = {
+    'name': 'Urchin Needle',
+    'helpText': 'An incredible sharp barb from an urchin.',
+    'value': 150
+};
+items.tigerClaw = {
+    'name': 'Tiger Claw',
+    'helpText': 'A razor sharp saber tooth tiger claw.',
+    'value': 200
+};
+items.saberTooth = {
+    'name': 'Saber Tooth',
+    'helpText': 'An oversized saber shaped canine.',
+    'value': 300
+};
+items.giantPelt = {
+    'name': 'Giant Pelt',
+    'helpText': 'An unwieldy mammoth hide.',
+    'value': 300
+};
+items.giantBone = {
+    'name': 'Giant Bone',
+    'helpText': 'A gigantic mammoth bone.',
+    'value': 250
+};
+items.rocFeather = {
+    'name': 'Roc Feather',
+    'helpText': 'A giant feather from a Roc.',
+    'value': 200
+};
+items.rocPinion = {
+    'name': 'Roc Pinion',
+    'helpText': 'The Roc\'s flight feather is longer than your arm span.',
+    'value': 300
+};
+items.magicSoil = {
+    'name': 'Magic Soil',
+    'helpText': 'Enchanted soil from a defeated earth golem.',
+    'value': 200
+};
+items.rocPinion = {
+    'name': 'Roc Pinion',
+    'helpText': 'The Roc\'s flight feather is longer than your arm span.',
+    'value': 300
+};
+items.pollen = {
+    'name': 'Pollen',
+    'helpText': 'This pollen can cause hallucinations.',
+    'value': 150
+};
+items.goldenWeb = {
+    'name': 'Golden Web',
+    'helpText': 'Gold laced spider web.',
+    'value': 300
+};
+items.lodeStone = {
+    'name': 'Lode Stone',
+    'helpText': 'A magnetized stone that seems to be a core component of many constructs.',
+    'value': 300
+};
+
+
+items.fireCrystal = {
+    'name': 'Solvent',
+    'helpText': 'A secretion that can dissolve mithril.',
+    'value': 100
+};
+items.dreamStone = {
+    'name': 'Dream Stone',
+    'helpText': 'The stuff dreams are made of.',
+    'value': 1000
+};
 
 items.unobtanium = {
     'name': 'Unobtanium',
     'helpText': 'A material said to be unobtainable in this version of the game.',
     'value': 0
-}
+};

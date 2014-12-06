@@ -161,7 +161,7 @@ weapons.katana = { //craft mithril
     'armorPierce': .3
 };
 //Swords 3
-weapons.kotetsu = {
+weapons.kotetsu = { //platinum
     'name': 'Kotetsu',
     'helpText': 'A blood thirsty sword that feeds on the souls of monsters.',
     'damage': 180,
@@ -171,7 +171,7 @@ weapons.kotetsu = {
     'value': 60000,
     'lifeSteal': .1
 };
-weapons.excalibur = {
+weapons.excalibur = { //titanium
     'name': 'Excalibur',
     'helpText': 'A famous sword of legend.',
     'damage': 240,
@@ -181,7 +181,7 @@ weapons.excalibur = {
     'value': 120000,
     'parry': 50
 };
-weapons.blackSwordYoru = {
+weapons.blackSwordYoru = { //adamantium
     'name': 'Black Sword Yoru',
     'helpText': 'A giant black sword wielded by the greatest swordsmen in the world.',
     'damage': 250,
@@ -243,7 +243,7 @@ weapons.silverMallet = { //silver
     'value': 20000,
     'cripple': 3
 };
-weapons.morningStar = {
+weapons.morningStar = { //mithril
     'name': 'Morning Star',
     'helpText': 'A club with a larged spiked ball on the end.',
     'damage': 230,
@@ -254,7 +254,7 @@ weapons.morningStar = {
     'armorBreak': 10
 };
 //Clubs 3
-weapons.warHammer ={
+weapons.warHammer ={ //platinum
     'name': 'War Hammer',
     'helpText': 'A huge, heavy hammer made entirely out of a strong metal alloy.',
     'damage': 270,
@@ -264,7 +264,7 @@ weapons.warHammer ={
     'value': 100000,
     'cripple': 5
 };
-weapons.maceOfTheDarkLord ={
+weapons.maceOfTheDarkLord ={//titanium
     'name': 'Mace of the Dark Lord',
     'helpText': 'A powerful mace topped with violent jagged blades.',
     'damage': 330,
@@ -274,7 +274,7 @@ weapons.maceOfTheDarkLord ={
     'value': 200000,
     'parry': 30
 };
-weapons.mjolnir = {
+weapons.mjolnir = {//adamantium
     'name': 'Mjolnir',
     'helpText': 'The hammer of a god, capable of breaking through any fortification.',
     'damage': 370,
@@ -304,7 +304,7 @@ weapons.crossbow = { //port shop
     'level': 1,
     'value': 500
 };
-weapons.longBow = { //craft with iron and supple timber
+weapons.longBow = { //timber and iron
     'name': 'Long Bow',
     'helpText': 'A full sized bow. Powerful, but difficult to use.',
     'damage': 200,
@@ -315,8 +315,8 @@ weapons.longBow = { //craft with iron and supple timber
     'cripple': 1
 };
 //Bows 2
-weapons.compositeBow = { //supple+strudy timber and steel
-    'name': 'Composit Bow',
+weapons.compositeBow = { //supple+sturdy timber and iron
+    'name': 'Composite Bow',
     'helpText': 'By combining materials, this compact bow is easier to use and more powerful than a simple long bow.',
     'damage': 220,
     'attackSpeed': .75,
@@ -325,7 +325,7 @@ weapons.compositeBow = { //supple+strudy timber and steel
     'value': 5000,
     'armorPierce': .2
 };
-weapons.handBalista = {
+weapons.handBalista = { //sturdy timber + steel
     'name': 'Hand Balista',
     'helpText': 'A siege weapon, shrunken so that it can be used by one person. Barely.',
     'damage': 450,
@@ -346,7 +346,7 @@ weapons.vampireSlayer = { //timber + mithril
     'poison': 40,
 };
 //Bows 3
-weapons.compoundBow = {
+weapons.compoundBow = { //gold
     'name': 'Compound Bow',
     'helpText': 'An engineering masterpiece, this bow uses pulleys to increase power and easy of use.',
     'damage': 500,
@@ -356,7 +356,7 @@ weapons.compoundBow = {
     'value': 50000,
     'cripple': 2
 };
-weapons.deathBow = {
+weapons.deathBow = { //platinum
     'name': 'Death Bow',
     'helpText': 'The complex mechanism in this bow coats each arrow in the corrosive blood of the hydra as it is fired.',
     'damage': 1000,
@@ -366,7 +366,7 @@ weapons.deathBow = {
     'value': 300000,
     'poison': 200
 };
-weapons.runeBow = {
+weapons.runeBow = { //adamantium
     'name': 'Rune Bow',
     'helpText': 'This enchanted bow fires arrows of pure energy.',
     'damage': 600,
