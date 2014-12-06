@@ -411,7 +411,7 @@ areas.throneRoom = {
             return !(player.defeatedMonsters.witch > 0) && !(player.defeatedMonsters.enchantedKing > 0);
         }),
         new ToggleAction(new BattleAction(monsters.imposterKing, 2, defeatImposterKing), function() {
-            return player.defeatedMonsters.witch > 0 && !(player.defeatedMonsters.imposterKing > 0);
+            return player.defeatedMonsters.witch > 0 && !(player.defeatedMonsters.imposterKing > 0 || player.defeatedMonsters.enchantedKing > 0);
         }),
         new MoveAction('castle', 6)
     ]
