@@ -224,7 +224,8 @@ areas.ship = {
             return (player.defeatedMonsters.pirate > 0);
         }),
         new ToggleAction(new MoveAction('pirateShip', 6), function() {
-            return (player.defeatedMonsters.imposterKing > 0 ||  player.defeatedMonsters.enchantedKing > 0);
+            //return (player.defeatedMonsters.imposterKing > 0 ||  player.defeatedMonsters.enchantedKing > 0);
+            return player.defeatedMonsters.enchantedKing > 0;
         }),
     ]
 };

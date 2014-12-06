@@ -559,44 +559,50 @@ monsters.woolyRhino = {
     'helpText': 'This pachyderm\'s charging attacks will render my armor useless after a few hits.',
     'armorBreak': 100
 };
-monsters.silverSnake = {
-    'name': 'Silver Snake',
-    'level': 42,
-    'health': 20000,
-    'armor': 200,
-    'damage': 500,
-    'attackSpeed': 1,
-    'experience': 1800,
-    '$graphic': $ff2Monster('snake'),
-    'spoils': ['silverScales', 'silverScales', 'sharpTooth'],
-    'helpText': 'A giant snake with silver scales',
-    'armorBreak': 100
-};
 monsters.moltenGolem = {
     'name': 'Molten Golem',
-    'level': 42,
-    'health': 20000,
-    'armor': 200,
-    'damage': 500,
+    'level': 43,
+    'health': 10000,
+    'armor': 100,
+    'damage': 200,
     'attackSpeed': 1,
-    'experience': 1800,
+    'experience': 1900,
     '$graphic': $ff2Monster('mudGolem'),
     'spoils': ['coolingMagma', 'coolingMagma', 'coolingMagma', 'lavaStone'],
     'helpText': 'A golem born from flowing magma. Defeating it seems to be the secret to mining silver.',
-    'armorBreak': 100
+    'armorBreak': 20,
+    'poison': 100
+};
+monsters.silverSnake = {
+    'name': 'Silver Snake',
+    'level': 44,
+    'health': 15000,
+    'armor': 200,
+    'damage': 200,
+    'attackSpeed': 2,
+    'experience': 2000,
+    '$graphic': $ff2Monster('snake'),
+    'spoils': ['silverScales', 'silverScales', 'sharpTooth'],
+    'helpText': 'A giant silver snake that constricts its prey.',
+    'cripple': 5,
+    'parry': 50
 };
 monsters.mithrilEater = {
     'name': 'Mithril Eater',
-    'level': 42,
+    'level': 45,
     'health': 20000,
-    'armor': 200,
-    'damage': 500,
+    'armor': 300,
+    'damage': 300,
     'attackSpeed': 1,
-    'experience': 1800,
+    'experience': 2100,
     '$graphic': $ff2Monster('mole'),
     'spoils': ['mithrilShell', 'mithrilPieces', 'solvent', 'mithrilDust'],
     'helpText': 'The solvent this giant snail produces allows it to break down mithril in the rocks and incorporate it into its shell.',
-    'armorBreak': 100
+    'armorBreak': 10,
+    'poison': 10,
+    'cripple': 10,
+    'armorPierce': .2,
+    'lifeSteal': .1
 };
 monsters.magmaTitan = {
     'name': 'Magma Titan',
@@ -614,16 +620,17 @@ monsters.magmaTitan = {
 };
 monsters.imp = {
     'name': 'Imp',
-    'level': 60,
+    'level': 47,
     'health': 20000,
     'armor': 200,
-    'damage': 500,
-    'attackSpeed': 1,
-    'experience': 30000,
+    'damage': 300,
+    'attackSpeed': 5,
+    'experience': 2300,
     '$graphic': $ff2Monster('gargoyle'),
     'spoils': ['impWing', 'impTail'],
     'helpText': 'Small fire demons that are attracted to magma.',
-    'armorBreak': 100
+    'armorBreak': 1,
+    'poison': 10
 };
 monsters.neptune = {
     'name': 'Neptune',
