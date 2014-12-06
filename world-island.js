@@ -145,7 +145,7 @@ areas.cove =  {
     'travelDamage': 5,
     '$graphic': $img('shore.png'),
     'actions': [
-        new ToggleAction(new BattleAction(monsters.neptune, 6, refreshArea), function() {
+        new ToggleAction(new BattleAction(monsters.neptune, 3, refreshArea), function() {
             return !(player.defeatedMonsters.neptune > 0);
         }),
         new MoveAction('magmaFlow', 4)

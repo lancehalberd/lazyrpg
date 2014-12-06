@@ -51,7 +51,7 @@ function travelingLoop(currentTime, deltaTime) {
     var timeTraveled = Math.min(player.travelTimeLeft, travelingSpeed * factor * deltaTime / 1000);
     player.travelTimeLeft -= timeTraveled;
     //divide by travelingSpeed because travelTime is actually the time traveled not taking into acount the traveling speed
-    player.travelDamage += (player.getDamageOverTime() + damageLevel / vigor) * timeTraveled / travelingSpeed / 1000;
+    player.travelDamage += (player.getDamageOverTime() + damageLevel / vigor) * timeTraveled / travelingSpeed;
     player.health = Math.max(0, Math.round(player.initialPlayerHealth - player.travelDamage));
     if (player.travelTimeLeft <= 0) {
         setArea(areas[targetArea]);
