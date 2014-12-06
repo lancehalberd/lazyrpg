@@ -63,7 +63,7 @@ monsters.troll = {
     'damage': 80,
     'attackSpeed': .5,
     'experience':100,
-    '$graphic': $ff2Monster('troll'),
+    '$graphic': $hillaryMonster('troll'),
     'spoils': [500],
     'helpText': 'This troll is guarding the only crossing of the river. Without proper gear and training, I won\'t be able to proceed.'
 };
@@ -139,7 +139,7 @@ monsters.snappingTurtus = {
     'damage': 50,
     'attackSpeed': .5,
     'experience': 70,
-    '$graphic': $hillaryMonster('turtle'),
+    '$graphic': $hillaryMonster('spikyTurtle'),
     'spoils': ['spikyShell', 'brokenShell', 'brokenShell', 'brokenShell'],
     'helpText': 'The adult turtus has a spiky shell that hurts me when I try to attack it. I should avoid it until I am much stronger.',
     'reflect': .5

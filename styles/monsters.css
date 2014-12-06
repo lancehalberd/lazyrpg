@@ -19,15 +19,24 @@
 }
 .hillaryMonster.smallTurtle {
     background-image: url('../gfx/critter-turtus.png');
-    height: 50px;
-    top: -25px;
 }
 .hillaryMonster.turtle {
     background-image: url('../gfx/critter-turtus.png');
     width: 150px;
-    height: 80px;
+    height: 150px;
     left: -100px;
-    top: -25px;
+}
+.hillaryMonster.spikyTurtle {
+    background-image: url('../gfx/critter-spikyTurtus.png');
+    width: 150px;
+    height: 150px;
+    left: -100px;
+}
+.hillaryMonster.troll {
+    background-image: url('../gfx/critter-troll.png');
+    width: 200px;
+    height: 200px;
+    left: -120px;
 }
 .hillaryMonster.bandit {
     background-image: url('../gfx/critter-bandit.png');

@@ -179,7 +179,7 @@ areas.river =  {
     'travelDamage': 0,
     '$graphic': $img('river.png'),
     'actions': [
-        new ToggleAction(new BattleAction(monsters.troll, 1, refreshArea), function() {
+        new ToggleAction(new BattleAction(monsters.troll, 2, refreshArea), function() {
             return !(player.defeatedMonsters.troll > 0);
         }),
         new ToggleAction(new MoveAction('savanna', 5), function() {
