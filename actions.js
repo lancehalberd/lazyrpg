@@ -29,12 +29,16 @@ function setupProgrammingWindow() {
         updateProgramButtons();
     });
     $('.js-changeSpeed').on('click', function () {
-        if (gameSpeed < 1 || gameSpeed >= 30) {
+        if (gameSpeed < 1 || gameSpeed >= 500) {
             setSpeed(1);
         } else if (gameSpeed < 2) {
             setSpeed(2);
-        } else {
+        } else if (gameSpeed < 30) {
             setSpeed(30)
+        } else if (gameSpeed < 100) {
+            setSpeed(100)
+        } else {
+            setSpeed(500)
         }
     });
     $('.js-toggleHelp').on('click', function () {
@@ -109,19 +113,19 @@ function getProgramHelpText(program) {
 
 actions.setSpeed = function (params, successCallback, errorCallback) {
     checkParams(1, params);
-    var speed = params[0];
+    var speed = parseInt(params[0]);
     if (speed < 1) {
         throw new ProgrammingError("Speed cannot be less than 1.");
     }
-    if (speed > 100) {
-        throw new ProgrammingError("Speed cannot be higher than 100");
+    if (speed > 500) {
+        throw new ProgrammingError("Speed cannot be higher than 500");
     }
     setSpeed(speed);
     successCallback();
 }
 
 function setSpeed(speed) {
-    if (speed < 1 || speed > 100) {
+    if (speed < 1 || speed > 500) {
         return;
     }
     gameSpeed = Math.floor(speed);
