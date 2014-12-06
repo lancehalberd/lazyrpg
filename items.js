@@ -241,12 +241,14 @@ items.silk = {
 
 items.coolingMagma = {
     'name': "Cooling Magma",
-    'helpText': 'This shell of cooling magma is so hot you take extra damage while holding it. Turns into Lava Stone after 30 seconds of game time, or you can use it to cool all of it immediatly.',
+    'helpText': 'This shell of cooling magma is so hot you take extra damage while holding it. Some will turn into Lava Stone after 30 seconds of game time, or you can use it to cool all of it immediatly.',
     'use': function () {
-        player.inventory.items.lavaStone += player.inventory.coolingMagma;
-        player.inventory.coolingMagma = 0;
+        //add one because 'using' the magma consumes one by default
+        player.inventory.items.lavaStone += (player.inventory.items.coolingMagma + 1);
+        player.inventory.items.coolingMagma = 0;
         uiNeedsUpdate.items = true;
     },
+    'timer': 30000,
     'value': 150
 };
 

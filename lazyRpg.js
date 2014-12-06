@@ -148,22 +148,28 @@ function now() {
 var damageCounterRefresh = 0;
 function mainLoop() {
     var deltaTime = 20;
-    for (var i = 0; i < gameSpeed; i++) {
+    for (var i = 0; i < gameSpeed && (fighting || mining || targetArea); i++) {
+        player.time += deltaTime;
+        if (player.inventory.items.coolingMagma > 0) {
+            items.coolingMagma.timer -= deltaTime;
+            if (items.coolingMagma.timer <= 0) {
+                var amountLost = Math.ceil(player.inventory.items.coolingMagma / 2);
+                player.inventory.items.coolingMagma -= amountLost;
+                player.inventory.items.lavaStone += amountLost;
+                uiNeedsUpdate.items = true;
+                items.coolingMagma.timer = 30000;
+            }
+        }
         if (fighting) {
             fightLoop(player.time, deltaTime);
-            player.time += deltaTime;
-            uiNeedsUpdate.playerStats = true;
         }
         if (mining) {
             miningLoop(player.time, deltaTime);
-            player.time += deltaTime;
-            uiNeedsUpdate.playerStats = true;
         }
         if (targetArea) {
             travelingLoop(player.time, deltaTime);
-            player.time += deltaTime;
-            uiNeedsUpdate.playerStats = true;
         }
+        uiNeedsUpdate.playerStats = true;
     }
     //show a damage indicator at most once a frame
     if (fighting) {

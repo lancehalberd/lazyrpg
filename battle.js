@@ -144,6 +144,10 @@ function fightLoop(currentTime, deltaTime) {
                 if (player.specialSkills.lucky) {
                     player.inventory[item.slot][dropValue]++;
                 }
+                //reset coolingMagma timer each time you gain one from battle
+                if (item.key == 'coolingMagma') {
+                    items.coolingMagma.timer = 30000;
+                }
                 uiNeedsUpdate[item.slot] = true;
             } else if (typeof(dropValue) === 'number') {
                 player.gold += dropValue;
