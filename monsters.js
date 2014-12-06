@@ -502,7 +502,7 @@ monsters.pirateCaptain = {
     'spoils': ['dreamStone'],
     'helpText': 'He insists that he is going to be King of the Pirates...',
     'armorBreak': 10,
-    'parry': 100
+    'parry': 50
 };
 monsters.giantClam = {
     'name': 'Giant Clam',
