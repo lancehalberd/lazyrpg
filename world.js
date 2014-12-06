@@ -130,7 +130,8 @@ areas.shore =  {
         new BattleAction(monsters.snappingTurtus, 3),
         new MoveAction('cave', 4),
         new MoveAction('forest', 6)
-    ]
+    ],
+    'story': 'Was I in a shipwreck? I can remember no events only the impression of suffering and loss remains. And yet I woke up on this shore completely healthy, as if reborn.'
 };
 areas.cave =  {
     'name': 'Cave',
@@ -142,7 +143,8 @@ areas.cave =  {
         new BattleAction(monsters.mole, 1),
         new MiningAction(minerals.copper, 4),
         new MoveAction('shore', 3)
-    ]
+    ],
+    'story': 'The ore deposits in this cave resonate with something lost to me. I once made things, things of quality and beauty. If I can find the strength to harvest this ore, perhaps I will once more.'
 };
 areas.forest =  {
     'name': 'Forest',
@@ -154,7 +156,8 @@ areas.forest =  {
         new BattleAction(monsters.bandit, 3),
         new MoveAction('shore', 1),
         new MoveAction('village', 4)
-    ]
+    ],
+    'story': 'There is something soulless and alien about the creatures I have encountered since waking. It is almost as if their only purpose is to act as adversaries and obstacles to my progress.'
 };
 areas.village =  {
     'name': 'Village',
@@ -167,7 +170,8 @@ areas.village =  {
         new ShopAction([items.smallPotion, helmets.cap, weapons.clothGloves, weapons.shortBow, weapons.club], 2),
         new CraftAction(1),
         new MoveAction('river', 5)
-    ]
+    ],
+    'story': 'This small village will serve well as a safe haven while I get my bearings. I will need to find a larger city to have any chance at figuring out what happened to me.'
 };
 areas.river =  {
     'name': 'River',
@@ -182,8 +186,8 @@ areas.river =  {
             return (player.defeatedMonsters.troll > 0);
         }),
         new MoveAction('village', 3)
-        //new MoveAction('savanna', 5)
-    ]
+    ],
+    'story': 'I am told there is a port south of here beyond this river where I can find a ship to the capitol. An intimidating brute of a monster is guarding the only route across though...'
 };
 areas.savanna = {
     'name': 'Savanna',

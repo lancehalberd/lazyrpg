@@ -295,7 +295,7 @@ items.woolyPelt = {
 items.silverScales = {
     'name': 'Silver Scales',
     'helpText': 'Silver snake scales.',
-    'value': 100
+    'value': 200
 };
 items.lavaStone = {
     'name': 'Lava Stone',
@@ -320,7 +320,7 @@ items.mithrilDust = {
 items.solvent = {
     'name': 'Solvent',
     'helpText': 'A secretion that can dissolve mithril.',
-    'value': 100
+    'value': 180
 };
 items.impWing = {
     'name': 'Imp Wing',
@@ -335,7 +335,7 @@ items.impTail = {
 items.coral = {
     'name': 'Coral',
     'helpText': 'Fossilized remains of various aquatic creatures.',
-    'value': 150
+    'value': 180
 };
 items.toxin = {
     'name': 'Toxin',
@@ -345,7 +345,7 @@ items.toxin = {
 items.urchinNeedle = {
     'name': 'Urchin Needle',
     'helpText': 'An incredible sharp barb from an urchin.',
-    'value': 150
+    'value': 200
 };
 items.tigerClaw = {
     'name': 'Tiger Claw',

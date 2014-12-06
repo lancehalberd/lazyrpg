@@ -271,18 +271,20 @@ enchantingRecipes.forEach(function (recipeLevelList, level) {
         if (result.value) {
             if (level == 0 && result.value > 200) {
                 console.log(key + ' recipe should not be worth more than 200, is currently ' + result.value);
-            }
-            if (level == 1 && recipe.result.indexOf('Charm') >= 0) {
+            } else if (level == 1 && recipe.result.indexOf('Charm') >= 0) {
                 logOutOfBounds(result, key, 200, 1500);
-            }
-            if (level == 2 && recipe.result.indexOf('Charm') >= 0) {
+            } else if (level == 2 && recipe.result.indexOf('Charm') >= 0) {
                 logOutOfBounds(result, key, 1500, 3000);
-            }
-            if (level == 1 && recipe.result.indexOf('Blessing') >= 0) {
+            } else if (level == 1 && recipe.result.indexOf('Blessing') >= 0) {
                 logOutOfBounds(result, key, 500, 2500);
-            }
-            if (level == 2 && recipe.result.indexOf('Blessing') >= 0) {
+            } else if (level == 2 && recipe.result.indexOf('Blessing') >= 0) {
                 logOutOfBounds(result, key, 1500, 5000);
+            } else if (level == 3 && recipe.result.indexOf('Blessing') >= 0) {
+                logOutOfBounds(result, key, 2500, 8000);
+            } else if (level == 3 && recipe.result.indexOf('Soul') >= 0) {
+                logOutOfBounds(result, key, 5000, 15000);
+            } else if (level == 4 && recipe.result.indexOf('Soul') >= 0) {
+                logOutOfBounds(result, key, 8000, 20000);
             }
         }
     });
