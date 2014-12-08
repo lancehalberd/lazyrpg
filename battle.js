@@ -276,7 +276,7 @@ function updateMonster(monster) {
 }
 function monsterAttackSpeed(monster) {
     var attackSpeed = applyCripple(monster.attackSpeed, monster.battleStatus.crippled);
-    if (player.helmet == helmets.proudHat) {
+    if (fighting == monster && player.helmet == helmets.proudHat) {
         attackSpeed *= .9;
     }
     return attackSpeed;
