@@ -229,8 +229,7 @@ areas.ship = {
             return (player.defeatedMonsters.pirate > 0);
         }),
         new ToggleAction(new MoveAction('pirateShip', 6), function() {
-            //return (player.defeatedMonsters.imposterKing > 0 ||  player.defeatedMonsters.enchantedKing > 0);
-            return player.defeatedMonsters.enchantedKing > 0;
+            return (player.defeatedMonsters.imposterKing > 0 ||  player.defeatedMonsters.enchantedKing > 0);
         }),
     ]
 };
@@ -404,7 +403,6 @@ areas.castle = {
 };
 function defeatImposterKing() {
     refreshArea();
-    alert("You defeated the imposter king, but just what was he plotting anyway?");
 }
 areas.throneRoom = {
     'name': 'Throne Room',

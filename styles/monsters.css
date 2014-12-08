@@ -54,6 +54,15 @@
 .hillaryMonster.armadilloLizard {
     background-position: -880px 0px;
 }
+.hillaryMonster.hawk {
+    background-position: -1100px 0px;
+}
+.hillaryMonster.lion {
+    background-position: -1320px 0px;
+}
+.hillaryMonster.flower {
+    background-position: -1540px 0px;
+}
 .hillaryMonster.rat {
     width: 100px;
     height: 100px;

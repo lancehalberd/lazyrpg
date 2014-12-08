@@ -75,7 +75,7 @@ monsters.hawk = {
     'damage': 40,
     'attackSpeed': 3,
     'experience': 20,
-    '$graphic': $ff2Monster('bird'),
+    '$graphic': $hillaryMonster('small hawk'),
     'spoils': ['birdWing', 'feather', 'feather'],
     'helpText': 'A fierce bird of prey. It\'s keen eyes can spot weaknesses in my defense, ignoring some of my armor.',
     'armorPierce': .5
@@ -101,7 +101,7 @@ monsters.lion = {
     'damage': 40,
     'attackSpeed': 1,
     'experience': 40,
-    '$graphic': $ff2Monster('lion'),
+    '$graphic': $hillaryMonster('small lion'),
     'spoils': ['lionMane', 'largePelt', 'furScrap'],
     'armorBreak': 5,
     'helpText': 'A large cat with a beard. Its attacks are so powerful it can reduce the effectiveness of my armor over time.'
@@ -218,7 +218,7 @@ monsters.fowler = {
     'damage': 120,
     'attackSpeed': 4,
     'experience': 170,
-    '$graphic': $ff2Monster('flower'),
+    '$graphic': $hillaryMonster('small flower'),
     'spoils': ['suppleTimber', 'timber'],
     'helpText': 'The pollen from this flower makes me dizzy and sneeze, reducing my opportunities to attack.',
     'cripple': 5
