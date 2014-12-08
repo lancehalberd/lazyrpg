@@ -135,7 +135,7 @@ areas.magmaFlow =  {
         new BattleAction(monsters.imp, 2),
         new MoveAction('volcano', 7),
         new ToggleAction(new MoveAction('cove', 6), function() {
-            return true || player.defeatedMonsters.magmaTitan > 0;
+            return player.defeatedMonsters.magmaTitan > 0;
         })
     ]
 };
