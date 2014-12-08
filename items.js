@@ -138,6 +138,11 @@ items.strongWeb = {
     'helpText': 'Surprisingly strong webbing.',
     'value': 100
 };
+items.goldenWeb = {
+    'name': 'Golden Web',
+    'helpText': 'Gold laced spider web.',
+    'value': 400
+};
 
 items.timber = {
     'name': 'Timber',
@@ -237,6 +242,11 @@ items.silk = {
     'name': "Silk",
     'helpText': 'A rare cloth of the finest quality',
     'value': 2000
+};
+items.goldenLeather = {
+    'name': 'Golden Leather',
+    'helpText': 'A strong luxuriant fabric that has many of the same properties as orchialcum.',
+    'value': 7000
 };
 
 items.coolingMagma = {
@@ -392,14 +402,24 @@ items.pollen = {
     'helpText': 'This pollen can cause hallucinations.',
     'value': 150
 };
-items.goldenWeb = {
-    'name': 'Golden Web',
-    'helpText': 'Gold laced spider web.',
-    'value': 300
-};
 items.lodeStone = {
     'name': 'Lode Stone',
     'helpText': 'A magnetized stone that seems to be a core component of many constructs.',
+    'value': 300
+};
+items.gear = {
+    'name': 'Gear',
+    'helpText': 'A gear from a machine.',
+    'value': 250
+};
+items.pulley = {
+    'name': 'Pulley',
+    'helpText': 'A simple machine often employed to lift heavy loads.',
+    'value': 250
+};
+items.carbonFiber = {
+    'name': 'Carbon Fiber',
+    'helpText': 'An incredibly strong fiber found in some machine components.',
     'value': 300
 };
 items.viperFang = {
@@ -422,6 +442,11 @@ items.dreamStone = {
     'name': 'Dream Stone',
     'helpText': 'The stuff dreams are made of.',
     'value': 1000
+};
+items.goldenFleece = {
+    'name': 'Golden Fleece',
+    'helpText': 'The hide of the legendary golden hind.',
+    'value': 5000
 };
 
 items.unobtanium = {

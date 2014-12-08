@@ -37,32 +37,37 @@ items.steelPlating = {
 items.silverOre = {
     'name': 'Silver Ore',
     'helpText': 'Raw silver ore.',
-    'value': 80
+    'value': 200
 };
 items.silverIngot = {
     'name': 'Silver Ingot',
     'helpText': 'Refined silver that can be used for crafting, but it isn\'t very hard.',
-    'value': 1000
+    'value': 2000
 };
 items.steeledSilver = {
     'name': 'Steeled Silver',
     'helpText': 'A stronger silver alloy. Weaker than regular steel but it repels evil.',
-    'value': 1500
+    'value': 4000
 };
 items.mithrilSilver = {
     'name': 'Mithril Silver',
     'helpText': 'A silver alloy that is even stronger than steel.',
-    'value': 4000
+    'value': 8000
 };
 items.goldOre = {
     'name': 'Gold Ore',
     'helpText': 'Raw gold ore.',
-    'value': 200
+    'value': 400
 };
 items.goldIngot = {
     'name': 'Gold Ingot',
     'helpText': 'Refined gold that can be used for crafting. It is quite soft for a metal.',
-    'value': 1200
+    'value': 4000
+};
+items.orchialcum = {
+    'name': 'Orchialcum',
+    'helpText': 'An alloy that is more resilient than mithril yet easier to craft with.',
+    'value': 10000
 };
 items.platinumOre = {
     'name': 'Platinum Ore',
@@ -74,7 +79,7 @@ items.platinumIngot = {
     'helpText': 'Refined platinum that can be used for crafting. Somewhat harder than iron.',
     'value': 6000
 };
-items.titanimOre = {
+items.titaniumOre = {
     'name': 'Titanium Ore',
     'helpText': 'Raw titanium ore.',
     'value': 5000

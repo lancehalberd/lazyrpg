@@ -66,7 +66,14 @@ armors.mithrilPlate = {
     'helpText': 'Full plate armor forged from Mithril.',
     'armor': 150,
     'level': 55,
-    'value': 110000
+    'value': 135000
+};
+armors.orchialcumMail = {
+    'name': 'Orchialcum Mail',
+    'helpText': 'Chain Mail made from Orchialcum links.',
+    'armor': 190,
+    'level': 72,
+    'value': 200000
 };
 armors.holyArmor = {
     'name': 'Holy Armor',
@@ -75,11 +82,18 @@ armors.holyArmor = {
     'level': 70,
     'value': 290000
 };
+armors.battleSuit = {
+    'name': 'Battle Suit',
+    'helpText': 'This futuristic combat suit is said to be the strongest in the world by some.',
+    'armor': 240,
+    'level': 76,
+    'value': 400000
+};
 armors.adamantArmor = {
     'name': 'Adamant Armor',
     'helpText': 'Mythical armor that is light and impenetrable.',
     'armor': 260,
-    'level': 80,
+    'level': 86,
     'value': 680000
 };
 
@@ -137,7 +151,7 @@ helmets.silverHelmet = {
     'helpText': 'A helmet made from silver.',
     'armor': 50,
     'level': 41,
-    'value': 30000
+    'value': 38000
 };
 helmets.mithrilHelmet = {
     'name': 'Mithril Helmet',
@@ -148,14 +162,21 @@ helmets.mithrilHelmet = {
 };
 helmets.goldenHelmet = {
     'name': 'Golden Helmet',
-    'helpText': 'A helmet made from a durable gold and silver alloy.',
+    'helpText': 'A helmet made from orchialcum.',
     'armor': 80,
     'level': 60,
-    'value': 200000
+    'value': 170000
+};
+helmets.platinumHelmet = {
+    'name': 'Platinum Helmet',
+    'helpText': 'A helmet made from a platinum alloy.',
+    'armor': 100,
+    'level': 70,
+    'value': 600000
 };
 helmets.damascusHelmet = {
     'name': 'Damascus Helmet',
-    'helpText': 'A helmet made of an incredibly strong material.',
+    'helpText': 'A helmet made from an incredibly strong material.',
     'armor': 100,
     'level': 78,
     'value': 600000
@@ -212,7 +233,7 @@ boots.steelLeggings = {
 };
 boots.ninjaTabi = {
     'name': 'Ninja Tabi',
-    'helpText': 'Leg wear from a far off land that reduces the damage from a monsters first attack by ten percent.',
+    'helpText': 'Leg wear from a far off land that increase resistance to monster special abilities by 20%.',
     'armor': 60,
     'level': 37,
     'value': 15000
@@ -228,20 +249,27 @@ boots.wingedBoots = {
     'name': 'Winged Boots',
     'helpText': 'Winged boots that allow you to attack faster.',
     'armor': 80,
-    'level': 65,
+    'level': 62,
     'value': 100000
+};
+boots.cyberBoots = {
+    'name': 'Cyber Boots',
+    'helpText': 'Cool looking futuristic boots filled with technology.',
+    'armor': 90,
+    'level': 68,
+    'value': 150000
 };
 boots.giantBoots = {
     'name': 'Giant Boots',
     'helpText': 'Boots that let you cover vast distances in a single step.',
-    'armor': 90,
-    'level': 76,
+    'armor': 100,
+    'level': 74,
     'value': 300000
 };
 boots.crystalBoots = {
     'name': 'Crystal Boots',
     'helpText': 'Boots forged from living crystal that enhance the special abilities of the wearer.',
     'armor': 130,
-    'level': 85,
+    'level': 82,
     'value': 1000000
 };

@@ -63,7 +63,7 @@ function fightLoop(currentTime, deltaTime) {
         var armorPierce = player.getArmorPierce();
         var damage = player.getDamage();
         if (!player.specialSkills.scan) {
-            var factor = 1 / (1 + (player.specialSkills.stoic ? .5 : 0) + getTotalEnchantment('tenacity'));
+            var factor = 1 / player.getTenacity();
             var parry = monster.parry ? monster.parry : 0;
             damage = applyArmorToDamage(damage, Math.max(0, ((parry * factor + Math.max(0, monster.armor - monster.battleStatus.armorReduction))) * (1 - armorPierce)));
             if (monster.reflect) {
@@ -104,7 +104,7 @@ function fightLoop(currentTime, deltaTime) {
     }
     monster.nextAttack -= deltaTime;
     if (monster.nextAttack <= 0) {
-        var factor = 1 / (1 + (player.specialSkills.stoic ? .5 : 0) + getTotalEnchantment('tenacity'));
+        var factor = 1 / player.getTenacity();
         var armorPierce = monster.armorPierce ? (factor * monster.armorPierce) : 0;
         var damage = applyArmorToDamage(monster.damage, Math.max(0, player.getArmor() * (1 - armorPierce)));
         var mitigatedDamage = monster.damage - damage;
@@ -126,7 +126,7 @@ function fightLoop(currentTime, deltaTime) {
         if (monster.lifeSteal) {
             monster.health = Math.min(monster.maxHealth, monster.health + Math.floor(damage * factor * monster.lifeSteal));
         }
-        monster.nextAttack += 1000 / applyCripple(monster.attackSpeed, monster.battleStatus.crippled);
+        monster.nextAttack += 1000 / monsterAttackSpeed(monster);
     }
     if (winInstantly || monster.health <= 0) {
         gainExperience(Math.floor(monster.experience * (1 + getTotalEnchantment('experience'))), monster.level);
@@ -255,7 +255,7 @@ function updateMonster(monster) {
     $monster.find('.js-currentHealth').text(Math.ceil(monster.health));
     $monster.find('.js-maxHealth').text(Math.ceil(monster.maxHealth));
     $monster.find('.js-damage').text(monster.damage);
-    $monster.find('.js-attackSpeed').text(applyCripple(monster.attackSpeed, monster.battleStatus.crippled).toFixed(2));
+    $monster.find('.js-attackSpeed').text(monsterAttackSpeed(monster).toFixed(2));
     $monster.find('.js-armor').text(Math.max(0, monster.armor - monster.battleStatus.armorReduction));
     var healthPercent = monster.health / monster.maxHealth;
     $monster.find('.js-healthFill').css('width', (100 * healthPercent) + '%');
@@ -273,6 +273,13 @@ function updateMonster(monster) {
         }
         $monster.find('.js-spoilsContainer').append($itemRow.clone());
     }
+}
+function monsterAttackSpeed(monster) {
+    var attackSpeed = applyCripple(monster.attackSpeed, monster.battleStatus.crippled);
+    if (player.helmet == helmets.proudHat) {
+        attackSpeed *= .9;
+    }
+    return attackSpeed;
 }
 function scheduleMonsterForUpdate(monster) {
     uiNeedsUpdate.monsters[monster.key] = monster;

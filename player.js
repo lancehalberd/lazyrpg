@@ -321,10 +321,10 @@ player.getParry = function () {
         base *= 2;
     }
     return applyBonus(base, player.bonuses.parry);
-}
+};
 player.getMaxHealth = function () {
     return player.maxHealth * (player.specialSkills.tank ? 2 : 1) * (1 + getTotalEnchantment('health'));
-}
+};
 /**
  * Certain circumstances put a dot on the player, such as carrying cooling magma
  * or being in the contaminated lab with no hazmat suit on.
@@ -339,7 +339,14 @@ player.getDamageOverTime = function () {
         total += 100 * areas.cove.leechingTentacles;
     }
     return total;
-}
+};
+player.getTenacity = function () {
+    var tenacity = (1 + (player.specialSkills.stoic ? .5 : 0) + getTotalEnchantment('tenacity'));
+    if (player.boots == boots.ninjaTabi) {
+        tenacity *= 1.2;
+    }
+    return tenacity;
+};
 
 function getItemName(item) {
     if (item.slot == 'armors') {

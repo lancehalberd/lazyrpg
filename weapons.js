@@ -55,7 +55,7 @@ weapons.cestus = { //can be crafted from gloves, steel plating and silvered stee
     'attackSpeed': 2.5,
     'type': 'fist',
     'level': 2,
-    'value': 5000,
+    'value': 8000,
     'armorBreak': 2
 };
 weapons.tigerClaws = { //need claws from saver tooth tigers
@@ -65,7 +65,7 @@ weapons.tigerClaws = { //need claws from saver tooth tigers
     'attackSpeed': 3,
     'type': 'fist',
     'level': 2,
-    'value': 10000,
+    'value': 20000,
     'lifeSteal': .1
 };
 //Fists 3
@@ -146,7 +146,7 @@ weapons.silverSword = { //mine silver
     'attackSpeed': 2,
     'type': 'sword',
     'level': 2,
-    'value': 15000,
+    'value': 21000,
     'armorPierce': .4
 };
 weapons.katana = { //craft mithril
@@ -250,7 +250,7 @@ weapons.morningStar = { //mithril
     'attackSpeed': 1.25,
     'type': 'club',
     'level': 2,
-    'value': 40000,
+    'value': 35000,
     'armorBreak': 10
 };
 //Clubs 3

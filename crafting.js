@@ -68,7 +68,7 @@ function displyCraftingPage($container, skillLevel, recipeList) {
     $('.js-inventoryPanel.js-items').addClass('selected');
     $container.find('.js-body').empty();
     for (var i = 0; i < recipeList.length && i <= skillLevel; i++) {
-        $('.js-enchantContainer .js-body').append($div('heading', 'Level ' + i));
+        $container.find('.js-body').append($div('heading', 'Level ' + i));
         $.each(recipeList[i], function (key, recipe) {
             //{'result': 'fur', 'ingredients': {'furScrap': 5}},
             var item = allItems[recipe.result];
