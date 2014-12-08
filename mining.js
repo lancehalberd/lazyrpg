@@ -205,6 +205,7 @@ function stopMining() {
             endMiningCallback();
             endMiningCallback = null;
         }
+        removeToolTip();
     }
 }
 

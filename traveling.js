@@ -18,7 +18,8 @@ actions.move = function (params, successCallback, errorCallback) {
     endMovingCallback = successCallback;
 }
 var $travelBar = $div('travel healthBar', $div('js-timeFill travel healthFill')).append($div('js-name name', 'traveling'));
-function MoveAction(target, slot) {
+var onCompleteTravelFunction = null;
+function MoveAction(target, slot, onCompleteFunction) {
     this.actionName = "move";
     this.actionTarget = target;
     this.getDiv = function () {
@@ -33,6 +34,7 @@ function MoveAction(target, slot) {
             //attach the travel bar to this travel action to display the travel sequence
             $('.action.slot' + slot).append($travelBar);
             targetArea = target;
+            onCompleteTravelFunction = onCompleteFunction;
             //these are stored on the mineral as a hack since we don't
             //track floating point life, but need to track floating point damage
             player.travelDamage = 0;
@@ -56,6 +58,9 @@ function travelingLoop(currentTime, deltaTime) {
     if (player.travelTimeLeft <= 0) {
         setArea(areas[targetArea]);
         recordAction('move', targetArea);
+        if (onCompleteTravelFunction) {
+            onCompleteTravelFunction();
+        }
         stopTraveling();
     }
     uiNeedsUpdate.playerStats = true;
@@ -70,6 +75,7 @@ function stopTraveling() {
             endMovingCallback();
             endMovingCallback = null;
         }
+        removeToolTip();
     }
 }
 

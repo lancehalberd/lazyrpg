@@ -160,7 +160,11 @@ function mainLoop() {
                 items.coolingMagma.timer = 30000;
             }
         }
+        if (currentArea.loop) {
+            currentArea.loop(deltaTime);
+        }
         if (fighting) {
+            scheduleMonsterForUpdate(fighting);
             fightLoop(player.time, deltaTime);
         }
         if (mining) {
@@ -195,7 +199,8 @@ var uiNeedsUpdate = {
     'boots': false,
     'skillTree': false,
     'craft': false,
-    'shop': false
+    'shop': false,
+    'monsters': {}
 };
 
 function updateUI() {
@@ -203,17 +208,19 @@ function updateUI() {
         updatePlayerStats();
         uiNeedsUpdate.playerStats = false;
     }
-    if (uiNeedsUpdate.monsterStats) {
-        if (fighting) {
-            updateMonster(fighting);
-        }
-        uiNeedsUpdate.monsterStats = false;
-    }
+    $.each(uiNeedsUpdate.monsters, function (key, monster) {
+        updateMonster(monster);
+    });
+    uiNeedsUpdate.monsters = {};
     if (uiNeedsUpdate.miningStats) {
         if (mining) {
             updateMineral(mining);
         }
         uiNeedsUpdate.miningStats = false;
+    }
+    if (uiNeedsUpdate.area) {
+        refreshArea();
+        uiNeedsUpdate.area = false;
     }
     if (uiNeedsUpdate.travelingStats) {
         updateTravelBar();

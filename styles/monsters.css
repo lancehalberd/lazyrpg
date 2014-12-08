@@ -269,9 +269,32 @@
     left: -45px;
 }
 .ff2Monster.hydra {
-    background-position: -20px -1280px;
-    width: 180px;
-    height: 180px;
+    background-position: -15px -960px;
+    width: 135px;
+    height: 135px;
+    top: -40px;
+    left: -70px;
+    background-size: 1651px;
+}
+.ff2Monster.tentacle1 {
+    width: 80px;
+    background-position: -10px -30px;
+}
+.ff2Monster.tentacle2 {
+    width: 80px;
+    background-position: -90px -30px;
+}
+.ff2Monster.tentacle3 {
+    width: 80px;
+    background-position: -890px -900px;
+}
+.ff2Monster.neptuneCore {
+    background-position: -200px -280px;
+}
+.ff2Monster.neptuneHead {
+    background-position: -10px -260px;
+    width: 90px;
+    height: 90px;
     top: -50px;
-    left: -130px;
+    left: -45px;
 }

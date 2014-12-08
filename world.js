@@ -49,6 +49,7 @@ function RestAction(slot) {
 function ToggleAction(innerAction, condition) {
     this.actionName = innerAction.actionName;
     this.actionTarget = innerAction.actionTarget;
+    this.innerAction = innerAction;
     this.getDiv = function () {
         return condition() ? innerAction.getDiv() : $div('').hide();
     };
@@ -109,7 +110,7 @@ function setArea(area) {
     currentArea.actions.forEach(function (action) {
         var $actionDiv = action.getDiv();
         $('.js-currentArea').append($actionDiv);
-        $actionDiv.on('click', function () {
+        $actionDiv.on('mousedown', function () {
             action.perform();
             removeToolTip();
         });

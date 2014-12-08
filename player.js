@@ -213,7 +213,11 @@ player.getAttackSpeed = function () {
     if (player.specialSkills.tank) {
         total = total / 2;
     }
-    return applyCripple(total, player.battleStatus.crippled);
+    var cripplingEffect = player.battleStatus.crippled;
+    if (currentArea && currentArea.key == 'cove' && areas.cove.isTentacleDefeated && areas.cove.cripplingTentacles > .5) {
+        cripplingEffect += 2 * areas.cove.cripplingTentacles;
+    }
+    return applyCripple(total, cripplingEffect);
 };
 player.getArmor = function () {
     //double damage, 0 armor
@@ -328,6 +332,12 @@ player.getMaxHealth = function () {
 player.getDamageOverTime = function () {
     var total = 0;
     total += 10 * player.inventory.items.coolingMagma;
+    if (currentArea && currentArea.key == 'cove' && areas.cove.isTentacleDefeated && areas.cove.poisoningTentacles > .5) {
+        total += 50 * areas.cove.poisoningTentacles;
+    }
+    if (currentArea && currentArea.key == 'cove' && areas.cove.isNeptuneDesperate && areas.cove.leechingTentacles > .5) {
+        total += 100 * areas.cove.leechingTentacles;
+    }
     return total;
 }
 

@@ -543,8 +543,7 @@ monsters.giantBoar = {
     '$graphic': $hillaryMonster('rat'),
     'spoils': ['boarTusk', 'snout', 'woolyScrap'],
     'helpText': 'A giant boar covered in a thick, wooly pelt.',
-    'parry': 100,
-    'reflect': .8
+    'parry': 100
 };
 monsters.woolyRhino = {
     'name': 'Wooly Rhino',
@@ -632,20 +631,94 @@ monsters.imp = {
     'armorBreak': 1,
     'poison': 10
 };
-monsters.neptune = {
+monsters.tentacle = {
+    'name': 'Tentacle',
+    'level': 70,
+    'health': 5000,
+    'armor': 200,
+    'damage': 200,
+    'attackSpeed': 1,
+    'experience': 500,
+    '$graphic': $ff2Monster('tentacle1'),
+    'spoils': [],
+    'helpText': 'A lone tentacle protrudes from the cove. Do I dare disturb the creature that dwells here?',
+    'cripple': 2
+};
+monsters.tentacles = {
+    'name': 'Tentacles',
+    'level': 70,
+    'health': 5000,
+    'armor': 200,
+    'damage': 200,
+    'attackSpeed': 1,
+    'experience': 500,
+    '$graphic': $ff2Monster('tentacle1'),
+    'spoils': [],
+    'helpText': 'More tentacles keep emerging as I fight growing more powerful and interfering with my ability to attack while I\'m here. If these become too numerous I may have to retreat and try again.',
+    'cripple': 2,
+};
+monsters.toxicStingers = {
+    'name': 'Toxic Stingers',
+    'level': 70,
+    'health': 5000,
+    'armor': 200,
+    'damage': 200,
+    'attackSpeed': 1,
+    'experience': 500,
+    '$graphic': $ff2Monster('tentacle2'),
+    'spoils': [],
+    'helpText': 'These stingers keep growing and splitting, dealing increasing poison damage over time as I fight in this area.',
+    'poison': 50,
+};
+monsters.leechingTentacles = {
+    'name': 'Leeching Tentacles',
+    'level': 70,
+    'health': 5000,
+    'armor': 200,
+    'damage': 200,
+    'attackSpeed': 1,
+    'experience': 500,
+    '$graphic': $ff2Monster('tentacle3'),
+    'spoils': [],
+    'helpText': 'Some of the tentacles are now trying to drain my life to regenerate the core.',
+    'lifesteal': 1,
+};
+monsters.neptuneBody = {
     'name': 'Neptune',
-    'level': 100,
+    'level': 70,
     'health': 200000,
-    'armor': 1000,
-    'damage': 1000,
-    'attackSpeed': 10,
-    'experience': 100000,
+    'armor': 200,
+    'damage': 200,
+    'attackSpeed': 2,
+    'experience': 2000,
     '$graphic': $ff2Monster('hydra'),
+    'spoils': [],
+    'helpText': 'So this is the body of the beat. Its size is incomprehensible. Is it even possible to defeat this abomination?',
+};
+monsters.neptuneHead = {
+    'name': 'Neptune\'s Head',
+    'level': 70,
+    'health': 20000,
+    'armor': 200,
+    'damage': 500,
+    'attackSpeed': 1,
+    'experience': 2000,
+    '$graphic': $ff2Monster('neptuneHead'),
+    'spoils': [],
+    'helpText': 'The head seems to be directing the actions of all the tentacles. As long as it is present the rest of the tentacles regenerate much faster.',
+};
+monsters.neptuneCore = {
+    'name': 'Neptune\'s Core',
+    'level': 70,
+    'health': 250000,
+    'armor': 200,
+    'damage': 2000,
+    'attackSpeed': .5,
+    'experience': 50000,
+    '$graphic': $ff2Monster('neptuneCore'),
     'spoils': ['memoryCrystal'],
-    'helpText': 'A temporary version of the neptune boss. Harder but simpler than the actual boss.',
-    'armorBreak': 1,
-    'poison': 5,
-    'cripple': 1,
+    'helpText': 'The core is exposed. I need to destroy it before the body regenerates. I will have to be quick or else it will regain all of its health.',
+    'cripple': 5,
 };
 
 //populate monster.key for all monsters
@@ -656,7 +729,4 @@ $.each(monsters, function (key, value) {
             console.log("Missing item drop: " + key + ' : ' + value);
         }
     });
-    if (!value.spoils.length) {
-        console.log("no items: " + key);
-    }
 });
