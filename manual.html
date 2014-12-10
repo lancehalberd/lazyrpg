@@ -118,6 +118,23 @@ loop 5 {
   rest
 }
 </pre>
+<p>You can document your code and leave hints by using comments in your code:</p>
+<pre class="code">
+//This is a comment
+loop 5 {
+  move forest
+  loop 3 {//fight 3 rats to reach level 2
+    fight rat
+  }
+  learn 6 7 //This is Fist Damage +5
+  loop 3 {//we can only beat 3 more rats
+    fight rat
+  }
+  //go back, rest and repeat
+  move village
+  rest
+}
+</pre>
 <p>You can use 'if' statements for conditional logic:</p>
 <pre class="code">
 if condition {
@@ -126,6 +143,7 @@ if condition {
 </pre>
 <p>For example:</p>
 <pre class="code">
+//make and sell a Fur Coat if we have enough fur
 if my.items.fur > 5 {
   make furCoat
   sell 1 furCoat
@@ -164,7 +182,9 @@ while condition {
 <p>For example:</p>
 <pre class="code">
 while my.level < 3 {
+  //only heal when my health drops below 100
   while my.health < 100 {
+    //run back and buy more potions if I run out
     if my.items.smallPotion < 1 {
       move village
       buy 10 smallPotion
@@ -178,12 +198,14 @@ while my.level < 3 {
 <p>you can use the 'runProgram' command to run other programs. For example, this program will call another program called "healToFullLife" if such a program exists:</p>
 <pre class="code">
 while my.level < 3 {
+  //run the program called 'healToFullLife'
   runProgram healToFullLife
   fight rat
 }
 </pre>
 <p>A 'try' statement can be used when you aren't sure if an action will be valid. For instance, the following code will mine silver and heal as long as possible, then move to the Volcano Cave:</p>
 <pre class="code">
+//mine silver and heal as long as there is any left
 try {
   while 1 > 0 {
     mine silver
@@ -197,6 +219,8 @@ move volcanoCave
 try {
   use smallPotion
 } catch {
+  //this will still throw an error
+  //if I can't buy a small potion
   buy 1 smallPotion
   use smallPotion
 }
