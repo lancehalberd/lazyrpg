@@ -180,12 +180,12 @@ function runMethod(program) {
         currentLine: 0,
         loopStack: []
     });
-    runNextLine();
+    onActionSuccess();
 }
 function stopMethod() {
     callStack.pop();
     if (callStack.length) {
-        runNextLine();
+        onActionSuccess();
     } else {
         stopProgram();
     }
