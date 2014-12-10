@@ -209,7 +209,7 @@ function moveToClosingBracket(functionContext) {
     var bracketDepth = 1;
     var currentLineNumber = functionContext.currentLine;
     while (currentLineNumber < functionContext.lines.length) {
-        var currentLine = $.trim(functionContext.lines[currentLineNumber]);
+        var currentLine = trimComments(functionContext.lines[currentLineNumber]);
         if (currentLine.indexOf('}') >= 0) {
             bracketDepth--;
             if (bracketDepth <= 0) {
@@ -235,17 +235,18 @@ function runNextLine() {
         stopMethod();
         return;
     }
-    if (!$.trim(lines[functionContext.currentLine]).length) {
+    //skip over empty lines and lines containing only comments
+    if (!trimComments(lines[functionContext.currentLine]).length) {
         functionContext.currentLine++;
         runNextLine();
         return;
     }
-    var currentLine = $.trim(lines[functionContext.currentLine]);
+    var currentLine = trimComments(lines[functionContext.currentLine]);
     var tokens = currentLine.split(" ");
     functionContext.currentLine++;
     var action = tokens.shift();
     if (action == "runProgram") {
-        var programName = $.trim(currentLine.substring(11));
+        var programName = $.trim(trimComments(currentLine).substring(11));
         var $element = $('.js-program[programName="' + programName +'"]');
         if (!$element.length) {
             onActionError('You have no program named "' + programName +'".');
@@ -274,7 +275,7 @@ function runNextLine() {
             onActionError("if loop must be of the form 'if condition {'");
             return;
         }
-        var condition = $.trim(currentLine.substring(2, currentLine.length - 1));
+        var condition = $.trim(trimComments(currentLine).substring(2, currentLine.length - 1));
         if (isConditionTrue(condition)) {
             //just add to the context to indicate we are another code block deeper
             functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'isIfBlock': true, 'loops': 1});
@@ -282,7 +283,7 @@ function runNextLine() {
             return;
         } else {
             moveToClosingBracket(functionContext);
-            var closingLine = $.trim(lines[functionContext.currentLine - 1]);
+            var closingLine = trimComments(lines[functionContext.currentLine - 1]);
             if (closingLine == '} else {') {
                 functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
             }
@@ -295,7 +296,7 @@ function runNextLine() {
             onActionError("while loop must be of the form 'while condition {'");
             return;
         }
-        var condition = $.trim(currentLine.substring(5, currentLine.length - 1));
+        var condition = $.trim(trimComments(currentLine).substring(5, currentLine.length - 1));
         if (isConditionTrue(condition)) {
             functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'condition': condition});
             runNextLine();
@@ -466,6 +467,15 @@ function evaluateExpression(expression) {
     //just assume the expression is a string otherwise
     return expression;
 }
+/**
+ * Removes comments and outside white space from a line of code.
+ *
+ * @param {String} lineOfCode  The line of code to remove comments+whitespace from
+ * @return {String}  The trimmed line of code
+ */
+function trimComments(lineOfCode) {
+    return $.trim(lineOfCode.split('//')[0]);
+}
 
 function onActionSuccess() {
     if (runningProgram) {
@@ -484,7 +494,7 @@ function onActionError(errorMessage) {
             if (blockDetails.isTryBlock) {
                 functionContext.currentLine = blockDetails.startingLine;
                 moveToClosingBracket(functionContext);
-                var closingLine = $.trim(functionContext.lines[functionContext.currentLine - 1]);
+                var closingLine = trimComments(functionContext.lines[functionContext.currentLine - 1]);
                 if (closingLine == '} catch {') {
                     functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
                 }
