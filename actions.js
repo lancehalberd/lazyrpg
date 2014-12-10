@@ -210,14 +210,15 @@ function moveToClosingBracket(functionContext) {
     var currentLineNumber = functionContext.currentLine;
     while (currentLineNumber < functionContext.lines.length) {
         var currentLine = $.trim(functionContext.lines[currentLineNumber]);
-        if (currentLine.indexOf('{') >= 0 ) {
-            bracketDepth++;
-        } else if (currentLine.indexOf('}') >= 0) {
+        if (currentLine.indexOf('}') >= 0) {
             bracketDepth--;
             if (bracketDepth <= 0) {
                 functionContext.currentLine = currentLineNumber + 1;
                 return;
             }
+        }
+        if (currentLine.indexOf('{') >= 0 ) {
+            bracketDepth++;
         }
         currentLineNumber++
     }
@@ -258,6 +259,16 @@ function runNextLine() {
         runMethod(program.text);
         return;
     }
+    if (action == "try") {
+        if (currentLine.charAt(currentLine.length - 1) != '{') {
+            onActionError("a try block must be of the form 'try {'");
+            return;
+        }
+        //just add to the context to indicate we are another code block deeper
+        functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'isTryBlock': true, 'loops': 1});
+        runNextLine();
+        return;
+    }
     if (action == "if") {
         if (currentLine.charAt(currentLine.length - 1) != '{') {
             onActionError("if loop must be of the form 'if condition {'");
@@ -266,11 +277,15 @@ function runNextLine() {
         var condition = $.trim(currentLine.substring(2, currentLine.length - 1));
         if (isConditionTrue(condition)) {
             //just add to the context to indicate we are another code block deeper
-            functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
+            functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'isIfBlock': true, 'loops': 1});
             runNextLine();
             return;
         } else {
             moveToClosingBracket(functionContext);
+            var closingLine = $.trim(lines[functionContext.currentLine - 1]);
+            if (closingLine == '} else {') {
+                functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
+            }
             runNextLine();
             return;
         }
@@ -305,7 +320,39 @@ function runNextLine() {
         runNextLine();
         return;
     }
-    if (action == "}") {
+    if (currentLine == "} catch {") {
+        if (!functionContext.loopStack.length) {
+            onActionError("Found '} catch {' with no matching 'try {'");
+            return;
+        }
+        var tryBlockData = functionContext.loopStack.pop();
+        if (!tryBlockData.isTryBlock) {
+            onActionError("Found '} catch {' with no matching 'try {'");
+            return;
+        }
+        //if we read the catch line, that means we finished the try block
+        //with no errors, so we should skip it.
+        moveToClosingBracket(functionContext);
+        runNextLine();
+        return;
+    }
+    if (currentLine == "} else {") {
+        if (!functionContext.loopStack.length) {
+            onActionError("Found '} catch {' with no matching 'try {'");
+            return;
+        }
+        var ifBlockData = functionContext.loopStack.pop();
+        if (!ifBlockData.isIfBlock) {
+            onActionError("Found '} catch {' with no matching 'if condition {'");
+            return;
+        }
+        //if we read the else line, that means we were in the if body so we
+        //should skip the else body
+        moveToClosingBracket(functionContext);
+        runNextLine();
+        return;
+    }
+    if (currentLine == "}") {
         if (!functionContext.loopStack.length) {
             onActionError("Found '}' with no matching '{'");
             return;
@@ -427,7 +474,25 @@ function onActionSuccess() {
 }
 
 function onActionError(errorMessage) {
-    var functionContext = callStack[callStack.length - 1];
+    //check the current call stack for any try blocks. If any are found
+    //we proceed to the end of that block and continue execution
+    while (callStack.length) {
+        var functionContext = callStack.pop();
+        while (functionContext.loopStack.length) {
+            var blockDetails = functionContext.loopStack.pop();
+            if (blockDetails.isTryBlock) {
+                functionContext.currentLine = blockDetails.startingLine;
+                moveToClosingBracket(functionContext);
+                var closingLine = $.trim(functionContext.lines[functionContext.currentLine - 1]);
+                if (closingLine == '} catch {') {
+                    functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
+                }
+                callStack.push(functionContext);
+                runNextLine();
+                return;
+            }
+        }
+    }
     stopProgram();
     alert('error on line ' + functionContext.currentLine + " (" + functionContext.lines[functionContext.currentLine - 1] + "): " + errorMessage);
 }
