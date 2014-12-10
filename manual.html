@@ -134,11 +134,26 @@ if my.items.fur > 5 {
 <p>Conditions always compare two values using the comparison operators <, <=, =, >=, > and != (not equal)</p>
 <p>Values can be any of the following:</p>
 <pre>
-A character stat such as: my.gold, my.experience, my.health, my.maxHealth, my.area
-The quantity of an item in your inventory such as: my.items.smallPotion, my.items.shortBow, my.items.furScrap
-A monster stat such as: rat.level, turtus.experience, troll.damage
-An integer such as 0, -1, 1337
-An area name like shore, cave, remoteAbode
+A character stat such as:
+  my.gold, my.experience, my.health,
+  my.maxHealth, my.area
+The quantity of an item in your inventory such as:
+  my.items.smallPotion, my.items.shortBow,
+  my.items.furScrap, my.items.silverOre
+A monster stat such as:
+  rat.level, turtus.experience, troll.damage
+An integer such as:
+  0, -1, 1337
+An area name like:
+  shore, cave, remoteAbode
+</pre>
+<p>An 'else' statement can follow an 'if' code block to run actions only when the condition is false:</p>
+<pre class="code">
+if condition {
+  ...actions if condition is true...
+} else {
+  ...actions if condition is false...
+}
 </pre>
 <p>'while' statements let you run loops using the same conditional logic as 'if' statements:</p>
 <pre class="code">
@@ -165,6 +180,25 @@ while my.level < 3 {
 while my.level < 3 {
   runProgram healToFullLife
   fight rat
+}
+</pre>
+<p>A 'try' statement can be used when you aren't sure if an action will be valid. For instance, the following code will mine silver and heal as long as possible, then move to the Volcano Cave:</p>
+<pre class="code">
+try {
+  while 1 > 0 {
+    mine silver
+    use mediumPotion
+  }
+}
+move volcanoCave
+</pre>
+<p>A 'catch' statement can be added to the end of a try block. Code in the catch statement will only run if an action fails in the try block:</p>
+<pre class="code">
+try {
+  use smallPotion
+} catch {
+  buy 1 smallPotion
+  use smallPotion
 }
 </pre>
     </div>
