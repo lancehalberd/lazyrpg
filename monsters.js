@@ -114,7 +114,7 @@ monsters.barnacle = {
     'damage': 50,
     'attackSpeed': 1,
     'experience': 40,
-    '$graphic': $ff2Monster('fish'),
+    '$graphic': $hillaryMonster('small barnacle'),
     'spoils': ['brine', 'brine'],
     'helpText': 'Some kind of aquatic creature is attached to the hull of the ship. It seems to be secreting a toxic fluid.',
     'poison': 20
@@ -127,7 +127,7 @@ monsters.pirate = {
     'damage': 80,
     'attackSpeed': 2,
     'experience': 50,
-    '$graphic': $ff2Monster('pirate'),
+    '$graphic': $hillaryMonster('medium pirate'),
     'spoils': [100],
     'helpText': 'Pirates have attacked the ship, I can\'t proceed unless I defeat them.'
 };
@@ -305,7 +305,7 @@ monsters.woodGolem = {
     'damage': 200,
     'attackSpeed': 2,
     'experience': 350,
-    '$graphic': $ff2Monster('woodGolem'),
+    '$graphic': $hillaryMonster('large woodGolem'),
     'spoils': ['sturdyTimber', 'sturdyTimber', 'timber'],
     'helpText': 'A golem made entirely of wood... should be a good source of timber.'
 };

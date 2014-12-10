@@ -63,6 +63,15 @@
 .hillaryMonster.flower {
     background-position: -1540px 0px;
 }
+.hillaryMonster.barnacle {
+    background-position: 0px -220px;
+}
+.hillaryMonster.pirate {
+    background-position: -220px -220px;
+}
+.hillaryMonster.woodGolem {
+    background-position: -440px -220px;
+}
 .hillaryMonster.rat {
     width: 100px;
     height: 100px;
