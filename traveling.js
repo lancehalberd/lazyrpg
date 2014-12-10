@@ -27,6 +27,7 @@ function MoveAction(target, slot, onCompleteFunction) {
                 .attr('helpText', 'Click here to move to the ' + areas[target].name + '.<br/></br> Traveling takes time and may drain your health. <br/>Travel time is doubled when your health is 0.');
     };
     this.perform = function () {
+        endMovingCallback = null;
         if (targetArea == target) {
             closeAll();
         } else {

@@ -161,6 +161,7 @@ function MiningAction(mineral, slot, onCompleteFunction) {
         return $div('action slot' + slot, mineral.$element).attr('helpText', 'You can mine here, but it will drain your health over time.');
     };
     this.perform = function () {
+        endMiningCallback = null;
         if (mining === mineral) {
             closeAll();
         } else {

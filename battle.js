@@ -39,6 +39,9 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
         return $div('action slot' + slot, monster.$element).attr('helpText', monster.helpText);
     };
     this.perform = function () {
+        //erase old win/lose callbacks
+        winBattleCallback = null;
+        loseBattleCallback = null;
         if (fighting === monster) {
             closeAll();
         } else {

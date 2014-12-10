@@ -474,6 +474,7 @@ function onActionSuccess() {
 }
 
 function onActionError(errorMessage) {
+    var currentFunctionContext = callStack[callStack.length - 1];
     //check the current call stack for any try blocks. If any are found
     //we proceed to the end of that block and continue execution
     while (callStack.length) {
@@ -494,7 +495,7 @@ function onActionError(errorMessage) {
         }
     }
     stopProgram();
-    alert('error on line ' + functionContext.currentLine + " (" + functionContext.lines[functionContext.currentLine - 1] + "): " + errorMessage);
+    alert('error on line ' + currentFunctionContext.currentLine + " (" + currentFunctionContext.lines[currentFunctionContext.currentLine - 1] + "): " + errorMessage);
 }
 
 function checkParams(expected, params, errorCallback) {
