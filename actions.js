@@ -7,6 +7,7 @@ var recording = false;
 var runningProgram = false;
 var showTooltips = true;
 var callStack = [];
+var globalVariables = {};
 function setupProgrammingWindow() {
     $('.js-runProgram').on('click', function (){
         if (runningProgram) {
@@ -159,6 +160,8 @@ function runProgram(program) {
     applyChangesToCurrentProgram();
     runningProgram = true;
     updateProgramButtons();
+    callStack = [];
+    globalVariables = {};
     runMethod(program);
 }
 function stopProgram() {
@@ -167,6 +170,7 @@ function stopProgram() {
         timeoutId = -1;
     }
     callStack = [];
+    globalVariables = {};
     runningProgram = false;
     updateProgramButtons();
 }
@@ -178,7 +182,8 @@ function runMethod(program) {
     callStack.push({
         lines: program.split("\n"),
         currentLine: 0,
-        loopStack: []
+        loopStack: [],
+        variables: {}
     });
     onActionSuccess();
 }
@@ -224,7 +229,75 @@ function moveToClosingBracket(functionContext) {
     }
     onActionError("Mismatched brackets, found more '{' than '}'");
 }
+
+/**
+ * tokenizes/parses a line of code into a sequences of tokens and expressions.
+ * Usually parsing is done after tokenizing, but for my purposes here, it seemed
+ * easiest to just evaluate top level expressions, which must be wrapped on
+ * parentheses as individual tokens.
+ *
+ * @param {String} code  The line of code to parse
+ * @return {Array}  The array of tokens/expressions
+ */
+function tokenize(code) {
+    var index = 0;
+    var tokens = [];
+    while (index < code.length) {
+        var nextSpace = code.indexOf(' ', index);
+        if (nextSpace < 0) {
+            nextSpace = code.length;
+        }
+        if (nextSpace == index) {
+            index++;
+            continue;
+        }
+        var nextOpen = code.indexOf('(', index);
+        var nextClose = code.indexOf(')', index);
+        if (nextClose < nextOpen || (nextClose >= 0 && nextOpen < 0)) {
+            onActionError("Mismatched parenthesis, found more ')' with no corresponding '('");
+        }
+        if (nextOpen < 0 || (nextSpace < nextOpen)) {
+            var value = $.trim(code.substring(index, nextSpace));
+            if (value.length) {
+                tokens.push(value);
+            }
+            index = nextSpace + 1;
+        } else {
+            //first add everything up to the (
+            var value = $.trim(code.substring(index, nextOpen));
+            if (value.length) {
+                tokens.push(value);
+            }
+            //then add everything in between (...) as a single token
+            var closingIndex = findClosingParenthesis(code, nextOpen);
+            tokens.push($.trim(code.substring(nextOpen, closingIndex + 1)));
+            //then move index to the end
+            index = closingIndex + 1;
+        }
+    }
+    return tokens;
+}
+function findClosingParenthesis(string, index) {
+    //assuming we are starting on the character with the (
+    var parenDepth = 0;
+    while (index < string.length) {
+        var character = string.charAt(index);
+        if (character == '(') parenDepth++;
+        else if (character == ')') parenDepth--;
+        if (parenDepth == 0) {
+            return index;
+        }
+        index++;
+    }
+    onActionError("Mismatched parenthesis, found more '(' than ')'");
+    return -1;
+}
 function runNextLine() {
+    if (!runningProgram || callStack.length == 0) {
+        console.log("Tried to run a line of code outside of context:")
+        console.log([runningProgram, callStack.length])
+        return;
+    }
     var functionContext = callStack[callStack.length - 1];
     var lines = functionContext.lines;
     if (functionContext.currentLine >= lines.length) {
@@ -241,148 +314,159 @@ function runNextLine() {
         runNextLine();
         return;
     }
-    var currentLine = trimComments(lines[functionContext.currentLine]);
-    var tokens = currentLine.split(" ");
-    functionContext.currentLine++;
-    var action = tokens.shift();
-    if (action == "runProgram") {
-        var programName = $.trim(trimComments(currentLine).substring(11));
-        var $element = $('.js-program[programName="' + programName +'"]');
-        if (!$element.length) {
-            onActionError('You have no program named "' + programName +'".');
-            return;
-        }
-        if ($element.length > 1) {
-            onActionError('You have multiple programs named "' + programName +'".');
-            return;
-        }
-        var program = $element.data('program');
-        runMethod(program.text);
-        return;
-    }
-    if (action == "try") {
-        if (currentLine.charAt(currentLine.length - 1) != '{') {
-            onActionError("a try block must be of the form 'try {'");
-            return;
-        }
-        //just add to the context to indicate we are another code block deeper
-        functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'isTryBlock': true, 'loops': 1});
-        runNextLine();
-        return;
-    }
-    if (action == "if") {
-        if (currentLine.charAt(currentLine.length - 1) != '{') {
-            onActionError("if loop must be of the form 'if condition {'");
-            return;
-        }
-        var condition = $.trim(trimComments(currentLine).substring(2, currentLine.length - 1));
-        if (isConditionTrue(condition)) {
-            //just add to the context to indicate we are another code block deeper
-            functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'isIfBlock': true, 'loops': 1});
-            runNextLine();
-            return;
-        } else {
-            moveToClosingBracket(functionContext);
-            var closingLine = trimComments(lines[functionContext.currentLine - 1]);
-            if (closingLine == '} else {') {
-                functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
-            }
-            runNextLine();
-            return;
-        }
-    }
-    if (action == "while") {
-        if (currentLine.charAt(currentLine.length - 1) != '{') {
-            onActionError("while loop must be of the form 'while condition {'");
-            return;
-        }
-        var condition = $.trim(trimComments(currentLine).substring(5, currentLine.length - 1));
-        if (isConditionTrue(condition)) {
-            functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'condition': condition});
-            runNextLine();
-            return;
-        } else {
-            moveToClosingBracket(functionContext);
-            runNextLine();
-            return;
-        }
-    }
-    if (action == "loop") {
-        var amount = parseInt(tokens[0]);
-        if (isNaN(amount) || amount < 1) {
-            onActionError("Loops must repeat 1 or more times");
-            return
-        }
-        if (tokens[1] != '{') {
-            onActionError("Loops must be of the form 'loop # {'");
-            return;
-        }
-        functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': amount});
-        runNextLine();
-        return;
-    }
-    if (currentLine == "} catch {") {
-        if (!functionContext.loopStack.length) {
-            onActionError("Found '} catch {' with no matching 'try {'");
-            return;
-        }
-        var tryBlockData = functionContext.loopStack.pop();
-        if (!tryBlockData.isTryBlock) {
-            onActionError("Found '} catch {' with no matching 'try {'");
-            return;
-        }
-        //if we read the catch line, that means we finished the try block
-        //with no errors, so we should skip it.
-        moveToClosingBracket(functionContext);
-        runNextLine();
-        return;
-    }
-    if (currentLine == "} else {") {
-        if (!functionContext.loopStack.length) {
-            onActionError("Found '} catch {' with no matching 'try {'");
-            return;
-        }
-        var ifBlockData = functionContext.loopStack.pop();
-        if (!ifBlockData.isIfBlock) {
-            onActionError("Found '} catch {' with no matching 'if condition {'");
-            return;
-        }
-        //if we read the else line, that means we were in the if body so we
-        //should skip the else body
-        moveToClosingBracket(functionContext);
-        runNextLine();
-        return;
-    }
-    if (currentLine == "}") {
-        if (!functionContext.loopStack.length) {
-            onActionError("Found '}' with no matching '{'");
-            return;
-        }
-        var loopDetails = functionContext.loopStack[functionContext.loopStack.length - 1];
-        if (loopDetails.condition) {
-            //while loop
-            if (!isConditionTrue(loopDetails.condition)) {
-                functionContext.loopStack.pop();
-            } else {
-                functionContext.currentLine = loopDetails.startingLine;
-            }
-        } else {
-            //basic loop
-            loopDetails.loops--;
-            if (!loopDetails.loops) {
-                functionContext.loopStack.pop();
-            } else {
-                functionContext.currentLine = loopDetails.startingLine;
-            }
-        }
-        runNextLine();
-        return;
-    }
-    if (!actions[action]) {
-        onActionError("uknown action '" + action+ "'");
-        return;
-    }
     try {
+        var currentLine = trimComments(lines[functionContext.currentLine]);
+        var tokens = tokenize(currentLine);
+        functionContext.currentLine++;
+        //console.log(tokens);
+        var action = tokens.shift();
+        if (action.charAt(0) === '$' || action.charAt(0) === '@') {
+            if (tokens.length != 2 || tokens[0] != '=') {
+                throw new ProgrammingError('Assignment statments must be of the form "$variable = expression" or "@variable = expression".');
+            }
+            var variableName = $.trim(action.substring(1));
+            var value = evaluateExpression(tokens[1])
+            if (action.charAt(0) === '$') {
+                globalVariables[variableName] = value;
+            } else {
+                functionContext.variables[variableName] = value;
+            }
+            runNextLine();
+            return;
+        }
+        if (action == "runProgram") {
+            if (tokens.length != 1) {
+                throw new ProgrammingError('Expected exactly 1 parameter, found: ' + tokens.length);
+            }
+            var programName = evaluateExpression(tokens[0]);
+            var $element = $('.js-program[programName="' + programName +'"]');
+            if (!$element.length) {
+                throw new ProgrammingError('You have no program named "' + programName +'".');
+            }
+            if ($element.length > 1) {
+                throw new ProgrammingError('You have multiple programs named "' + programName +'".');
+            }
+            var program = $element.data('program');
+            runMethod(program.text);
+            return;
+        }
+        if (action == "try") {
+            if (tokens.length != 1 || tokens[0] != '{') {
+                throw new ProgrammingError("a try block must be of the form 'try {'");
+            }
+            //just add to the context to indicate we are another code block deeper
+            functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'isTryBlock': true, 'loops': 1});
+            runNextLine();
+            return;
+        }
+        if (action == "if") {
+            if (tokens.length != 2 || tokens[1] != '{') {
+                throw new ProgrammingError("if block must be of the form 'if expression {'");
+            }
+            var condition = tokens[0];
+            if (evaluateExpression(condition)) {
+                //just add to the context to indicate we are another code block deeper
+                functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'isIfBlock': true, 'loops': 1});
+                runNextLine();
+                return;
+            } else {
+                moveToClosingBracket(functionContext);
+                var closingLine = trimComments(lines[functionContext.currentLine - 1]);
+                if (closingLine == '} else {') {
+                    functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
+                }
+                runNextLine();
+                return;
+            }
+        }
+        if (action == "while") {
+            if (tokens.length != 2 || tokens[1] != '{') {
+                throw new ProgrammingError("while loop must be of the form 'while expression {'");
+            }
+            var condition = tokens[0];
+            if (evaluateExpression(condition)) {
+                functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'condition': condition});
+                runNextLine();
+                return;
+            } else {
+                moveToClosingBracket(functionContext);
+                runNextLine();
+                return;
+            }
+        }
+        if (action == "loop") {
+            if (tokens.length != 2 || tokens[1] != '{') {
+                throw new ProgrammingError("Loops must be of the form 'loop expression {'");
+            }
+            var amount = evaluateExpression(tokens[0]);
+            if (isNaN(amount) || amount < 1) {
+                throw new ProgrammingError("Loop number must be a value 1 or greater, but found value: " + amount);
+            }
+            functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': amount});
+            runNextLine();
+            return;
+        }
+        if (action == '}') {
+            if (!functionContext.loopStack.length) {
+                throw new ProgrammingError("Found '}' with no matching '{'");
+            }
+            if (tokens.length == 0) {
+                var loopDetails = functionContext.loopStack[functionContext.loopStack.length - 1];
+                if (loopDetails.condition) {
+                    //while loop
+                    if (!evaluateExpression(loopDetails.condition)) {
+                        functionContext.loopStack.pop();
+                    } else {
+                        functionContext.currentLine = loopDetails.startingLine;
+                    }
+                } else {
+                    //basic loop
+                    loopDetails.loops--;
+                    if (!loopDetails.loops) {
+                        functionContext.loopStack.pop();
+                    } else {
+                        functionContext.currentLine = loopDetails.startingLine;
+                    }
+                }
+                runNextLine();
+                return;
+            }
+            //if not just a '}' it is either a '} else {' or  '} catch {' line
+            if (tokens.length > 2 || tokens[1] != '{' || (tokens[0] != 'else' && tokens[0] != 'catch')) {
+                throw new ProgrammingError("'}' must appear on a line by itself or as part of either '} else {' or '} catch {'");
+            }
+            if (tokens[0] == 'catch') {
+                var tryBlockData = functionContext.loopStack.pop();
+                if (!tryBlockData.isTryBlock) {
+                    throw new ProgrammingError("Found '} catch {' with no matching 'try {'");
+                }
+                //if we read the catch line, that means we finished the try block
+                //with no errors, so we should skip it.
+                moveToClosingBracket(functionContext);
+                runNextLine();
+                return;
+            }
+            if (tokens[0] == 'else') {
+                var ifBlockData = functionContext.loopStack.pop();
+                if (!ifBlockData.isIfBlock) {
+                    throw new ProgrammingError("Found '} catch {' with no matching 'if expression {'");
+                }
+                //if we read the else line, that means we were in the if body so we
+                //should skip the else body
+                moveToClosingBracket(functionContext);
+                runNextLine();
+                return;
+            }
+        }
+        if (!actions[action]) {
+            throw new ProgrammingError("uknown action '" + action+ "'");
+        }
+        //evaluate all expressions before sending them to the action
+        //console.log("before: " + JSON.stringify(tokens));
+        for (var i = 0; i < tokens.length; i++) {
+            tokens[i] = evaluateExpression(tokens[i]);
+        }
+        //console.log("after: " + JSON.stringify(tokens));
         actions[action](tokens, onActionSuccess, onActionError);
     } catch(e) {
         if (e instanceof ProgrammingError) {
@@ -393,71 +477,124 @@ function runNextLine() {
     }
 }
 
-function isConditionTrue(condition) {
-    //console.log("condition " + condition);
-    try {
-        var tokens = condition.split(' ');
-        if (tokens.length != 3) {
-            throw new ProgrammingError("Invalid condition. Conditions must have exactly 3 parts, for instance 'my.health < 200'.");
-        }
-        var A = evaluateExpression(tokens[0]);
-        var B = evaluateExpression(tokens[2]);
-        switch (tokens[1]) {
-            case '=': return A == B;
-            case '!=': return A != B;
-            case '<': return A < B;
-            case '<=': return A <= B;
-            case '>': return A > B;
-            case '>=': return A >= B;
-        }
-        throw new ProgrammingError("Unrecognized comparison operator: '" + tokens[1] + "'");
-    } catch(e) {
-        if (e instanceof ProgrammingError) {
-            onActionError(e.message);
-        } else {
-            throw e;
-        }
+function getGlobalVariable(name) {
+    if (typeof globalVariables[name] != 'undefined') {
+        return globalVariables[name];
     }
-    return false;
+    return 0;
+}
+function getLocalVariable(name) {
+    var stackIndex = callStack.length - 1;
+    while (stackIndex >= 0) {
+        if (typeof callStack[stackIndex].variables[name] != 'undefined') {
+            return callStack[stackIndex].variables[name];
+        }
+        stackIndex--;
+    }
+    return 0;
+}
+function getMyStat(parts) {
+    //parts[0] is either my, or the variable set to 'my'
+    switch (parts[1]) {
+        case 'health':
+        case 'currentHealth': return player.health;
+        case 'maxHealth': return player.getMaxHealth();
+        case 'level': return player.level;
+        case 'gold': return player.gold;
+        case 'area': return player.area;
+        case 'damage': return player.damage;
+        case 'attackSpeed': return player.attackSpeed;
+        case 'items':
+            if (parts.length < 3) {
+                throw new ProgrammingError("Invalid expression: '" + expression + "'.");
+            }
+            var item = allItems[parts[2]];
+            if (!item) {
+                return 0;
+            }
+            return player.inventory[item.slot][item.key];
+        default:
+            throw new ProgrammingError("Invalid expression: '" + expression + "'.");
+    }
+}
+function getMonsterStat(monster, parts) {
+    switch (parts[1]) {
+        case 'health':
+        case 'maxHealth': return monster.health;
+        case 'damage': return monster.damage;
+        case 'attackSpeed': return monster.attackSpeed;
+        case 'armor': return monster.armor;
+        case 'level': return monster.level;
+        case 'experience': return monster.experience;
+        default:
+            throw new ProgrammingError("Invalid expression: '" + expression + "'.");
+    }
+}
+function runOperation(leftExpression, operator, rightExpression) {
+    var A = evaluateExpression(leftExpression);
+    var B = evaluateExpression(rightExpression);
+    switch (operator.toLowerCase()) {
+        case 'and':
+        case '&&':
+            return A && B;
+        case 'or':
+        case '||':
+            return A || B;
+        case '+': return A + B;
+        case '-': return A - B;
+        case '/': return A / B;
+        case '*': return A * B;
+        case '=': return A == B;
+        case '!=': return A != B;
+        case '<': return A < B;
+        case '<=': return A <= B;
+        case '>': return A > B;
+        case '>=': return A >= B;
+    }
+    throw new ProgrammingError("Unrecognized operator: '" + tokens[1] + "'");
 }
 function evaluateExpression(expression) {
+    expression = $.trim(expression);
+    if (expression.charAt(0) == '(') {
+        var parts = tokenize(expression.substring(1, expression.length - 1));
+        if (parts.length == 1) {
+            return evaluateExpression(parts[0]);
+        }
+        if (parts.length == 3) {
+            return runOperation(parts[0], parts[1], parts[2]);
+        }
+        throw new ProgrammingError("Invalid expression: '" + expression + "'.");
+    }
+    if (expression.charAt(0) == '$' || expression.charAt(0) == '@') {
+        var variableName = expression.substring(1);
+        var parts = variableName.split('.');
+        if (parts.length > 0) {
+            variableName = parts[0];
+        }
+        var value = expression.charAt(0) == '$'
+            ? getGlobalVariable(variableName)
+            : getLocalVariable(variableName);
+        //if this is a simple value, just return it
+        if (parts.length == 1) {
+            return value;
+        }
+        //otherwise it is a player or monster value, so attempt to read those off
+        if (value == 'my') {
+            return getMyStat(parts);
+        }
+        if (monsters[value]) {
+            return getMonsterStat(monsters[value], parts);
+        }
+    }
     //console.log("expression " + expression);
     if (expression.indexOf('.') >= 0) {
         parts = expression.split('.');
         if (parts[0] == 'my') {
-            switch (parts[1]) {
-                case 'health':
-                case 'currentHealth': return player.health;
-                case 'maxHealth': return player.getMaxHealth();
-                case 'level': return player.level;
-                case 'gold': return player.gold;
-                case 'area': return player.area;
-                case 'items':
-                    if (parts.length < 3) {
-                        throw new ProgrammingError("Invalid expression: '" + expression + "'.");
-                    }
-                    var item = allItems[parts[2]];
-                    if (!item) {
-                        return 0;
-                    }
-                    return player.inventory[item.slot][item.key];
-                default:
-                    throw new ProgrammingError("Invalid expression: '" + expression + "'.");
-            }
+            return getMyStat(parts);
         }
         var monster = monsters[parts[0]];
         if (monster) {
-            switch (parts[1]) {
-                case 'health':
-                case 'maxHealth': return monster.health;
-                case 'damage': return monster.damage;
-                case 'attackSpeed': return monster.attackSpeed;
-                case 'armor': return monster.armor;
-                case 'level': return monster.level;
-                case 'experience': return monster.experience;
-                default:
-                    throw new ProgrammingError("Invalid expression: '" + expression + "'.");
-            }
+            return getMonsterStat(monster, parts);
         }
     }
     var number = parseInt(expression);
@@ -505,7 +642,11 @@ function onActionError(errorMessage) {
         }
     }
     stopProgram();
-    alert('error on line ' + currentFunctionContext.currentLine + " (" + currentFunctionContext.lines[currentFunctionContext.currentLine - 1] + "): " + errorMessage);
+    if (currentFunctionContext) {
+        alert('error on line ' + currentFunctionContext.currentLine + " (" + currentFunctionContext.lines[currentFunctionContext.currentLine - 1] + "): " + errorMessage);
+    } else {
+        throw new Error('programming error thrown out of context: ' + errorMessage);
+    }
 }
 
 function checkParams(expected, params, errorCallback) {
