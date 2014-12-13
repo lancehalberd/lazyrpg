@@ -504,6 +504,7 @@ function getMyStat(parts) {
         case 'area': return player.area;
         case 'damage': return player.damage;
         case 'attackSpeed': return player.attackSpeed;
+        case 'skillPoints': return player.skillPoints;
         case 'items':
             if (parts.length < 3) {
                 throw new ProgrammingError("Invalid expression: '" + expression + "'.");

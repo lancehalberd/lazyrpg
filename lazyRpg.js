@@ -67,6 +67,10 @@ $(function () {
     $('.js-faq').on('click', function () {
         window.open('manual.html', '_blank', 'location=no,scrollbars=yes,width=500,height=400');
     });
+    $('.js-chat').on('click', function () {
+        window.open('http://tlk.io/lazyrpg', '_blank', 'location=no,scrollbars=yes,width=400,height=600');
+    });
+
     setupInventory();
     $('.js-characterStats').on('click', function () {
         if ($('.js-characterStatsContainer').is('.open')) {
