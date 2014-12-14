@@ -12,7 +12,7 @@ monsters.bat = {
     'level': 2,
     'health': 20,
     'armor': 0,
-    'damage': 5,
+    'damage': 4,
     'attackSpeed': 1.5,
     'experience': 2,
     '$graphic': $hillaryMonster('small bat'),
@@ -24,7 +24,7 @@ monsters.rat = {
     'level': 3,
     'health': 20,
     'armor': 0,
-    'damage': 20,
+    'damage': 16,
     'attackSpeed': 1,
     'experience': 4,
     '$graphic': $hillaryMonster('rat'),
@@ -36,7 +36,7 @@ monsters.turtus = {
     'level': 4,
     'health': 50,
     'armor': 10,
-    'damage': 35,
+    'damage': 30,
     'attackSpeed': .5,
     'experience': 8,
     '$graphic': $hillaryMonster('smallTurtle'),
@@ -48,7 +48,7 @@ monsters.bandit = {
     'level': 5,
     'health': 100,
     'armor': 5,
-    'damage': 60,
+    'damage': 50,
     'attackSpeed': 1,
     'experience': 15,
     '$graphic': $hillaryMonster('medium bandit'),
@@ -58,14 +58,15 @@ monsters.bandit = {
 monsters.troll = {
     'name': 'Troll',
     'level': 8,
-    'health': 1000,
+    'health': 2000,
     'armor': 10,
-    'damage': 80,
+    'damage': 75,
     'attackSpeed': .5,
     'experience':100,
     '$graphic': $hillaryMonster('large troll'),
     'spoils': [500],
-    'helpText': 'This troll is guarding the only crossing of the river. Without proper gear and training, I won\'t be able to proceed.'
+    'helpText': 'This troll is guarding the only crossing of the river. Without proper gear and training, I won\'t be able to proceed.',
+    'recover': 500
 };
 monsters.hawk = {
     'name': 'Hawk',
@@ -200,7 +201,7 @@ monsters.mudGolem = {
 monsters.darkKnight = {
     'name': 'Dark Knight',
     'level': 15,
-    'health': 10000,
+    'health': 15000,
     'armor': 30,
     'damage': 120,
     'attackSpeed': 3,
@@ -208,7 +209,8 @@ monsters.darkKnight = {
     '$graphic': $ff2Monster('darkKnight'),
     'spoils': ['memoryCrystal'],
     'helpText': 'This servant of the king has been posted here to prevent people from accessing the iron mines.',
-    'armorPierce': .2
+    'armorPierce': .2,
+    'recover': 10000
 };
 monsters.fowler = {
     'name': 'Fowler',
@@ -221,7 +223,8 @@ monsters.fowler = {
     '$graphic': $hillaryMonster('small flower'),
     'spoils': ['suppleTimber', 'timber'],
     'helpText': 'The pollen from this flower makes me dizzy and sneeze, reducing my opportunities to attack.',
-    'cripple': 5
+    'cripple': 5,
+    'recover': 300
 };
 monsters.mercenary = {
     'name': 'Mercenary',
@@ -350,7 +353,7 @@ monsters.possessedCaptain = {
 monsters.witch = {
     'name': 'Witch',
     'level': 30,
-    'health': 15000,
+    'health': 20000,
     'armor': 0,
     'damage': 200,
     'attackSpeed': 2,
@@ -358,7 +361,8 @@ monsters.witch = {
     '$graphic': $ff2Monster('witch'),
     'spoils': ['memoryCrystal'],
     'helpText': 'This witch is casting a spell to grant the evil king immense powers. Her magic spells ignore your armor entirely!',
-    'armorPierce': 1
+    'armorPierce': 1,
+    'recover': 10000
 };
 monsters.giantRat = {
     'name': 'Giant Rat',
@@ -399,7 +403,7 @@ monsters.gargoyle = {
 monsters.tRex = {
     'name': 'T-Rex',
     'level': 40,
-    'health': 30000,
+    'health': 40000,
     'armor': 70,
     'damage': 500,
     'attackSpeed': 2,
@@ -407,7 +411,8 @@ monsters.tRex = {
     '$graphic': $ff2Monster('tRex'),
     'spoils': ['memoryCrystal'],
     'helpText': 'A giant prehistoric beast blocks my path further into the castle. Where did the king come by such a creature?',
-    'armorBreak': 1
+    'armorBreak': 1,
+    'recover': 20000
 };
 monsters.doomFlower = {
     'name': 'Doom Flower',
@@ -464,6 +469,7 @@ monsters.enchantedKing = {
     'spoils': ['memoryCrystal'],
     'helpText': 'The enchantment placed on the king makes him almost invulnerable. I should retreat and think of a way to defeat him.',
     'armorPierce': .8,
+    'recover': 100000
 };
 monsters.imposterKing = {
     'name': 'Imposter King',
@@ -475,7 +481,8 @@ monsters.imposterKing = {
     'experience': 10000,
     '$graphic': $ff2Monster('king'),
     'spoils': ['memoryCrystal'],
-    'helpText': 'With the enchantment gone, I may have a chance to do away with this imposter once and for all.'
+    'helpText': 'With the enchantment gone, I may have a chance to do away with this imposter once and for all.',
+    'recover': 50000
 };
 monsters.firstMate = {
     'name': 'First Mate',
@@ -493,7 +500,7 @@ monsters.firstMate = {
 monsters.pirateCaptain = {
     'name': 'Pirate Captain',
     'level': 40,
-    'health': 40000,
+    'health': 50000,
     'armor': 50,
     'damage': 200,
     'attackSpeed': 4,
@@ -502,7 +509,8 @@ monsters.pirateCaptain = {
     'spoils': ['dreamStone'],
     'helpText': 'He insists that he is going to be King of the Pirates...',
     'armorBreak': 10,
-    'parry': 50
+    'parry': 50,
+    'recover': 50000
 };
 monsters.giantClam = {
     'name': 'Giant Clam',
@@ -606,8 +614,8 @@ monsters.mithrilEater = {
 monsters.magmaTitan = {
     'name': 'Magma Titan',
     'level': 60,
-    'health': 80000,
-    'armor': 200,
+    'health': 200000,
+    'armor': 300,
     'damage': 100,
     'attackSpeed': 1,
     'experience': 30000,
@@ -615,7 +623,8 @@ monsters.magmaTitan = {
     'spoils': ['fireCrystal'],
     'helpText': 'This titan living in the crater must be the source of the increased volcanic activity.',
     'armorBreak': 20,
-    'poison': 200
+    'poison': 200,
+    'recover': 50000
 };
 monsters.imp = {
     'name': 'Imp',
@@ -633,10 +642,10 @@ monsters.imp = {
 };
 monsters.tentacle = {
     'name': 'Tentacle',
-    'level': 70,
+    'level': 50,
     'health': 5000,
     'armor': 200,
-    'damage': 200,
+    'damage': 400,
     'attackSpeed': 1,
     'experience': 500,
     '$graphic': $ff2Monster('tentacle1'),
@@ -646,10 +655,10 @@ monsters.tentacle = {
 };
 monsters.tentacles = {
     'name': 'Tentacles',
-    'level': 70,
+    'level': 50,
     'health': 5000,
     'armor': 200,
-    'damage': 200,
+    'damage': 400,
     'attackSpeed': 1,
     'experience': 500,
     '$graphic': $ff2Monster('tentacle1'),
@@ -659,10 +668,10 @@ monsters.tentacles = {
 };
 monsters.toxicStingers = {
     'name': 'Toxic Stingers',
-    'level': 70,
+    'level': 50,
     'health': 5000,
     'armor': 200,
-    'damage': 200,
+    'damage': 400,
     'attackSpeed': 1,
     'experience': 500,
     '$graphic': $ff2Monster('tentacle2'),
@@ -672,10 +681,10 @@ monsters.toxicStingers = {
 };
 monsters.leechingTentacles = {
     'name': 'Leeching Tentacles',
-    'level': 70,
+    'level': 50,
     'health': 5000,
     'armor': 200,
-    'damage': 200,
+    'damage': 400,
     'attackSpeed': 1,
     'experience': 500,
     '$graphic': $ff2Monster('tentacle3'),
@@ -685,9 +694,9 @@ monsters.leechingTentacles = {
 };
 monsters.neptuneBody = {
     'name': 'Neptune',
-    'level': 70,
-    'health': 200000,
-    'armor': 200,
+    'level': 50,
+    'health': 250000,
+    'armor': 300,
     'damage': 200,
     'attackSpeed': 2,
     'experience': 2000,
@@ -697,9 +706,9 @@ monsters.neptuneBody = {
 };
 monsters.neptuneHead = {
     'name': 'Neptune\'s Head',
-    'level': 70,
-    'health': 20000,
-    'armor': 200,
+    'level': 50,
+    'health': 30000,
+    'armor': 300,
     'damage': 500,
     'attackSpeed': 1,
     'experience': 2000,
@@ -711,14 +720,14 @@ monsters.neptuneCore = {
     'name': 'Neptune\'s Core',
     'level': 70,
     'health': 250000,
-    'armor': 200,
+    'armor': 300,
     'damage': 2000,
     'attackSpeed': .5,
     'experience': 50000,
     '$graphic': $ff2Monster('neptuneCore'),
     'spoils': ['memoryCrystal'],
     'helpText': 'The core is exposed. I need to destroy it before the body regenerates. I will have to be quick or else it will regain all of its health.',
-    'cripple': 5,
+    'cripple': 5
 };
 
 //populate monster.key for all monsters

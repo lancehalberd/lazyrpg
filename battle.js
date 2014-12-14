@@ -8,14 +8,15 @@ actions.fight = function (params, successCallback, errorCallback) {
     if (!monster || !fightAction) {
         throw new ProgrammingError("There is no '" + monsterKey + "' to fight here.");
     }
+    if (player.health <= 0) {
+        throw new ProgrammingError("You need more health to fight.");
+    }
     fightAction.perform();
-    winBattleCallback = successCallback;
-    loseBattleCallback = errorCallback;
+    battleCallback = successCallback;
 }
 
 var fighting = null;
-var winBattleCallback = null;
-var loseBattleCallback = null;
+var battleCallback = null;
 var winInstantly = false;
 
 function BattleAction(sourceMonster, slot, victoryFunction) {
@@ -39,9 +40,11 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
         return $div('action slot' + slot, monster.$element).attr('helpText', monster.helpText);
     };
     this.perform = function () {
-        //erase old win/lose callbacks
-        winBattleCallback = null;
-        loseBattleCallback = null;
+        if (player.health <= 0) {
+            return;
+        }
+        //erase callbacks
+        battleCallback = null;
         if (fighting === monster) {
             closeAll();
         } else {
@@ -50,7 +53,7 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
             monster.accruedDamageForDisplay = 0;
             monster.hasHitsToDisplay = false;
             player.nextAttack = 1000 / player.getAttackSpeed();
-            monster.nextAttack = 1000 / monster.attackSpeed;
+            monster.nextAttack = 0;
         }
     }
 }
@@ -225,24 +228,26 @@ function processStatusEffects(target, deltaTime) {
 }
 
 function stopFighting(victory) {
+    //if the player retreats, instantly deal all remaining poison damage
+    if (!victory) {
+        player.health = Math.max(0, Math.floor(player.health - player.battleStatus.poisonDamage));
+    }
     player.battleStatus = freshBattleStatus();
     if (fighting) {
         showAccruedDamageOnMonster();
         var oldMonster = fighting;
         fighting = null;
-        if (!oldMonster.doNotRegenerate) {
+        if (victory) {
             oldMonster.health = oldMonster.maxHealth;
+            oldMonster.damaged = 0;
+        } else if (oldMonster.recover) {
+            oldMonster.health = Math.min(oldMonster.health + oldMonster.recover, oldMonster.maxHealth);
         }
-        oldMonster.damaged = 0;
         oldMonster.battleStatus = freshBattleStatus();
         updateMonster(oldMonster);
-        if (victory && winBattleCallback) {
-            winBattleCallback();
-            winBattleCallback = null;
-        }
-        if (!victory && loseBattleCallback) {
-            loseBattleCallback('You did not defeat the ' + oldMonster.name);
-            loseBattleCallback = null;
+        if (battleCallback) {
+            battleCallback();
+            battleCallback = null;
         }
         removeToolTip();
     }
@@ -289,5 +294,6 @@ function scheduleMonsterForUpdate(monster) {
 }
 
 function getDropIndex(monster) {
-    return Math.min(Math.max(0, monster.spoils.length - 1), Math.floor(Math.log(1 + (monster.damaged ? monster.damaged : 0) / (1 + player.poachingSkill)) / Math.log(2)));
+    var calculatedIndex = Math.floor(Math.log(1 + (monster.damaged ? monster.damaged : 0) / (1 + player.poachingSkill)) / Math.log(2));
+    return Math.min(Math.max(0, monster.spoils.length - 1), calculatedIndex);
 }

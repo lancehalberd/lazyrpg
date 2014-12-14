@@ -215,9 +215,6 @@ function resetCove() {
     }), function () {
         return areas.cove.isCoreRevealed;
     });
-    headBattleAction.innerAction.monster.doNotRegenerate = true;
-    bodyBattleAction.innerAction.monster.doNotRegenerate = true;
-    coreBattleAction.innerAction.monster.doNotRegenerate = true;
     areas.cove =  {
         'name': 'Cove',
         'key': 'cove',
@@ -322,7 +319,9 @@ function updateCove() {
     scheduleMonsterForUpdate(areas.cove.coreBattleAction.monster);
     var $coreElement = areas.cove.coreBattleAction.monster.$element;
     if ($coreElement && !areas.cove.isNeptuneDesperate && areas.cove.bodyTimer <= 0) {
-        $coreElement.closest('.action').attr('helpText', 'I need to destroy the body again in order to attack the core more.');
+        areas.cove.coreBattleAction.monster.helpText = 'I need to destroy the body again in order to attack the core more.';
+    } else {
+        areas.cove.coreBattleAction.monster.helpText = 'The core is exposed. I need to destroy it before the body regenerates. I will have to be quick or else it will regain all of its health.';
     }
     //scale the healh+attackSpeed of the tentacles based on their number
     updateTentacleStats(areas.cove.cripplingTentacleBattleAction.monster, monsters.tentacles, areas.cove.cripplingTentacles);

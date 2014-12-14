@@ -141,6 +141,9 @@ actions.mine = function (params, successCallback, errorCallback) {
     if (!mineAction) {
         throw new ProgrammingError("There is no '" + mineralKey + "' to mine here.");
     }
+    if (player.health <= 0) {
+        throw new ProgrammingError("You need more health to mine.");
+    }
     mineAction.perform();
     endMiningCallback = successCallback;
 }
@@ -161,6 +164,9 @@ function MiningAction(mineral, slot, onCompleteFunction) {
         return $div('action slot' + slot, mineral.$element).attr('helpText', 'You can mine here, but it will drain your health over time.');
     };
     this.perform = function () {
+        if (player.health <= 0) {
+            return;
+        }
         endMiningCallback = null;
         if (mining === mineral) {
             closeAll();
