@@ -616,14 +616,14 @@ monsters.magmaTitan = {
     'level': 60,
     'health': 200000,
     'armor': 300,
-    'damage': 100,
+    'damage': 200,
     'attackSpeed': 1,
     'experience': 30000,
     '$graphic': $ff2Monster('golem'),
     'spoils': ['fireCrystal'],
     'helpText': 'This titan living in the crater must be the source of the increased volcanic activity.',
     'armorBreak': 20,
-    'poison': 200,
+    'poison': 500,
     'recover': 50000
 };
 monsters.imp = {
