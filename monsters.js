@@ -469,7 +469,7 @@ monsters.enchantedKing = {
     'spoils': ['memoryCrystal'],
     'helpText': 'The enchantment placed on the king makes him almost invulnerable. I should retreat and think of a way to defeat him.',
     'armorPierce': .8,
-    'recover': 100000
+    'recover': 1000000
 };
 monsters.imposterKing = {
     'name': 'Imposter King',
