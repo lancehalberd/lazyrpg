@@ -72,6 +72,12 @@
 .hillaryMonster.woodGolem {
     background-position: -440px -220px;
 }
+.hillaryMonster.guard {
+    background-position: -660px -220px;
+}
+.hillaryMonster.captain {
+    background-position: -880px -220px;
+}
 .hillaryMonster.rat {
     width: 100px;
     height: 100px;

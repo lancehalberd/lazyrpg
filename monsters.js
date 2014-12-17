@@ -236,7 +236,7 @@ monsters.mercenary = {
     'experience': 160,
     '$graphic': $hillaryMonster('medium bandit'),
     'spoils': [200],
-    'helpText': 'A formed soldier of the king, he now works for the highest bidder.'
+    'helpText': 'A former soldier of the king, he now works for the highest bidder.'
 };
 monsters.armadilloLizard = {
     'name': 'Armadillo Lizard',
@@ -273,7 +273,7 @@ monsters.giantTortoise = {
     'experience': 200,
     '$graphic': $hillaryMonster('turtle'),
     'spoils': ['hardShell', 'crackedShell', 'brokenShell', 'brokenShell'],
-    'helpText': 'A bolder with legs. Maybe I shouldn\'t even bother with this one.'
+    'helpText': 'A boulder with legs. Maybe I shouldn\'t even bother with this one.'
 };
 monsters.possessedGuard = {
     'name': 'Possessed Guard',
@@ -283,9 +283,9 @@ monsters.possessedGuard = {
     'damage': 180,
     'attackSpeed': 2,
     'experience': 250,
-    '$graphic': $ff2Monster('guard'),
+    '$graphic': $hillaryMonster('medium guard'),
     'spoils': [300],
-    'helpText': 'Something seems wrong with soldiers guarding the castle.'
+    'helpText': 'Something seems wrong with the soldiers guarding the castle.'
 };
 monsters.maverick = {
     'name': 'Maverick',
@@ -297,7 +297,7 @@ monsters.maverick = {
     'experience': 300,
     '$graphic': $ff2Monster('maverick'),
     'spoils': ['tinScraps', 'tinScraps', 'tinScraps'],
-    'helpText': 'An old malfunctioning robot. Not necessairly aggressive, but it could do a lot of damage if I\'m not careful.',
+    'helpText': 'An old malfunctioning robot. Not necessarily aggressive, but it could do a lot of damage if I\'m not careful.',
     'cripple': 10
 };
 monsters.woodGolem = {
@@ -346,7 +346,7 @@ monsters.possessedCaptain = {
     'damage': 200,
     'attackSpeed': 3,
     'experience': 450,
-    '$graphic': $ff2Monster('captain'),
+    '$graphic': $hillaryMonster('medium captain'),
     'spoils': [500],
     'helpText': 'If I can defeat the captain, I can gain entrance to the castle.'
 };
@@ -702,7 +702,7 @@ monsters.neptuneBody = {
     'experience': 2000,
     '$graphic': $ff2Monster('hydra'),
     'spoils': [],
-    'helpText': 'So this is the body of the beat. Its size is incomprehensible. Is it even possible to defeat this abomination?',
+    'helpText': 'So this is the body of the beast. Its size is incomprehensible. Is it even possible to defeat this abomination?',
 };
 monsters.neptuneHead = {
     'name': 'Neptune\'s Head',
