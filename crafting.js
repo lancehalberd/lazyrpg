@@ -1,63 +1,52 @@
-actions.craft = function (params, successCallback, errorCallback) {
-    checkParams(0, params);
-    var craftAction = getAreaAction('craft', null);
-    if (!craftAction) {
-        throw new ProgrammingError("You cannot craft here.");
-    }
-    successCallback();
-}
-actions.enchant = function (params, successCallback, errorCallback) {
-    checkParams(0, params);
-    var enchantAction = getAreaAction('enchant', null);
-    if (!enchantAction) {
-        throw new ProgrammingError("You cannot craft enchantments here.");
-    }
-    successCallback();
-}
-actions.make = function (params, successCallback, errorCallback) {
+function makeItem(params) {
     checkParams(1, params);
     var recipeKey = params[0];
     var recipe = allRecipes[recipeKey];
     if (!recipe || (recipe.type == 'crafting' && recipe.level > player.craftingSkill) || (recipe.type == 'enchanting' && recipe.level > player.enchantingSkill)) {
         throw new ProgrammingError("There is no unlocked recipe called '" + recipeKey+"'.");
     }
-    if (recipe.type == 'crafting') {
-        var craftAction = getAreaAction('craft', null);
-        if (!craftAction) {
-            throw new ProgrammingError("You cannot craft here.");
-        }
-    } else if (recipe.type == 'enchanting') {
-        var enchantAction = getAreaAction('enchant', null);
-        if (!enchantAction) {
-            throw new ProgrammingError("You cannot enchant here.");
-        }
-    }
-    if (!canCraft(recipe)) {
-        throw new ProgrammingError("You don't have the necessary ingredients to craft '" + recipeKey+"'.");
+    if (recipe.type == 'crafting' && !placeActions.craft) {
+        throw new ProgrammingError("You cannot craft here.");
+    } else if (recipe.type == 'enchanting' && !placeActions.enchant) {
+        throw new ProgrammingError("You cannot conjure enchantments here.");
     }
     craftRecipe(recipe);
-    successCallback();
 }
-
 function CraftAction(slot) {
-    this.actionName = "craft";
     this.getDiv = function () {
         return $div('action slot' + slot, $div('box', 'Craft')).attr('helpText', 'Craft items from the ingredients you have bought or collected. Learn more Craft skills in the skill tree to unlock new recipes.');
     };
-    this.perform = function () {
-        displyCraftingPage($('.js-craftContainer'), player.craftingSkill, craftingRecipes);
-        recordAction(this.actionName, this.actionTarget);
-    };
+    this.action = function () {
+        if ($('.js-craftContainer').is('.open')) {
+            return 'hideTabs';
+        }
+        return 'craft';
+    }
+    this.addActions = function () {
+        placeActions.craft = function (params) {
+            checkParams(0, params);
+            displyCraftingPage($('.js-craftContainer'), player.craftingSkill, craftingRecipes);
+        }
+        placeActions.make = makeItem;
+    }
 }
 function EnchantAction(slot) {
-    this.actionName = "enchant";
     this.getDiv = function () {
         return $div('action slot' + slot, $div('box', 'Enchant')).attr('helpText', 'Craft enchantments that can be used later to power up the gear you are wearing. Enchantments are lost when the enchanted item is unequiped or when you rest. Learn more Enchantment skills in the skill tree to unlock new recipes.');
     };
-    this.perform = function () {
-        displyCraftingPage($('.js-enchantContainer'), player.enchantingSkill, enchantingRecipes);
-        recordAction(this.actionName, this.actionTarget);
-    };
+    this.action = function () {
+        if ($('.js-craftContainer').is('.open')) {
+            return 'hideTabs';
+        }
+        return 'enchant';
+    }
+    this.addActions = function () {
+        placeActions.enchant = function (params) {
+            checkParams(0, params);
+            displyCraftingPage($('.js-enchantContainer'), player.enchantingSkill, enchantingRecipes);
+        }
+        placeActions.make = makeItem;
+    }
 };
 
 function displyCraftingPage($container, skillLevel, recipeList) {
@@ -117,7 +106,7 @@ function setupCrafting() {
 
 function craftRecipe(recipe) {
     if (!canCraft(recipe)) {
-        return;
+        throw new ProgrammingError("You don't have the necessary ingredients to craft '" + recipeKey + "'.");
     }
     var item = allItems[recipe.result];
     player.inventory[item.slot][item.key]++;
@@ -137,7 +126,7 @@ function craftRecipe(recipe) {
     //update buy buttons now that you have less gold
     uiNeedsUpdate.craft = true;
     uiNeedsUpdate.enchant = true;
-    recordAction('make', recipe.key);
+    recordAction('make ' + recipe.key);
 }
 
 function updateCrafting($container) {

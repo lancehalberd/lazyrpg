@@ -133,45 +133,43 @@ minerals.gold = {
 //populate monster.key for all monsters
 $.each(minerals, function (key, value) { value.key = key;});
 
-actions.mine = function (params, successCallback, errorCallback) {
-    checkParams(1, params);
-    var mineralKey = params[0];
-    var mineral = minerals[mineralKey];
-    var mineAction = getAreaAction('mine', mineralKey);
-    if (!mineAction) {
-        throw new ProgrammingError("There is no '" + mineralKey + "' to mine here.");
-    }
-    if (player.health <= 0) {
-        throw new ProgrammingError("You need more health to mine.");
-    }
-    mineAction.perform();
-    endMiningCallback = successCallback;
-}
-
 var mining = null;
-var endMiningCallback = null;
-
+/**
+ * Moves to the area with the given key. Throws an error if no such area exists
+ * or if there is no route to that area.
+ */
+actions.mine = function (params) {
+    checkParams(1, params);
+    var action = targets.mine[params[0]];
+    if (!action) {
+        throw new ProgrammingError("There is no '" + params[0] + "' to mine here.");
+    }
+    action(params);
+}
 function MiningAction(mineral, slot, onCompleteFunction) {
     mineral.timeLeft = mineral.time;
     mineral.onCompleteFunction = onCompleteFunction;
-    this.actionName = "mine";
-    this.actionTarget = mineral.key;
     this.getDiv = function () {
         mineral.$element = $('.js-mineral').clone().removeClass('js-mineral').show();
         mineral.$element.find('.js-graphic').html(mineral.$graphic);
         mineral.$element.find('.js-name').text(mineral.item.name);
-        uiNeedsUpdate.miningStats = true;
+        updateMineral(mineral);
         return $div('action slot' + slot, mineral.$element).attr('helpText', 'You can mine here, but it will drain your health over time.');
     };
-    this.perform = function () {
-        if (player.health <= 0) {
-            return;
-        }
-        endMiningCallback = null;
+    this.action = function () {
         if (mining === mineral) {
-            closeAll();
-        } else {
-            closeAll();
+            return "stop";
+        }
+        return "mine " + mineral.key;
+    };
+    this.addActions = function () {
+        targets.mine[mineral.key] = function (params) {
+            checkParams(1, params);
+            var mineralKey = params[0];
+            var mineral = minerals[mineralKey];
+            if (player.health <= 0) {
+                throw new ProgrammingError("You need more health to mine.");
+            }
             mining = mineral;
             //these are stored on the mineral as a hack since we don't
             //track floating point life, but need to track floating point damage
@@ -193,11 +191,11 @@ function miningLoop(currentTime, deltaTime) {
         var item = mineral.item;
         player.inventory[item.slot][item.key]++;
         uiNeedsUpdate[item.slot] = true;
+        mineral.timeLeft = mineral.time;
         stopMining();
         if (mineral.onCompleteFunction) {
             mineral.onCompleteFunction();
         }
-        recordAction('mine', mineral.key);
     }
     if (player.health <= 0) {
         stopMining();
@@ -210,13 +208,8 @@ function stopMining() {
     if (mining) {
         var mineral = mining;
         mining = null;
-        mineral.timeLeft = mineral.time;
         updateMineral(mineral);
         uiNeedsUpdate.miningStats = false;
-        if (endMiningCallback) {
-            endMiningCallback();
-            endMiningCallback = null;
-        }
         removeToolTip();
     }
 }
@@ -228,6 +221,7 @@ function updateMineral(mineral) {
     } else {
         $mineral.find('.js-action').text('Mine');
     }
+    $mineral.show();
     var timePercent = mineral.timeLeft / mineral.time;
     $mineral.find('.js-timeFill').css('width', (100 * timePercent) + '%');
 }

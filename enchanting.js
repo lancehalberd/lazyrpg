@@ -79,11 +79,10 @@ var enchantmentMap = {
     'enchantBoots': {'label': 'Enchant Boots', 'slot': 'boots'}
 }
 $.each(enchantmentMap, function (key, data) {
-    actions[key] = function (params, successCallback, errorCallback) {
+    actions[key] = function (params) {
         checkParams(1, params);
         var itemKey = params[0];
         useEnchantment(key, itemKey);
-        successCallback();
     }
 });
 function $makeEnchantButton(item) {

@@ -338,4 +338,3 @@ function updateTentacleStats(monster, baseMonster, amount) {
     scheduleMonsterForUpdate(monster);
 }
 resetCove();
-$.each(areas, function (key, area) { area.key = key;});

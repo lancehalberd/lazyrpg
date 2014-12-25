@@ -1,49 +1,48 @@
 
 var targetArea = null;
-var endMovingCallback = null;
 var currentArea = null;
 
 /**
  * Moves to the area with the given key. Throws an error if no such area exists
  * or if there is no route to that area.
  */
-actions.move = function (params, successCallback, errorCallback) {
+actions.move = function (params) {
     checkParams(1, params);
-    var areaKey = params[0];
-    var moveAction = getAreaAction('move', areaKey);
-    if (!moveAction) {
-        throw new ProgrammingError("There is no path to '" + areaKey + "' from here.");
+    var action = targets.move[params[0]];
+    if (!action) {
+        throw new ProgrammingError("There is no path to '" + params[0] + "' from here.");
     }
-    moveAction.perform();
-    endMovingCallback = successCallback;
+    action(params);
 }
 var $travelBar = $div('travel healthBar', $div('js-timeFill travel healthFill')).append($div('js-name name', 'traveling'));
 var onCompleteTravelFunction = null;
 function MoveAction(target, slot, onCompleteFunction) {
-    this.actionName = "move";
-    this.actionTarget = target;
     this.getDiv = function () {
         return $div('action slot' + slot, areas[target].$graphic)
                 .attr('helpText', 'Click here to move to the ' + areas[target].name + '.<br/></br> Traveling takes time and may drain your health. <br/>Travel time is doubled when your health is 0.');
     };
-    this.perform = function () {
-        endMovingCallback = null;
+    this.action = function () {
         if (targetArea == target) {
-            closeAll();
-        } else {
-            closeAll();
+            return "stop";
+        }
+        return "move " + target;
+    };
+    this.addActions = function () {
+        targets.move[target] = function (params) {
+            stopAll();
             //attach the travel bar to this travel action to display the travel sequence
-            $('.action.slot' + slot).append($travelBar);
+            $('.action.slot' + slot).append($travelBar.hide());
             targetArea = target;
+            //called to run an action specific effect
             onCompleteTravelFunction = onCompleteFunction;
             //these are stored on the mineral as a hack since we don't
             //track floating point life, but need to track floating point damage
             player.travelDamage = 0;
             player.totalTravelTime = player.travelTimeLeft = Math.floor((currentArea.travelTime + areas[targetArea].travelTime) / 2);
             player.initialPlayerHealth = player.health;
-            uiNeedsUpdate.travelingStats = true
+            uiNeedsUpdate.travelingStats = true;
         }
-    }
+    };
 }
 
 function travelingLoop(currentTime, deltaTime) {
@@ -58,7 +57,6 @@ function travelingLoop(currentTime, deltaTime) {
     player.health = Math.max(0, Math.round(player.initialPlayerHealth - player.travelDamage));
     if (player.travelTimeLeft <= 0) {
         setArea(areas[targetArea]);
-        recordAction('move', targetArea);
         if (onCompleteTravelFunction) {
             onCompleteTravelFunction();
         }
@@ -72,10 +70,6 @@ function stopTraveling() {
     if (targetArea) {
         targetArea = null;
         refreshArea();
-        if (endMovingCallback) {
-            endMovingCallback();
-            endMovingCallback = null;
-        }
         removeToolTip();
     }
 }
@@ -85,6 +79,7 @@ function updateTravelBar() {
         $travelBar.remove();
         return;
     }
+    $travelBar.show();
     var timePercent = player.travelTimeLeft / player.totalTravelTime;
     $travelBar.find('.js-timeFill').css('width', (100 * timePercent) + '%');
 }

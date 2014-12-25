@@ -258,7 +258,7 @@ function updateSkillTree() {
     }
 }
 
-actions.learn = function (params, successCallback, errorCallback) {
+actions.learn = function (params) {
     checkParams(2, params);
     var col = params[0];
     var row = params[1];
@@ -276,7 +276,6 @@ actions.learn = function (params, successCallback, errorCallback) {
         throw new ProgrammingError("You need more skill points to learn the skill at (" + col +"," + row + ").");
     }
     chooseSkill(skill);
-    successCallback();
 }
 
 function chooseSkill(skill) {

@@ -22,17 +22,14 @@ function setupInventory() {
         $(this).closest('.js-inventoryPanel').addClass('selected');
     });
     $('.js-inventoryPanel').on('click', '.js-use', function () {
-        //get the amount to make sure it can be sold
         var item = $(this).closest('.js-item').data('item');
         useItem(item);
     });
     $('.js-inventoryPanel').on('click', '.js-equip', function () {
-        //get the amount to make sure it can be sold
         var item = $(this).closest('.js-item').data('item');
         equipItem(item);
     });
     $('.js-inventoryPanel').on('click', '.js-unequip', function () {
-        //get the amount to make sure it can be sold
         var item = $(this).closest('.js-item').data('item');
         removeItem(item);
     });
@@ -45,7 +42,6 @@ function setupInventory() {
         sellItem(item, player.inventory[item.slot][item.key]);
     });
     $('.js-shopContainer').on('click', '.js-buy', function () {
-        //get the amount to make sure it can be sold
         var item = $(this).closest('.js-item').data('item');
         buyItem(item, 1);
     });
@@ -110,126 +106,7 @@ function removeItem(item) {
     recordAction("remove " + item.key);
 }
 
-function buyItem(item, quantity) {
-    if (quantity * getBuyPrice(item) > player.gold) {
-        return;
-    }
-    player.gold -= quantity * getBuyPrice(item);
-    player.inventory[item.slot][item.key] += quantity;
-    uiNeedsUpdate[item.slot] = true;
-    //show the inventory page that the item was added to
-    $('.js-inventoryPanel').removeClass('selected');
-    $('.js-inventoryPanel.js-' + item.slot).addClass('selected');
-    uiNeedsUpdate.playerStats = true;
-    //update buy buttons now that you have less gold
-    uiNeedsUpdate.shop = true;
-    recordAction("buy " + quantity + " " + item.key);
-}
-
-function sellItem(item, quantity) {
-    var owned = player.inventory[item.slot][item.key];
-    if (quantity > 0 && owned < quantity) {
-        return;
-    }
-    owned -= quantity;
-    player.gold += getSellPrice(item) * quantity;
-    player.inventory[item.slot][item.key] = owned;
-    if (owned) {
-        uiNeedsUpdate[item.slot] = true;
-    } else {
-        loseLastItem(item);
-    }
-    uiNeedsUpdate.playerStats = true;
-    //update buy buttons now that you have more gold
-    uiNeedsUpdate.shop = true;
-    recordAction("sell " + quantity + " " + item.key);
-}
-
-actions.buy = function (params, successCallback, errorCallback) {
-    checkParams(2, params);
-    var shopAction = getAreaAction('shop');
-    if (!shopAction) {
-        throw new ProgrammingError("There is no shop here.");
-    }
-    var item = shopAction.itemsForSale[params[1]];
-    if (!item) {
-        throw new ProgrammingError("'" + params[1]+"' is not for sale here.");
-    }
-    var quantity = parseInt(params[0]);
-    if (isNaN(quantity)) {
-        throw new ProgrammingError("Expected a number, but got '" + params[0] + "'");
-    }
-    if (quantity < 1) {
-        throw new ProgrammingError('Quantity must be at least 1');
-    }
-    if (quantity * getBuyPrice(item) > player.gold) {
-        throw new ProgrammingError("You don't have enough gold for this purchase.");
-    }
-    buyItem(item, quantity);
-    successCallback();
-};
-actions.buyMax = function (params, successCallback, errorCallback) {
-    checkParams(1, params);
-    var shopAction = getAreaAction('shop');
-    if (!shopAction) {
-        throw new ProgrammingError("There is no shop here.");
-    }
-    var item = shopAction.itemsForSale[params[0]];
-    if (!item) {
-        throw new ProgrammingError("'" + params[0] + "' is not for sale here.");
-    }
-    var quantity = Math.floor(player.gold / getBuyPrice(item));
-    if (quantity) {
-        buyItem(item, quantity);
-    }
-    successCallback();
-};
-
-actions.sell = function (params, successCallback, errorCallback) {
-    checkParams(2, params);
-    var shopAction = getAreaAction('shop');
-    if (!shopAction) {
-        throw new ProgrammingError("There is no shop here.");
-    }
-    var item = allItems[params[1]];
-    if (!item || player.inventory[item.slot][item.key] == 0) {
-        throw new ProgrammingError("You don't have a '" + params[1] + "'.");
-    }
-    if (item.value <= 0) {
-        throw new ProgrammingError("You cannot sell '" + params[0] + "'.");
-    }
-    var quantity = parseInt(params[0]);
-    if (isNaN(quantity)) {
-        throw new ProgrammingError("Expected a number, but got '" + params[0] + "'");
-    }
-    if (quantity < 1) {
-        throw new ProgrammingError('Quantity must be at least 1');
-    }
-    if (player.inventory[item.slot][item.key] < quantity) {
-        throw new ProgrammingError("You don't own " + quantity + " '" + params[1] + "'.");
-    }
-    sellItem(item, quantity);
-    successCallback();
-};
-actions.sellAll = function (params, successCallback, errorCallback) {
-    checkParams(1, params);
-    var shopAction = getAreaAction('shop');
-    if (!shopAction) {
-        throw new ProgrammingError("There is no shop here.");
-    }
-    var item = allItems[params[0]];
-    if (!item || player.inventory[item.slot][item.key] == 0) {
-        throw new ProgrammingError("You don't have any '" + params[0] + "'.");
-    }
-    if (item.value <= 0) {
-        throw new ProgrammingError("You cannot sell '" + params[0] + "'.");
-    }
-    var quantity = player.inventory[item.slot][item.key];
-    sellItem(item, quantity);
-    successCallback();
-};
-
-actions.use = function (params, successCallback, errorCallback) {
+actions.use = function (params) {
     checkParams(1, params);
     var key = params[0];
     var item = allItems[key];
@@ -240,10 +117,9 @@ actions.use = function (params, successCallback, errorCallback) {
         throw new ProgrammingError("You cane use that item.");
     }
     useItem(item);
-    successCallback();
 }
 
-actions.equip = function (params, successCallback, errorCallback) {
+actions.equip = function (params) {
     checkParams(1, params);
     var key = params[0];
     var item = allItems[key];
@@ -254,10 +130,9 @@ actions.equip = function (params, successCallback, errorCallback) {
         throw new ProgrammingError("You aren't skilled enough to equip that.");
     }
     equipItem(item);
-    successCallback();
 }
 
-actions.remove = function (params, successCallback, errorCallback) {
+actions.remove = function (params) {
     checkParams(1, params);
     var key = params[0];
     var item = allItems[key];
@@ -265,7 +140,6 @@ actions.remove = function (params, successCallback, errorCallback) {
         throw new ProgrammingError("You don't have that equipped.");
     }
     removeItem(item);
-    successCallback();
 }
 
 function optimizeArmor() {
@@ -277,9 +151,9 @@ function optimizeArmor() {
     recordAction('optimizeArmor');
 }
 
-actions.optimizeArmor = function (params, successCallback, errorCallback) {
+actions.optimizeArmor = function (params) {
+    checkParams(0, params);
     optimizeArmor();
-    successCallback();
 }
 
 function equipArmorIfBetter(key, amount) {

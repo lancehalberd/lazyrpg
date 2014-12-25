@@ -139,7 +139,9 @@ function closeAll() {
     $('.js-enchantContainer').removeClass('open');
     $('.js-shopContainer').removeClass('open');
     $('.js-inventoryPanel .js-sellActions').hide();
-    $('.js-programContainer').removeClass('open');
+    removeToolTip();
+}
+function stopAll() {
     stopFighting();
     stopMining();
     stopTraveling();

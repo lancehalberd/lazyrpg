@@ -1,23 +1,15 @@
 
-
-actions.fight = function (params, successCallback, errorCallback) {
-    checkParams(1, params);
-    var monsterKey = params[0];
-    var monster = monsters[monsterKey];
-    var fightAction = getAreaAction('fight', monster);
-    if (!monster || !fightAction) {
-        throw new ProgrammingError("There is no '" + monsterKey + "' to fight here.");
-    }
-    if (player.health <= 0) {
-        throw new ProgrammingError("You need more health to fight.");
-    }
-    fightAction.perform();
-    battleCallback = successCallback;
-}
-
 var fighting = null;
-var battleCallback = null;
 var winInstantly = false;
+
+actions.fight = function (params) {
+    checkParams(1, params);
+    var action = targets.fight[params[0]];
+    if (!action) {
+        throw new ProgrammingError("There is no '" + params[0] + "' to fight here.");
+    }
+    action(params);
+}
 
 function BattleAction(sourceMonster, slot, victoryFunction) {
     var monster = copy(sourceMonster);
@@ -29,8 +21,6 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
     monster.battleStatus = freshBattleStatus();
     //used to trigger special results when bosses are defeated
     monster.victoryFunction = victoryFunction;
-    this.actionName = "fight";
-    this.actionTarget = sourceMonster;
     this.monster = monster;
     this.getDiv = function () {
         monster.$element = $('.js-monster').clone().removeClass('js-monster').show();
@@ -39,23 +29,25 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
         updateMonster(monster);
         return $div('action slot' + slot, monster.$element).attr('helpText', monster.helpText);
     };
-    this.perform = function () {
-        if (player.health <= 0) {
-            return;
-        }
-        //erase callbacks
-        battleCallback = null;
+    this.action = function () {
         if (fighting === monster) {
-            closeAll();
-        } else {
-            closeAll();
+            return "stop";
+        }
+        return "fight " + monster.key;
+    };
+    this.addActions = function () {
+        targets.fight[monster.key] = function (params) {
+            if (player.health <= 0) {
+                throw new ProgrammingError("You need more health to fight.");
+            }
+            stopAll();
             fighting = monster;
             monster.accruedDamageForDisplay = 0;
             monster.hasHitsToDisplay = false;
             player.nextAttack = 1000 / player.getAttackSpeed();
             monster.nextAttack = 0;
         }
-    }
+    };
 }
 function applyCripple(attackSpeed, cripple) {
     return attackSpeed / (1 + Math.log(1 + cripple / 6));
@@ -163,7 +155,6 @@ function fightLoop(currentTime, deltaTime) {
         if (monster.victoryFunction) {
             monster.victoryFunction();
         }
-        recordAction('fight', monster.key);
         return;
     }
     if (player.health <= 0) {
@@ -245,10 +236,6 @@ function stopFighting(victory) {
         }
         oldMonster.battleStatus = freshBattleStatus();
         updateMonster(oldMonster);
-        if (battleCallback) {
-            battleCallback();
-            battleCallback = null;
-        }
         removeToolTip();
     }
     uiNeedsUpdate.playerStats = true;
