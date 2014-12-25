@@ -11,7 +11,6 @@ areas.airlock =  {
             }
             return null;
         }),
-        new SaveAction(3),
         new MoveAction('quarters', 5)
     ]
 };

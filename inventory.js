@@ -48,6 +48,7 @@ function setupInventory() {
 }
 
 function useItem(item) {
+    stopAll();
     if (!item.use) {
         return;
     }
@@ -69,6 +70,7 @@ function useItem(item) {
 }
 
 function equipItem(item) {
+    stopAll();
     if (!player.inventory[item.slot][item.key]) {
         return;
     }
@@ -90,6 +92,7 @@ function equipItem(item) {
 }
 
 function removeItem(item) {
+    stopAll();
     if (!player.inventory[item.slot][item.key]) {
         return;
     }
@@ -143,6 +146,7 @@ actions.remove = function (params) {
 }
 
 function optimizeArmor() {
+    stopAll();
     $.each(player.inventory.armors, equipArmorIfBetter);
     $.each(player.inventory.helmets, equipArmorIfBetter);
     $.each(player.inventory.boots, equipArmorIfBetter);
@@ -279,7 +283,18 @@ function refreshInventoryPanel(typeKey) {
         if (item.value <= 0) {
             item.$element.find('.js-sellActions').remove();
         }
-        item.$element.find('.js-itemName').attr('helpText', helpText);
+        item.$element.find('.js-itemName').attr('helpText', helpText).data('helpFunction', function () {
+            if (fighting) {
+                return "Using an item or changing equipment while in combat will cause you to stop fighting.";
+            }
+            if (targetArea) {
+                return "Using an item or changing equipment while traveling will cancel the travel action.";
+            }
+            if (mining) {
+                return "Using an item or changing equipment while mining will caust you to stop mining.";
+            }
+            return '';
+        });
         item.$element.data('item', item);
         updatEnchantmentState(item);
         $('.js-inventoryPanel.js-' + typeKey + ' .js-body').append(item.$element);

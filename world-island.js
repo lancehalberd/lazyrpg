@@ -46,11 +46,12 @@ areas.islandVillage =  {
     'travelDamage': 0,
     '$graphic': $img('poorVillage.png'),
     'actions': [
-        new CraftAction(1),
+        new EnchantAction(1),
+        new CraftAction(7),
+        new ShopAction([items.largePotion, items.mediumPotion, weapons.silverSword, weapons.silverMallet, helmets.silverHelmet, armors.silverMail], 4),
         new MoveAction('jungle', 2),
-        new EnchantAction(3),
-        new RestAction(4),
-        new ShopAction([items.largePotion, items.mediumPotion, weapons.silverSword, weapons.silverMallet, helmets.silverHelmet, armors.silverMail], 6)
+        new SaveAction(3),
+        new RestAction(6)
     ]
 };
 /**

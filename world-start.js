@@ -62,10 +62,10 @@ areas.river =  {
         new ToggleAction(new BattleAction(monsters.troll, 2, refreshArea), function() {
             return !(player.defeatedMonsters.troll > 0);
         }),
-        new ToggleAction(new MoveAction('savanna', 5), function() {
+        new ToggleAction(new MoveAction('savanna', 4), function() {
             return (player.defeatedMonsters.troll > 0);
         }),
-        new MoveAction('village', 3)
+        new MoveAction('village', 8)
     ],
     'story': 'I am told there is a port south of here beyond this river where I can find a ship to the capitol. An intimidating brute of a monster is guarding the only route across though...'
 };
@@ -75,8 +75,8 @@ areas.savanna = {
     'travelDamage': 2,
     '$graphic': $img('field.png'),
     'actions': [
-        new MoveAction('river', 2),
-        new BattleAction(monsters.lion, 3),
+        new MoveAction('river', 3),
+        new BattleAction(monsters.lion, 2),
         new BattleAction(monsters.hawk, 1),
         new BattleAction(monsters.fowler, 6),
         new MoveAction('portTown', 5)
@@ -88,10 +88,12 @@ areas.portTown = {
     'travelDamage': 0,
     '$graphic': $img('town.png'),
     'actions': [
-        new MoveAction('savanna', 2),
-        new RestAction(4),
-        new ShopAction([items.smallPotion, items.mediumPotion, weapons.crossbow, armors.bronzeArmor], 3),
         new EnchantAction(1),
+        new CraftAction(7),
+        new ShopAction([items.smallPotion, items.mediumPotion, weapons.crossbow, armors.bronzeArmor], 4),
+        new MoveAction('savanna', 2),
+        new SaveAction(3),
+        new RestAction(6),
         new MoveAction('ship', 5)
     ]
 };
@@ -120,11 +122,12 @@ areas.city = {
     'actions': [
         new MoveAction('castleGates', 1),
         new MoveAction('ship', 2),
-        new RestAction(3),
-        new CraftAction(4),
+        new SaveAction(3),
+        new RestAction(6),
+        new CraftAction(7),
         //Shop has limited iron equipment because the dark knight has taken over the iron mines
-        new ShopAction([items.mediumPotion, items.largePotion, weapons.claws, weapons.cudgel, armors.chainMail], 5),
-        new MoveAction('field', 6)
+        new ShopAction([items.mediumPotion, items.largePotion, weapons.claws, weapons.cudgel, armors.chainMail], 4),
+        new MoveAction('field', 5)
     ]
 };
 areas.field = {
@@ -231,7 +234,8 @@ areas.cellar = {
     '$graphic': $img('cave.png'),
     'actions': [
         new BattleAction(monsters.doomFlower, 1),
-        new MoveAction('remoteAbode', 4)
+        new MoveAction('remoteAbode', 4),
+        new SaveAction(6),
     ]
 };
 
