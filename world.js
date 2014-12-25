@@ -38,7 +38,7 @@ function RestAction(slot) {
 }
 function SaveAction(slot) {
     this.getDiv = function () {
-        return $div('action slot' + slot, $div('box', 'Save')).attr('helpText', 'Save your current progress.');
+        return $div('action slot' + slot, $div('box', 'Save')).attr('helpText', 'Save my current progress.');
     };
     this.action = "save";
     this.addActions = function () {
