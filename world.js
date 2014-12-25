@@ -18,14 +18,19 @@ function RebirthAction(slot) {
 function RestAction(slot) {
     this.getDiv = function () {
         return $div('action slot' + slot, $div('box', 'Rest')).attr('helpText', 'I can restore my health by resting here.').data('helpFunction', function() {
-            return 'Resting will take ' + Math.ceil((player.maxHealth - player.health) / 10) + ' seconds.';
+            var healthLost = player.maxHealth - player.health;
+            if (healthLost <= 0) {
+                return 'My health is full, so there is no reason to rest.';
+            }
+            return 'Resting will take ' + Math.ceil(healthLost / 10) + ' seconds.';
         });
     };
     this.action = "rest";
     this.addActions = function () {
         placeActions.rest = function (params) {
             checkParams(0, params);
-            player.time += 1000 * Math.ceil((player.maxHealth - player.health) / 10);
+            var healthLost = player.maxHealth - player.health;
+            player.time += 1000 * Math.ceil(healthLost / 10);
             player.health = player.maxHealth;
             uiNeedsUpdate.playerStats = true;
         };

@@ -159,22 +159,26 @@ var specialSkills = {
 populateSkillTree();
 var allSkills = [];
 skillTree.forEach(function (row) {allSkills = allSkills.concat(row)});
-
-function initializeSkillTree() {
-    for (var row = 0; row < skillTree.length; row++) {
-        for (var col = 0; col < skillTree[row].length; col++) {
-            var skill = skillTree[row][col];
-            skill.row = row;
-            skill.col = col;
-            skill.$element = $div('skillSlot', '');
-            skill.$element.data('skill', skill);
-            skill.$element.css('left', col * 40 + 'px').css('top', row * 40 + 'px');
-            $('.js-skillContainer').append(skill.$element);
-            skill.$element.on('click', function () {
-                chooseSkill($(this).data('skill'));
-            });
-        }
+for (var row = 0; row < skillTree.length; row++) {
+    for (var col = 0; col < skillTree[row].length; col++) {
+        var skill = skillTree[row][col];
+        skill.row = row;
+        skill.col = col;
     }
+}
+
+function initializeSkillTree(args) {
+    allSkills.forEach(function (skill) {
+        var row = skill.row;
+        var col = skill.col;
+        skill.$element = $div('skillSlot', '');
+        skill.$element.data('skill', skill);
+        skill.$element.css('left', col * 40 + 'px').css('top', row * 40 + 'px');
+        $('.js-skillContainer').append(skill.$element);
+        skill.$element.on('click', function () {
+            chooseSkill($(this).data('skill'));
+        });
+    })
 }
 
 //maps each class to its starting location on the skill tree
@@ -203,7 +207,7 @@ function resetSkillTree() {
         var startingSkill = skillTree[coords[1]][coords[0]];
         startingSkill.available = true;
         startingSkill.activated = true;
-        revealSkillsAround(startingSkill.col, startingSkill.row);
+        revealSkillsAround(startingSkill);
     });
     for (var i = 0; i < 13; i++) {
         for (var j = 0; j < 13; j++) {
@@ -306,7 +310,8 @@ function chooseSkill(skill) {
         player.skillPoints -= player.skillCost;
     }
     learnedSkills.forEach(function (skill) {
-        revealSkillsAround(skill.col, skill.row);
+        player.learnedSkills.push([skill.col, skill.row]);
+        revealSkillsAround(skill);
     });
     player.skillCost++;
     uiNeedsUpdate.playerStats = true;
@@ -314,7 +319,9 @@ function chooseSkill(skill) {
     recordAction("learn " + skill.col + " " + skill.row);
 }
 
-function revealSkillsAround(col, row) {
+function revealSkillsAround(skill) {
+    var col = skill.col;
+    var row = skill.row;
     //reveal all open squares in a line from the activated skill
     [[0, -1, 8],[0, 1, 4],[-1, 0, 2],[1, 0, 1]].forEach(function (delta) {
         var lastSkill = null;

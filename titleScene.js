@@ -58,9 +58,9 @@ function initializeTitleScene() {
 }
 
 function startGame(savedData) {
+    resetCharacter();
     //populate data from the saved file
     applySavedData(savedData);
-    resetCharacter();
     $('.js-titleScene').hide();
     refreshPrograms();
     updateProgramButtons();

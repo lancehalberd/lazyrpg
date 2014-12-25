@@ -43,11 +43,13 @@ areas.village =  {
     'travelDamage': 0,
     '$graphic': $img('poorVillage.png'),
     'actions': [
-        new MoveAction('forest', 3),
-        new RestAction(4),
-        new ShopAction([items.smallPotion, helmets.cap, weapons.clothGloves, weapons.shortBow, weapons.club], 2),
         new CraftAction(1),
-        new MoveAction('river', 5)
+        new ShopAction([items.smallPotion, helmets.cap, weapons.clothGloves, weapons.shortBow, weapons.club], 2),
+        new MoveAction('forest', 3),
+        new MoveAction('river', 7),
+        new RestAction(4),
+        new SaveAction(5),
+        new RebirthAction(6)
     ],
     'story': 'This small village will serve well as a safe haven while I get my bearings. I will need to find a larger city to have any chance at figuring out what happened to me.'
 };

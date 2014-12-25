@@ -90,7 +90,7 @@ $(function () {
         var x = event.pageX - $('.js-gameContainer').offset().left;
         var y = event.pageY - $('.js-gameContainer').offset().top;
         //console.log([event.pageX,event.pageY]);
-        $popup = $div('toolTip js-toolTip', $currentHelpTarget.attr('helpText'));
+        $popup = $div('toolTip js-toolTip', getHelpText($currentHelpTarget));
         updateToolTip(x, y, $popup);
         $('.js-gameContainer').append($popup);
     });
@@ -114,6 +114,20 @@ $(function () {
     setupProgrammingWindow();
     $('body').append('<style type="text/css" >.icon { background-image: url("gfx/iconSet.png");}</style>');
 });
+
+function getHelpText($element) {
+    var sections = [];
+    var baseText = $element.attr('helpText');
+    if (baseText && baseText.length) {
+        sections.push(baseText);
+    }
+    var helpFunction = $element.data('helpFunction');
+    var text = helpFunction ? helpFunction() : '';
+    if (text && text.length) {
+        sections.push(text);
+    }
+    return sections.join('<br/><br/>');
+}
 
 function removeToolTip() {
     $('.js-toolTip').remove();

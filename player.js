@@ -26,10 +26,25 @@ function newGameData() {
         'defeatedMonsters': {},
         'unlockedClasses' : {'youth' : true},
         'gold': 10,
+        'experience': 0,
+        'level': 0,
+        'learnedSkills': [],
+        'skillPoints': 0,
+        'skillCost': 1,
         'time': 0,
         'gameSpeed': 1,
         'bonusPoints': 0,
-        'programs': [{'name': 'Find Village', 'description': 'This sample program moves you from the shore to the village and rests there.', 'text': "move forest\nmove village\nrest"}]
+        'programs': [{'name': 'Find Village', 'description': 'This sample program moves you from the shore to the village and rests there.', 'text': "move forest\nmove village\nrest"}],
+        'weapon': baseEquipment.weapon,
+        'helmet': baseEquipment.helmet,
+        'boots': baseEquipment.boots,
+        'armor': baseEquipment.armor,
+        'enchantments': {
+            'weapon': emptyEnchantments(),
+            'armor': emptyEnchantments(),
+            'helmet': emptyEnchantments(),
+            'boots': emptyEnchantments()
+        }
     };
     for (var i = 0; i < 13; i++) {
         data.visibleSkills[i] = [];
@@ -48,14 +63,24 @@ function getSavedData() {
         'area': player.area,
         'inventory': copy(player.inventory),
         'visibleSkills': copy(player.visibleSkills),
+        'learnedSkills': copy(player.learnedSkills),
         'defeatedMonsters': copy(player.defeatedMonsters),
         'unlockedClasses' : copy(player.unlockedClasses),
         'gold': player.gold,
+        'experience': player.experience,
+        'level': player.level,
         'time': player.time,
         'gameSpeed': player.gameSpeed,
         'bonusPoints': player.bonusPoints,
+        'skillPoints': player.skillPoints,
+        'skillCost': player.skillCost,
         'programs': player.programs,
-        'name': player.name
+        'name': player.name,
+        'weapon': player.weapon.key,
+        'helmet': player.helmet.key,
+        'boots': player.boots.key,
+        'armor': player.armor.key,
+        'enchantments': copy(player.enchantments)
     };
 }
 function applySavedData(savedData) {
@@ -69,9 +94,20 @@ function applySavedData(savedData) {
                     player.inventory[itemSlot][itemKey] = amount;
                 });
             });
+        } else if (['weapon', 'helmet', 'boots', 'armor'].indexOf(key) >= 0) {
+            player[key] = allItems[value];
         } else {
             player[key] = value;
         }
+    });
+    //initialize the skill tree with unlocked class info
+    resetSkillTree();
+    //apply all the players learned abilities to the fresh tree
+    player.learnedSkills.forEach(function (coords) {
+        var skill = skillTree[coords[1]][coords[0]];
+        skill.activated = true;
+        skill.activate();
+        revealSkillsAround(skill);
     });
 }
 
@@ -158,15 +194,15 @@ $.each(allRecipes, function (key, recipe) {
 });
 
 
-applySavedData(newGameData());
-player.isPlayer =  true,
-player.battleStatus = freshBattleStatus();
 var baseEquipment = {
     'weapon' : weapons.fists,
     'armor': armors.shirt,
     'helmet': helmets.hair,
     'boots': boots.bareFeet
 };
+applySavedData(newGameData());
+player.isPlayer =  true,
+player.battleStatus = freshBattleStatus();
 player.getDamage = function () {
     var damageBonus = player.bonuses.damage;
     var weaponBonus = player.bonuses[player.weapon.type];
@@ -376,6 +412,7 @@ function resetCharacter() {
     player.craftingSkill = 0;
     player.poachingSkill = 0;
     player.miningSkill = 0;
+    player.learnedSkills = [];
     player.skillPoints = player.bonusPoints;
     player.skillCost = 1;
     player.weapon = weapons.fists;
