@@ -78,6 +78,15 @@
 .hillaryMonster.captain {
     background-position: -880px -220px;
 }
+.hillaryMonster.scorpion {
+    background-position: -1100px -220px;
+}
+.hillaryMonster.spider {
+    background-position: -1320px -220px;
+}
+.hillaryMonster.bear {
+    background-position: -1540px -220px;
+}
 .hillaryMonster.rat {
     width: 100px;
     height: 100px;
