@@ -166,7 +166,7 @@ monsters.scorpion = {
     'damage': 80,
     'attackSpeed': 2,
     'experience': 90,
-    '$graphic': $ff2Monster('scorpion'),
+    '$graphic': $hillaryMonster('small scorpion'),
     'spoils': ['venom', 'venom'],
     'helpText': 'The poison in its tail makes this a deceptively dangerous foe.',
     'poison': 10
@@ -259,7 +259,7 @@ monsters.bear = {
     'damage': 200,
     'attackSpeed': 2,
     'experience': 180,
-    '$graphic': $ff2Monster('bear'),
+    '$graphic': $hillaryMonster('small bear'),
     'spoils': ['bone', 'sharpTooth', 'sharpTooth', 'largePelt'],
     'helpText': 'I should think carefully before disturbing its slumber.'
 };
@@ -333,7 +333,7 @@ monsters.spider = {
     'damage': 200,
     'attackSpeed': 3,
     'experience': 1000,
-    '$graphic': $ff2Monster('spider'),
+    '$graphic': $hillaryMonster('small spider'),
     'spoils': ['venom', 'spiderWeb', 'spiderWeb'],
     'helpText': 'A large poisonous spider.',
     'poison': 20
@@ -437,7 +437,7 @@ monsters.giantSpider = {
     'damage': 400,
     'attackSpeed': 3,
     'experience': 1200,
-    '$graphic': $ff2Monster('spider'),
+    '$graphic': $hillaryMonster('large spider'),
     'spoils': ['strongWeb', 'spiderWeb', 'spiderWeb'],
     'helpText': 'Why are there giant spiders living in the castle?',
     'poison': 40,
