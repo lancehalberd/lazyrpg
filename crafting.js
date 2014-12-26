@@ -110,6 +110,15 @@ function craftRecipe(recipe) {
     }
     var item = allItems[recipe.result];
     player.inventory[item.slot][item.key]++;
+    var time = 1000;
+    //care+copy each double crafting time
+    if (player.specialSkills.care) {
+        time *= 2;
+    }
+    if (player.specialSkills.copy) {
+        time *= 2;
+    }
+    player.time += time;
     //copy duplicates items you craft
     if (player.specialSkills.copy) {
         player.inventory[item.slot][item.key]++;

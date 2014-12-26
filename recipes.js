@@ -52,6 +52,7 @@ var craftingRecipes = [
     'silverPlate': {'result': 'silverPlate','ingredients': {'steeledSilver': 10, 'silk': 5}},
     'ninjaTabi': {'result': 'ninjaTabi', 'ingredients': {'leather': 5, 'silk': 5}}
 },{
+    'giantPotion': {'result': 'giantPotion','ingredients': {'largePotion': 3}},
     'mithrilSilver': {'result': 'mithrilSilver', 'ingredients': {'silverOre': 20, 'ironOre': 4, 'coolingMagma': 2, 'copperOre': 2, 'tin': 1}},
     'tigerClaws': {'result': 'tigerClaws', 'ingredients': {'tigerClaw': 8, 'mithrilDust': 8, 'solvent': 2, 'mithrilSilver': 1, 'coolingMagma': 1, 'cestus': 1}},
     'katana': {'result': 'katana', 'ingredients': {'silverOre': 80, 'ironOre': 30, 'mithrilDust': 10, 'coolingMagma': 10, 'copperOre': 10, 'tin': 5, 'solvent' : 2}},

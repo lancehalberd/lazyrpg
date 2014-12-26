@@ -1,5 +1,14 @@
 
 var items = {};
+items.giantPotion = {
+    'name': 'Giant Potion',
+    'use': function () {
+        player.health = Math.min(player.getMaxHealth(), player.health + 10000);
+        uiNeedsUpdate.playerStats = true;
+    },
+    'helpText': 'Drink this to recover 10000 health.',
+    'value': 500
+};
 items.largePotion = {
     'name': 'Large Potion',
     'use': function () {
