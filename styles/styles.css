@@ -488,12 +488,18 @@
     width: 120px;
     height: 30px;
 }
-.travel.healthFill {
-    background-color: #84c;
-    height: 30px;
+.travel {
+    width: 120px;
+    position: absolute;
+    top: 40px;
+    left: -60px;
 }
 .travel.healthBar {
     width: 120px;
+    height: 30px;
+}
+.travel .healthFill {
+    background-color: #84c;
     height: 30px;
 }
 

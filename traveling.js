@@ -14,7 +14,7 @@ actions.move = function (params) {
     }
     action(params);
 }
-var $travelBar = $div('travel healthBar', $div('js-timeFill travel healthFill')).append($div('js-name name', 'traveling'));
+var $travelBar = $div('travel healthBar', $div('js-timeFill healthFill')).append($div('js-name name', 'traveling'));
 var onCompleteTravelFunction = null;
 function MoveAction(target, slot, onCompleteFunction) {
     this.slot = slot;
