@@ -75,6 +75,43 @@ function ToggleAction(innerAction, condition) {
         innerAction.addActions();
     };
 }
+//action only available if the condition method returns true
+function DoorAction(innerAction, condition) {
+    this.innerAction = innerAction;
+    this.getDiv = function () {
+        if (condition()) {
+            var $innerDiv = innerAction.getDiv();
+            //clone to get help info off of the inner action
+            var $doorDiv = $innerDiv.clone().empty();
+            return $doorDiv.append($div('innerActionContainer', $innerDiv)).append($div('door open'));
+        }
+        return $div('action slot' + innerAction.slot).append($div('door closed')).attr('helpText', 'There is a sealed door. Perhaps there is a mechanism for opening it somewhere.');
+    };
+    this.action = function () {
+        if (!condition()) {
+            return '';
+        }
+        return evaluateAction(innerAction.action);
+    }
+    this.addActions = function () {
+        if (!condition()) {
+            return;
+        }
+        innerAction.addActions();
+    };
+}
+//action only available if the condition method returns true
+function SpecialAction(slot, actionKey, label, helpFunction, activate) {
+    this.getDiv = function () {
+        return $div('action slot' + slot, $div('box', label)).attr('helpText', '').data('helpFunction', helpFunction);
+    };
+    this.action = function () {
+        return evaluateAction(actionKey);
+    }
+    this.addActions = function () {
+        placeActions[evaluateAction(actionKey)] = activate;
+    };
+}
 
 function updateShop() {
     $('.js-shopContainer .js-body .js-shopItem').each(function () {
@@ -90,6 +127,9 @@ function setArea(area) {
     });
     currentArea = area;
     player.area = area.key;
+    if (area.trackName) {
+        setMusic(area.trackName);
+    }
     $('.js-currentArea').empty().append(currentArea.$graphic);
     currentArea.actions.forEach(function (action) {
         var $actionDiv = action.getDiv();

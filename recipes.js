@@ -340,3 +340,37 @@ function logOutOfBounds(result, key, min, max) {
         console.log(key + ' recipe should not be worth more than ' + max + ', is currently ' + result.value);
     }
 }
+
+var allItems = {};
+$.each(items, function(key, value) {
+    allItems[key] = value;
+    value.key = key;
+    value.slot = 'items';
+});
+$.each(weapons, function(key, value) {
+    allItems[key] = value;
+    value.key = key;
+    value.isWeapon = true;
+    value.slot = 'weapons';
+    value.equipmentSlot = 'weapon';
+});
+$.each(armors, function(key, value) {
+    allItems[key] = value;
+    value.key = key;
+    value.isArmor = true;
+    value.slot = 'armors';
+    value.equipmentSlot = 'armor';
+});
+$.each(helmets, function(key, value) {
+    allItems[key] = value; value.key =
+    key; value.isArmor = true;
+    value.slot = 'helmets';
+    value.equipmentSlot = 'helmet';
+});
+$.each(boots, function(key, value) {
+    allItems[key] = value;
+    value.key = key;
+    value.isArmor = true;
+    value.slot = 'boots';
+    value.equipmentSlot = 'boots';
+});

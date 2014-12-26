@@ -9,7 +9,8 @@ areas.shore =  {
         new MoveAction('cave', 4),
         new MoveAction('forest', 6)
     ],
-    'story': 'Was I in a shipwreck? I can remember no events only the impression of suffering and loss remains. And yet I woke up on this shore completely healthy, as if reborn.'
+    'story': 'Was I in a shipwreck? I can remember no events only the impression of suffering and loss remains. And yet I woke up on this shore completely healthy, as if reborn.',
+    'trackName': 'ReboundInsomnia'
 };
 areas.cave =  {
     'name': 'Cave',
@@ -44,14 +45,17 @@ areas.village =  {
     '$graphic': $img('poorVillage.png'),
     'actions': [
         new CraftAction(1),
-        new ShopAction([items.smallPotion, helmets.cap, weapons.clothGloves, weapons.shortBow, weapons.club], 2),
-        new MoveAction('forest', 3),
+        new ShopAction(['smallPotion', 'cap', 'clothGloves', 'shortBow', 'club'], 2),
+        new MoveAction('forest', 3, function () {
+            setMusic("LosingSleep");
+        }),
         new MoveAction('river', 7),
         new RestAction(4),
         new SaveAction(5),
         new RebirthAction(6)
     ],
-    'story': 'This small village will serve well as a safe haven while I get my bearings. I will need to find a larger city to have any chance at figuring out what happened to me.'
+    'story': 'This small village will serve well as a safe haven while I get my bearings. I will need to find a larger city to have any chance at figuring out what happened to me.',
+    'trackName': 'ReboundInsomnia'
 };
 areas.river =  {
     'name': 'River',
@@ -90,12 +94,13 @@ areas.portTown = {
     'actions': [
         new EnchantAction(1),
         new CraftAction(7),
-        new ShopAction([items.smallPotion, items.mediumPotion, weapons.crossbow, armors.bronzeArmor], 4),
+        new ShopAction(['smallPotion', 'mediumPotion', 'crossbow', 'bronzeArmor'], 4),
         new MoveAction('savanna', 2),
         new SaveAction(3),
         new RestAction(6),
         new MoveAction('ship', 5)
-    ]
+    ],
+    'trackName': 'ReboundInsomnia'
 };
 areas.ship = {
     'name': 'Ship',
@@ -126,9 +131,10 @@ areas.city = {
         new RestAction(6),
         new CraftAction(7),
         //Shop has limited iron equipment because the dark knight has taken over the iron mines
-        new ShopAction([items.mediumPotion, items.largePotion, weapons.claws, weapons.cudgel, armors.chainMail], 4),
+        new ShopAction(['mediumPotion', 'largePotion', 'claws', 'cudgel', 'chainMail'], 4),
         new MoveAction('field', 5)
-    ]
+    ],
+    'trackName': 'ReboundInsomnia'
 };
 areas.field = {
     'name': 'Field',
@@ -139,7 +145,7 @@ areas.field = {
         new BattleAction(monsters.mercenary, 1),
         new BattleAction(monsters.woodGolem, 3),
         new MoveAction('city', 2),
-        new MoveAction('desert', 6),
+        new MoveAction('desert', 8),
         new MoveAction('marsh', 4)
     ]
 };
@@ -149,11 +155,11 @@ areas.desert = {
     'travelDamage': 20,
     '$graphic': $img('desert.png'),
     'actions': [
-        new BattleAction(monsters.scorpion, 1),
+        new BattleAction(monsters.scorpion, 4),
         new BattleAction(monsters.armadilloLizard, 2),
-        new BattleAction(monsters.giantTortoise, 3),
-        new MoveAction('field', 4),
-        new MoveAction('desertCave', 6)
+        new BattleAction(monsters.giantTortoise, 6),
+        new MoveAction('field', 7),
+        new MoveAction('desertCave', 8)
     ]
 };
 areas.desertCave = {
@@ -164,7 +170,7 @@ areas.desertCave = {
     'actions': [
         new BattleAction(monsters.vampireBat, 1),
         new BattleAction(monsters.bear, 3),
-        new MoveAction('desert', 4),
+        new MoveAction('desert', 7),
         new ToggleAction(new BattleAction(monsters.darkKnight, 6, refreshArea), function() {
             return !(player.defeatedMonsters.darkKnight > 0);
         }),
@@ -179,10 +185,10 @@ areas.ironMine = {
     'travelDamage': 5,
     '$graphic': $img('cave.png'),
     'actions': [
-        new MiningAction(minerals.iron, 1),
+        new MoveAction('desertCave', 1),
         new BattleAction(monsters.whelp, 2),
         new BattleAction(monsters.golem, 3),
-        new MoveAction('desertCave', 4)
+        new MiningAction(minerals.iron, 6)
     ]
 };
 areas.marsh = {
@@ -192,9 +198,9 @@ areas.marsh = {
     '$graphic': $img('marsh.png'),
     'actions': [
         new BattleAction(monsters.crocodile, 1),
-        new BattleAction(monsters.mudGolem, 3),
-        new MoveAction('field', 2),
-        new MoveAction('marshCave', 4),
+        new BattleAction(monsters.mudGolem, 2),
+        new MoveAction('field', 3),
+        new MoveAction('marshCave', 7),
         new MoveAction('remoteAbode', 6)
     ]
 };
@@ -207,7 +213,7 @@ areas.marshCave = {
         new BattleAction(monsters.spider, 1),
         new BattleAction(monsters.maverick, 3),
         new MiningAction(minerals.tin, 4),
-        new MoveAction('marsh', 6)
+        new MoveAction('marsh', 8)
     ]
 };
 areas.remoteAbode = {
@@ -216,8 +222,8 @@ areas.remoteAbode = {
     'travelDamage': 0,
     '$graphic': $img('remoteAbode.png'),
     'actions': [
-        new MoveAction('marsh', 4),
-        new BattleAction(monsters.giantRat, 1),
+        new MoveAction('marsh', 1),
+        new BattleAction(monsters.giantRat, 7),
         new BattleAction(monsters.gargoyle, 2),
         new ToggleAction(new BattleAction(monsters.witch, 3, refreshArea), function() {
             return !(player.defeatedMonsters.witch > 0);
@@ -233,10 +239,34 @@ areas.cellar = {
     'travelDamage': 5,
     '$graphic': $img('cave.png'),
     'actions': [
-        new BattleAction(monsters.doomFlower, 1),
-        new MoveAction('remoteAbode', 4),
+        new BattleAction(monsters.doomFlower, 3),
+        new MoveAction('remoteAbode', 1),
         new SaveAction(6),
-    ]
+        new ToggleAction(new BattleAction(monsters.cellarSentry, 4, refreshArea), function() {
+            return !(player.defeatedMonsters.cellarSentry > 0);
+        }),
+        new ToggleAction(
+            new SpecialAction(4, 'activate', 'Device', function () {
+                    return 'There is a strange device that has a space for something to be inserted.'
+                }, function () {
+                    if (player.inventory.items.powerCrystal <= 0) {
+                        throw new ProgrammingError('I do not have anything to activate this device with.');
+                    }
+                    if (player.flags.openedLab) {
+                        player.flags.openedLab = false;
+                    } else {
+                        player.flags.openedLab = true;
+                    }
+                    refreshArea();
+            }), function() {
+                return player.defeatedMonsters.cellarSentry > 0;
+            }
+        ),
+        new DoorAction(new MoveAction('airlock', 5), function() {
+            return player.flags.openedLab;
+        })
+    ],
+    'trackName': 'ReboundInsomnia'
 };
 
 areas.castleGates = {

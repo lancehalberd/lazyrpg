@@ -215,6 +215,13 @@
     width: 100%;
     height: 20px;
 }
+.healthBar .plagueFill {
+    position: absolute;
+    background: #A0C020;
+    top: 15px;
+    width: 100%;
+    height: 5px;
+}
 .healthBar .currentHealth {
     position: absolute;
     right:85px;
@@ -364,6 +371,7 @@
     position: absolute;
     display: table-cell;
     left: -50px;
+    top: 40px;
     font-size: 30px;
     line-height: 30px;
     text-align: center;
@@ -403,11 +411,11 @@
     left: 310px;
 }
 .action.slot7 {
-    top: -40px;
+    top: -30px;
     left: -320px;
 }
 .action.slot8 {
-    top: -40px;
+    top: -30px;
     left: 310px;
 }
 
@@ -448,7 +456,7 @@
     margin-left: 90px;
 }
 .monster .spoilsRow {
-    margin-left: 80px;
+    margin-left: 95px;
 }
 .monster .graphic {
     position: absolute;
@@ -701,4 +709,30 @@ button {
 /* close button should appear on top of skill tree */
 .characterStatsContainer .closeButton {
     z-index: 2;
+}
+
+.action .door {
+    position: absolute;
+    background-image: url('../gfx/doorLocation.png');
+    left: -100px;
+    top: -20px;
+    width: 200px;
+    height: 120px;
+    background-size: 400px 120px;
+}
+.action .door.open {
+    left: -100px;
+    background-position: -200px 0px;
+}
+.action .innerActionContainer {
+    position: absolute;
+    left: -80px;
+    top: -20px;
+    width: 160px;
+    height: 120px;
+    overflow: hidden;
+}
+.action .innerActionContainer .action {
+    left: 80px;
+    top: 0;
 }

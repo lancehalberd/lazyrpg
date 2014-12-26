@@ -48,11 +48,12 @@ areas.islandVillage =  {
     'actions': [
         new EnchantAction(1),
         new CraftAction(7),
-        new ShopAction([items.largePotion, items.mediumPotion, weapons.silverSword, weapons.silverMallet, helmets.silverHelmet, armors.silverMail], 4),
+        new ShopAction(['largePotion', 'mediumPotion', 'silverSword', 'silverMallet', 'silverHelmet', 'silverMail'], 4),
         new MoveAction('jungle', 2),
         new SaveAction(3),
         new RestAction(6)
-    ]
+    ],
+    'trackName': 'ReboundInsomnia'
 };
 /**
  * Molten Golem and silver mines can be found in 4 areas. Initially the molten
@@ -138,7 +139,8 @@ areas.magmaFlow =  {
         new ToggleAction(new MoveAction('cove', 6), function() {
             return player.defeatedMonsters.magmaTitan > 0;
         })
-    ]
+    ],
+    'trackName': 'ReboundInsomnia'
 };
 function resetCove() {
 
@@ -237,6 +239,7 @@ function resetCove() {
         'bodyBattleAction': bodyBattleAction.innerAction,
         'coreBattleAction': coreBattleAction.innerAction,
         '$graphic': $img('shore.png'),
+        'trackName': 'BackPain',
         'actions': [
             //reset the state of the cove when the player leaves
             new MoveAction('magmaFlow', 4, resetCove),
@@ -335,7 +338,7 @@ function updateTentacleStats(monster, baseMonster, amount) {
     } else {
         monster.health = monster.maxHealth = Math.round(baseMonster.health * amount);
     }
-    monster.attackSpeed = Math.round(100 * baseMonster.attackSpeed * amount) / 100;
+    monster.attackSpeed = baseMonster.attackSpeed * amount;
     scheduleMonsterForUpdate(monster);
 }
 resetCove();

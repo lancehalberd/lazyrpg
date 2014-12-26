@@ -37,7 +37,7 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
     };
     this.addActions = function () {
         targets.fight[monster.key] = function (params) {
-            if (player.health <= 0) {
+            if (player.health <= 0 && !winInstantly) {
                 throw new ProgrammingError("You need more health to fight.");
             }
             stopAll();
@@ -95,13 +95,13 @@ function fightLoop(currentTime, deltaTime) {
         }
         var lifeSteal = player.getLifeSteal();
         if (lifeSteal) {
-            player.health = Math.min(player.getMaxHealth(), player.health + Math.floor(damage * lifeSteal));
+            player.gainLife(Math.floor(damage * lifeSteal));
         }
         player.health = Math.max(0, player.health);
         player.nextAttack += 1000 / player.getAttackSpeed();
     }
     monster.nextAttack -= deltaTime;
-    if (monster.nextAttack <= 0) {
+    if (monster.nextAttack <= 0 && !winInstantly) {
         var factor = 1 / player.getTenacity();
         var armorPierce = monster.armorPierce ? (factor * monster.armorPierce) : 0;
         var damage = applyArmorToDamage(monster.damage, Math.max(0, player.getArmor() * (1 - armorPierce)));

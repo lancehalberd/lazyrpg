@@ -331,3 +331,19 @@
     top: -50px;
     left: -45px;
 }
+.ff2Monster.plague {
+    background-position: -1870px -1010px;
+    width: 250px;
+    height: 240px;
+    top: -50px;
+    left: -185px;
+}
+.ff2Monster.zombie {
+    background-position: -1880px -30px;
+}
+.ff2Monster.vampire {
+    background-position: -20px -460px;
+}
+.ff2Monster.sentry {
+    background-position: -470px -20px;
+}

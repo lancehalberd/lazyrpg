@@ -68,7 +68,18 @@ function sellAll(params) {
     sellItem(item, quantity);
 };
 
-function ShopAction(items, slot) {
+function ShopAction(itemKeys, slot) {
+    var itemsForSale = {};
+    var items = [];
+    itemKeys.forEach(function (itemKey) {
+        var item = allItems[itemKey];
+        if (!item) {
+            console.log("Missing Item: " + itemKey);
+            return;
+        }
+        itemsForSale[itemKey] = item;
+        items.push(item);
+    });
     this.getDiv = function () {
         return $div('action slot' + slot, $div('box', 'Shop')).attr('helpText', 'Spend gold here to buy items and equipment.');
     };
@@ -99,10 +110,6 @@ function ShopAction(items, slot) {
                 $('.js-shopContainer .js-body').append($shopItem);
             });
         };
-        var itemsForSale = {};
-        items.forEach(function (item) {
-            itemsForSale[item.key] = item;
-        });
         placeActions.buy = function (params) {
             checkParams(2, params);
             var item = itemsForSale[params[1]];

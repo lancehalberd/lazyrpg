@@ -12,6 +12,13 @@ armors.furCoat = {
     'level': 0,
     'value': 150
 };
+armors.hazmatSuit = {
+    'name': 'Hazmat Suit',
+    'helpText': 'Protective gear for working around chemicals and diseases.',
+    'armor': 20,
+    'level': 0,
+    'value': 80000
+};
 armors.bronzeArmor = {
     'name': 'Bronze Armor',
     'helpText': 'Armor made from an alloy of copper and tin.',
@@ -111,6 +118,13 @@ helmets.cap = {
     'level': 0,
     'value': 5
 };
+helmets.gasMask = {
+    'name': 'Gas Mask',
+    'helpText': 'Protective gear for working around chemicals and diseases.',
+    'armor': 10,
+    'level': 0,
+    'value': 50000
+};
 helmets.shellHat = {
     'name': 'Shell Hat',
     'helpText': 'A hard hat made from shells.',
@@ -202,6 +216,13 @@ boots.leatherBoots = {
     'armor': 7,
     'level': 0,
     'value': 500
+};
+boots.rubberBoots = {
+    'name': 'Rubber Boots',
+    'helpText': 'Protective gear for working around chemicals and diseases.',
+    'armor': 10,
+    'level': 0,
+    'value': 50000
 };
 boots.copperGreaves = {
     'name': 'Copper Greaves',

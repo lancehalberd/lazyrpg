@@ -44,7 +44,8 @@ function newGameData() {
             'armor': emptyEnchantments(),
             'helmet': emptyEnchantments(),
             'boots': emptyEnchantments()
-        }
+        },
+        'flags': {}
     };
     for (var i = 0; i < 13; i++) {
         data.visibleSkills[i] = [];
@@ -80,7 +81,8 @@ function getSavedData() {
         'helmet': player.helmet.key,
         'boots': player.boots.key,
         'armor': player.armor.key,
-        'enchantments': copy(player.enchantments)
+        'enchantments': copy(player.enchantments),
+        'flags': copy(player.flags)
     };
 }
 function applySavedData(savedData) {
@@ -109,6 +111,9 @@ function applySavedData(savedData) {
         skill.activate();
         revealSkillsAround(skill);
     });
+    //fill in any wholes in the players defeated monsters data
+    initializeDefeatedMonsters();
+    initializeInventoryCounts();
 }
 
 function applyBonus(value, bonus) {
@@ -125,48 +130,16 @@ var player = {'inventory': {
     }
 };
 
-var allItems = {};
-var startingItems = 0;
-function resetItems() {
-    $.each(items, function(key, value) {
-        player.inventory.items[key] = startingItems;
-        allItems[key] = value;
-        value.key = key;
-        value.slot = 'items';
-    });
-    $.each(weapons, function(key, value) {
-        player.inventory.weapons[key] = startingItems;
-        allItems[key] = value;
-        value.key = key;
-        value.isWeapon = true;
-        value.slot = 'weapons';
-        value.equipmentSlot = 'weapon';
-    });
-    $.each(armors, function(key, value) {
-        player.inventory.armors[key] = startingItems;
-        allItems[key] = value;
-        value.key = key;
-        value.isArmor = true;
-        value.slot = 'armors';
-        value.equipmentSlot = 'armor';
-    });
-    $.each(helmets, function(key, value) {
-        player.inventory.helmets[key] = startingItems;
-        allItems[key] = value; value.key =
-        key; value.isArmor = true;
-        value.slot = 'helmets';
-        value.equipmentSlot = 'helmet';
-    });
-    $.each(boots, function(key, value) {
-        player.inventory.boots[key] = startingItems;
-        allItems[key] = value;
-        value.key = key;
-        value.isArmor = true;
-        value.slot = 'boots';
-        value.equipmentSlot = 'boots';
+function initializeInventoryCounts() {
+    $.each(allItems, function(key, value) {
+        player.inventory[value.slot][value.key] = player.inventory[value.slot][value.key] ? player.inventory[value.slot][value.key] :  0;
     });
 }
-resetItems();
+function initializeDefeatedMonsters() {
+    $.each(monsters, function (key, value) {
+        player.defeatedMonsters[key] = player.defeatedMonsters[key] ? player.defeatedMonsters[key] : 0;
+    });
+}
 
 $.each(allRecipes, function (key, recipe) {
     if (key.indexOf(recipe.result) != 0) {
@@ -383,6 +356,26 @@ player.getTenacity = function () {
     }
     return tenacity;
 };
+player.gainLife = function (amount) {
+    //plague of 100 renders all healing for the player innefective except for rebirthing
+    amount *= Math.max(0, 1 - player.plague / 100);
+    player.health = Math.min(player.getMaxHealth(), player.health + amount);
+    uiNeedsUpdate.playerStats = true;
+}
+player.infectWithPlague = function (amount) {
+    var resistance = player.plagueResistance;
+    if (player.helmet == helmets.gasMask) {
+        resistance += .1;
+    }
+    if (player.boots == boots.rubberBoots) {
+        resistance += .1;
+    }
+    if (player.armor == armors.hazmatSuit) {
+        resistance += .2;
+    }
+    player.plague = Math.min(100, player.plague + amount * (1 - resistance));
+    uiNeedsUpdate.playerStats = true;
+}
 
 function getItemName(item) {
     if (item.slot == 'armors') {
@@ -401,9 +394,6 @@ function getItemName(item) {
 }
 
 function resetCharacter() {
-    $.each(monsters, function (key, value) {
-        player.defeatedMonsters[key] = player.defeatedMonsters[key] ? player.defeatedMonsters[key] : 0;
-    });
     player.health = 200;
     player.maxHealth = 200;
     player.level = 0;
@@ -419,6 +409,7 @@ function resetCharacter() {
     player.armor = armors.shirt;
     player.helmet = helmets.hair;
     player.boots = boots.bareFeet;
+    player.plague = 0;
     player.enchantments = {
         'weapon': emptyEnchantments(),
         'armor': emptyEnchantments(),
@@ -458,6 +449,7 @@ function updatePlayerStats() {
     $('.js-characterStats .js-currentHealth').text(Math.floor(player.health));
     $('.js-characterStats .js-maxHealth').text(Math.floor(player.getMaxHealth()));
     $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.getMaxHealth()) + '%');
+    $('.js-characterStats .js-plagueFill').css('width', (player.plague / 1) + '%');
     $('.js-characterStats .js-damage').text(player.getDamage());
     $('.js-characterStats .js-attackSpeed').text(player.getAttackSpeed().toFixed(2));
     $('.js-characterStats .js-armor').text(player.getArmor());

@@ -298,3 +298,13 @@ function updateUI() {
         uiNeedsUpdate.shop = false;
     }
 }
+
+var currentTrack = "DayFour"
+function setMusic(trackName) {
+    if (currentTrack === trackName) {
+        return;
+    }
+    currentTrack = trackName;
+    $(".js-bgm source").attr('src', 'sound/' + trackName + '.mp3');
+    $(".js-bgm")[0].load();
+}

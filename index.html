@@ -46,6 +46,8 @@
 <script src="actions.js"></script>
 <script src="battle.js"></script>
 <script src="items.js"></script>
+<script src="equipment.js"></script>
+<script src="weapons.js"></script>
 <script src="inventory.js"></script>
 <script src="shop.js"></script>
 <script src="enchanting.js"></script>
@@ -53,11 +55,9 @@
 <script src="traveling.js"></script>
 <script src="recipes.js"></script>
 <script src="crafting.js"></script>
-<script src="equipment.js"></script>
-<script src="weapons.js"></script>
 <script src="skillTree.js"></script>
-<script src="player.js"></script>
 <script src="monsters.js"></script>
+<script src="player.js"></script>
 <script src="world.js"></script>
 <script src="world-start.js"></script>
 <script src="world-island.js"></script>
@@ -66,7 +66,7 @@
 </head>
 <body class="documentBody">
 <audio class="js-bgm" controls autoplay loop style="width: 100%">
-    <source src="sound/ReboundInsomnia.mp3" type="audio/mp3">
+    <source src="sound/DayFour.mp3" type="audio/mp3">
 </audio>
 <div class="js-gameContainer gameContainer">
     <div class="js-scene js-loadingScene loadingScene">Loading...</div>
@@ -337,6 +337,7 @@
                         <span class="icon health"></span>
                         <div class="healthBar">
                             <div class="js-healthFill healthFill"></div>
+                            <div class="js-plagueFill plagueFill"></div>
                             <span class="js-currentHealth currentHealth">200</span>
                             <span class="slash">/</span>
                             <span class="js-maxHealth maxHealth">200</span>

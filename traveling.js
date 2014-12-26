@@ -17,6 +17,7 @@ actions.move = function (params) {
 var $travelBar = $div('travel healthBar', $div('js-timeFill travel healthFill')).append($div('js-name name', 'traveling'));
 var onCompleteTravelFunction = null;
 function MoveAction(target, slot, onCompleteFunction) {
+    this.slot = slot;
     this.getDiv = function () {
         return $div('action slot' + slot, areas[target].$graphic)
                 .attr('helpText', 'Click here to move to the ' + areas[target].name + '.<br/></br> Traveling takes time and may drain your health. <br/>Travel time is doubled when your health is 0.');

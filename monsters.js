@@ -730,6 +730,98 @@ monsters.neptuneCore = {
     'cripple': 5
 };
 
+monsters.zombie = {
+    'name': 'Zombie',
+    'level': 40,
+    'health': 20000,
+    'armor': 100,
+    'damage': 200,
+    'attackSpeed': 1,
+    'experience': 1600,
+    '$graphic': $ff2Monster('zombie'),
+    'spoils': ['charcoal', 'tinScraps', '100'],
+    'helpText': 'It looks like some of the researchers here have fallen victim to their own horrible experiments.',
+    'parry': 100,
+    'reflect': .8
+};
+monsters.vampire = {
+    'name': 'Vampire',
+    'level': 45,
+    'health': 30000,
+    'armor': 100,
+    'damage': 300,
+    'attackSpeed': 3,
+    'experience': 2100,
+    '$graphic': $ff2Monster('vampire'),
+    'spoils': ['vampireFang', 'vampireFang', '300'],
+    'helpText': 'A more successful attempt at reproducing the ancient\'s formula for immortality.',
+    'parry': 100,
+    'armorPierce': .5,
+    'lifeSteal': .4
+};
+monsters.cellarSentry = {
+    'name': 'Ancient Sentry',
+    'level': 45,
+    'health': 100000,
+    'armor': 200,
+    'damage': 500,
+    'attackSpeed': 2,
+    'experience': 5000,
+    '$graphic': $ff2Monster('sentry'),
+    'spoils': ['gear', 'steelPlating', 'tinScraps'],
+    'helpText': 'This machine appears to have been placed here to guard something important.',
+    'parry': 100,
+    'armorPierce': .5,
+    'recover': 20000
+};
+monsters.aerico = {
+    'name': 'Aerico',
+    'level': 50,
+    'health': 40000,
+    'armor': 100,
+    'damage': 100,
+    'attackSpeed': 3,
+    'experience': 2500,
+    '$graphic': $ff2Monster('neptuneCore'),
+    'spoils': ['mithrilShell', 'mithrilPieces', 'solvent', 'mithrilDust'],
+    'helpText': 'A monster born from malevolent spirits drawn to the suffering of all manner of things infected with diseases.',
+    'armorBreak': 10,
+    'poison': 200,
+    'cripple': 2,
+};
+monsters.labWitch = {
+    'name': 'Witch',
+    'level': 50,
+    'health': 200000,
+    'armor': 0,
+    'damage': 200,
+    'attackSpeed': 2,
+    'experience': 100000,
+    '$graphic': $ff2Monster('witch'),
+    'spoils': [],
+    'helpText': 'The witch must have survived my last encounter and escaped to her lab to continue her research on Project Uranus.',
+    'armorPierce': 1,
+    'recover': 10000
+};
+monsters.plague = {
+    'name': 'Plague',
+    'level': 60,
+    'health': 200000,
+    'armor': 0,
+    'damage': 500,
+    'attackSpeed': 2,
+    'experience': 5000,
+    '$graphic': $ff2Monster('plague'),
+    'spoils': [],
+    'helpText': 'The witch\'s body has disintegrated and turned into a living cloud of poison and disease. Was this the goal of her research?',
+    'recover': 100000,
+    'parry': 100,
+    'armorPierce': .5,
+    'lifeSteal': .4,
+    'armorBreak': 10,
+    'poison': 200,
+    'cripple': 2,
+};
 //populate monster.key for all monsters
 $.each(monsters, function (key, value) {
     value.key = key;
