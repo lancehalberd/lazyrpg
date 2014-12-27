@@ -390,6 +390,10 @@
     box-sizing: border-box;
     border-radius: 5px;
 }
+.box.wide {
+    min-width: 200px;
+    left: -100px;
+}
 
 .action.slot1 {
     top: -190px;
@@ -441,7 +445,7 @@
     position: absolute;
     top: -40px;
     left: -140px;
-    width: 300px;
+    width: 330px;
     height: 120px;
 }
 .mineral {

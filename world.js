@@ -76,16 +76,20 @@ function ToggleAction(innerAction, condition) {
     };
 }
 //action only available if the condition method returns true
-function DoorAction(innerAction, condition) {
+function DoorAction(innerAction, condition, helpText) {
     this.innerAction = innerAction;
     this.getDiv = function () {
         if (condition()) {
             var $innerDiv = innerAction.getDiv();
             //clone to get help info off of the inner action
             var $doorDiv = $innerDiv.clone().empty();
+            $doorDiv.data('helpFunction', $innerDiv.data('helpFunction'));
             return $doorDiv.append($div('innerActionContainer', $innerDiv)).append($div('door open'));
         }
-        return $div('action slot' + innerAction.slot).append($div('door closed')).attr('helpText', 'There is a sealed door. Perhaps there is a mechanism for opening it somewhere.');
+        if (typeof(helpText) == 'undefined') {
+            helpText = 'There is a sealed door. Perhaps there is a mechanism for opening it somewhere.';
+        }
+        return $div('action slot' + innerAction.slot).append($div('door closed')).attr('helpText', helpText);
     };
     this.action = function () {
         if (!condition()) {
@@ -102,8 +106,9 @@ function DoorAction(innerAction, condition) {
 }
 //action only available if the condition method returns true
 function SpecialAction(slot, actionKey, label, helpFunction, activate) {
+    this.slot = slot;
     this.getDiv = function () {
-        return $div('action slot' + slot, $div('box', label)).attr('helpText', '').data('helpFunction', helpFunction);
+        return $div('action slot' + slot, $div('box wide', label)).attr('helpText', '').data('helpFunction', helpFunction);
     };
     this.action = function () {
         return evaluateAction(actionKey);
@@ -127,7 +132,7 @@ function setArea(area) {
     });
     if (areas.controlRoom.plagueBody < 100) {
         if (currentArea != area && labAreas.indexOf(area) >= 0 && player.plague) {
-            infectArea(area, player.plague / 100);
+            infectMonsters(getMonstersInArea(area), player.plague / 100);
         }
     }
     currentArea = area;
@@ -148,7 +153,10 @@ function setArea(area) {
             try {
                 runLine(actionCode);
                 recordAction(actionCode);
-                uiNeedsUpdate.area = true;
+                //refreshing hides the travel bar, so don't refresh on travel actions
+                if (!targetArea) {
+                    uiNeedsUpdate.area = true;
+                }
             }  catch(e) {
                 if (e instanceof ProgrammingError) {
                     alert(e.message);

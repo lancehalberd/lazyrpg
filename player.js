@@ -363,17 +363,17 @@ player.gainLife = function (amount) {
     uiNeedsUpdate.playerStats = true;
 }
 player.infectWithPlague = function (amount) {
-    var resistance = player.plagueResistance;
+    var armorResistance = 0;
     if (player.helmet == helmets.gasMask) {
-        resistance += .1;
+        armorResistance += .2;
     }
     if (player.boots == boots.rubberBoots) {
-        resistance += .1;
+        armorResistance += .1;
     }
     if (player.armor == armors.hazmatSuit) {
-        resistance += .2;
+        armorResistance += .2;
     }
-    player.plague = Math.min(100, player.plague + amount * (1 - resistance));
+    player.plague = Math.min(100, player.plague + amount * (1 - armorResistance) * (1 - player.plagueResistance));
     uiNeedsUpdate.playerStats = true;
 }
 
@@ -410,6 +410,7 @@ function resetCharacter() {
     player.helmet = helmets.hair;
     player.boots = boots.bareFeet;
     player.plague = 0;
+    player.plagueResistance = 0;
     player.enchantments = {
         'weapon': emptyEnchantments(),
         'armor': emptyEnchantments(),

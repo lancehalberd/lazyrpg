@@ -71,7 +71,7 @@ weapons.tigerClaws = { //need claws from saver tooth tigers
 //Fists 3
 weapons.midasTouch = { //need to mine gold
     'name': 'The Midas Touch',
-    'helpText': 'Gaudy gauntlets made of gold and platinum.',
+    'helpText': 'Gaudy gauntlets made of gold.',
     'damage': 110,
     'attackSpeed': 3,
     'type': 'fist',

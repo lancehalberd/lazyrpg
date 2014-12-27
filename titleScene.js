@@ -25,6 +25,7 @@ function initializeTitleScene() {
         savedGames[newGame.name] = newGame;
         saveData();
         refreshSavedGamesDisplayed();
+        removeToolTip();
     });
     //Clicking on a saved game loads the game and sends them to the map
     $('.js-titleScene').on('click', '.js-playGame,.js-gameName', function (event) {

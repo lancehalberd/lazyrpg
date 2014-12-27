@@ -232,6 +232,12 @@ function stopFighting(victory) {
         if (victory) {
             oldMonster.health = oldMonster.maxHealth;
             oldMonster.damaged = 0;
+            // special code for fighting plagued monsters in the lab
+            if (oldMonster.plague) {
+                player.infectWithPlague(oldMonster.plague);
+                oldMonster.plague = 0;
+                updateLabMonsterStats(oldMonster);
+            }
         } else if (oldMonster.recover) {
             oldMonster.health = Math.min(oldMonster.health + oldMonster.recover, oldMonster.maxHealth);
         }
@@ -247,6 +253,7 @@ function updateMonster(monster) {
     if (!$monster) {
         return;
     }
+    $monster.find('.js-name').text("Lvl " + monster.level + " " + monster.name);
     $monster.find('.js-experience').text(monster.experience);
     $monster.find('.js-currentHealth').text(Math.ceil(monster.health));
     $monster.find('.js-maxHealth').text(Math.ceil(monster.maxHealth));
