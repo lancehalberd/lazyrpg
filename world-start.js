@@ -46,9 +46,7 @@ areas.village =  {
     'actions': [
         new CraftAction(1),
         new ShopAction(['smallPotion', 'cap', 'clothGloves', 'shortBow', 'club'], 2),
-        new MoveAction('forest', 3, function () {
-            setMusic("LosingSleep");
-        }),
+        new MoveAction('forest', 3),
         new MoveAction('river', 7),
         new RestAction(4),
         new SaveAction(5),

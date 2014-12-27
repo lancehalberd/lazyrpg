@@ -254,6 +254,8 @@ function updateMonster(monster) {
     $monster.find('.js-armor').text(Math.max(0, monster.armor - monster.battleStatus.armorReduction));
     var healthPercent = monster.health / monster.maxHealth;
     $monster.find('.js-healthFill').css('width', (100 * healthPercent) + '%');
+    healthPercent = Math.min(1, (monster.health + (monster.recover ? monster.recover : 0)) / monster.maxHealth);
+    $monster.find('.js-recoverFill').css('width', (100 * healthPercent) + '%');
     var dropIndex = getDropIndex(monster)
     var $itemRow = $monster.find('.js-spoils').remove().first();
     for (var i = dropIndex; i < monster.spoils.length; i++) {

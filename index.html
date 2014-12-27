@@ -76,11 +76,12 @@
                 <span class="js-gameName gameName">Save 1</span>
                 <button class="js-deleteGame deleteGame">Delete</button>
                 <button class="js-resetGame resetGame" helpText="Restart from the beggining, but keep your saved programs.">Start Over</button>
+                <button class="js-copyGame copyGame" helpText="Make a copy of this saved data. Specify a new save file name below before using this option.">Copy</button>
                 <button class="js-playGame playGame">Play</button>
             </div>
             <div class="js-newGame newGame">
                 <input class="js-newGameName" placeholder="New Save File Name" />
-                <button class="js-startNewGame" disabled="disabled">Create</button>
+                <button class="js-startNewGame">Create</button>
             </div>
         </div>
     </div>
@@ -100,6 +101,7 @@
             </div>
             <div class="healthRow">
                 <span class="icon health"></span><div class="healthBar">
+                    <div class="js-recoverFill recoverFill"></div>
                     <div class="js-healthFill healthFill"></div>
                     <span class="js-currentHealth currentHealth">200</span>
                     <span class="slash">/</span>

@@ -310,7 +310,8 @@ monsters.woodGolem = {
     'experience': 350,
     '$graphic': $hillaryMonster('large woodGolem'),
     'spoils': ['sturdyTimber', 'sturdyTimber', 'timber'],
-    'helpText': 'A golem made entirely of wood... should be a good source of timber.'
+    'helpText': 'A golem made entirely of wood... should be a good source of timber.',
+    'recover': 1000
 };
 monsters.whelp = {
     'name': 'Whelp',
@@ -427,7 +428,8 @@ monsters.doomFlower = {
     'helpText': 'These flowers appear to have been... modified.',
     'poison': 10,
     'cripple': 5,
-    'armorBreak': 2
+    'armorBreak': 2,
+    'recover': 2000
 };
 monsters.giantSpider = {
     'name': 'Giant Spider',
@@ -739,7 +741,7 @@ monsters.zombie = {
     'attackSpeed': 1,
     'experience': 1600,
     '$graphic': $ff2Monster('zombie'),
-    'spoils': ['charcoal', 'tinScraps', '100'],
+    'spoils': ['charcoal', 'tinScraps', 100],
     'helpText': 'It looks like some of the researchers here have fallen victim to their own horrible experiments.',
     'parry': 100,
     'reflect': .8
@@ -753,7 +755,7 @@ monsters.vampire = {
     'attackSpeed': 3,
     'experience': 2100,
     '$graphic': $ff2Monster('vampire'),
-    'spoils': ['vampireFang', 'vampireFang', '300'],
+    'spoils': ['vampireFang', 'vampireFang', 300],
     'helpText': 'A more successful attempt at reproducing the ancient\'s formula for immortality.',
     'parry': 100,
     'armorPierce': .5,

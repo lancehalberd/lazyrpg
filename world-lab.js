@@ -176,7 +176,7 @@ function resetLab() {
 resetLab();
 function updatePlagueStats(monster, baseMonster, amount) {
     monster.health = monster.maxHealth = Math.round(baseMonster.health * amount);
-    ['attackSpeed', 'damage', 'armor', 'parry', 'armorBreak', 'armorPierce', 'lifeSteal', 'cripple', 'poison'].forEach(function (key) {
+    ['attackSpeed', 'damage', 'armor', 'parry', 'armorBreak', 'armorPierce', 'lifeSteal', 'cripple', 'poison', 'experience'].forEach(function (key) {
         monster[key] = baseMonster[key] * amount;
     })
     scheduleMonsterForUpdate(monster);

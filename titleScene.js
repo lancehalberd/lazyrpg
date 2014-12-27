@@ -2,24 +2,27 @@ var savedGames;
 function initializeTitleScene() {
     loadData();
     //Update the state of the new game button based on the input field
-    $('.js-newGameName').on('keyup change paste', function (event) {
-        var name = $.trim($(this).val());
-        //name cannot be empty or already in use
-        if (name != '' && !savedGames[name]) {
-            $('.js-startNewGame').attr('disabled', null);
-        } else {
-            $('.js-startNewGame').attr('disabled', 'disabled');
-        }
-    });
+    $('.js-newGameName').on('keyup change paste', updateNewGameButtons);
     //Create a new save file
     $('.js-startNewGame').on('click', function (event) {
         loadData();
         var newGame = new newGameData();
         newGame.name = $.trim($('.js-newGameName').val());
         $('.js-newGameName').val('');
-        $('.js-startNewGame').attr('disabled', 'disabled');
+        updateNewGameButtons();
         savedGames[newGame.name] = newGame;
-        displaySavedGameOption(newGame);
+        saveData();
+        refreshSavedGamesDisplayed();
+    });
+    //Create a new save file
+    $('.js-titleScene').on('click', '.js-copyGame', function (event) {
+        loadData();
+        var $game = $(this).closest('.js-savedGame');
+        var newGame = $game.data('game');
+        newGame.name = $.trim($('.js-newGameName').val());
+        $('.js-newGameName').val('');
+        updateNewGameButtons();
+        savedGames[newGame.name] = newGame;
         saveData();
         refreshSavedGamesDisplayed();
     });
@@ -56,6 +59,18 @@ function initializeTitleScene() {
     refreshSavedGamesDisplayed();
 }
 
+function updateNewGameButtons() {
+    var name = $.trim($('.js-newGameName').val());
+    //name cannot be empty or already in use
+    if (name != '' && !savedGames[name]) {
+        $('.js-startNewGame').attr('disabled', null);
+        $('.js-copyGame').attr('disabled', null);
+    } else {
+        $('.js-startNewGame').attr('disabled', 'disabled');
+        $('.js-copyGame').attr('disabled', 'disabled');
+    }
+}
+
 function startGame(savedData) {
     resetCharacter();
     //populate data from the saved file
@@ -88,6 +103,7 @@ function refreshSavedGamesDisplayed() {
     $.each(savedGames, function (index, game) {
         displaySavedGameOption(game);
     });
+    updateNewGameButtons();
 }
 
 function saveData() {
