@@ -125,6 +125,11 @@ function setArea(area) {
     targetedActions.forEach(function(action) {
         targets[action] = {};
     });
+    if (areas.controlRoom.plagueBody < 100) {
+        if (currentArea != area && labAreas.indexOf(area) >= 0 && player.plague) {
+            infectArea(area, player.plague / 100);
+        }
+    }
     currentArea = area;
     player.area = area.key;
     if (area.trackName) {
@@ -143,6 +148,7 @@ function setArea(area) {
             try {
                 runLine(actionCode);
                 recordAction(actionCode);
+                uiNeedsUpdate.area = true;
             }  catch(e) {
                 if (e instanceof ProgrammingError) {
                     alert(e.message);

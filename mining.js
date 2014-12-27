@@ -193,6 +193,7 @@ function miningLoop(currentTime, deltaTime) {
         uiNeedsUpdate[item.slot] = true;
         mineral.timeLeft = mineral.time;
         stopMining();
+        uiNeedsUpdate.area = true;
         if (mineral.onCompleteFunction) {
             mineral.onCompleteFunction();
         }

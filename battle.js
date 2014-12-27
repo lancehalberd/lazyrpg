@@ -152,6 +152,7 @@ function fightLoop(currentTime, deltaTime) {
             }
         }
         stopFighting(true);
+        uiNeedsUpdate.area = true;
         if (monster.victoryFunction) {
             monster.victoryFunction();
         }

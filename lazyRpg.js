@@ -15,6 +15,43 @@ function $window(classes, content) {
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
+/**
+ * A service for utility methods involving randomness. Can be created with a prng
+ * to make the results random but deterministic.
+ *
+ * @param {Function} rng  An object with a .random() method for generating numbers
+ *     in the range [0, 1)
+ */
+function RandomService(random) {
+    /** @type Function */
+    this.random = random ? random : Math.random;
+
+    /**
+     * @param {Number} min  The smallest returned value
+     * @param {Number} max  The largest returned value
+     * @return {Number}  a number in the range [min, max]
+     */
+    this.range = function (min, max) {
+        return Math.floor(this.random() * (max + 1 - min)) + min;
+    };
+
+    /**
+     * @param {Array}  (or object) the collection to get a random element from
+     * @return {*}  A randomly chosen element from the collection
+     */
+    this.element = function (collection) {
+        if (collection.constructor == Object) {
+            var keys = Object.keys(collection);
+            return collection[this.element(keys)];
+        }
+        if (collection.constructor == Array) {
+            return collection[this.range(0, collection.length - 1)];
+        }
+        console.log("Warning @ Random.element: "+ collection + " is neither Array or Object");
+        return null;
+    }
+}
+var random = new RandomService(Math.random);
 //http://stackoverflow.com/questions/783818/how-do-i-create-a-custom-error-in-javascript
 function ProgrammingError() {
     var tmp = Error.apply(this, arguments);

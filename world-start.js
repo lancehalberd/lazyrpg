@@ -240,7 +240,7 @@ areas.cellar = {
         new BattleAction(monsters.doomFlower, 3),
         new MoveAction('remoteAbode', 1),
         new SaveAction(6),
-        new ToggleAction(new BattleAction(monsters.cellarSentry, 4, refreshArea), function() {
+        new ToggleAction(new BattleAction(monsters.cellarSentry, 4), function() {
             return !(player.defeatedMonsters.cellarSentry > 0);
         }),
         new ToggleAction(
@@ -255,7 +255,6 @@ areas.cellar = {
                     } else {
                         player.flags.openedLab = true;
                     }
-                    refreshArea();
             }), function() {
                 return player.defeatedMonsters.cellarSentry > 0;
             }
