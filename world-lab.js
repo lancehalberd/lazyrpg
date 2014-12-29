@@ -231,7 +231,13 @@ function infectMonster(monster, amount) {
         monster.nearbyMonsters = getMonstersForAreas(getNearbyAreas(monster.area));
     }
     if (monster.plague <= 0) {
-        monster.sourceMonster = monsters[random.element(monster.nearbyMonsters).key];
+        var sourceMonster = random.element(monster.nearbyMonsters);
+        //a monster can only be a source if it is also infected. If the random
+        //chosen monster is not infected, the monster just gets spliced with itself.
+        if (sourceMonster.plague <= 0) {
+            sourceMonster = monster;
+        }
+        monster.sourceMonster = monsters[sourceMonster.key];
     }
     monster.plague += amount;
     var baseMonster = monsters[monster.key];
