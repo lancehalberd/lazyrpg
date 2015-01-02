@@ -47,7 +47,7 @@ areas.islandVillage =  {
     '$graphic': $img('poorVillage.png'),
     'actions': [
         new EnchantAction(1),
-        new CraftAction(7),
+        new CraftAction({'slot': 7, 'recipes': [recipes.common, recipes.silver, recipes.mithril, recipes.gold]}),
         new ShopAction(['largePotion', 'mediumPotion', 'silverSword', 'silverMallet', 'silverHelmet', 'silverMail'], 4),
         new MoveAction('jungle', 2),
         new SaveAction(3),

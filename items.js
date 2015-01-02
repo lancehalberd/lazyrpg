@@ -32,6 +32,54 @@ items.smallPotion = {
     'helpText': 'Drink this to recover 100 health.',
     'value': 5
 };
+items.antigen = {
+    'name': 'Antigen',
+    'use': function () {
+        player.plagueResistance = Math.min(1, player.plagueResistance + .02);
+    },
+    'helpText': 'Increases your resistance to diseases by 2%. Resistance gradually decreases over time.',
+    'value': 50
+};
+items.antibodies = {
+    'name': 'Antibodies',
+    'use': function () {
+        if (player.plague == 0) {
+            throw new ProgrammingError("You are not infected.");
+        }
+        if (player.health < 100) {
+            throw new ProgrammingError("You need at least 100 health to use antibodies")
+        }
+        player.plague = Math.max(0, player.plague - 1);
+        player.health -= 100;
+        uiNeedsUpdate.playerStats = true;
+    },
+    'helpText': 'Uses 100 health to neutralize a little of the plague from your body if you are infected.',
+    'value': 150
+};
+items.vaccine = {
+    'name': 'Vaccine',
+    'use': function () {
+        player.plagueResistance = Math.min(1, player.plagueResistance + .2);
+    },
+    'helpText': 'Increases your resistance to diseases by 20%. Resistance gradually decreases over time.',
+    'value': 300
+};
+items.medication = {
+    'name': 'Medication',
+    'use': function () {
+        if (player.plague == 0) {
+            throw new ProgrammingError("You are not infected.");
+        }
+        if (player.health < 1000) {
+            throw new ProgrammingError("You need at least 1000 health to use medication");
+        }
+        player.plague = Math.max(0, player.plague - 10);
+        player.health -= 1000;
+        uiNeedsUpdate.playerStats = true;
+    },
+    'helpText': 'Uses 1000 health to neutralize a lot of the plague from your body if you are infected.',
+    'value': 1000
+};
 items.memoryCrystal = {
     'name': 'Memory Crystal',
     'helpText': 'Use this to recover a lost memory. <br/><br/> This will automatically be consumed to permanently unlock new starting classes on the skill tree if you attempt to unlock them.',

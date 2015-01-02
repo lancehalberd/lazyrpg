@@ -4,6 +4,7 @@
     height: 20px;
     vertical-align: middle;
     margin-right:5px;
+    background-image: url("../gfx/iconSet.png");
 }
 .icon.health {
     background-position: -130px -10px;
@@ -227,6 +228,13 @@
     top: 15px;
     width: 100%;
     height: 5px;
+}
+.healthBar .plagueResistanceFill {
+    position: absolute;
+    background: #C09020;
+    top: 12px;
+    width: 100%;
+    height: 8px;
 }
 .healthBar .currentHealth {
     position: absolute;

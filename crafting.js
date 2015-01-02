@@ -1,20 +1,63 @@
 function makeItem(params) {
     checkParams(1, params);
     var recipeKey = params[0];
-    var recipe = allRecipes[recipeKey];
-    if (!recipe || (recipe.type == 'crafting' && recipe.level > player.craftingSkill) || (recipe.type == 'enchanting' && recipe.level > player.enchantingSkill)) {
-        throw new ProgrammingError("There is no unlocked recipe called '" + recipeKey+"'.");
+    var recipe = availableRecipes[recipeKey];
+    checkForCraftingErrors(recipe, recipeKey);
+    craftRecipe(recipe);
+}
+
+function checkForCraftingErrors(recipe, key) {
+    if (!recipe) {
+        throw new ProgrammingError("There is no unlocked recipe called '" + key + "'.");
+    }
+    if (recipe.type == 'crafting' && recipe.level > player.craftingSkill) {
+        throw new ProgrammingError("Your crafting skill must be higher to make '" + key + "'.");
+    }
+    if (recipe.type == 'enchanting' && recipe.level > player.enchantingSkill) {
+        throw new ProgrammingError("Your imbuing skill must be higher to make '" + key + "'.");
     }
     if (recipe.type == 'crafting' && !placeActions.craft) {
         throw new ProgrammingError("You cannot craft here.");
     } else if (recipe.type == 'enchanting' && !placeActions.enchant) {
         throw new ProgrammingError("You cannot conjure enchantments here.");
     }
-    craftRecipe(recipe);
+    if (!playerHasIngredientsFor(recipe)) {
+        throw new ProgrammingError("You don't have the necessary ingredients to craft '" + key + "'.");
+    }
 }
-function CraftAction(slot) {
+
+function generateRecipeList(recipeLists) {
+    var recipes = [{}, {}, {}, {}, {}];
+    recipeLists.forEach(function (recipeList) {
+        recipeList.forEach(function (levelList, index) {
+            $.each(levelList, function (key, recipe) {
+                recipes[index][key] = recipe;
+            });
+        });
+    });
+    return recipes;
+}
+function markRecipesAsAvailable(recipeList) {
+    recipeList.forEach(function (levelList, index) {
+        $.each(levelList, function (key, recipe) {
+            availableRecipes[key] = recipe;
+        });
+    });
+}
+function ifseto(object, key, defaultValue) {
+    if (typeof(object) == 'object') {
+        if (typeof(object[key]) === 'undefined') {
+            return defaultValue;
+        }
+        return object[key];
+    }
+    return defaultValue;
+}
+function CraftAction(data) {
+    var recipes = generateRecipeList(data.recipes);
+    var helpText = ifseto(data, 'helpText', 'Craft items from the ingredients you have bought or collected. Learn more Craft skills in the skill tree to unlock new recipes.');
     this.getDiv = function () {
-        return $div('action slot' + slot, $div('box', 'Craft')).attr('helpText', 'Craft items from the ingredients you have bought or collected. Learn more Craft skills in the skill tree to unlock new recipes.');
+        return $div('action slot' + ifseto(data, 'slot', 0), $div('box', ifseto(data, 'label', 'Craft'))).attr('helpText', helpText);
     };
     this.action = function () {
         if ($('.js-craftContainer').is('.open')) {
@@ -25,9 +68,10 @@ function CraftAction(slot) {
     this.addActions = function () {
         placeActions.craft = function (params) {
             checkParams(0, params);
-            displyCraftingPage($('.js-craftContainer'), player.craftingSkill, craftingRecipes);
+            displyCraftingPage($('.js-craftContainer'), player.craftingSkill, recipes);
         }
         placeActions.make = makeItem;
+        markRecipesAsAvailable(recipes);
     }
 }
 function EnchantAction(slot) {
@@ -46,6 +90,7 @@ function EnchantAction(slot) {
             displyCraftingPage($('.js-enchantContainer'), player.enchantingSkill, enchantingRecipes);
         }
         placeActions.make = makeItem;
+        markRecipesAsAvailable(enchantingRecipes);
     }
 };
 
@@ -56,14 +101,21 @@ function displyCraftingPage($container, skillLevel, recipeList) {
     $('.js-inventoryPanel').removeClass('selected');
     $('.js-inventoryPanel.js-items').addClass('selected');
     $container.find('.js-body').empty();
-    for (var i = 0; i < recipeList.length && i <= skillLevel; i++) {
+    for (var i = 0; i < recipeList.length; i++) {
         $container.find('.js-body').append($div('heading', 'Level ' + i));
         $.each(recipeList[i], function (key, recipe) {
             //{'result': 'fur', 'ingredients': {'furScrap': 5}},
             var item = allItems[recipe.result];
             var $recipe = $container.find('.js-baseRecipe').clone().removeClass('js-baseRecipe').show();
-            $recipe.find('.js-result').html(getItemName(item)).attr('helpText', getItemHelpTextWithEnchantments(item));
-            var canCraft = true;
+            $recipe.find('.js-result').html(getItemName(item)).attr('helpText', getItemHelpTextWithEnchantments(item)).data('helpFunction', function () {
+                try {
+                    checkForCraftingErrors(recipe, key);
+                } catch (e) {
+                    return e.message;
+                }
+                return '';
+            });
+            var canCraft = (i <= skillLevel);
             var $ingredient = $recipe.find('.js-ingredient').remove();
             $.each(recipe.ingredients, function (key, amount) {
                 amount = ingredientAmount(amount);
@@ -79,8 +131,9 @@ function displyCraftingPage($container, skillLevel, recipeList) {
                 $ingredient.toggleClass('enoughOwned', amountOwned >= amount);
                 canCraft = canCraft && (amountOwned >= amount);
             });
-            $recipe.toggleClass('canCraft', canCraft);
             $recipe.data('recipe', recipe);
+            $recipe.toggleClass('canCraft', canCraft);
+            $recipe.attr('code', 'make ' + key);
             $container.find('.js-body').append($recipe);
         });
     }
@@ -91,23 +144,7 @@ function ingredientAmount(baseAmount) {
     return Math.max(1, Math.round(baseAmount * (player.specialSkills.care ? .75 : 1)));
 }
 
-function setupCrafting() {
-    $('.js-craftContainer').on('click', '.js-craft', function () {
-        //get the amount to make sure it can be sold
-        var recipe = $(this).closest('.js-recipe').data('recipe');
-        craftRecipe(recipe);
-    });
-    $('.js-enchantContainer').on('click', '.js-enchant', function () {
-        //get the amount to make sure it can be sold
-        var recipe = $(this).closest('.js-recipe').data('recipe');
-        craftRecipe(recipe);
-    });
-}
-
 function craftRecipe(recipe) {
-    if (!canCraft(recipe)) {
-        throw new ProgrammingError("You don't have the necessary ingredients to craft '" + recipeKey + "'.");
-    }
     var item = allItems[recipe.result];
     player.inventory[item.slot][item.key]++;
     var time = 1000;
@@ -135,13 +172,14 @@ function craftRecipe(recipe) {
     //update buy buttons now that you have less gold
     uiNeedsUpdate.craft = true;
     uiNeedsUpdate.enchant = true;
-    recordAction('make ' + recipe.key);
 }
 
 function updateCrafting($container) {
     $container.find('.js-body .js-recipe').each(function () {
         var $recipe = $(this);
-        var canCraft = true;
+        var recipe = $recipe.data('recipe');
+        var canCraft = (recipe.type == 'crafting' && recipe.level <= player.craftingSkill)
+            || (recipe.type == 'enchanting' && recipe.level <= player.enchantingSkill);
         $recipe.find('.js-ingredient').each(function () {
             var $ingredient = $(this);
             var ingredient = $ingredient.data('ingredient');
@@ -155,20 +193,17 @@ function updateCrafting($container) {
     });
 }
 
-function canCraft(recipe) {
-    if ((recipe.type == 'crafting' && recipe.level > player.craftingSkill) || (recipe.type == 'enchanting' && recipe.level > player.enchantingSkill) ) {
-        return false;
-    }
-    var canCraft = true;
+function playerHasIngredientsFor(recipe) {
+    var hasIngredients = true;
     $.each(recipe.ingredients, function (key, amount) {
         amount = ingredientAmount(amount);
         var ingredient = allItems[key];
         var amountOwned = player.inventory[ingredient.slot][ingredient.key];
         if (amountOwned < amount) {
-            canCraft = false;
+            hasIngredients = false;
             return false;
         }
         return true;
     });
-    return canCraft;
+    return hasIngredients;
 }

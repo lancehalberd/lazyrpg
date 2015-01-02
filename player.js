@@ -141,32 +141,6 @@ function initializeDefeatedMonsters() {
     });
 }
 
-$.each(allRecipes, function (key, recipe) {
-    if (key.indexOf(recipe.result) != 0) {
-        console.log("broken recipe: " + [key, recipe.result]);
-    }
-    if (!allItems[recipe.result]) {
-        console.log("Missing item " + recipe.result);
-    }
-    var ingredientValue = 0;
-    $.each(recipe.ingredients, function (ingredientKey, amount) {
-        if (!allItems[ingredientKey]) {
-            console.log("Missing item " + ingredientKey);
-        } else {
-            ingredientValue += amount * allItems[ingredientKey].value;
-        }
-    });
-    //warning to make sure crafting always makes things more valuable
-    if (ingredientValue && allItems[recipe.result] && ingredientValue > allItems[recipe.result].value) {
-        console.log(key + ': ' + recipe.result + ' can be sold for ' + allItems[recipe.result].value + ' but its ingredients can be sold for ' + ingredientValue);
-    }
-    //warning to make sure crafting doesn't allow the user to make money
-    if (ingredientValue && allItems[recipe.result] && ingredientValue * 2 < allItems[recipe.result].value) {
-        console.log(key + ': ' + recipe.result + ' can be sold for ' + allItems[recipe.result].value + ' but its ingredients can be purchased for ' + (2 * ingredientValue));
-    }
-});
-
-
 var baseEquipment = {
     'weapon' : weapons.fists,
     'armor': armors.shirt,
@@ -361,8 +335,12 @@ player.gainLife = function (amount) {
     amount *= Math.max(0, 1 - player.plague / 100);
     player.health = Math.min(player.getMaxHealth(), player.health + amount);
     uiNeedsUpdate.playerStats = true;
-}
+};
 player.infectWithPlague = function (amount) {
+    player.plague = Math.min(100, player.plague + amount * (1 - player.getPlagueResistance()));
+    uiNeedsUpdate.playerStats = true;
+};
+player.getPlagueResistance = function () {
     var armorResistance = 0;
     if (player.helmet == helmets.gasMask) {
         armorResistance += .2;
@@ -373,8 +351,7 @@ player.infectWithPlague = function (amount) {
     if (player.armor == armors.hazmatSuit) {
         armorResistance += .2;
     }
-    player.plague = Math.min(100, player.plague + amount * (1 - armorResistance) * (1 - player.plagueResistance));
-    uiNeedsUpdate.playerStats = true;
+    return (1 - (1 - armorResistance) * (1 - player.plagueResistance));
 }
 
 function getItemName(item) {
@@ -446,11 +423,24 @@ function resetCharacter() {
     uiNeedsUpdate.inventory = true;
 }
 
+function describeHealthBar() {
+    var sections = [];
+    var plagueResistance = player.getPlagueResistance();
+    if (plagueResistance) {
+        sections.push('You are ' + Math.round(plagueResistance * 100) + '% resitant to diseases.');
+    }
+    if (player.plague) {
+        sections.push('The plague has reduced your ability to regain health by ' + Math.round(player.plague) + '%. The plague can only be removed by rebirthing or using special items.');
+    }
+    return sections.join('<br />');
+}
+
 function updatePlayerStats() {
     $('.js-characterStats .js-currentHealth').text(Math.floor(player.health));
     $('.js-characterStats .js-maxHealth').text(Math.floor(player.getMaxHealth()));
     $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.getMaxHealth()) + '%');
-    $('.js-characterStats .js-plagueFill').css('width', (player.plague / 1) + '%');
+    $('.js-characterStats .js-plagueFill').css('width', player.plague + '%');
+    $('.js-characterStats .js-plagueResistanceFill').css('width', (100 * player.getPlagueResistance()) + '%');
     $('.js-characterStats .js-damage').text(player.getDamage());
     $('.js-characterStats .js-attackSpeed').text(player.getAttackSpeed().toFixed(2));
     $('.js-characterStats .js-armor').text(player.getArmor());

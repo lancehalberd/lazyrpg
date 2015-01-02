@@ -1,97 +1,148 @@
-
-var craftingRecipes = [
+var recipes = {};
+recipes.common = [
 {
-    'fur': {'result': 'fur', 'ingredients': {'furScrap': 5}},
-    'fur2': {'result': 'fur', 'ingredients': {'smallPelt': 2}},
-    'shellPlating': {'result': 'shellPlating', 'ingredients': {'brokenShell': 10}},
-    'shellPlating2': {'result': 'shellPlating', 'ingredients': {'smallShell': 5}},
-    'furCoat': {'result': 'furCoat', 'ingredients': {'fur': 5}},
-    'copperIngot': {'result': 'copperIngot', 'ingredients': {'copperOre': 10}},
-    'leather': {'result': 'leather', 'ingredients': {'smallPelt': 5}},
-    'leather2': {'result': 'leather', 'ingredients': {'largePelt': 1}},
-    'leatherGloves': {'result': 'leatherGloves', 'ingredients': {'leather': 2}},
-    'leatherBoots': {'result': 'leatherBoots', 'ingredients': {'leather': 5}},
-    'shellHat': {'result': 'shellHat', 'ingredients': {'shellPlating': 5}},
-    'brassKnuckles': {'result': 'brassKnuckles', 'ingredients': {'copperIngot': 2}},
-    'copperSword': {'result': 'copperSword', 'ingredients': {'copperIngot': 5}},
-    'copperGreaves': {'result': 'copperGreaves', 'ingredients': {'copperIngot': 5, 'leatherBoots': 1, 'fur': 2}},
-    'proudHat': {'result': 'proudHat', 'ingredients': {'shellHat': 1, 'lionMane': 1, 'largePelt': 3}}
+    'fur': {'furScrap': 5}, 'fur-2': {'smallPelt': 2},
+    'shellPlating': {'brokenShell': 10}, 'shellPlating-2': {'smallShell': 5},
+    'leather': {'smallPelt': 5}, 'leather-2': {'largePelt': 1},
+    'copperIngot': {'copperOre': 10}
 },{
-    'mediumPotion': {'result': 'mediumPotion','ingredients': {'smallPotion': 3}},
-    'tin': {'result': 'tin', 'ingredients': {'tinScraps': 2}},
-    'longSword': {'result': 'longSword', 'ingredients': {'copperOre': 100, 'tin': 12}},
-    'longBow': {'result': 'longBow', 'ingredients': {'timber': 10, 'copperOre': 15, 'tin': 2}},
-    'bronzePlating': {'result': 'bronzePlating','ingredients': {'copperOre': 15, 'tin': 2}},
-    'bronzeArmor': {'result': 'bronzeArmor','ingredients': {'bronzePlating': 10, 'leather': 5}},
-    'bronzeHelmet': {'result': 'bronzeHelmet', 'ingredients': {'bronzePlating': 5, 'copperIngot': 5, 'leather': 3}},
-    'bronzeLeggings': {'result': 'bronzeLeggings', 'ingredients': {'bronzePlating': 6, 'leather': 3}},
-    'ironIngot': {'result': 'ironIngot', 'ingredients': {'ironOre': 10}},
-    'broadSword': {'result': 'broadSword', 'ingredients': {'ironIngot': 15}},
-    'hammer': {'result': 'hammer', 'ingredients': {'timber': 5, 'ironIngot': 10}},
-    'compositeBow': {'result': 'compositeBow', 'ingredients': {'suppleTimber': 6, 'timber': 6, 'ironIngot': 2}},
-    'chainMail': {'result': 'chainMail','ingredients': {'ironIngot': 10}},
-    'ironBoots': {'result': 'ironBoots', 'ingredients': {'ironIngot': 10, 'leather': 3}},
-    'plateArmor': {'result': 'plateArmor', 'ingredients': {'ironIngot': 50, 'leather': 5}},
-    'fullHelm': {'result': 'fullHelm', 'ingredients': {'ironIngot': 20, 'leather': 5}},
+    'mediumPotion': {'smallPotion': 3},
+    'tin': {'tinScraps': 2},
+    'bronzePlating': {'copperOre': 15, 'tin': 2},
+    'ironIngot': {'ironOre': 10}
 },{
-    'largePotion': {'result': 'largePotion','ingredients': {'mediumPotion': 4}},
-    'claymore': {'result': 'claymore', 'ingredients': {'steelPlating': 5, 'copperOre': 40, 'tin': 5}},
-    'mace': {'result': 'mace', 'ingredients': {'ironOre': 100, 'charcoal': 30}},
-    'handBalista': {'result': 'handBalista', 'ingredients': {'sturdyTimber': 20, 'steelPlating': 5, 'ironOre': 4, 'charcoal': 2}},
-    'steelPlating': {'result': 'steelPlating', 'ingredients': {'ironOre': 20, 'charcoal': 10}},
-    'steelArmor': {'result': 'steelArmor', 'ingredients': {'steelPlating': 15, 'leather': 5}},
-    'steelHelmet': {'result': 'steelHelmet', 'ingredients': {'steelPlating': 5, 'ironIngot': 5, 'leather': 3}},
-    'steelLeggings': {'result': 'steelLeggings', 'ingredients': {'steelPlating': 5, 'leather': 5}},
-    'silverIngot': {'result': 'silverIngot', 'ingredients': {'silverOre': 10}},
-    'steeledSilver': {'result': 'steeledSilver', 'ingredients': {'silverOre': 10, 'ironOre': 4, 'charcoal': 1}},
-    'cestus': {'result': 'cestus', 'ingredients': {'leatherGloves': 1, 'steelPlating': 2, 'steeledSilver': 1}},
-    'silverSword': {'result': 'silverSword', 'ingredients': {'steeledSilver': 5, 'copperOre': 40, 'tin': 5}},
-    'silverMail': {'result': 'silverMail','ingredients': {'steeledSilver': 5}},
-    'silk': {'result': 'silk', 'ingredients': {'strongWeb': 10}},
-    'silverHelmet': {'result': 'silverHelmet', 'ingredients': {'steeledSilver': 5, 'silverIngot': 5, 'silk': 3}},
-    'silverPlate': {'result': 'silverPlate','ingredients': {'steeledSilver': 10, 'silk': 5}},
-    'ninjaTabi': {'result': 'ninjaTabi', 'ingredients': {'leather': 5, 'silk': 5}}
+    'largePotion': {'mediumPotion': 4},
+    'steelPlating': {'ironOre': 20, 'charcoal': 10},
+    'silverIngot': {'silverOre': 10},
+    'steeledSilver': {'silverOre': 10, 'ironOre': 4, 'charcoal': 1},
+    'silk': {'strongWeb': 10},
+    'ninjaTabi': {'leather': 5, 'silk': 5}
 },{
-    'giantPotion': {'result': 'giantPotion','ingredients': {'largePotion': 3}},
-    'mithrilSilver': {'result': 'mithrilSilver', 'ingredients': {'silverOre': 20, 'ironOre': 4, 'coolingMagma': 2, 'copperOre': 2, 'tin': 1}},
-    'tigerClaws': {'result': 'tigerClaws', 'ingredients': {'tigerClaw': 8, 'mithrilDust': 8, 'solvent': 2, 'mithrilSilver': 1, 'coolingMagma': 1, 'cestus': 1}},
-    'katana': {'result': 'katana', 'ingredients': {'silverOre': 80, 'ironOre': 30, 'mithrilDust': 10, 'coolingMagma': 10, 'copperOre': 10, 'tin': 5, 'solvent' : 2}},
-    'morningStar': {'result': 'morningStar', 'ingredients': {'silverOre': 60, 'mithrilPieces': 20, 'ironOre': 25, 'coolingMagma': 5, 'copperOre': 2, 'solvent' : 2, 'tin': 1}},
-    'vampireSlayer': {'result': 'vampireSlayer', 'ingredients': {'rocPinion': 1, 'rocFeather': 4, 'goldenWeb': 4, 'mithrilDust': 4, 'mithrilSilver': 2, 'coolingMagma': 1, 'solvent': 1, 'crossbow': 1}},
-    'mithrilMail': {'result': 'mithrilMail','ingredients': {'mithrilSilver': 10}},
-    'mithrilHelmet': {'result': 'mithrilHelmet', 'ingredients': {'mithrilSilver': 5, 'silverIngot': 5, 'silk': 3}},
-    'mithrilGreaves': {'result': 'mithrilGreaves', 'ingredients': {'mithrilSilver': 5, 'silk': 5}},
-    'mithrilPlate': {'result': 'mithrilPlate', 'ingredients': {'mithrilSilver': 15, 'silk': 5}},
-    'goldIngot': {'result': 'goldIngot', 'ingredients': {'goldOre': 10}},
-    'orchialcum': {'result': 'orchialcum', 'ingredients': {'goldOre': 20, 'silverOre': 4, 'mithrilDust': 4, 'coolingMagma': 2, 'pearl': 1}},
-    'midasTouch': {'result': 'midasTouch', 'ingredients': {'orchialcum': 2, 'coolingMagma': 1, 'solvent': 1, 'cestus': 1}},
-    'compoundBow': {'result': 'compoundBow', 'ingredients': {'gear': 8, 'carbonFiber': 6, 'pulley': 4, 'orchialcum': 2, 'coolingMagma': 1, 'solvent': 1}},
-    'goldenLeather': {'result': 'goldenLeather', 'ingredients': {'goldenWeb': 10, 'carbonFiber': 5, 'silverOre': 2, 'mithrilDust': 2, 'solvent': 1, 'pearl': 1}},
-    'goldenLeather2': {'result': 'goldenLeather', 'ingredients': {'goldenFleece': 1}},
-    'goldenHelmet': {'result': 'goldenHelmet', 'ingredients': {'orchialcum': 5, 'goldIngot': 5, 'goldenLeather': 3}},
-    'orchialcumMail': {'result': 'orchialcumMail', 'ingredients': {'orchialcum': 15, 'goldenLeather': 5}},
-    'wingedBoots': {'result': 'wingedBoots', 'ingredients': {'rocPinion': 2, 'rocFeather': 4, 'goldenLeather': 8}}
+    'giantPotion': {'largePotion': 3},
+    'mithrilSilver': {'silverOre': 20, 'ironOre': 4, 'coolingMagma': 2, 'copperOre': 2, 'tin': 1},
+    'goldIngot': {'goldOre': 10},
+    'orchialcum': {'goldOre': 20, 'silverOre': 4, 'mithrilDust': 4, 'coolingMagma': 2, 'pearl': 1},
+    'goldenLeather': {'goldenWeb': 10, 'carbonFiber': 5, 'silverOre': 2, 'mithrilDust': 2, 'solvent': 1, 'pearl': 1},
+    'goldenLeather-2': {'goldenFleece': 1}
 },{
-    'holyArmor': {'result': 'holyArmor', 'ingredients': {'unobtanium': 1}},
-    'platinumHelmet': {'result': 'platinumHelmet', 'ingredients': {'unobtanium': 1}},
-    'cyberBoots': {'result': 'cyberBoots', 'ingredients': {'unobtanium': 1}},
-    'kotetsu': {'result': 'kotetsu', 'ingredients': {'unobtanium': 1}},
-    'warHammer': {'result': 'warHammer', 'ingredients': {'unobtanium': 1}},
-    'titanFists': {'result': 'titanFists', 'ingredients': {'unobtanium': 1}},
-    'excalibur': {'result': 'excalibur', 'ingredients': {'unobtanium': 1}},
-    'maceOfTheDarkLord': {'result': 'maceOfTheDarkLord', 'ingredients': {'unobtanium': 1}},
-    'deathBow': {'result': 'deathBow', 'ingredients': {'unobtanium': 1}},
-    'giantBoots': {'result': 'giantBoots', 'ingredients': {'unobtanium': 1}},
-    'battleSuit': {'result': 'battleSuit', 'ingredients': {'unobtanium': 1}},
-    'damascusHelmet': {'result': 'damascusHelmet', 'ingredients': {'unobtanium': 1}},
 },{
-    'dragonFangs': {'result': 'dragonFangs', 'ingredients': {'unobtanium': 1}},
-    'blackSwordYoru': {'result': 'blackSwordYoru', 'ingredients': {'unobtanium': 1}},
-    'mjolnir': {'result': 'mjolnir', 'ingredients': {'unobtanium': 1}},
-    'runeBow': {'result': 'runeBow', 'ingredients': {'unobtanium': 1}},
-    'crystalBoots': {'result': 'crystalBoots', 'ingredients': {'unobtanium': 1}},
-    'adamantArmor': {'result': 'adamantArmor', 'ingredients': {'unobtanium': 1}},
-    'ribbon': {'result': 'ribbon', 'ingredients': {'unobtanium': 1}},
+}
+];
+
+recipes.copper = [
+{
+    'furCoat': {'fur': 5},
+    'leatherGloves': {'leather': 2},
+    'leatherBoots': {'leather': 5},
+    'shellHat': {'shellPlating': 5},
+    'brassKnuckles': {'copperIngot': 2},
+    'copperSword': {'copperIngot': 5},
+    'copperGreaves': {'copperIngot': 5, 'leatherBoots': 1, 'fur': 2},
+    'proudHat': {'shellHat': 1, 'lionMane': 1, 'largePelt': 3}
+}
+];
+recipes.bronze = [
+{
+    'longSword': {'copperOre': 100, 'tin': 12},
+    'longBow': {'timber': 10, 'copperOre': 15, 'tin': 2},
+    'bronzeArmor': {'bronzePlating': 10, 'leather': 5},
+    'bronzeHelmet': {'bronzePlating': 5, 'copperIngot': 5, 'leather': 3},
+    'bronzeLeggings': {'bronzePlating': 6, 'leather': 3}
+}
+];
+recipes.iron = [
+{},
+{
+    'broadSword': {'ironIngot': 15},
+    'hammer': {'timber': 5, 'ironIngot': 10},
+    'compositeBow': {'suppleTimber': 6, 'timber': 6, 'ironIngot': 2},
+    'chainMail': {'ironIngot': 10},
+    'ironBoots': {'ironIngot': 10, 'leather': 3},
+    'plateArmor': {'ironIngot': 50, 'leather': 5},
+    'fullHelm': {'ironIngot': 20, 'leather': 5},
+    'claymore': {'steelPlating': 5, 'copperOre': 40, 'tin': 5},
+    'mace': {'ironOre': 100, 'charcoal': 30},
+    'handBalista': {'sturdyTimber': 20, 'steelPlating': 5, 'ironOre': 4, 'charcoal': 2},
+    'steelPlating': {'ironOre': 20, 'charcoal': 10},
+    'steelArmor': {'steelPlating': 15, 'leather': 5},
+    'steelHelmet': {'steelPlating': 5, 'ironIngot': 5, 'leather': 3},
+    'steelLeggings': {'steelPlating': 5, 'leather': 5}
+}
+];
+recipes.silver = [
+    {},{},
+{
+    'cestus': {'leatherGloves': 1, 'steelPlating': 2, 'steeledSilver': 1},
+    'silverSword': {'steeledSilver': 5, 'copperOre': 40, 'tin': 5},
+    'silverMail': {'steeledSilver': 5},
+    'silverHelmet': {'steeledSilver': 5, 'silverIngot': 5, 'silk': 3},
+    'silverPlate': {'steeledSilver': 10, 'silk': 5}
+}
+];
+
+recipes.mithril = [
+    {},{},
+{
+    'tigerClaws': {'tigerClaw': 8, 'mithrilDust': 8, 'solvent': 2, 'mithrilSilver': 1, 'coolingMagma': 1, 'cestus': 1},
+    'katana': {'silverOre': 80, 'ironOre': 30, 'mithrilDust': 10, 'coolingMagma': 10, 'copperOre': 10, 'tin': 5, 'solvent' : 2},
+    'morningStar': {'silverOre': 60, 'mithrilPieces': 20, 'ironOre': 25, 'coolingMagma': 5, 'copperOre': 2, 'solvent' : 2, 'tin': 1},
+    'vampireSlayer': {'rocPinion': 1, 'rocFeather': 4, 'goldenWeb': 4, 'mithrilDust': 4, 'mithrilSilver': 2, 'coolingMagma': 1, 'solvent': 1, 'crossbow': 1},
+    'mithrilMail': {'mithrilSilver': 10},
+    'mithrilHelmet': {'mithrilSilver': 5, 'silverIngot': 5, 'silk': 3},
+    'mithrilGreaves': {'mithrilSilver': 5, 'silk': 5},
+    'mithrilPlate': {'mithrilSilver': 15, 'silk': 5}
+}
+];
+
+recipes.gold = [
+    {},{},{},
+{
+    'midasTouch': {'orchialcum': 2, 'coolingMagma': 1, 'solvent': 1, 'cestus': 1},
+    'compoundBow': {'gear': 8, 'carbonFiber': 6, 'pulley': 4, 'orchialcum': 2, 'coolingMagma': 1, 'solvent': 1},
+    'goldenHelmet': {'orchialcum': 5, 'goldIngot': 5, 'goldenLeather': 3},
+    'orchialcumMail': {'orchialcum': 15, 'goldenLeather': 5},
+    'wingedBoots': {'rocPinion': 2, 'rocFeather': 4, 'goldenLeather': 8}
+}
+];
+
+recipes.lab = [
+    {'vaccine': {'antigen': 5}},
+    {'medication': {'antibodies': 5}},
+    {},
+    {}
+]
+
+recipes.platinum = [
+{},{},{},
+{
+    'holyArmor': {'unobtanium': 1},
+    'platinumHelmet': {'unobtanium': 1},
+    'cyberBoots': {'unobtanium': 1},
+    'kotetsu': {'unobtanium': 1},
+    'warHammer': {'unobtanium': 1},
+}];
+
+recipes.titanium = [
+{},{},{},{},
+{
+    'titanFists': {'unobtanium': 1},
+    'excalibur': {'unobtanium': 1},
+    'maceOfTheDarkLord': {'unobtanium': 1},
+    'deathBow': {'unobtanium': 1},
+    'giantBoots': {'unobtanium': 1},
+    'battleSuit': {'unobtanium': 1},
+    'damascusHelmet': {'unobtanium': 1},
+}];
+recipes.adamantium = [
+{},{},{},{},
+{
+    'dragonFangs': {'unobtanium': 1},
+    'blackSwordYoru': {'unobtanium': 1},
+    'mjolnir': {'unobtanium': 1},
+    'runeBow': {'unobtanium': 1},
+    'crystalBoots': {'unobtanium': 1},
+    'adamantArmor': {'unobtanium': 1},
+    'ribbon': {'unobtanium': 1},
 }];
 
 var enchantData = [
@@ -170,126 +221,135 @@ $.each(enchantData, function (index, data) {
 
 var enchantingRecipes = [
 {
-    'tigerCharm': {'ingredients': {'ratClaw': 10}},
-    'ninjaCharm': {'ingredients': {'feather': 10}},
-    'minerCharm': {'ingredients': {'brokenShell': 10}},
-    'hunterCharm': {'ingredients': {'guano': 10}},
-    'giantCharm': {'ingredients': {'smallPelt': 10}},
-    'squireCharm': {'ingredients': {'furScrap': 10}},
-    'travelerCharm': {'ingredients': {'batWing': 10}}, //7 7
+    'tigerCharm': {'ratClaw': 10},
+    'ninjaCharm': {'feather': 10},
+    'minerCharm': {'brokenShell': 10},
+    'hunterCharm': {'guano': 10},
+    'giantCharm': {'smallPelt': 10},
+    'squireCharm': {'furScrap': 10},
+    'travelerCharm': {'batWing': 10}, //7 7
 },
 {
-    'moleCharm': {'ingredients': {'moleClaw': 10}},
-    'leechCharm': {'ingredients': {'batFang': 10}},
-    'warriorCharm': {'ingredients': {'charcoal': 10}},
-    'duelistCharm': {'ingredients': {'brine': 10}},
-    'warlordCharm': {'ingredients': {'spikyShell': 10}},
-    'poacherCharm': {'ingredients': {'smallShell': 10}},
-    'gangsterCharm': {'ingredients': {'crackedShell': 10}},
-    'archerCharm': {'ingredients': {'spiderWeb': 10}},
-    'assassinCharm': {'ingredients': {'venom': 10}},
-    'monkCharm': {'ingredients': {'largePelt': 10}},
-    'knightCharm': {'ingredients': {'reptileSkin': 10}},
-    'trackerCharm': {'ingredients': {'lionMane': 10}},
-    'prospectorCharm': {'ingredients': {'moleFur': 10}},
-    'dancerCharm': {'ingredients': {'birdWing': 10}},
-    'satyrCharm': {'ingredients': {'tinScraps': 10}},
-    'hunterBlessing': {'ingredients': {'pollen': 10}},
-    'squireBlessing': {'ingredients': {'woolyScrap': 10}}, //17 24
+    'moleCharm': {'moleClaw': 10},
+    'leechCharm': {'batFang': 10},
+    'warriorCharm': {'charcoal': 10},
+    'duelistCharm': {'brine': 10},
+    'warlordCharm': {'spikyShell': 10},
+    'poacherCharm': {'smallShell': 10},
+    'gangsterCharm': {'crackedShell': 10},
+    'archerCharm': {'spiderWeb': 10},
+    'assassinCharm': {'venom': 10},
+    'monkCharm': {'largePelt': 10},
+    'knightCharm': {'reptileSkin': 10},
+    'trackerCharm': {'lionMane': 10},
+    'prospectorCharm': {'moleFur': 10},
+    'dancerCharm': {'birdWing': 10},
+    'satyrCharm': {'tinScraps': 10},
+    'hunterBlessing': {'pollen': 10},
+    'squireBlessing': {'woolyScrap': 10}, //17 24
 }, {
-    'viperCharm': {'ingredients': {'whelpTooth': 10}},
-    'bearCharm': {'ingredients': {'sharpTooth': 10}},
-    'fencerCharm': {'ingredients': {'peatSoil': 10}},
-    'vampireCharm': {'ingredients': {'bone': 10}},
-    'sauronCharm': {'ingredients': {'hardShell': 10}},
-    'sniperCharm': {'ingredients': {'acid': 10}},
-    'trapperCharm': {'ingredients': {'strongWeb': 10}},
-    'urchinCharm': {'ingredients': {'spikyScales': 10}},
-    'healerCharm': {'ingredients': {'stoneHead': 10}},
-    'thiefCharm': {'ingredients': {'magicRubble': 10}},
-    'tigerBlessing': {'ingredients': {'tigerClaw': 10}},
-    'moleBlessing': {'ingredients': {'boarTusk': 10}},
-    'ninjaBlessing': {'ingredients': {'rocFeather': 10}},
-    'warriorBlessing': {'ingredients': {'coolingMagma': 10}},
-    'warlordBlessing': {'ingredients': {'pangolinScales': 10}},
-    'poacherBlessing': {'ingredients': {'clamShell': 10}},
-    'minerBlessing': {'ingredients': {'mithrilDust': 10}},
-    'archerBlessing': {'ingredients': {'impTail': 10}},
-    'monkBlessing': {'ingredients': {'giantPelt': 10}},
-    'giantBlessing': {'ingredients': {'woolyPelt': 10}},
-    'trackerBlessing': {'ingredients': {'horn': 10}},
-    'prospectorBlessing': {'ingredients': {'snout': 10}},
-    'travelerBlessing': {'ingredients': {'impWing': 10}},
-    'dancerBlessing': {'ingredients': {'rocPinion': 10}},
-    'satyrBlessing': {'ingredients': {'lavaStone': 10}}, //25 49
+    'viperCharm': {'whelpTooth': 10},
+    'bearCharm': {'sharpTooth': 10},
+    'fencerCharm': {'peatSoil': 10},
+    'vampireCharm': {'bone': 10},
+    'sauronCharm': {'hardShell': 10},
+    'sniperCharm': {'acid': 10},
+    'trapperCharm': {'strongWeb': 10},
+    'urchinCharm': {'spikyScales': 10},
+    'healerCharm': {'stoneHead': 10},
+    'thiefCharm': {'magicRubble': 10},
+    'tigerBlessing': {'tigerClaw': 10},
+    'moleBlessing': {'boarTusk': 10},
+    'ninjaBlessing': {'rocFeather': 10},
+    'warriorBlessing': {'coolingMagma': 10},
+    'warlordBlessing': {'pangolinScales': 10},
+    'poacherBlessing': {'clamShell': 10},
+    'minerBlessing': {'mithrilDust': 10},
+    'archerBlessing': {'impTail': 10},
+    'monkBlessing': {'giantPelt': 10},
+    'giantBlessing': {'woolyPelt': 10},
+    'trackerBlessing': {'horn': 10},
+    'prospectorBlessing': {'snout': 10},
+    'travelerBlessing': {'impWing': 10},
+    'dancerBlessing': {'rocPinion': 10},
+    'satyrBlessing': {'lavaStone': 10}, //25 49
 }, {
-    'leechBlessing': {'ingredients': {'vampireFang': 10}},
-    'viperBlessing': {'ingredients': {'viperFang': 10}},
-    'bearBlessing': {'ingredients': {'unobtanium': 10}},
-    'fencerBlessing': {'ingredients': {'magicSoil': 10}},
-    'vampireBlessing': {'ingredients': {'giantBone': 10}},
-    'duelistBlessing': {'ingredients': {'coral': 10}},
-    'gangsterBlessing': {'ingredients': {'mithrilPieces': 10}},
-    'sauronBlessing': {'ingredients': {'mithrilShell': 10}},
-    'sniperBlessing': {'ingredients': {'solvent': 10}},
-    'assassinBlessing': {'ingredients': {'toxin': 10}},
-    'trapperBlessing': {'ingredients': {'goldenWeb': 10}},
-    'knightBlessing': {'ingredients': {'silverScales': 10}},
-    'urchinBlessing': {'ingredients': {'urchinNeedle': 10}},
-    'healerBlessing': {'ingredients': {'pearl': 10}},
-    'thiefBlessing': {'ingredients': {'lodeStone': 10}},
-    'moleSoul': {'ingredients': {'unobtanium': 10}},
-    'ninjaSoul': {'ingredients': {'unobtanium': 10}},
-    'poacherSoul': {'ingredients': {'unobtanium': 10}},
-    'minerSoul': {'ingredients': {'unobtanium': 10}},
-    'hunterSoul': {'ingredients': {'unobtanium': 10}},
-    'monkSoul': {'ingredients': {'unobtanium': 10}},
-    'trackerSoul': {'ingredients': {'unobtanium': 10}},
-    'prospectorSoul': {'ingredients': {'unobtanium': 10}},
-    'travelerSoul': {'ingredients': {'unobtanium': 10}},
-    'satyrSoul': {'ingredients': {'unobtanium': 10}}, //25 74
+    'leechBlessing': {'vampireFang': 10},
+    'viperBlessing': {'viperFang': 10},
+    'bearBlessing': {'unobtanium': 10},
+    'fencerBlessing': {'magicSoil': 10},
+    'vampireBlessing': {'giantBone': 10},
+    'duelistBlessing': {'coral': 10},
+    'gangsterBlessing': {'mithrilPieces': 10},
+    'sauronBlessing': {'mithrilShell': 10},
+    'sniperBlessing': {'solvent': 10},
+    'assassinBlessing': {'toxin': 10},
+    'trapperBlessing': {'goldenWeb': 10},
+    'knightBlessing': {'silverScales': 10},
+    'urchinBlessing': {'urchinNeedle': 10},
+    'healerBlessing': {'pearl': 10},
+    'thiefBlessing': {'lodeStone': 10},
+    'moleSoul': {'unobtanium': 10},
+    'ninjaSoul': {'unobtanium': 10},
+    'poacherSoul': {'unobtanium': 10},
+    'minerSoul': {'unobtanium': 10},
+    'hunterSoul': {'unobtanium': 10},
+    'monkSoul': {'unobtanium': 10},
+    'trackerSoul': {'unobtanium': 10},
+    'prospectorSoul': {'unobtanium': 10},
+    'travelerSoul': {'unobtanium': 10},
+    'satyrSoul': {'unobtanium': 10}, //25 74
 }, {
-    'tigerSoul': {'ingredients': {'unobtanium': 10}},
-    'leechSoul': {'ingredients': {'unobtanium': 10}},
-    'viperSoul': {'ingredients': {'unobtanium': 10}},
-    'bearSoul': {'ingredients': {'unobtanium': 10}},
-    'warriorSoul': {'ingredients': {'unobtanium': 10}},
-    'fencerSoul': {'ingredients': {'unobtanium': 10}},
-    'vampireSoul': {'ingredients': {'unobtanium': 10}},
-    'duelistSoul': {'ingredients': {'unobtanium': 10}},
-    'warlordSoul': {'ingredients': {'unobtanium': 10}},
-    'gangsterSoul': {'ingredients': {'unobtanium': 10}},
-    'sauronSoul': {'ingredients': {'unobtanium': 10}},
-    'archerSoul': {'ingredients': {'unobtanium': 10}},
-    'sniperSoul': {'ingredients': {'unobtanium': 10}},
-    'assassinSoul': {'ingredients': {'unobtanium': 10}},
-    'trapperSoul': {'ingredients': {'unobtanium': 10}},
-    'giantSoul': {'ingredients': {'unobtanium': 10}},
-    'knightSoul': {'ingredients': {'unobtanium': 10}},
-    'urchinSoul': {'ingredients': {'unobtanium': 10}},
-    'squireSoul': {'ingredients': {'unobtanium': 10}},
-    'healerSoul': {'ingredients': {'unobtanium': 10}},
-    'dancerSoul': {'ingredients': {'unobtanium': 10}},
-    'thiefSoul': {'ingredients': {'unobtanium': 10}}, //22 96
+    'tigerSoul': {'unobtanium': 10},
+    'leechSoul': {'unobtanium': 10},
+    'viperSoul': {'unobtanium': 10},
+    'bearSoul': {'unobtanium': 10},
+    'warriorSoul': {'unobtanium': 10},
+    'fencerSoul': {'unobtanium': 10},
+    'vampireSoul': {'unobtanium': 10},
+    'duelistSoul': {'unobtanium': 10},
+    'warlordSoul': {'unobtanium': 10},
+    'gangsterSoul': {'unobtanium': 10},
+    'sauronSoul': {'unobtanium': 10},
+    'archerSoul': {'unobtanium': 10},
+    'sniperSoul': {'unobtanium': 10},
+    'assassinSoul': {'unobtanium': 10},
+    'trapperSoul': {'unobtanium': 10},
+    'giantSoul': {'unobtanium': 10},
+    'knightSoul': {'unobtanium': 10},
+    'urchinSoul': {'unobtanium': 10},
+    'squireSoul': {'unobtanium': 10},
+    'healerSoul': {'unobtanium': 10},
+    'dancerSoul': {'unobtanium': 10},
+    'thiefSoul': {'unobtanium': 10}, //22 96
 }];
 
 //populate allRecipes, and key/level on each recipe
 var allRecipes = {};
-craftingRecipes.forEach(function (recipeLevelList, level) {
-    $.each(recipeLevelList, function (key, recipe) {
-        recipe.key = key;
-        recipe.level = level;
-        recipe.type = 'crafting';
-        allRecipes[key] = recipe;
+$.each(recipes, function (key, recipeList) {
+    recipeList.forEach(function (recipeLevelList, level) {
+        $.each(recipeLevelList, function (key, ingredients) {
+            allRecipes[key] = {
+                'key': key,
+                'result': key.split('-')[0],
+                'level': level,
+                'type': 'crafting',
+                'ingredients': ingredients
+            }
+            recipeLevelList[key] = allRecipes[key];
+        });
     });
 });
 enchantingRecipes.forEach(function (recipeLevelList, level) {
-    $.each(recipeLevelList, function (key, recipe) {
-        recipe.key = key;
-        recipe.result = key;
-        recipe.level = level;
-        recipe.type = 'enchanting';
-        allRecipes[key] = recipe;
+    $.each(recipeLevelList, function (key, ingredients) {
+        var recipe = {
+            'key': key,
+            'result': key.split('-')[0],
+            'level': level,
+            'type': 'enchanting',
+            'ingredients': ingredients
+        }
+        recipeLevelList[key] = allRecipes[key] = recipe;
         var totalValue = 0;
         var result = items[recipe.result];
         var enchantmentKey = getEnchantmentKey(result);
@@ -373,4 +433,27 @@ $.each(boots, function(key, value) {
     value.isArmor = true;
     value.slot = 'boots';
     value.equipmentSlot = 'boots';
+});
+
+
+$.each(allRecipes, function (key, recipe) {
+    if (!allItems[recipe.result]) {
+        console.log("Missing item " + recipe.result);
+    }
+    var ingredientValue = 0;
+    $.each(recipe.ingredients, function (ingredientKey, amount) {
+        if (!allItems[ingredientKey]) {
+            console.log("Missing item " + ingredientKey);
+        } else {
+            ingredientValue += amount * allItems[ingredientKey].value;
+        }
+    });
+    //warning to make sure crafting always makes things more valuable
+    if (ingredientValue && allItems[recipe.result] && ingredientValue > allItems[recipe.result].value) {
+        console.log(key + ': ' + recipe.result + ' can be sold for ' + allItems[recipe.result].value + ' but its ingredients can be sold for ' + ingredientValue);
+    }
+    //warning to make sure crafting doesn't allow the user to make money
+    if (ingredientValue && allItems[recipe.result] && ingredientValue * 2 < allItems[recipe.result].value) {
+        console.log(key + ': ' + recipe.result + ' can be sold for ' + allItems[recipe.result].value + ' but its ingredients can be purchased for ' + (2 * ingredientValue));
+    }
 });

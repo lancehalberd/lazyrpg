@@ -2,6 +2,7 @@ var areas = {};
 var placeActions = {};
 var targetedActions = ['move', 'fight', 'mine'];
 var targets = {};
+var availableRecipes = {};
 
 function RebirthAction(slot) {
     this.getDiv = function () {
@@ -127,6 +128,7 @@ function updateShop() {
 
 function setArea(area) {
     placeActions = {};
+    availableRecipes = {};
     targetedActions.forEach(function(action) {
         targets[action] = {};
     });
@@ -150,19 +152,10 @@ function setArea(area) {
             if (!actionCode || !actionCode.length) {
                 return;
             }
-            try {
-                runLine(actionCode);
-                recordAction(actionCode);
-                //refreshing hides the travel bar, so don't refresh on travel actions
-                if (!targetArea) {
-                    uiNeedsUpdate.area = true;
-                }
-            }  catch(e) {
-                if (e instanceof ProgrammingError) {
-                    alert(e.message);
-                } else {
-                    throw e;
-                }
+            runCodeFromUI(actionCode);
+            //refreshing hides the travel bar, so don't refresh on travel actions
+            if (!targetArea) {
+                uiNeedsUpdate.area = true;
             }
             removeToolTip();
         });
@@ -170,4 +163,18 @@ function setArea(area) {
 }
 function refreshArea() {
     setArea(areas[player.area]);
+}
+
+function runCodeFromUI(code) {
+    try {
+        runLine(code);
+        recordAction(code);
+    } catch(e) {
+        if (e instanceof ProgrammingError) {
+            alert(e.message);
+        } else {
+            console.log(e.stack);
+            throw e;
+        }
+    }
 }

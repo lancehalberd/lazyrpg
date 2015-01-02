@@ -44,7 +44,7 @@ areas.village =  {
     'travelDamage': 0,
     '$graphic': $img('poorVillage.png'),
     'actions': [
-        new CraftAction(1),
+        new CraftAction({'slot': 1, 'recipes': [recipes.common, recipes.copper]}),
         new ShopAction(['smallPotion', 'cap', 'clothGloves', 'shortBow', 'club'], 2),
         new MoveAction('forest', 3),
         new MoveAction('river', 7),
@@ -91,7 +91,7 @@ areas.portTown = {
     '$graphic': $img('town.png'),
     'actions': [
         new EnchantAction(1),
-        new CraftAction(7),
+        new CraftAction({'slot': 7, 'recipes': [recipes.common, recipes.copper, recipes.bronze]}),
         new ShopAction(['smallPotion', 'mediumPotion', 'crossbow', 'bronzeArmor'], 4),
         new MoveAction('savanna', 2),
         new SaveAction(3),
@@ -127,7 +127,7 @@ areas.city = {
         new MoveAction('ship', 2),
         new SaveAction(3),
         new RestAction(6),
-        new CraftAction(7),
+        new CraftAction({'slot': 7, 'recipes': [recipes.common, recipes.bronze, recipes.iron]}),
         //Shop has limited iron equipment because the dark knight has taken over the iron mines
         new ShopAction(['mediumPotion', 'largePotion', 'claws', 'cudgel', 'chainMail'], 4),
         new MoveAction('field', 5)

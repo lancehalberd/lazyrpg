@@ -29,8 +29,9 @@ areas.quarters =  {
         new BattleAction(monsters.zombie, 1),
         new DoorAction(new MoveAction('airlock', 2), alwaysTrue),
         new DoorAction(new ShopAction(['largePotion', 'mediumPotion', 'smallPotion', 'morningStar', 'gasMask', 'rubberBoots', 'mithrilGreaves'], 3), alwaysTrue),
+        new CraftAction({'slot': 7, 'recipes': [recipes.common]}),
         new DoorAction(new MoveAction('aridUnit', 4), alwaysTrue),
-        new EnchantAction(5),
+        new EnchantAction(8),
         new DoorAction(new MoveAction('aquarium', 6), alwaysTrue)
     ]
 };
@@ -85,7 +86,7 @@ areas.pharmacy =  {
         new BattleAction(monsters.vampire, 2),
         new DoorAction(new MoveAction('aquarium', 3), alwaysTrue),
         new DoorAction(new MoveAction('hydroponics', 4), alwaysTrue),
-        new CraftAction(5),
+        new CraftAction({'slot': 5, 'label': 'Compound', 'helpText': 'I can use my crafting skills with the equipment here to create vaccines and medications.', 'recipes': [recipes.lab]}),
         new DoorAction(new MoveAction('tropicalUnit', 6), alwaysTrue)
     ]
 };
@@ -158,7 +159,7 @@ function resetLab() {
     });
     plagueAction = new BattleAction(monsters.plague, 8, function () {
         player.plague = Math.min(100, player.plague + areas.controlRoom.plagueBody);
-        player.health = 0;
+        player.health = Math.floor(player.health * (1 - areas.controlRoom.plagueBody / 100));
         areas.controlRoom.plagueBody = 0;
         uiNeedsUpdate.playerStats = true;
     });
@@ -315,12 +316,15 @@ function updateLabMonsterStats(monster) {
     if (monster.plague < 8) {
         monster.name = "Hybrid " + baseMonster.name;
         monster.experience *= 3;
+        monster.spoils = ['antibodies', 'antigen', 'antigen'];
     } else if (monster.plague < 12) {
         monster.name = "Chimera " + baseMonster.name;
         monster.experience *= 5;
+        monster.spoils = ['antibodies', 'antibodies', 'antigen'];
     } else { // max plague is 15
         monster.name = "Mutant " + baseMonster.name;
         monster.experience *= 10;
+        monster.spoils = ['antibodies', 'antibodies', 'antibodies'];
     }
     monster.level = Math.round(baseMonster.level + monster.plague)
     scheduleMonsterForUpdate(monster);

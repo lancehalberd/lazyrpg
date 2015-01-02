@@ -100,7 +100,7 @@ var $popup = null;
 $(function () {
     $('.js-loadingScene').hide();
     $('.js-titleScene').show();
-    $('.js-optimize').on('click', optimizeArmor);
+    $('.js-healthContainer').data('helpFunction', describeHealthBar);
     $('.js-faq').on('click', function () {
         window.open('manual.html', '_blank', 'location=no,scrollbars=yes,width=500,height=400');
     });
@@ -118,7 +118,10 @@ $(function () {
         }
     });
     $('.js-closeButton').on('click', closeAll);
-    $('.js-gameContainer').on('mouseover mousemove', '[helpText]', function (event) {
+    $('.js-gameContainer').on('click', '[code]', function (event) {
+        runCodeFromUI($(this).attr('code'));
+    });
+    $('.js-gameContainer').on('mouseover mousemove', '[helpText],[code]', function (event) {
         if (!showTooltips || $popup) {
             return;
         }
@@ -131,7 +134,7 @@ $(function () {
         updateToolTip(x, y, $popup);
         $('.js-gameContainer').append($popup);
     });
-    $('.js-gameContainer').on('mouseout', '[helpText]', function (event) {
+    $('.js-gameContainer').on('mouseout', '[helpText],[code]', function (event) {
         removeToolTip();
     });
     $('.js-gameContainer').on('mousemove', function (event) {
@@ -146,12 +149,8 @@ $(function () {
     initializeTitleScene();
     initializeSkillTree();
     resetCharacter();
-    setupCrafting();
-    setupEnchantments();
     setupProgrammingWindow();
-    $('body').append('<style type="text/css" >.icon { background-image: url("gfx/iconSet.png");}</style>');
 });
-
 function getHelpText($element) {
     var sections = [];
     var baseText = $element.attr('helpText');
@@ -162,6 +161,10 @@ function getHelpText($element) {
     var text = helpFunction ? helpFunction() : '';
     if (text && text.length) {
         sections.push(text);
+    }
+    var code = $element.attr('code');
+    if (code && code.length) {
+        sections.push('code: [' + code + ']');
     }
     return sections.join('<br/><br/>');
 }

@@ -11,7 +11,7 @@
     }
     .gameContainer {
         position: relative;
-        margin-top: 50px;
+        margin-top: 10px;
         margin-left: auto;
         margin-right: auto;
         width: 960px;
@@ -36,9 +36,6 @@
 <link rel="stylesheet" type="text/css" href="styles/styles.css"/>
 <link rel="stylesheet" type="text/css" href="styles/monsters.css"/>
 <link rel="stylesheet" href="../jquery-ui/themes/base/jquery.ui.all.css">
-<script type="text/javascript">
-    var testing = false;
-</script>
 <script src="jquery.min.js"></script>
 <script src="../jquery-ui/ui/jquery-ui.js"></script>
 <script src="jstorage.min.js"></script>
@@ -89,7 +86,7 @@
         <button class="js-faq" helpText="Click here to view responses to frequently asked questions">View FAQ</button>
         <button class="js-chat" helpText="Click here to chat with the developer and other players.">Chat</button><br/>
         <button class="js-toggleHelp">Disable Tooltips</button><br/>
-        <button class="js-optimize" helpText="Click this to automatically equip the best armor available">Equip Best Armor</button>
+        <button class="js-optimize" code="optimizeArmor" helpText="Click this to automatically equip the best armor available">Equip Best Armor</button>
         <div class="js-monster monster" style="display: none">
             <div class="js-graphic graphic">
                 <div class="ff2Monster turtle"></div>
@@ -335,10 +332,11 @@
                     <div class="js-skillPoints skillPoints" helpText="Click here to open the skill tree and spend your skill points.">0 skpt</div>
                 </div>
                 <div class="healthAndStats">
-                    <span class="status" helpText="Fighting monsters and mining for resources reduces your health over time. If it is reduced to zero, you will be unable to fight or mine until you rest or drink a potion.">
+                    <span class="js-healthContainer status" helpText="Fighting monsters and mining for resources reduces your health over time. If it is reduced to zero, you will be unable to fight or mine until you rest or drink a potion.">
                         <span class="icon health"></span>
                         <div class="healthBar">
                             <div class="js-healthFill healthFill"></div>
+                            <div class="js-plagueResistanceFill plagueResistanceFill"></div>
                             <div class="js-plagueFill plagueFill"></div>
                             <span class="js-currentHealth currentHealth">200</span>
                             <span class="slash">/</span>

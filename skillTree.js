@@ -132,7 +132,7 @@ function populateSkillTree () {
 }
 
 var specialSkills = {
-    'copy': 'Create an extra item when crafting or enchanting at no additional cost.', //implemented for crafting
+    'copy': 'Create an extra item when crafting or enchanting at no additional cost.', //implemented
     'parry': '20% of weapon damage is added as armor when wielding swords or clubs.', //implemented
     'leech': 'Drain 10% of damage as life when wielding swords or fists.', //implemented
     'venom': 'Double the effects of damage over time on fists and bows.', //implemented
@@ -144,11 +144,11 @@ var specialSkills = {
     'pierce': 'Attacks ignore 10% of the targets armor when using bows or swords.', //implemented
     'ignite': 'Attacks ignite the target dealing damage over time when using fists or bows.', //implemented
     'poach': 'Attacks never reduce the quality of items dropped, but damage dealt is reduced by 90%.',//implemented
-    'rend': 'Attacks reduce the enemies armor by when using fists or clubs.', //implemented
+    'rend': 'Attacks reduce the enemies armor by 5 when using fists or clubs.', //implemented
     'smash': 'Doubles the effect of armor breaking when using fists or clubs.', //implemented
     'stoic': 'Increases your resistance to monster\'s special abilities by 50%.', //implemented
     'stun': 'Attacks reduce the enemies attack speed when using clubs or bows.', //implemented
-    'care': 'Use 25% less ingredients when crafting or enchanting.', //implemented for crafting
+    'care': 'Use 25% less ingredients when crafting or enchanting.', //implemented
     'scan': 'Find a targets weak spot. Ignore all armor, but reduces attack speed by 50%.', //implemented
     'tank': 'Gain double health, but reduces attack speed by 50%.', //implemented
     'haste': 'Doubles attack speed, but halves damage.', //implemented

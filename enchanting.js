@@ -21,18 +21,6 @@ function emptyEnchantments() {
     };
 }
 
-function setupEnchantments() {
-    $('.js-inventoryPanel.js-items').on('click', '.js-enchantment', function () {
-        var key = $(this).data('key');
-        var itemKey = $(this).data('itemKey');
-        try {
-            useEnchantment(key, itemKey);
-        } catch(e) {
-            //ignore this error, only used for programming alerts
-        }
-    });
-}
-
 function useEnchantment(key, itemKey) {
     var item = allItems[itemKey];
     if (!item || !player.inventory[item.slot][item.key]) {
@@ -52,7 +40,7 @@ function useEnchantment(key, itemKey) {
     if (player[data.slot] == baseEquipment[data.slot]) {
         throw new ProgrammingError('You have no ' + data.slot + ' equipped to enchant.');
     }
-    if (data.type && player[data.slot].type == !data.type) {
+    if (data.type && player[data.slot].type !== data.type) {
         throw new ProgrammingError('You can only enchant a ' + data.type + ' class weapon with this item.');
     }
     var appliedEnchantment = item[key];
@@ -66,7 +54,6 @@ function useEnchantment(key, itemKey) {
     uiNeedsUpdate[data.slot] = true;
     uiNeedsUpdate.playerStats = true;
     removeToolTip();
-    recordAction(key + ' ' + itemKey);
 }
 
 var enchantmentMap = {
@@ -77,7 +64,7 @@ var enchantmentMap = {
     'enchantArmor': {'label': 'Enchant Armor', 'slot': 'armor'},
     'enchantHelmet': {'label': 'Enchant Helmet', 'slot': 'helmet'},
     'enchantBoots': {'label': 'Enchant Boots', 'slot': 'boots'}
-}
+};
 $.each(enchantmentMap, function (key, data) {
     actions[key] = function (params) {
         checkParams(1, params);
@@ -91,6 +78,7 @@ function $makeEnchantButton(item) {
         var $button = $('<button class="js-enchantment" helpText="' + enchantmentHelp(enchantmentMap[enchantmentKey], item[enchantmentKey]) + '">' + enchantmentMap[enchantmentKey].label + '</button>');
         $button.data('key', enchantmentKey);
         $button.data('itemKey', item.key);
+        $button.attr('code', enchantmentKey + ' ' + item.key); //example: 'enchantBoots batWing'
         return $button;
     }
     return null;

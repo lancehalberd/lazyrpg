@@ -21,18 +21,6 @@ function setupInventory() {
         $('.js-inventoryPanel').removeClass('selected');
         $(this).closest('.js-inventoryPanel').addClass('selected');
     });
-    $('.js-inventoryPanel').on('click', '.js-use', function () {
-        var item = $(this).closest('.js-item').data('item');
-        useItem(item);
-    });
-    $('.js-inventoryPanel').on('click', '.js-equip', function () {
-        var item = $(this).closest('.js-item').data('item');
-        equipItem(item);
-    });
-    $('.js-inventoryPanel').on('click', '.js-unequip', function () {
-        var item = $(this).closest('.js-item').data('item');
-        removeItem(item);
-    });
     $('.js-inventoryPanel').on('click', '.js-sellOne', function () {
         var item = $(this).closest('.js-item').data('item');
         sellItem(item, 1);
@@ -46,69 +34,6 @@ function setupInventory() {
         buyItem(item, 1);
     });
 }
-
-function useItem(item) {
-    stopAll();
-    if (!item.use) {
-        return;
-    }
-    var amount = player.inventory[item.slot][item.key];
-    if (amount <= 0) {
-        return;
-    }
-    amount--;
-    player.inventory[item.slot][item.key] = amount;
-    item.use();
-    if (amount) {
-        if (item.$element) {
-            item.$element.find('.js-itemQuantity').text(amount + 'x');
-        }
-    } else {
-        loseLastItem(item);
-    }
-    recordAction("use " + item.key);
-}
-
-function equipItem(item) {
-    stopAll();
-    if (!player.inventory[item.slot][item.key]) {
-        return;
-    }
-    if (!item.equipmentSlot) {
-        return;
-    }
-    var amount = player.inventory[item.slot][item.key];
-    if (amount <= 0) {
-        return;
-    }
-    player[item.equipmentSlot] = item;
-    uiNeedsUpdate.playerStats = true;
-    uiNeedsUpdate[item.slot] = true;
-    //need to update items to adjust enchantment help text
-    uiNeedsUpdate.items = true;
-    //enchantments where off when changing or removing equipment
-    resetEnchantment(item.equipmentSlot);
-    recordAction("equip " + item.key);
-}
-
-function removeItem(item) {
-    stopAll();
-    if (!player.inventory[item.slot][item.key]) {
-        return;
-    }
-    if (!item.equipmentSlot) {
-        return;
-    }
-    player[item.equipmentSlot] = baseEquipment[item.equipmentSlot];
-    uiNeedsUpdate.playerStats = true;
-    uiNeedsUpdate[item.slot] = true;
-    //need to update items to adjust enchantment help text
-    uiNeedsUpdate.items = true;
-    //enchantments where off when changing or removing equipment
-    resetEnchantment(item.equipmentSlot);
-    recordAction("remove " + item.key);
-}
-
 actions.use = function (params) {
     checkParams(1, params);
     var key = params[0];
@@ -117,9 +42,18 @@ actions.use = function (params) {
         throw new ProgrammingError("You don't have a '" + key + "'.");
     }
     if (!item.use) {
-        throw new ProgrammingError("You cane use that item.");
+        throw new ProgrammingError("You cannot use that item.");
     }
-    useItem(item);
+    stopAll();
+    item.use();
+    player.inventory[item.slot][item.key]--;
+    if (player.inventory[item.slot][item.key]) {
+        if (item.$element) {
+            item.$element.find('.js-itemQuantity').text(amount + 'x');
+        }
+    } else {
+        loseLastItem(item);
+    }
 }
 
 actions.equip = function (params) {
@@ -127,14 +61,23 @@ actions.equip = function (params) {
     var key = params[0];
     var item = allItems[key];
     if (!item || player.inventory[item.slot][item.key] == 0) {
-        throw new ProgrammingError("You don't have a '" + key + "'.");
+        throw new ProgrammingError("You don't have a  '" + key + "'.");
+    }
+    if (!item.equipmentSlot) {
+        throw new ProgrammingError("A '" + key + "' is not an equippable item.");
     }
     if (!canEquip(item)) {
-        throw new ProgrammingError("You aren't skilled enough to equip that.");
+        throw new ProgrammingError("You aren't skilled enough to equip a '" + key + "'.");
     }
-    equipItem(item);
-}
-
+    stopAll();
+    player[item.equipmentSlot] = item;
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate[item.slot] = true;
+    //need to update items to adjust enchantment help text
+    uiNeedsUpdate.items = true;
+    //enchantments where off when changing or removing equipment
+    resetEnchantment(item.equipmentSlot);
+};
 actions.remove = function (params) {
     checkParams(1, params);
     var key = params[0];
@@ -142,22 +85,21 @@ actions.remove = function (params) {
     if (!item || !item.equipmentSlot || player[item.equipmentSlot] != item) {
         throw new ProgrammingError("You don't have that equipped.");
     }
-    removeItem(item);
-}
-
-function optimizeArmor() {
+    stopAll();
+    player[item.equipmentSlot] = baseEquipment[item.equipmentSlot];
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate[item.slot] = true;
+    //need to update items to adjust enchantment help text
+    uiNeedsUpdate.items = true;
+    //enchantments where off when changing or removing equipment
+    resetEnchantment(item.equipmentSlot);
+};
+actions.optimizeArmor = function (params) {
+    checkParams(0, params);
     stopAll();
     $.each(player.inventory.armors, equipArmorIfBetter);
     $.each(player.inventory.helmets, equipArmorIfBetter);
     $.each(player.inventory.boots, equipArmorIfBetter);
-    uiNeedsUpdate.playerStats = true;
-    uiNeedsUpdate.inventory = true;
-    recordAction('optimizeArmor');
-}
-
-actions.optimizeArmor = function (params) {
-    checkParams(0, params);
-    optimizeArmor();
 }
 
 function equipArmorIfBetter(key, amount) {
@@ -165,10 +107,12 @@ function equipArmorIfBetter(key, amount) {
     if (amount <= 0) {
         return;
     }
-    if (item.level > player.level || item.level < player[item.equipmentSlot].level) {
+    if (item.level > player.level || item.armor < player[item.equipmentSlot].armor) {
         return;
     }
     player[item.equipmentSlot] = item;
+    uiNeedsUpdate.playerStats = true;
+    uiNeedsUpdate[item.slot] = true;
 }
 
 function loseLastItem(item) {
@@ -211,6 +155,9 @@ function $item(item, $item) {
         $item.find('.unequipAction').remove();
     }
     var $enchantButton = $makeEnchantButton(item);
+    $item.find('.js-use').attr('code', 'use ' + item.key);
+    $item.find('.js-equip').attr('code', 'equip ' + item.key);
+    $item.find('.js-unequip').attr('code', 'remove ' + item.key);
     if ($enchantButton) {
         $item.find('.js-use').after($enchantButton);
     }
