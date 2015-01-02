@@ -175,9 +175,6 @@ function initializeSkillTree(args) {
         skill.$element.data('skill', skill);
         skill.$element.css('left', col * 40 + 'px').css('top', row * 40 + 'px');
         $('.js-skillContainer').append(skill.$element);
-        skill.$element.on('click', function () {
-            chooseSkill($(this).data('skill'));
-        });
     })
 }
 
@@ -225,6 +222,7 @@ function updateSkillTree() {
             if (skill.revealed) {
                 skill.$element.html(skill.name ? skill.name : 'empty');
                 skill.$element.addClass('revealed');
+                skill.$element.attr('code', null);
 
                 if (skill.open & 8) {
                     skill.$element.css('border-top', 'none');
@@ -243,6 +241,7 @@ function updateSkillTree() {
                     skill.$element.attr('helpText', skill.helpText);
                 } else {
                     if (skill.available) {
+                        skill.$element.attr('code', 'learn ' + col + ' ' + row);
                         skill.$element.addClass('available');
                         skill.$element.append($div('skillCost', skill.distance * player.skillCost));
                         if (skill.distance * player.skillCost <= player.skillPoints) {
@@ -279,25 +278,14 @@ actions.learn = function (params) {
     if (skill.distance * player.skillCost > player.skillPoints) {
         throw new ProgrammingError("You need more skill points to learn the skill at (" + col +"," + row + ").");
     }
-    chooseSkill(skill);
-}
-
-function chooseSkill(skill) {
-    //they already know this skill, do nothing.
-    if (skill.activated) {
-        return;
-    }
-    //make sure skill is revealed and purchaseable
-    if (!skill.available || skill.distance * player.skillCost > player.skillPoints) {
-        return;
-    }
     if (skill.type == 'classSkill') {
         if (!player.inventory.items.memoryCrystal > 0) {
-            return;
+            throw new ProgrammingError("You do not have the required item to unlock the skill at (" + col +"," + row + ").");
         }
         //warn the user before consuming the memory crystal, which cannot be undone
-        if (!confirm('Are you sure you want to use a memory crystal to permanently unlock the ' + skill.name + ' class?')) {
-            return;
+        //do not warn them while running the program since the program cannot interact with the prompt
+        if (!runningProgram && !confirm('Are you sure you want to use a memory crystal to permanently unlock the ' + skill.name + ' class?')) {
+            throw new ProgrammingError("You have decided not to unlock this class yet.");
         }
     }
     var learnedSkills = [];
@@ -316,7 +304,6 @@ function chooseSkill(skill) {
     player.skillCost++;
     uiNeedsUpdate.playerStats = true;
     uiNeedsUpdate.skillTree = true;
-    recordAction("learn " + skill.col + " " + skill.row);
 }
 
 function revealSkillsAround(skill) {
@@ -325,7 +312,7 @@ function revealSkillsAround(skill) {
     //reveal all open squares in a line from the activated skill
     [[0, -1, 8],[0, 1, 4],[-1, 0, 2],[1, 0, 1]].forEach(function (delta) {
         var lastSkill = null;
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 15; i++) {
             var skill = getSkill(col + delta[0] * i, row + delta[1] * i);
             if (!skill) {
                 break;
