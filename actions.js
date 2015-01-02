@@ -11,8 +11,6 @@ actions.hideTabs = function (params) {
     closeAll();
 };
 
-var lines = [];
-var timeoutId = -1;
 var recording = false;
 var runningProgram = false;
 var showTooltips = true;
@@ -168,10 +166,6 @@ function runProgram(program) {
     runNextLine();
 }
 function stopProgram() {
-    if (timeoutId >= 0) {
-        clearTimeout(timeoutId);
-        timeoutId = -1;
-    }
     callStack = [];
     globalVariables = {};
     runningProgram = false;
