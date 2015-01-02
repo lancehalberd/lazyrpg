@@ -133,7 +133,7 @@ function displyCraftingPage($container, skillLevel, recipeList) {
             });
             $recipe.data('recipe', recipe);
             $recipe.toggleClass('canCraft', canCraft);
-            $recipe.attr('code', 'make ' + key);
+            $recipe.find('.js-craft').attr('code', 'make ' + key);
             $container.find('.js-body').append($recipe);
         });
     }
