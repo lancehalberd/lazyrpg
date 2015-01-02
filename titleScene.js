@@ -78,6 +78,7 @@ function startGame(savedData) {
     applySavedData(savedData);
     $('.js-titleScene').hide();
     refreshPrograms();
+    actions.setSpeed([player.gameSpeed]);
     updateProgramButtons();
     setArea(areas[player.area]);
     $('.js-mapScene').show();

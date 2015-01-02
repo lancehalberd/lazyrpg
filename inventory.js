@@ -37,7 +37,7 @@ actions.use = function (params) {
     player.inventory[item.slot][item.key]--;
     if (player.inventory[item.slot][item.key]) {
         if (item.$element) {
-            item.$element.find('.js-itemQuantity').text(amount + 'x');
+            item.$element.find('.js-itemQuantity').text(player.inventory[item.slot][item.key] + 'x');
         }
     } else {
         loseLastItem(item);

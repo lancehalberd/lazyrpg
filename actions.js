@@ -38,19 +38,6 @@ function setupProgrammingWindow() {
         }
         updateProgramButtons();
     });
-    $('.js-changeSpeed').on('click', function () {
-        if (player.gameSpeed < 1 || player.gameSpeed >= 500) {
-            setSpeed(1);
-        } else if (player.gameSpeed < 2) {
-            setSpeed(2);
-        } else if (player.gameSpeed < 30) {
-            setSpeed(30)
-        } else if (player.gameSpeed < 100) {
-            setSpeed(100)
-        } else {
-            setSpeed(500)
-        }
-    });
     $('.js-toggleHelp').on('click', function () {
         showTooltips = !showTooltips;
         updateProgramButtons();
@@ -125,21 +112,27 @@ actions.setSpeed = function (params) {
     checkParams(1, params);
     var speed = parseInt(params[0]);
     if (speed < 1) {
+        player.gameSpeed = 1;
         throw new ProgrammingError("Speed cannot be less than 1.");
     }
     if (speed > 500) {
+        player.gameSpeed = 500;
         throw new ProgrammingError("Speed cannot be higher than 500");
     }
-    setSpeed(speed);
-}
-
-function setSpeed(speed) {
     if (speed < 1 || speed > 500) {
         return;
     }
     player.gameSpeed = Math.floor(speed);
+    if (player.gameSpeed < 1 || player.gameSpeed >= 500) {
+        $('.js-changeSpeed').attr('code', 'setSpeed 1')
+    } else if (player.gameSpeed < 4) {
+        $('.js-changeSpeed').attr('code', 'setSpeed 4')
+    } else if (player.gameSpeed < 50) {
+        $('.js-changeSpeed').attr('code', 'setSpeed 50')
+    } else if (player.gameSpeed < 500) {
+        $('.js-changeSpeed').attr('code', 'setSpeed 500')
+    }
     updateProgramButtons();
-    recordAction("setSpeed " + speed);
 }
 
 function updateProgramButtons() {
@@ -331,6 +324,7 @@ function runNextLine() {
             if (e instanceof ProgrammingError) {
                 onActionError(e.message);
             } else {
+                console.log(e.stack);
                 throw e;
             }
         }
@@ -679,33 +673,3 @@ function addLoopsToProgram(program) {
     }
     return lines.join("\n");
 }
-
-/*
-//make a fur coat
-setSpeed 100
-loop 3 {
-    while (my.items.fur < 5) {
-      move forest
-      loop 3 {
-        fight rat
-      }
-      learn 6 7
-      loop 3 {
-        fight rat
-      }
-      move village
-      craft
-      make fur
-      rest
-    }
-    craft
-    make furCoat
-}
-shop
-sell 2 furCoat
-buy 1 shortBow
-buy 1 club
-buy 7 smallPotion
-equip furCoat
-
-*/

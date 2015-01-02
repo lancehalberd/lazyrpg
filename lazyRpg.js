@@ -120,6 +120,7 @@ $(function () {
     $('.js-closeButton').on('click', closeAll);
     $('.js-gameContainer').on('click', '[code]', function (event) {
         runCodeFromUI($(this).attr('code'));
+        removeToolTip();
     });
     $('.js-gameContainer').on('mouseover mousemove', '[helpText],[code]', function (event) {
         if (!showTooltips || $popup) {
