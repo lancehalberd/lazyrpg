@@ -21,18 +21,6 @@ function setupInventory() {
         $('.js-inventoryPanel').removeClass('selected');
         $(this).closest('.js-inventoryPanel').addClass('selected');
     });
-    $('.js-inventoryPanel').on('click', '.js-sellOne', function () {
-        var item = $(this).closest('.js-item').data('item');
-        sellItem(item, 1);
-    });
-    $('.js-inventoryPanel').on('click', '.js-sellAll', function () {
-        var item = $(this).closest('.js-item').data('item');
-        sellItem(item, player.inventory[item.slot][item.key]);
-    });
-    $('.js-shopContainer').on('click', '.js-buy', function () {
-        var item = $(this).closest('.js-item').data('item');
-        buyItem(item, 1);
-    });
 }
 actions.use = function (params) {
     checkParams(1, params);
@@ -158,6 +146,9 @@ function $item(item, $item) {
     $item.find('.js-use').attr('code', 'use ' + item.key);
     $item.find('.js-equip').attr('code', 'equip ' + item.key);
     $item.find('.js-unequip').attr('code', 'remove ' + item.key);
+    $item.find('.js-sellOne').attr('code', 'sell 1 ' + item.key);
+    $item.find('.js-sellAll').attr('code', 'sellAll ' + item.key);
+    $item.find('.js-buy').attr('code', 'buy 1 ' + item.key);
     if ($enchantButton) {
         $item.find('.js-use').after($enchantButton);
     }

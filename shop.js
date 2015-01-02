@@ -12,7 +12,6 @@ function buyItem(item, quantity) {
     uiNeedsUpdate.playerStats = true;
     //update buy buttons now that you have less gold
     uiNeedsUpdate.shop = true;
-    recordAction("buy " + quantity + " " + item.key);
 }
 
 function sellItem(item, quantity) {
@@ -31,7 +30,6 @@ function sellItem(item, quantity) {
     uiNeedsUpdate.playerStats = true;
     //update buy buttons now that you have more gold
     uiNeedsUpdate.shop = true;
-    recordAction("sell " + quantity + " " + item.key);
 }
 
 function sell(params) {
