@@ -147,18 +147,10 @@ function setArea(area) {
         var $actionDiv = action.getDiv();
         $('.js-currentArea').append($actionDiv);
         action.addActions();
-        $actionDiv.on('mousedown', function () {
-            var actionCode = evaluateAction(action.action);
-            if (!actionCode || !actionCode.length) {
-                return;
-            }
-            runCodeFromUI(actionCode);
-            //refreshing hides the travel bar, so don't refresh on travel actions
-            if (!targetArea) {
-                uiNeedsUpdate.area = true;
-            }
-            removeToolTip();
-        });
+        var actionCode = evaluateAction(action.action);
+        if (actionCode) {
+            $actionDiv.attr('code', actionCode);
+        }
     });
 }
 function refreshArea() {

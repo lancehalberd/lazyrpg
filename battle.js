@@ -152,7 +152,6 @@ function fightLoop(currentTime, deltaTime) {
             }
         }
         stopFighting(true);
-        uiNeedsUpdate.area = true;
         if (monster.victoryFunction) {
             monster.victoryFunction();
         }
@@ -226,6 +225,7 @@ function stopFighting(victory) {
     }
     player.battleStatus = freshBattleStatus();
     if (fighting) {
+        uiNeedsUpdate.area = true;
         showAccruedDamageOnMonster();
         var oldMonster = fighting;
         fighting = null;

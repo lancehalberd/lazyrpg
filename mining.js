@@ -193,7 +193,6 @@ function miningLoop(currentTime, deltaTime) {
         uiNeedsUpdate[item.slot] = true;
         mineral.timeLeft = mineral.time;
         stopMining();
-        uiNeedsUpdate.area = true;
         if (mineral.onCompleteFunction) {
             mineral.onCompleteFunction();
         }
@@ -211,6 +210,7 @@ function stopMining() {
         mining = null;
         updateMineral(mineral);
         uiNeedsUpdate.miningStats = false;
+        uiNeedsUpdate.area = true;
         removeToolTip();
     }
 }

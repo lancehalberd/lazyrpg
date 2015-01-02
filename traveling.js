@@ -19,8 +19,15 @@ var onCompleteTravelFunction = null;
 function MoveAction(target, slot, onCompleteFunction) {
     this.slot = slot;
     this.getDiv = function () {
-        return $div('action slot' + slot, areas[target].$graphic)
+        var $myDiv = $div('action slot' + slot, areas[target].$graphic)
                 .attr('helpText', 'Click here to move to the ' + areas[target].name + '.<br/></br> Traveling takes time and may drain your health. <br/>Travel time is doubled when your health is 0.');
+        //add the travel bar to this action if the player is in the middle of using this action.
+        //This happens in areas where the area is updated whenever time passes (secret lab and kraken fight for example)
+        if (targetArea == target) {
+            $myDiv.append($travelBar);
+            updateTravelBar();
+        }
+        return $myDiv;
     };
     this.action = function () {
         if (targetArea == target) {

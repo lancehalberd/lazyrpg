@@ -118,7 +118,7 @@ $(function () {
         }
     });
     $('.js-closeButton').on('click', closeAll);
-    $('.js-gameContainer').on('click', '[code]', function (event) {
+    $('.js-gameContainer').on('mousedown', '[code]', function (event) {
         runCodeFromUI($(this).attr('code'));
         removeToolTip();
     });
