@@ -15,6 +15,7 @@ actions.move = function (params) {
     action(params);
 }
 var $travelBar = $div('travel healthBar', $div('js-timeFill healthFill')).append($div('js-name name', 'traveling'));
+var $plagueBar = $div('plague healthBar', $div('js-plagueFill plagueFill')).append($div('js-name name', 'plague'));
 var onCompleteTravelFunction = null;
 function MoveAction(target, slot, onCompleteFunction) {
     this.slot = slot;
@@ -23,6 +24,11 @@ function MoveAction(target, slot, onCompleteFunction) {
                 .attr('helpText', 'Click here to move to the ' + areas[target].name + '.<br/></br> Traveling takes time and may drain your health. <br/>Travel time is doubled when your health is 0.');
         //add the travel bar to this action if the player is in the middle of using this action.
         //This happens in areas where the area is updated whenever time passes (secret lab and kraken fight for example)
+        if (areas[target].plagueLevel) {
+            var $myPlagueBar = $plagueBar.clone();
+            $myPlagueBar.find('.js-plagueFill').css('width', areas[target].plagueLevel + '%');
+            $myDiv.append($myPlagueBar);
+        }
         if (targetArea == target) {
             $myDiv.append($travelBar);
             updateTravelBar();
@@ -31,9 +37,9 @@ function MoveAction(target, slot, onCompleteFunction) {
     };
     this.action = function () {
         if (targetArea == target) {
-            return "stop";
+            return 'stop';
         }
-        return "move " + target;
+        return 'move ' + target;
     };
     this.addActions = function () {
         targets.move[target] = function (params) {

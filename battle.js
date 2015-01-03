@@ -236,6 +236,7 @@ function stopFighting(victory) {
             if (oldMonster.plague) {
                 player.infectWithPlague(oldMonster.plague);
                 oldMonster.plague = 0;
+                oldMonster.timesInfected = 0;
                 updateLabMonsterStats(oldMonster);
             }
         } else if (oldMonster.recover) {
@@ -253,7 +254,12 @@ function updateMonster(monster) {
     if (!$monster) {
         return;
     }
-    $monster.find('.js-name').text("Lvl " + monster.level + " " + monster.name);
+    if (monster.plague) {
+        $monster.find('.js-plagueFill').css('width', (100 * monster.plague / maxPlague(monster)) + '%');
+    } else {
+        $monster.find('.js-plagueFill').css('width', 0 + '%');
+    }
+    $monster.find('.js-name').text('Lvl ' + monster.level + ' ' + monster.name);
     $monster.find('.js-experience').text(monster.experience);
     $monster.find('.js-currentHealth').text(Math.ceil(monster.health));
     $monster.find('.js-maxHealth').text(Math.ceil(monster.maxHealth));

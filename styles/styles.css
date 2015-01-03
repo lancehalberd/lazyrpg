@@ -520,8 +520,26 @@
     background-color: #84c;
     height: 30px;
 }
-
 .travel .name {
+    position: absolute;
+    padding: 5px;
+}
+
+.plague {
+    width: 120px;
+    position: absolute;
+    top: 80px;
+    left: -60px;
+}
+.plague.healthBar {
+    width: 120px;
+    height: 30px;
+}
+.plague .plagueFill {
+    height: 30px;
+    top: 0px;
+}
+.plague .name {
     position: absolute;
     padding: 5px;
 }

@@ -13,6 +13,7 @@ function RebirthAction(slot) {
         placeActions.rebirth = function (params) {
             checkParams(0, params);
             resetCharacter();
+            uiNeedsUpdate.area = true;
         };
     };
 }
@@ -132,13 +133,12 @@ function setArea(area) {
     targetedActions.forEach(function(action) {
         targets[action] = {};
     });
-    if (areas.controlRoom.plagueBody < 100) {
-        if (currentArea != area && labAreas.indexOf(area) >= 0 && player.plague) {
-            infectMonsters(getMonstersInArea(area), player.plague / 100);
-        }
-    }
+    var changedAreas = (currentArea != area);
     currentArea = area;
     player.area = area.key;
+    if (changedAreas && areas.controlRoom.plagueLevel < 100 && player.plague > 0 && labAreas.indexOf(area) >= 0) {
+        infectMonsters(getMonstersInArea(area), player.plague / 100);
+    }
     if (area.trackName) {
         setMusic(area.trackName);
     }

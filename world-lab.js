@@ -158,13 +158,13 @@ function resetLab() {
         updateLabMonsterStats(monster);
     });
     plagueAction = new BattleAction(monsters.plague, 8, function () {
-        player.plague = Math.min(100, player.plague + areas.controlRoom.plagueBody);
-        player.health = Math.floor(player.health * (1 - areas.controlRoom.plagueBody / 100));
-        areas.controlRoom.plagueBody = 0;
+        player.plague = Math.min(100, player.plague + areas.controlRoom.plagueLevel);
+        player.health = Math.floor(player.health * (1 - areas.controlRoom.plagueLevel / 100));
+        areas.controlRoom.plagueLevel = 0;
         uiNeedsUpdate.playerStats = true;
     });
     areas.controlRoom =  {
-        'plagueBody': 100,
+        'plagueLevel': 100,
         'key': 'controlRoom',
         'name': 'Control Room',
         'travelTime': 15,
@@ -176,10 +176,15 @@ function resetLab() {
                 return !(player.defeatedMonsters.labWitch > 0);
             }),
             new ToggleAction(plagueAction, function() {
-                return player.defeatedMonsters.labWitch > 0 && areas.controlRoom.plagueBody >= 1 && !player.flags.plagueDefeated;
+                return player.defeatedMonsters.labWitch > 0 && areas.controlRoom.plagueLevel > 0 && !player.flags.plagueDefeated;
             }),
             new ToggleAction(
-                new DoorAction(new SpecialAction(5, 'retrieve', 'Lab Core', function () {
+                new DoorAction(new SpecialAction(5, function () {
+                        if (player.flags.labTreasureTaken) {
+                            return '';
+                        }
+                        return 'retrieve';
+                    }, 'Lab Core', function () {
                         if (player.flags.labTreasureTaken) {
                             return 'There is nothing left of interest here.';
                         }
@@ -192,29 +197,24 @@ function resetLab() {
                         player.inventory.items.powerCrystal++;
                         player.inventory.items.memoryCrystal++;
                         uiNeedsUpdate.items = true;
+                        uiNeedsUpdate.area = true;
                 }), function () {
                     //door is sealed until the plague is eliminated
                     return player.flags.plagueDefeated;
                 }, 'Biohazard has been detected in the lab. Access to the power core is prohibited to prevent contamination.'), function () {
                     //player cannot reach the door to the core while plague is alive
-                    return areas.controlRoom.plagueBody < 1;
+                    return player.flags.plagueDefeated || areas.controlRoom.plagueLevel === 0;
                 }
             )
         ]
     };
-}
-function updatePlagueStats() {
-    var monster = plagueAction.monster;
-    var baseMonster = monsters[monster.key];
-    var amount = areas.controlRoom.plagueBody / 100;
-    monster.health = monster.maxHealth = Math.round(baseMonster.health * amount);
-    copiedStats.forEach(function (key) {
-        monster[key] = baseMonster[key] * amount;
+    labMonsters.forEach(function (monster) {
+       monster.plague = 0;
+       monster.timesInfected = 0;
     });
-    integerStats.forEach(function (key) {
-        monster[key] = Math.round(monster[key]);
+    labAreas.forEach(function (area) {
+        area.plagueLevel = 0;
     });
-    scheduleMonsterForUpdate(monster);
 }
 function infectMonsters(monsters, amount) {
     monsters.forEach(function (monster) {
@@ -222,17 +222,21 @@ function infectMonsters(monsters, amount) {
     });
 }
 function infectMonster(monster, amount) {
-    if (areas.controlRoom.plagueBody >= 100) {
+    if (areas.controlRoom.plagueLevel >= 100) {
         return;
     }
     if (monster == fighting) {
         return;
     }
-    if (!monster.nearbyAreas) {
+    if (!monster.nearbyMonsters) {
         monster.nearbyMonsters = getMonstersForAreas(getNearbyAreas(monster.area));
     }
     if (monster.plague <= 0) {
         var sourceMonster = random.element(monster.nearbyMonsters);
+        if (!monster.timesInfected) {
+            monster.timesInfected = 0;
+        }
+        monster.timesInfected++;
         //a monster can only be a source if it is also infected. If the random
         //chosen monster is not infected, the monster just gets spliced with itself.
         if (sourceMonster.plague <= 0) {
@@ -245,17 +249,10 @@ function infectMonster(monster, amount) {
     // A monster can only get to a certain level of infection before it explodes
     // regenerating part of the original plague body and infecting all the monsters
     // nearby (including a new copy of the current monster)
-    if (monster.plague > 5 + baseMonster.level / 5) {
+    if (monster.plague > maxPlague(monster)) {
         var infectAmount = monster.plague / 20;
         monster.plague = 0;
         infectMonsters(monster.nearbyMonsters, infectAmount);
-        areas.controlRoom.plagueBody += infectAmount;
-        //The lab is reset if plague ever reaches full potential again
-        if (areas.controlRoom.plagueBody > 100) {
-            resetLab();
-        } else {
-            updatePlagueStats(areas);
-        }
     } else {
         updateLabMonsterStats(monster);
     }
@@ -293,6 +290,9 @@ function getMonstersInArea(area) {
     return monsters;
 }
 function updateLabMonsterStats(monster) {
+    if (monster.area !== currentArea) {
+        return
+    }
     var baseMonster = monsters[monster.key];
     monster.health = monster.maxHealth = Math.round(baseMonster.health);
     copiedStats.forEach(function (key) {
@@ -301,6 +301,7 @@ function updateLabMonsterStats(monster) {
     if (monster.plague <= 0) {
         monster.level = baseMonster.level;
         monster.name = baseMonster.name;
+        monster.spoils = baseMonster.spoils;
         return;
     }
     var amount = monster.plague / 10;
@@ -329,21 +330,36 @@ function updateLabMonsterStats(monster) {
     monster.level = Math.round(baseMonster.level + monster.plague)
     scheduleMonsterForUpdate(monster);
 }
+function maxPlague(monster) {
+    return monster.timesInfected + 4 + monsters[monster.key].level / 5;
+}
 function labLoop(deltaTime) {
-    if (player.flags.plagueDefeated || areas.controlRoom.plagueBody >= 100) {
+    if (player.flags.plagueDefeated || areas.controlRoom.plagueLevel >= 100) {
         return;
     }
-    var finished = (areas.controlRoom.plagueBody <= 0) && (player.plague <= 0);
+    var finished = (areas.controlRoom.plagueLevel <= 0) && (player.plague <= 0);
+    labAreas.forEach(function (area) {
+        area.plagueLevel = 0;
+    });
     //plagued monsters gain 1 plague every 30 seconds
     labMonsters.forEach(function (monster) {
         if (monster.plague) {
             infectMonster(monster, deltaTime / 1000 / 30);
+            monster.area.plagueLevel += monster.plague;
             finished = false;
         }
     });
     if (finished) {
         player.flags.plagueDefeated = true;
+    } else {
+        //The player has to restart the lab if any area reaches a plague level of 100
+        labAreas.forEach(function (area) {
+            if (area.plagueLevel >= 100) {
+                resetLab();
+            }
+        });
     }
+    uiNeedsUpdate.area = true;
 }
 var copiedStats = ['recover', 'attackSpeed', 'damage', 'armor', 'parry', 'armorBreak', 'armorPierce', 'lifeSteal', 'cripple', 'poison', 'experience'];
 var integerStats = ['recover', 'damage', 'armor', 'parry', 'armorBreak', 'poison', 'experience'];
