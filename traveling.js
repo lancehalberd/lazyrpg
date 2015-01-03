@@ -15,7 +15,10 @@ actions.move = function (params) {
     action(params);
 }
 var $travelBar = $div('travel healthBar', $div('js-timeFill healthFill')).append($div('js-name name', 'traveling'));
-var $plagueBar = $div('plague healthBar', $div('js-plagueFill plagueFill')).append($div('js-name name', 'plague'));
+var $plagueBar = $div('plague healthBar', '')
+    .append($div('js-maxPlagueFill maxPlagueFill'))
+    .append($div('js-plagueFill plagueFill'))
+    .append($div('js-name name', 'plague'));
 var onCompleteTravelFunction = null;
 function MoveAction(target, slot, onCompleteFunction) {
     this.slot = slot;
@@ -26,7 +29,8 @@ function MoveAction(target, slot, onCompleteFunction) {
         //This happens in areas where the area is updated whenever time passes (secret lab and kraken fight for example)
         if (areas[target].plagueLevel) {
             var $myPlagueBar = $plagueBar.clone();
-            $myPlagueBar.find('.js-plagueFill').css('width', areas[target].plagueLevel + '%');
+            $myPlagueBar.find('.js-plagueFill').css('width', (100 * areas[target].plagueLevel / plagueLimit) + '%');
+            $myPlagueBar.find('.js-maxPlagueFill').css('width', (100 * areas[target].maxPlagueLevel / plagueLimit) + '%');
             $myDiv.append($myPlagueBar);
         }
         if (targetArea == target) {

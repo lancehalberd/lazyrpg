@@ -150,6 +150,7 @@ areas.operatingRoom =  {
     ]
 };
 var plagueAction;
+var plagueLimit = 20;
 function resetLab() {
     player.plague = 0;
     uiNeedsUpdate.playerStats = true;
@@ -211,6 +212,7 @@ function resetLab() {
     labMonsters.forEach(function (monster) {
        monster.plague = 0;
        monster.timesInfected = 0;
+       updateLabMonsterStats(monster, true);
     });
     labAreas.forEach(function (area) {
         area.plagueLevel = 0;
@@ -245,7 +247,6 @@ function infectMonster(monster, amount) {
         monster.sourceMonster = monsters[sourceMonster.key];
     }
     monster.plague += amount;
-    var baseMonster = monsters[monster.key];
     // A monster can only get to a certain level of infection before it explodes
     // regenerating part of the original plague body and infecting all the monsters
     // nearby (including a new copy of the current monster)
@@ -289,8 +290,8 @@ function getMonstersInArea(area) {
     });
     return monsters;
 }
-function updateLabMonsterStats(monster) {
-    if (monster.area !== currentArea) {
+function updateLabMonsterStats(monster, forceUpdate) {
+    if (monster.area !== currentArea && !forceUpdate) {
         return
     }
     var baseMonster = monsters[monster.key];
@@ -331,7 +332,7 @@ function updateLabMonsterStats(monster) {
     scheduleMonsterForUpdate(monster);
 }
 function maxPlague(monster) {
-    return monster.timesInfected + 4 + monsters[monster.key].level / 5;
+    return monster.timesInfected + 3 + monsters[monster.key].level / 5;
 }
 function labLoop(deltaTime) {
     if (player.flags.plagueDefeated || areas.controlRoom.plagueLevel >= 100) {
@@ -340,12 +341,14 @@ function labLoop(deltaTime) {
     var finished = (areas.controlRoom.plagueLevel <= 0) && (player.plague <= 0);
     labAreas.forEach(function (area) {
         area.plagueLevel = 0;
+        area.maxPlagueLevel = 0;
     });
     //plagued monsters gain 1 plague every 30 seconds
     labMonsters.forEach(function (monster) {
         if (monster.plague) {
             infectMonster(monster, deltaTime / 1000 / 30);
-            monster.area.plagueLevel += monster.plague;
+            monster.area.plagueLevel = Math.max(monster.area.plagueLevel, monster.plague);
+            monster.area.maxPlagueLevel = Math.max(monster.area.maxPlagueLevel, maxPlague(monster));
             finished = false;
         }
     });
@@ -354,7 +357,7 @@ function labLoop(deltaTime) {
     } else {
         //The player has to restart the lab if any area reaches a plague level of 100
         labAreas.forEach(function (area) {
-            if (area.plagueLevel >= 100) {
+            if (area.plagueLevel >= plagueLimit) {
                 resetLab();
             }
         });

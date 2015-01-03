@@ -539,6 +539,12 @@
     height: 30px;
     top: 0px;
 }
+.plague .maxPlagueFill {
+    position: absolute;
+    height: 30px;
+    top: 0px;
+    background-color: #561;
+}
 .plague .name {
     position: absolute;
     padding: 5px;
