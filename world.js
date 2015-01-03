@@ -161,6 +161,7 @@ function runCodeFromUI(code) {
     try {
         runLine(code);
         recordAction(code);
+        uiNeedsUpdate.area = true;
     } catch(e) {
         if (e instanceof ProgrammingError) {
             alert(e.message);
