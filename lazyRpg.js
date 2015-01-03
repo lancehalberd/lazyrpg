@@ -98,6 +98,13 @@ function timeSpan(value) {
 }
 var $popup = null;
 $(function () {
+    //disable delete/backspace so users don't accidentally navigate away
+    //if they press it when not focused on a textarea/input
+    $('body').on('keydown', function (event) {
+        if (event.which == 8 && !$(event.target).closest('textarea, input').length) {
+            event.preventDefault();
+        }
+    });
     $('.js-loadingScene').hide();
     $('.js-titleScene').show();
     $('.js-healthContainer').data('helpFunction', describeHealthBar);
