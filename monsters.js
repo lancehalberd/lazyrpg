@@ -653,7 +653,8 @@ monsters.tentacle = {
     '$graphic': $ff2Monster('tentacle1'),
     'spoils': [],
     'helpText': 'A lone tentacle protrudes from the cove. Do I dare disturb the creature that dwells here?',
-    'cripple': 2
+    'cripple': 2,
+    'recover': 2000
 };
 monsters.tentacles = {
     'name': 'Tentacles',
@@ -667,6 +668,7 @@ monsters.tentacles = {
     'spoils': [],
     'helpText': 'More tentacles keep emerging as I fight growing more powerful and interfering with my ability to attack while I\'m here. If these become too numerous I may have to retreat and try again.',
     'cripple': 2,
+    'recover': 2000
 };
 monsters.toxicStingers = {
     'name': 'Toxic Stingers',
@@ -680,6 +682,7 @@ monsters.toxicStingers = {
     'spoils': [],
     'helpText': 'These stingers keep growing and splitting, dealing increasing poison damage over time as I fight in this area.',
     'poison': 50,
+    'recover': 2000
 };
 monsters.leechingTentacles = {
     'name': 'Leeching Tentacles',
@@ -693,6 +696,7 @@ monsters.leechingTentacles = {
     'spoils': [],
     'helpText': 'Some of the tentacles are now trying to drain my life to regenerate the core.',
     'lifesteal': 1,
+    'recover': 2000
 };
 monsters.neptuneBody = {
     'name': 'Neptune',
@@ -705,6 +709,7 @@ monsters.neptuneBody = {
     '$graphic': $ff2Monster('hydra'),
     'spoils': [],
     'helpText': 'So this is the body of the beast. Its size is incomprehensible. Is it even possible to defeat this abomination?',
+    'recover': 10000
 };
 monsters.neptuneHead = {
     'name': 'Neptune\'s Head',
@@ -717,6 +722,7 @@ monsters.neptuneHead = {
     '$graphic': $ff2Monster('neptuneHead'),
     'spoils': [],
     'helpText': 'The head seems to be directing the actions of all the tentacles. As long as it is present the rest of the tentacles regenerate much faster.',
+    'recover': 2000
 };
 monsters.neptuneCore = {
     'name': 'Neptune\'s Core',
@@ -729,7 +735,8 @@ monsters.neptuneCore = {
     '$graphic': $ff2Monster('neptuneCore'),
     'spoils': ['memoryCrystal'],
     'helpText': 'The core is exposed. I need to destroy it before the body regenerates. I will have to be quick or else it will regain all of its health.',
-    'cripple': 5
+    'cripple': 5,
+    'recover': 10000
 };
 
 monsters.zombie = {
@@ -743,8 +750,6 @@ monsters.zombie = {
     '$graphic': $ff2Monster('zombie'),
     'spoils': ['charcoal', 'tinScraps', 100],
     'helpText': 'It looks like some of the researchers here have fallen victim to their own horrible experiments.',
-    'parry': 100,
-    'reflect': .8
 };
 monsters.vampire = {
     'name': 'Vampire',
@@ -824,6 +829,169 @@ monsters.plague = {
     'poison': 200,
     'cripple': 2,
 };
+
+monsters.giantUrchin = {
+    'name': 'Giant Urchin',
+    'level': 46,
+    'health': 20000,
+    'armor': 500,
+    'damage': 500,
+    'attackSpeed': 2,
+    'experience': 2200,
+    '$graphic': $hillaryMonster('small armadilloLizard'),
+    'spoils': ['urchinNeedle', 'urchinNeedle', 'toxin'],
+    'helpText': 'This creatures appears to be nothing but a ball of spines.',
+    'reflect': 1.2,
+    'poison': 500,
+    'cripple': 10,
+    'armorPierce': .2,
+    'recover': 4000
+};
+monsters.seaAnemone = {
+    'name': 'Sea Anemone',
+    'level': 47,
+    'health': 40000,
+    'armor': 200,
+    'damage': 500,
+    'attackSpeed': 2,
+    'experience': 2300,
+    '$graphic': $hillaryMonster('small flower'),
+    'spoils': ['coral', 'coral', 'brine'],
+    'helpText': 'Is this an underwater plant?',
+    'cripple': 20,
+    'parry': 200,
+    'recover': 10000
+};
+monsters.mammoth = {
+    'name': 'Mammoth',
+    'level': 48,
+    'health': 100000,
+    'armor': 300,
+    'damage': 500,
+    'attackSpeed': 2,
+    'experience': 2400,
+    '$graphic': $hillaryMonster('rat'),
+    'spoils': ['giantPelt', 'giantBone', 'woolyPelt', 'woolyScrap'],
+    'helpText': 'An immense shaggy elephant.',
+    'armorPierce': .5,
+    'parry': 200,
+    'recover': 40000
+};
+monsters.sabertooth = {
+    'name': 'Sabertooth',
+    'level': 49,
+    'health': 50000,
+    'armor': 200,
+    'damage': 600,
+    'attackSpeed': 4,
+    'experience': 2500,
+    '$graphic': $hillaryMonster('rat'),
+    'spoils': ['saberTooth', 'tigerClaw', 'tigerClaw'],
+    'helpText': 'A ferocious prehistoric cat.',
+    'recover': 20000,
+    'armorPierce': .5
+};
+monsters.simurgh = {
+    'name': 'Simurgh',
+    'level': 60,
+    'health': 200000,
+    'armor': 500,
+    'damage': 1000,
+    'attackSpeed': 2,
+    'experience': 10000,
+    '$graphic': $hillaryMonster('large hawk'),
+    'spoils': ['windCrystal'],
+    'helpText': 'A winged creatures straight out of legends is guarding the ancient city.',
+    'recover': 50000
+};
+monsters.roc = {
+    'name': 'Roc',
+    'level': 51,
+    'health': 40000,
+    'armor': 500,
+    'damage': 200,
+    'attackSpeed': 10,
+    'experience': 2600,
+    '$graphic': $hillaryMonster('medium hawk'),
+    'spoils': ['rocPinion','rocFeather','rocFeather'],
+    'helpText': 'The mighty Roc is giant and swift.',
+    'recover': 10000,
+    'armorBreak': 10,
+    'parry': 200
+};
+monsters.ladon = {
+    'name': 'Ladon',
+    'level': 65,
+    'health': 200000,
+    'armor': 400,
+    'damage': 1000,
+    'attackSpeed': 4,
+    'experience': 10000,
+    '$graphic': $ff2Monster('snake'),
+    'spoils': ['dragonFang'],
+    'helpText': 'It is said this beast was the guardian of the golden apple.',
+    'recover': 50000,
+    'parry': 300,
+    'cripple': 5,
+    'poison': 5,
+};
+monsters.goldDigger = {
+    'name': 'Gold Digger',
+    'level': 61,
+    'health': 100000,
+    'armor': 2000,
+    'damage': 1000,
+    'attackSpeed': 4,
+    'experience': 4000,
+    '$graphic': $ff2Monster('snake'),
+    'spoils': ['magicSoil', 'magicSoil', 'solvent'],
+    'helpText': 'These tunneling worms are attracted to gold.',
+    'recover': 50000,
+    'cripple': 5,
+    'poison': 5,
+};
+monsters.goldWeaver = {
+    'name': 'Gold Weaver',
+    'level': 63,
+    'health': 80000,
+    'armor': 400,
+    'damage': 1000,
+    'attackSpeed': 4,
+    'experience': 3000,
+    '$graphic': $hillaryMonster('large spider'),
+    'spoils': ['goldenWeb', 'goldenWeb', 'strongWeb'],
+    'helpText': 'A spider that weaves gold into its web.',
+    'recover': 20000,
+    'cripple': 5,
+    'poison': 5,
+    'lifeSteal': .2
+};
+monsters.blueCap = {
+    'name': 'Blue Cap',
+    'level': 63,
+    'health': 1,
+    'armor': 0,
+    'damage': 0,
+    'attackSpeed': 1,
+    'experience': 1,
+    '$graphic': $hillaryMonster('medium bandit'),
+    'spoils': [],
+    'helpText': 'This friendly spirit offers guidance to the quick and the clever.',
+};
+monsters.goldenHind = {
+    'name': 'Golden Hind',
+    'level': 100,
+    'health': 200000,
+    'armor': 1000,
+    'damage': 0,
+    'attackSpeed': 1,
+    'experience': 10000,
+    '$graphic': $hillaryMonster('rat'),
+    'spoils': ['goldenFleece'],
+    'helpText': 'The golden hind of legends.',
+    'recover': 10000,
+};
+
 //populate monster.key for all monsters
 $.each(monsters, function (key, value) {
     value.key = key;

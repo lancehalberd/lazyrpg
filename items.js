@@ -455,11 +455,6 @@ items.magicSoil = {
     'helpText': 'Enchanted soil from a defeated earth golem.',
     'value': 200
 };
-items.rocPinion = {
-    'name': 'Roc Pinion',
-    'helpText': 'The Roc\'s flight feather is longer than your arm span.',
-    'value': 300
-};
 items.pollen = {
     'name': 'Pollen',
     'helpText': 'This pollen can cause hallucinations.',
@@ -496,15 +491,25 @@ items.vampireFang = {
     'value': 350
 };
 
+items.dragonFang = {
+    'name': 'Dragon Fang',
+    'helpText': 'The venomous fang of a great wyrm.',
+    'value': 5000
+}
 items.fireCrystal = {
     'name': 'Fire Crystal',
     'helpText': 'The essence of fire distilled into the form of a crystal.',
-    'value': 1000
+    'value': 5000
+};
+items.windCrystal = {
+    'name': 'Wind Crystal',
+    'helpText': 'The essence of wind distilled into the form of a crystal.',
+    'value': 5000
 };
 items.dreamStone = {
     'name': 'Dream Stone',
     'helpText': 'The stuff dreams are made of.',
-    'value': 1000
+    'value': 5000
 };
 items.goldenFleece = {
     'name': 'Golden Fleece',

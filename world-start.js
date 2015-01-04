@@ -1,6 +1,6 @@
 areas.shore =  {
     'name': 'Shore',
-    'travelTime': 10,
+    'travelTime': 3,
     'travelDamage': 0,
     '$graphic': $img('shore.png'),
     'actions': [
@@ -14,7 +14,7 @@ areas.shore =  {
 };
 areas.cave =  {
     'name': 'Cave',
-    'travelTime': 20,
+    'travelTime': 5,
     'travelDamage': 2,
     '$graphic': $img('cave.png'),
     'actions': [
@@ -27,7 +27,7 @@ areas.cave =  {
 };
 areas.forest =  {
     'name': 'Forest',
-    'travelTime': 10,
+    'travelTime': 3,
     'travelDamage': 1,
     '$graphic': $img('forest.png'),
     'actions': [
@@ -40,7 +40,7 @@ areas.forest =  {
 };
 areas.village =  {
     'name': 'Village',
-    'travelTime': 5,
+    'travelTime': 2,
     'travelDamage': 0,
     '$graphic': $img('poorVillage.png'),
     'actions': [
@@ -57,7 +57,7 @@ areas.village =  {
 };
 areas.river =  {
     'name': 'River',
-    'travelTime': 10,
+    'travelTime': 3,
     'travelDamage': 0,
     '$graphic': $img('river.png'),
     'actions': [
@@ -73,7 +73,7 @@ areas.river =  {
 };
 areas.savanna = {
     'name': 'Savanna',
-    'travelTime': 20,
+    'travelTime': 10,
     'travelDamage': 2,
     '$graphic': $img('field.png'),
     'actions': [
@@ -102,13 +102,13 @@ areas.portTown = {
 };
 areas.ship = {
     'name': 'Ship',
-    'travelTime': 60,
+    'travelTime': 20,
     'travelDamage': 5,
     '$graphic': $img('ship.png'),
     'actions': [
         new BattleAction(monsters.barnacle, 1),
         new MoveAction('portTown', 2),
-        new BattleAction(monsters.pirate, 3, refreshArea),
+        new BattleAction(monsters.pirate, 3),
         new ToggleAction(new MoveAction('city', 5), function() {
             return (player.defeatedMonsters.pirate > 0);
         }),
@@ -119,15 +119,18 @@ areas.ship = {
 };
 areas.city = {
     'name': 'City',
-    'travelTime': 10,
+    'travelTime': 5,
     'travelDamage': 0,
     '$graphic': $img('town.png'),
     'actions': [
-        new MoveAction('castleGates', 1),
+        new ToggleAction(new MoveAction('explorationShip', 1), function() {
+            return (player.defeatedMonsters.imposterKing > 0 ||  player.defeatedMonsters.enchantedKing > 0);
+        }),
         new MoveAction('ship', 2),
         new SaveAction(3),
         new RestAction(6),
-        new CraftAction({'slot': 7, 'recipes': [recipes.common, recipes.bronze, recipes.iron]}),
+        new MoveAction('castleGates', 7),
+        new CraftAction({'slot': 8, 'recipes': [recipes.common, recipes.bronze, recipes.iron]}),
         //Shop has limited iron equipment because the dark knight has taken over the iron mines
         new ShopAction(['mediumPotion', 'largePotion', 'claws', 'cudgel', 'chainMail'], 4),
         new MoveAction('field', 5)
@@ -136,7 +139,7 @@ areas.city = {
 };
 areas.field = {
     'name': 'Field',
-    'travelTime': 30,
+    'travelTime': 10,
     'travelDamage': 0,
     '$graphic': $img('field.png'),
     'actions': [
@@ -149,8 +152,8 @@ areas.field = {
 };
 areas.desert = {
     'name': 'Desert',
-    'travelTime': 30,
-    'travelDamage': 20,
+    'travelTime': 15,
+    'travelDamage': 40,
     '$graphic': $img('desert.png'),
     'actions': [
         new BattleAction(monsters.scorpion, 4),
@@ -162,8 +165,8 @@ areas.desert = {
 };
 areas.desertCave = {
     'name': 'Desert Cave',
-    'travelTime': 30,
-    'travelDamage': 5,
+    'travelTime': 10,
+    'travelDamage': 10,
     '$graphic': $img('cave.png'),
     'actions': [
         new BattleAction(monsters.vampireBat, 1),
@@ -179,8 +182,8 @@ areas.desertCave = {
 };
 areas.ironMine = {
     'name': 'Iron Mine',
-    'travelTime': 30,
-    'travelDamage': 5,
+    'travelTime': 10,
+    'travelDamage': 10,
     '$graphic': $img('cave.png'),
     'actions': [
         new MoveAction('desertCave', 1),
@@ -191,19 +194,19 @@ areas.ironMine = {
 };
 areas.marsh = {
     'name': 'Marsh',
-    'travelTime': 40,
-    'travelDamage': 10,
+    'travelTime': 20,
+    'travelDamage': 20,
     '$graphic': $img('marsh.png'),
     'actions': [
         new BattleAction(monsters.crocodile, 1),
         new BattleAction(monsters.mudGolem, 2),
         new MoveAction('field', 3),
-        new MoveAction('marshCave', 7),
+        new MoveAction('ancientRuins', 7),
         new MoveAction('remoteAbode', 6)
     ]
 };
-areas.marshCave = {
-    'name': 'Marsh Cave',
+areas.ancientRuins = {
+    'name': 'Ancient Ruins',
     'travelTime': 30,
     'travelDamage': 15,
     '$graphic': $img('cave.png'),

@@ -97,7 +97,7 @@ weapons.dragonFangs = { //need poached dragon fangs and adamantium
     'type': 'fist',
     'level': 3,
     'value': 500000,
-    'poison': 50
+    'poison': 100
 };
 
 //Swords 1

@@ -290,7 +290,7 @@ var enchantingRecipes = [
     'healerBlessing': {'pearl': 10},
     'thiefBlessing': {'lodeStone': 10},
     'moleSoul': {'unobtanium': 10},
-    'ninjaSoul': {'unobtanium': 10},
+    'ninjaSoul': {'windCrystal': 10},
     'poacherSoul': {'unobtanium': 10},
     'minerSoul': {'unobtanium': 10},
     'hunterSoul': {'unobtanium': 10},
@@ -298,13 +298,13 @@ var enchantingRecipes = [
     'trackerSoul': {'unobtanium': 10},
     'prospectorSoul': {'unobtanium': 10},
     'travelerSoul': {'unobtanium': 10},
-    'satyrSoul': {'unobtanium': 10}, //25 74
+    'satyrSoul': {'dreamStone': 10}, //25 74
 }, {
     'tigerSoul': {'unobtanium': 10},
     'leechSoul': {'unobtanium': 10},
-    'viperSoul': {'unobtanium': 10},
+    'viperSoul': {'dragonFang': 10},
     'bearSoul': {'unobtanium': 10},
-    'warriorSoul': {'unobtanium': 10},
+    'warriorSoul': {'fireCrystal': 10},
     'fencerSoul': {'unobtanium': 10},
     'vampireSoul': {'unobtanium': 10},
     'duelistSoul': {'unobtanium': 10},
@@ -315,7 +315,7 @@ var enchantingRecipes = [
     'sniperSoul': {'unobtanium': 10},
     'assassinSoul': {'unobtanium': 10},
     'trapperSoul': {'unobtanium': 10},
-    'giantSoul': {'unobtanium': 10},
+    'giantSoul': {'goldenFleece': 10},
     'knightSoul': {'unobtanium': 10},
     'urchinSoul': {'unobtanium': 10},
     'squireSoul': {'unobtanium': 10},
@@ -384,9 +384,9 @@ enchantingRecipes.forEach(function (recipeLevelList, level) {
             } else if (level == 3 && recipe.result.indexOf('Blessing') >= 0) {
                 logOutOfBounds(result, key, 2500, 8000);
             } else if (level == 3 && recipe.result.indexOf('Soul') >= 0) {
-                logOutOfBounds(result, key, 5000, 15000);
+                logOutOfBounds(result, key, 10000, 80000);
             } else if (level == 4 && recipe.result.indexOf('Soul') >= 0) {
-                logOutOfBounds(result, key, 8000, 20000);
+                logOutOfBounds(result, key, 20000, 100000);
             }
         }
     });

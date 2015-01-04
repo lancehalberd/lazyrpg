@@ -251,6 +251,12 @@ function mainLoop() {
         damageCounterRefresh--;
         showAccruedDamageOnMonster();
     }
+    //real time loop does not take into account game speed and happens even
+    //when game time is not passing. Used for actions that only appear briefly
+    //in areas, often requiring programs to respond to
+    if (currentArea && currentArea.realTimeLoop) {
+        currentArea.realTimeLoop(deltaTime);
+    }
     updateUI();
 }
 

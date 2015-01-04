@@ -385,6 +385,11 @@ var labAreas = [
 ];
 labAreas.forEach(function (area) {
     area.loop = labLoop;
+    area.initialize = function () {
+        if (player.plague > 0) {
+            infectMonsters(getMonstersInArea(currentArea), player.plague / 100);
+        }
+    }
 });
 var labMonsters = getMonstersForAreas(labAreas);
 resetLab();

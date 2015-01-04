@@ -136,8 +136,8 @@ function setArea(area) {
     var changedAreas = (currentArea != area);
     currentArea = area;
     player.area = area.key;
-    if (changedAreas && areas.controlRoom.plagueLevel < 100 && player.plague > 0 && labAreas.indexOf(area) >= 0) {
-        infectMonsters(getMonstersInArea(area), player.plague / 100);
+    if (changedAreas && area.initialize) {
+        area.initialize();
     }
     if (area.trackName) {
         setMusic(area.trackName);

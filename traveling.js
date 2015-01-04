@@ -74,10 +74,10 @@ function travelingLoop(currentTime, deltaTime) {
     player.travelDamage += (player.getDamageOverTime() + damageLevel / vigor) * timeTraveled / travelingSpeed;
     player.health = Math.max(0, Math.round(player.initialPlayerHealth - player.travelDamage));
     if (player.travelTimeLeft <= 0) {
-        setArea(areas[targetArea]);
         if (onCompleteTravelFunction) {
             onCompleteTravelFunction();
         }
+        setArea(areas[targetArea]);
         stopTraveling();
     }
     uiNeedsUpdate.playerStats = true;

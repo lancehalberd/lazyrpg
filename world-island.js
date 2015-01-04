@@ -1,7 +1,7 @@
 
 areas.pirateShip =  {
     'name': 'Pirate Ship',
-    'travelTime': 60,
+    'travelTime': 30,
     'travelDamage': 5,
     '$graphic': $img('ship.png'),
     'actions': [
@@ -17,7 +17,7 @@ areas.pirateShip =  {
 };
 areas.beach =  {
     'name': 'Beach',
-    'travelTime': 20,
+    'travelTime': 10,
     'travelDamage': 2,
     '$graphic': $img('shore.png'),
     'actions': [
@@ -29,7 +29,7 @@ areas.beach =  {
 };
 areas.jungle =  {
     'name': 'Jungle',
-    'travelTime': 30,
+    'travelTime': 10,
     'travelDamage': 5,
     '$graphic': $img('forest.png'),
     'actions': [
@@ -229,7 +229,7 @@ function resetCove() {
         'isCoreRevealed': false,
         'isBodyRevealed': false,
         'isNeptuneDesperate': false,
-        'cripplingTentacles': 1,
+        'cripplingTentacles': 0,
         'poisoningTentacles': 0,
         'leechingTentacles': 0,
         'cripplingTentacleBattleAction': cripplingTentacleBattleAction.innerAction,
@@ -240,9 +240,10 @@ function resetCove() {
         'coreBattleAction': coreBattleAction.innerAction,
         '$graphic': $img('shore.png'),
         'trackName': 'BackPain',
+        'initialize': resetCove,
         'actions': [
             //reset the state of the cove when the player leaves
-            new MoveAction('magmaFlow', 4, resetCove),
+            new MoveAction('magmaFlow', 4),
             firstTentacleBattleAction,
             cripplingTentacleBattleAction,
             poisonTentacleBattleAction,
@@ -338,6 +339,7 @@ function updateTentacleStats(monster, baseMonster, amount) {
     } else {
         monster.health = monster.maxHealth = Math.round(baseMonster.health * amount);
     }
+    monster.recover = baseMonster.recover * amount;
     monster.attackSpeed = baseMonster.attackSpeed * amount;
     scheduleMonsterForUpdate(monster);
 }
