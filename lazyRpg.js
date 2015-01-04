@@ -218,6 +218,9 @@ function mainLoop() {
     var deltaTime = 20;
     for (var i = 0; i < player.gameSpeed && (fighting || mining || targetArea); i++) {
         player.time += deltaTime;
+        if (player.plagueResistance) {
+            player.plagueResistance *= .9999;
+        }
         if (player.inventory.items.coolingMagma > 0) {
             items.coolingMagma.timer -= deltaTime;
             if (items.coolingMagma.timer <= 0) {

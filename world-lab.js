@@ -314,19 +314,25 @@ function updateLabMonsterStats(monster, forceUpdate) {
     integerStats.forEach(function (key) {
         monster[key] = Math.round(monster[key]);
     });
+    monster.spoils = [];
     //monster XP gets doubled for being infected at all.
     if (monster.plague < 8) {
         monster.name = "Hybrid " + baseMonster.name;
         monster.experience *= 3;
-        monster.spoils = ['antibodies', 'antigen', 'antigen'];
     } else if (monster.plague < 12) {
         monster.name = "Chimera " + baseMonster.name;
         monster.experience *= 5;
-        monster.spoils = ['antibodies', 'antibodies', 'antigen'];
-    } else { // max plague is 15
+    } else { // max plague is 20
         monster.name = "Mutant " + baseMonster.name;
         monster.experience *= 10;
-        monster.spoils = ['antibodies', 'antibodies', 'antibodies'];
+    }
+    var antibodies = Math.floor(monster.plague / 6);
+    var antigen = Math.round((monster.plague - antibodies * 6) / 2);
+    while (monster.spoils.length < antibodies){
+        monster.spoils.push('antibodies');
+    }
+    while (monster.spoils.length < Math.min(4, antibodies + antigen)){
+        monster.spoils.push('antigen');
     }
     monster.level = Math.round(baseMonster.level + monster.plague)
     scheduleMonsterForUpdate(monster);
