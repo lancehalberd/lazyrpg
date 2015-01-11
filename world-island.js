@@ -125,25 +125,7 @@ areas.volcanoCrater =  {
         new MoveAction('volcanoCave', 5)
     ]
 };
-areas.magmaFlow =  {
-    'name': 'Magma Flow',
-    'silver': 0,
-    'travelTime': 20,
-    'travelDamage': 10,
-    '$graphic': $img('volcano.png'),
-    'actions': [
-        moltenGolemAction,
-        silverMiningAction,
-        new BattleAction(monsters.imp, 2),
-        new MoveAction('volcano', 7),
-        new ToggleAction(new MoveAction('cove', 6), function() {
-            return player.defeatedMonsters.magmaTitan > 0;
-        })
-    ],
-    'trackName': 'ReboundInsomnia'
-};
 function resetCove() {
-
     //First the player sees a single tentacle. Defeating it reveals the
     //initial two tentacles. We don't display it after it is defeated
     //or if the entire battle is already over
@@ -240,7 +222,6 @@ function resetCove() {
         'coreBattleAction': coreBattleAction.innerAction,
         '$graphic': $img('shore.png'),
         'trackName': 'BackPain',
-        'initialize': resetCove,
         'actions': [
             //reset the state of the cove when the player leaves
             new MoveAction('magmaFlow', 4),
@@ -317,6 +298,24 @@ function resetCove() {
         }
     };
 }
+areas.magmaFlow =  {
+    'name': 'Magma Flow',
+    'silver': 0,
+    'travelTime': 20,
+    'travelDamage': 10,
+    '$graphic': $img('volcano.png'),
+    'initialize': resetCove,
+    'actions': [
+        moltenGolemAction,
+        silverMiningAction,
+        new BattleAction(monsters.imp, 2),
+        new MoveAction('volcano', 7),
+        new ToggleAction(new MoveAction('cove', 6), function() {
+            return player.defeatedMonsters.magmaTitan > 0;
+        })
+    ],
+    'trackName': 'ReboundInsomnia'
+};
 function updateCove() {
     uiNeedsUpdate.area = true;
     scheduleMonsterForUpdate(areas.cove.headBattleAction.monster);
