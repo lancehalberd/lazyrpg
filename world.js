@@ -133,7 +133,7 @@ function setArea(area) {
     targetedActions.forEach(function(action) {
         targets[action] = {};
     });
-    var changedAreas = (currentArea != area);
+    var changedAreas = (currentArea.key != area.key);
     currentArea = area;
     player.area = area.key;
     if (changedAreas && area.initialize) {
