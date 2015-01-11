@@ -52,8 +52,8 @@
     top: -550px;
     width: 800px;
     height: 550px;
-    background-color: #4080F0;
-    border: 2px solid #fff;
+    background-color: #406090;
+    border: 1px solid #204070;
     border-top: none;
     transition: top .5s;
     box-sizing: border-box;
@@ -171,10 +171,10 @@
     left: 150px;
     width: 500px;
     height: 50px;
-    border: 2px solid #fff;
+    border: 1px solid #204070;
     border-top: none;
     box-sizing: border-box;
-    background-color: #4080F0;
+    background-color: #406090;
     cursor: pointer;
 }
 .status {
@@ -280,10 +280,10 @@
     padding-right: 0;
     width: 350px;
     height: 500px;
-    border: 2px solid #fff;
+    border: 1px solid #204070;
     border-right: none;
     box-sizing: border-box;
-    background-color: #4080F0;
+    background-color: #406090;
 }
 .inventoryPanel.selected {
     z-index: 1;
@@ -293,10 +293,10 @@
     left: -27px;
     width: 27px;
     height:80px;
-    border: 2px solid #fff;
+    border: 1px solid #204070;
     border-right: none;
     box-sizing: border-box;
-    background-color: #4080F0;
+    background-color: #406090;
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     cursor: pointer;
@@ -308,11 +308,11 @@
     top: 50px;
     width: 350px;
     height: 500px;
-    border: 2px solid #fff;
+    border: 1px solid #204070;
     border-left: none;
     box-sizing: border-box;
     transition: left .5s;
-    background-color: #4080F0;
+    background-color: #406090;
 }
 .craftContainer.open, .shopContainer.open {
     left: 0px;
@@ -329,11 +329,11 @@
     top: 600px;
     width: 960px;
     height: 450px;
-    border: 2px solid #fff;
+    border: 1px solid #204070;
     border-bottom: none;
     box-sizing: border-box;
     transition: top .5s;
-    background-color: #4080F0;
+    background-color: #406090;
 }
 
 .programContainer.open {
@@ -390,7 +390,7 @@
     line-height: 30px;
     text-align: center;
     vertical-align: middle;
-    background-color: #4080F0;
+    background-color: #406090;
     border: 2px solid #ddf;
     height: 50px;
     min-width: 100px;
@@ -642,7 +642,7 @@ button {
     padding: 5px;
     width: 220px;
     font-size: 16px;
-    border: 2px solid #fff;
+    border: 1px solid #204070;
     box-sizing: border-box;
     background-color: #20C060;
     border-radius: 4px;
@@ -717,34 +717,6 @@ button {
     resize: none;
 }
 
-.savedGames {
-    position: relative;
-    padding: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-    height: 200px;
-    border-radius: 7px;
-    background-color: white;
-    top: 300px;
-    overflow-y: scroll;
-}
-.newGame {
-    margin-left: 30px;
-}
-.savedGame {
-    height: 25px;
-}
-.gameName {
-    font-size: 16px;
-    color: black;
-    cursor: pointer;
-}
-
-.deleteGame, .playGame, .resetGame, .copyGame {
-    float: right;
-    margin-right: 5px;
-}
 
 .closeButton {
     position: absolute;
@@ -783,4 +755,53 @@ button {
 .action .innerActionContainer .action {
     left: 80px;
     top: 0;
+}
+.titleScene {
+    height: 100%;
+    background-color: black;
+}
+.titleScene .background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url('../gfx/noahBeach.jpg');
+    background-repeat: no-repeat;
+    opacity: .6;
+}
+.title {
+    position:relative;
+    top: 100px;
+    text-align: center;
+    font-family: fantasy;
+    font-weight: bold;
+    font-size: 100px;
+}
+
+.savedGames {
+    position: relative;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 200px;
+    border-radius: 7px;
+    background-color: white;
+    top: 200px;
+    overflow-y: scroll;
+}
+.newGame {
+    margin-left: 30px;
+}
+.savedGame {
+    height: 25px;
+}
+.gameName {
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+}
+
+.deleteGame, .playGame, .resetGame, .copyGame {
+    float: right;
+    margin-right: 5px;
 }
