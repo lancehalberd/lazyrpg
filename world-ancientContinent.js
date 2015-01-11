@@ -134,18 +134,18 @@ areas.woods = {
         currentArea.revealed = false;
         //blue cap and golden hind only appear in the area for a brief amount of time
         currentArea.hindTimer = Math.random() < currentArea.depth * .05 ? 1000 : 0; //chance increases as depth increases
-        currentArea.blueCapTimer = [12500, 2500, 500, 100, 20][Math.min(4, currentArea.depth)];
+        currentArea.blueCapTimer = [5000, 1000, 200, 40][Math.min(3, currentArea.depth)];
         //gold doesn't appear until depth > 2
         currentArea.gold = Math.max(0, currentArea.depth - 2);
     },
     'realTimeLoop': function (deltaTime) {
-        if (currentArea.hindTimer > 0) {
+        if (currentArea.hindTimer > 0 && (!fighting || fighting.key != 'goldenHind')) {
             currentArea.hindTimer -= deltaTime;
             if (currentArea.hindTimer <= 0) {
                 uiNeedsUpdate.area = true;
             }
         }
-        if (currentArea.blueCapTimer > 0) {
+        if (currentArea.blueCapTimer > 0 && (!fighting || fighting.key != 'blueCap')) {
             currentArea.blueCapTimer -= deltaTime;
             if (currentArea.blueCapTimer <= 0) {
                 uiNeedsUpdate.area = true;
