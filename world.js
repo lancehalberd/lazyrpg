@@ -143,15 +143,32 @@ function setArea(area) {
         setMusic(area.trackName);
     }
     $('.js-currentArea').empty().append(currentArea.$graphic);
+    var $map = null;
     currentArea.actions.forEach(function (action) {
-        var $actionDiv = action.getDiv();
-        $('.js-currentArea').append($actionDiv);
         action.addActions();
-        var actionCode = evaluateAction(action.action);
-        if (actionCode) {
-            $actionDiv.attr('code', actionCode);
+        if (action.getArea) {
+            if (!$map) {
+                $map = $('<map name="actions"></map>');
+            }
+            var $area = action.getArea();
+            $map.append($area);
+            var actionCode = evaluateAction(action.action);
+            if (actionCode) {
+                $area.attr('code', actionCode);
+            }
+        } else {
+            var $actionDiv = action.getDiv();
+            $('.js-currentArea').append($actionDiv);
+            var actionCode = evaluateAction(action.action);
+            if (actionCode) {
+                $actionDiv.attr('code', actionCode);
+            }
         }
     });
+    if ($map) {
+        currentArea.$graphic.attr('usemap', '#actions');
+        $('.js-currentArea').append($map);
+    }
 }
 function refreshArea() {
     setArea(areas[player.area]);

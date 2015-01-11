@@ -46,15 +46,21 @@
     vertical-align: middle;
 }
 
+.monster .value {
+    background-color: rgba(1,1,1,.5);
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: -2px;
+    margin-right: -2px;
+}
+
 .characterStatsContainer {
     position: absolute;
     left: 80px;
     top: -550px;
     width: 800px;
     height: 550px;
-    background-color: #406090;
-    border: 1px solid #204070;
-    border-top: none;
+    background-color: rgba(0, 0, 0, .75);
     transition: top .5s;
     box-sizing: border-box;
     z-index: 2;
@@ -98,7 +104,7 @@
     width: 520px;
     height: 520px;
     overflow: hidden;
-    background-color: #aaa;
+    background-color: rgba(255, 255, 255, .5);
 }
 .skillSlot {
     text-align: center;
@@ -106,7 +112,6 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    background-color: #555;
     box-sizing: border-box;
     font-family: sans-serif;
     font-size: 10px;
@@ -167,14 +172,12 @@
 .characterStats {
     position: absolute;
     padding: 1px 5px;
-    top: 548px;
+    top: 550px;
     left: 150px;
     width: 500px;
     height: 50px;
-    border: 1px solid #204070;
-    border-top: none;
     box-sizing: border-box;
-    background-color: #406090;
+    background-color: rgba(0, 0, 0, .75);
     cursor: pointer;
 }
 .status {
@@ -375,9 +378,19 @@
     left: -175px;
     top: -90px;
 }
+.currentArea img.illustration {
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: -480px;
+    top: -300px;
+}
 
 .action {
     position: absolute;
+    cursor: pointer;
+}
+.actionArea {
     cursor: pointer;
 }
 
@@ -437,7 +450,7 @@
     left: 310px;
 }
 
-.action img {
+.action img, .action img.illustration {
     position: absolute;
     width: 200px;
     left: -100px;
@@ -475,6 +488,9 @@
 }
 .monster .spoilsRow {
     margin-left: 95px;
+}
+.monster .spoilsRow .spoils {
+    margin-top: 2px;
 }
 .monster .graphic {
     position: absolute;

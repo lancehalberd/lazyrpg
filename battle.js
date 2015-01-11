@@ -260,7 +260,7 @@ function updateMonster(monster) {
         $monster.find('.js-plagueFill').css('width', 0 + '%');
     }
     $monster.find('.js-name').text('Lvl ' + monster.level + ' ' + monster.name);
-    $monster.find('.js-experience').text(monster.experience);
+    $monster.find('.js-experience').text(monster.experience + ' XP');
     $monster.find('.js-currentHealth').text(Math.ceil(monster.health));
     $monster.find('.js-maxHealth').text(Math.ceil(monster.maxHealth));
     $monster.find('.js-damage').text(monster.damage);

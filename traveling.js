@@ -50,9 +50,54 @@ function MoveAction(target, slot, onCompleteFunction) {
             stopAll();
             //attach the travel bar to this travel action to display the travel sequence
             $('.action.slot' + slot).append($travelBar.hide());
+            $travelBar.css('top', '').css('left', '');
             targetArea = target;
             //called to run an action specific effect
             onCompleteTravelFunction = onCompleteFunction;
+            //these are stored on the mineral as a hack since we don't
+            //track floating point life, but need to track floating point damage
+            player.travelDamage = 0;
+            player.totalTravelTime = player.travelTimeLeft = Math.floor((currentArea.travelTime + areas[targetArea].travelTime) / 2);
+            player.initialPlayerHealth = player.health;
+            uiNeedsUpdate.travelingStats = true;
+        }
+    };
+}
+function MoveMapAction(data) {
+    this.getArea = function () {
+        if (targetArea == data.target) {
+            $('.js-currentArea').append($travelBar);
+            updateTravelBar();
+        }
+        var $area = $('<area shape="poly" class="actionArea"></area>');
+        $area.attr('coords', data.points);
+        $area.attr('helpText', 'Click here to move to the ' + areas[data.target].name + '.<br/></br> Traveling takes time and may drain your health. <br/>Travel time is doubled when your health is 0.');
+        return $area;
+    };
+    this.action = function () {
+        if (targetArea == data.target) {
+            return 'stop';
+        }
+        return 'move ' + data.target;
+    };
+    //average point of the map area is used to position the travel bar when traveling
+    var averagePoint = [0, 0];
+    var points = data.points.split(',');
+    for (var i = 0; i < points.length; i += 2) {
+        averagePoint[0] += Number(points[i]);
+        averagePoint[1] += Number(points[i + 1]);
+    }
+    averagePoint[0] /= (points.length / 2);
+    averagePoint[1] /= (points.length / 2);
+    this.addActions = function () {
+        targets.move[data.target] = function (params) {
+            stopAll();
+            //attach the travel bar to this travel action to display the travel sequence
+            $('.js-currentArea').append($travelBar);
+            $travelBar.css('left', (averagePoint[0] - 480) + 'px').css('top', (averagePoint[1] - 300) + 'px');
+            targetArea = data.target;
+            //called to run an action specific effect
+            onCompleteTravelFunction = data.onCompleteFunction;
             //these are stored on the mineral as a hack since we don't
             //track floating point life, but need to track floating point damage
             player.travelDamage = 0;

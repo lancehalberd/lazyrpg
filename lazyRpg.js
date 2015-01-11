@@ -97,13 +97,36 @@ function timeSpan(value) {
     return iconSpan('clock', hours+":"+ minutes+":"+seconds);
 }
 var $popup = null;
+var drawing = false;
+var drawingPoints = [];
 $(function () {
     //disable delete/backspace so users don't accidentally navigate away
     //if they press it when not focused on a textarea/input
     $('body').on('keydown', function (event) {
-        if (event.which == 8 && !$(event.target).closest('textarea, input').length) {
-            event.preventDefault();
+        if (!$(event.target).closest('textarea, input').length) {
+            if (event.which == 8) {
+                event.preventDefault();
+            }
+            if (String.fromCharCode(event.which) == 'S') {
+                drawing = !drawing;
+                if (drawing) {
+                    drawingPoints = [];
+                } else {
+                    console.log(JSON.stringify(drawingPoints));
+                }
+                console.log("drawing " + drawing);
+            }
         }
+    });
+    $('body').on('click', '.illustration', function (event) {
+        if (!drawing) {
+            return;
+        }
+        var x = event.pageX - $(this).offset().left;
+        var y = event.pageY - $(this).offset().top;
+        drawingPoints.push(x);
+        drawingPoints.push(y);
+        console.log(JSON.stringify(drawingPoints));
     });
     $('.js-loadingScene').hide();
     $('.js-titleScene').show();
