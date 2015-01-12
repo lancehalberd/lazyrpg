@@ -499,7 +499,19 @@
     margin-left: 95px;
 }
 .monster .spoilsRow .spoils {
+    position: relative;
     margin-top: 2px;
+}
+.monster .spoilsRow .spoils .chance {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 30px;
+    text-align: right;
+    font-size: 12px;
+}
+.monster .spoilsRow .spoils .icon {
+    margin-left: 10px;
 }
 .monster .graphic {
     position: absolute;

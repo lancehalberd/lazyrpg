@@ -129,9 +129,10 @@ function fightLoop(currentTime, deltaTime) {
     if (winInstantly || monster.health <= 0) {
         gainExperience(Math.floor(monster.experience * (1 + getTotalEnchantment('experience'))), monster.level);
         player.defeatedMonsters[monster.key]++;
-
-        var dropIndex = getDropIndex(monster);
-        for (var i = dropIndex; i < monster.spoils.length; i++) {
+        for (var i = 0; i < monster.spoils.length; i++) {
+            if (Math.random() > getDropChance(monster, i, monster.spoils.length)) {
+                continue;
+            }
             var dropValue = monster.spoils[i];
             if (typeof(dropValue) === 'string' && allItems[dropValue]) {
                 var item = allItems[dropValue];
@@ -270,10 +271,12 @@ function updateMonster(monster) {
     $monster.find('.js-healthFill').css('width', (100 * healthPercent) + '%');
     healthPercent = Math.min(1, (monster.health + (monster.recover ? monster.recover : 0)) / monster.maxHealth);
     $monster.find('.js-recoverFill').css('width', (100 * healthPercent) + '%');
-    var dropIndex = getDropIndex(monster)
     var $itemRow = $monster.find('.js-spoils').remove().first();
-    for (var i = dropIndex; i < monster.spoils.length; i++) {
+    for (var i = 0; i < monster.spoils.length; i++) {
         item = monster.spoils[i];
+        if (!item) {
+            continue;
+        }
         if (typeof(item) === 'string' && allItems[item]) {
             $itemRow.find('.js-item').text(allItems[item].name);
         } else if (typeof(item) === 'number') {
@@ -282,6 +285,8 @@ function updateMonster(monster) {
         } else {
             $itemRow.find('.js-item').text(typeof(item));
         }
+        var chance = getDropChance(monster, i, monster.spoils.length);
+        $itemRow.find('.chance').text((100 * chance).toFixed(0) + '%');
         $monster.find('.js-spoilsContainer').append($itemRow.clone());
     }
 }
@@ -296,7 +301,13 @@ function scheduleMonsterForUpdate(monster) {
     uiNeedsUpdate.monsters[monster.key] = monster;
 }
 
-function getDropIndex(monster) {
-    var calculatedIndex = Math.floor(Math.log(1 + (monster.damaged ? monster.damaged : 0) / (1 + player.poachingSkill)) / Math.log(2));
-    return Math.min(Math.max(0, monster.spoils.length - 1), calculatedIndex);
+function getDropChance(monster, index, total) {
+    //last item in the list has 100% drop chance
+    if (index === total - 1) {
+        return 1;
+    }
+    var slot = total - index - 1;
+    var damage = monster.damaged ? monster.damaged : 0;
+    var power = Math.floor((damage + 1) / (Math.pow(2, total - slot - 1) * (1 + player.poachingSkill)));
+    return Math.max(.01, Math.pow(.6, power));
 }
