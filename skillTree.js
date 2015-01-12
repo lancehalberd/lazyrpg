@@ -60,16 +60,16 @@ function populateSkillTree () {
         return skill;
     }
     function enchant(open) {
-        return {'name': 'IMBUE', 'open' : open, 'activate': function () {player.enchantingSkill++;}, 'helpText' : 'Increases your enchanting skill, unlocking new recipes.'};
+        return {'name': iconValue('imbue', '+LVL'), 'open' : open, 'activate': function () {player.enchantingSkill++;}, 'helpText' : 'Increases your enchanting skill, unlocking new recipes.'};
     }
     function craft(open) {
-        return {'name': 'CRAFT', 'open' : open, 'activate': function () {player.craftingSkill++;}, 'helpText' : 'Increases your crafting skill, unlocking new recipes.'};
+        return {'name': iconValue('craft', '+LVL'), 'open' : open, 'activate': function () {player.craftingSkill++;}, 'helpText' : 'Increases your crafting skill, unlocking new recipes.'};
     }
     function mine(open) {
-        return {'name': 'MINE', 'open' : open, 'activate': function () {player.miningSkill++;}, 'helpText' : 'Increases your mining skill so you mine faster and lose less health over time.'};
+        return {'name': iconValue('mine', '+LVL'), 'open' : open, 'activate': function () {player.miningSkill++;}, 'helpText' : 'Increases your mining skill so you mine faster and lose less health over time.'};
     }
     function poach(open) {
-        return {'name': 'POACH', 'open' : open, 'activate': function () {player.poachingSkill++;}, 'helpText' : 'Increases your poaching skill allowing you to damage enemies more without degrading their item quality.'};
+        return {'name': iconValue('item', '+LVL'), 'open' : open, 'activate': function () {player.poachingSkill++;}, 'helpText' : 'Increases your poaching skill allowing you to damage enemies more without degrading their item quality.'};
     }
     function weapon(type, open) {
         return {'name': iconValue(type, '+LVL'), 'open' : open, 'activate': function () {
@@ -126,7 +126,7 @@ function populateSkillTree () {
     }
     function miningSpeed(amount, open) {
         var percent =  (100*amount)+'%';
-        return {'name': 'MINE ' + percent, 'open' : open, 'activate': function () {player.bonuses.miningSpeed.multi += amount;}, 'helpText' : 'Increase mining speed by ' + percent + '.'}
+        return {'name': iconValue('mine', percent), 'open' : open, 'activate': function () {player.bonuses.miningSpeed.multi += amount;}, 'helpText' : 'Increase mining speed by ' + percent + '.'}
     }
     skillTree = getSkillTree();
 }

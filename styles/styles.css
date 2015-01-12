@@ -36,6 +36,15 @@
 .icon.item {
     background-position: -250px -10px;
 }
+.icon.mine {
+    background-position: -10px -40px;
+}
+.icon.imbue {
+    background-position: -40px -40px;
+}
+.icon.craft {
+    background-position: -70px -40px;
+}
 .icon.gold {
     background-image: url('../gfx/iconGold.png');
 }

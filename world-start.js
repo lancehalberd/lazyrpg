@@ -1,7 +1,7 @@
 function $illustration(source) {
     return $img(source).addClass('illustration');
 }
-
+var newGraphics = true;
 areas.shore =  {
     'name': 'Shore',
     'travelTime': 3,
@@ -16,6 +16,22 @@ areas.shore =  {
     'story': 'Was I in a shipwreck? I can remember no events only the impression of suffering and loss remains. And yet I woke up on this shore completely healthy, as if reborn.',
     'trackName': 'ReboundInsomnia'
 };
+if (!newGraphics) {
+areas.shore =  {
+    'name': 'Shore',
+    'travelTime': 3,
+    'travelDamage': 0,
+    '$graphic': $img('shore.png'),
+    'actions': [
+        new BattleAction(monsters.turtus, 2),
+        new BattleAction(monsters.snappingTurtus, 3),
+        new MoveAction('cave', 4),
+        new MoveAction('forest', 6)
+    ],
+    'story': 'Was I in a shipwreck? I can remember no events only the impression of suffering and loss remains. And yet I woke up on this shore completely healthy, as if reborn.',
+    'trackName': 'ReboundInsomnia'
+};
+}
 areas.cave =  {
     'name': 'Cave',
     'travelTime': 5,
