@@ -229,6 +229,174 @@ areas.centralStation =  {
     'travelDamage': 0,
     '$graphic': $img('castle.png'),
     'actions': [
+        new MoveAction('baseStation', 3),
+        new MoveAction('powerPlant', 4),
+        new MoveAction('factory', 7),
         new MoveAction('ancientCity', 6)
+    ]
+};
+areas.powerPlant =  {
+    'name': 'Power Plant',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('volcano.png'),
+    'actions': [
+        new MoveAction('centralStation', 3)
+    ]
+};
+areas.factory =  {
+    'name': 'Factory',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('town.png'),
+    'actions': [
+        new MoveAction('weldingFloor', 2),
+        new MoveAction('foundry', 7),
+        new MoveAction('centralStation', 8)
+    ]
+};
+areas.weldingFloor =  {
+    'name': 'Welding Floor',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('town.png'),
+    'actions': [
+        new MoveAction('engineeringFloor', 2),
+        new MoveAction('factory', 5)
+    ]
+};
+areas.engineeringFloor =  {
+    'name': 'Engineering Floor',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('town.png'),
+    'actions': [
+        new MoveAction('weldingFloor', 5)
+    ]
+};
+areas.foundry =  {
+    'name': 'Foundry',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('castle.png'),
+    'actions': [
+        new MoveAction('ancientMine', 7),
+        new MoveAction('factory', 8)
+    ]
+};
+areas.ancientMine =  {
+    'name': 'Ancient Mine',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('cave.png'),
+    'actions': [
+        new MoveAction('foundry', 8)
+    ]
+};
+areas.baseStation =  {
+    'name': 'Base Station',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('town.png'),
+    'actions': [
+        new MoveAction('barracks', 1),
+        new MoveAction('simulator', 3),
+        new MoveAction('centralStation', 4)
+    ]
+};
+areas.barracks =  {
+    'name': 'Barracks',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('poorVillage.png'),
+    'actions': [
+        new MoveAction('generator', 2),
+        new MoveAction('simulator', 8),
+        new MoveAction('baseStation', 6)
+    ]
+};
+areas.simulator =  {
+    'name': 'Simulator',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('remoteAbode.png'),
+    'actions': [
+        new MoveAction('teleporter', 2),
+        new MoveAction('barracks', 7),
+        new MoveAction('baseStation', 4)
+    ]
+};
+areas.generator =  {
+    'name': 'Generator',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('volcano.png'),
+    'actions': [
+        new MoveAction('communicationTower', 3),
+        new MoveAction('teleporter', 8),
+        new MoveAction('barracks', 5)
+    ]
+};
+areas.teleporter =  {
+    'name': 'Teleporter',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('ship.png'),
+    'actions': [
+        new MoveAction('communicationTower', 1),
+        new MoveAction('generator', 7),
+        new MoveAction('simulator', 5)
+    ]
+};
+areas.communicationTower =  {
+    'name': 'Communication Tower',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('castle.png'),
+    'actions': [
+        new MoveAction('researchAndDevelopment', 1),
+        new MoveAction('armory', 3),
+        new MoveAction('generator', 4),
+        new MoveAction('teleporter', 6)
+    ]
+};
+areas.researchAndDevelopment =  {
+    'name': 'Research And Development',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('town.png'),
+    'actions': [
+        new MoveAction('hangerA', 2),
+        new MoveAction('armory', 8),
+        new MoveAction('communicationTower', 6)
+    ]
+};
+areas.armory =  {
+    'name': 'Armory',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('poorVillage.png'),
+    'actions': [
+        new MoveAction('hangerB', 2),
+        new MoveAction('researchAndDevelopment', 7),
+        new MoveAction('communicationTower', 4)
+    ]
+};
+areas.hangerA =  {
+    'name': 'Hanger A',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('river.png'),
+    'actions': [
+        new MoveAction('researchAndDevelopment', 5)
+    ]
+};
+areas.hangerB =  {
+    'name': 'Hanger B',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $img('river.png'),
+    'actions': [
+        new MoveAction('armory', 5)
     ]
 };

@@ -130,7 +130,7 @@ function fightLoop(currentTime, deltaTime) {
         gainExperience(Math.floor(monster.experience * (1 + getTotalEnchantment('experience'))), monster.level);
         player.defeatedMonsters[monster.key]++;
         for (var i = 0; i < monster.spoils.length; i++) {
-            if (Math.random() > getDropChance(monster, i, monster.spoils.length)) {
+            if (Math.random() > getDropChance(monster, i, monster.spoils.length, false)) {
                 continue;
             }
             var dropValue = monster.spoils[i];
@@ -289,7 +289,7 @@ function updateMonster(monster) {
         } else {
             $itemRow.find('.js-item').text(typeof(item));
         }
-        var chance = getDropChance(monster, i, monster.spoils.length);
+        var chance = getDropChance(monster, i, monster.spoils.length, true);
         $itemRow.find('.chance').text((100 * chance).toFixed(0) + '%');
         $monster.find('.js-spoilsContainer').append($itemRow.clone());
     }
@@ -305,13 +305,20 @@ function scheduleMonsterForUpdate(monster) {
     uiNeedsUpdate.monsters[monster.key] = monster;
 }
 
-function getDropChance(monster, index, total) {
+function getDropChance(monster, index, total, getForNextHit) {
     //last item in the list has 100% drop chance
     if (index === total - 1) {
         return 1;
     }
     var slot = total - index - 1;
     var damage = monster.damaged ? monster.damaged : 0;
-    var power = Math.floor((damage + 1) / (Math.pow(2, total - slot - 1) * (1 + player.poachingSkill)));
+    // We use damage + 1 since this most accurately shows what the % will be when
+    // the enemy is defeated since the player most likely needs to hit it once more
+    // before it is beaten. If the player has the special poach skill, then we do
+    // not do this since damage is always 0.
+    if (getForNextHit && !player.specialSkills.poach) {
+        damage++;
+    }
+    var power = Math.floor(damage / (Math.pow(2, total - slot - 1) * (1 + player.poachingSkill)));
     return Math.min(1, Math.max(.01, Math.pow(.5 + .1 * player.poachingSkill, power)));
 }
