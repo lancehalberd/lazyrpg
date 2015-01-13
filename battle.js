@@ -309,5 +309,5 @@ function getDropChance(monster, index, total) {
     var slot = total - index - 1;
     var damage = monster.damaged ? monster.damaged : 0;
     var power = Math.floor((damage + 1) / (Math.pow(2, total - slot - 1) * (1 + player.poachingSkill)));
-    return Math.max(.01, Math.pow(.6, power));
+    return Math.min(1, Math.max(.01, Math.pow(.5 + .1 * player.poachingSkill, power)));
 }
