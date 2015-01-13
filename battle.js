@@ -240,14 +240,18 @@ function stopFighting(victory) {
                 oldMonster.timesInfected = 0;
                 updateLabMonsterStats(oldMonster);
             }
-        } else if (oldMonster.recover) {
-            oldMonster.health = Math.min(oldMonster.health + oldMonster.recover, oldMonster.maxHealth);
+        } else {
+            oldMonster.health = Math.min(oldMonster.health + getRecover(oldMonster), oldMonster.maxHealth);
         }
         oldMonster.battleStatus = freshBattleStatus();
         updateMonster(oldMonster);
         removeToolTip();
     }
     uiNeedsUpdate.playerStats = true;
+}
+
+function getRecover(monster) {
+    return Math.max(0, (monster.recover ? monster.recover : 0) - monster.battleStatus.poisonDamage)
 }
 
 function updateMonster(monster) {
@@ -269,7 +273,7 @@ function updateMonster(monster) {
     $monster.find('.js-armor').text(Math.max(0, monster.armor - monster.battleStatus.armorReduction));
     var healthPercent = monster.health / monster.maxHealth;
     $monster.find('.js-healthFill').css('width', (100 * healthPercent) + '%');
-    healthPercent = Math.min(1, (monster.health + (monster.recover ? monster.recover : 0)) / monster.maxHealth);
+    healthPercent = Math.min(1, (monster.health + getRecover(monster)) / monster.maxHealth);
     $monster.find('.js-recoverFill').css('width', (100 * healthPercent) + '%');
     var $itemRow = $monster.find('.js-spoils').remove().first();
     for (var i = 0; i < monster.spoils.length; i++) {
