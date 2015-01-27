@@ -23,11 +23,15 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
     monster.victoryFunction = victoryFunction;
     this.monster = monster;
     this.getDiv = function () {
-        monster.$element = $('.js-monster').clone().removeClass('js-monster').show();
-        monster.$element.find('.js-name').text("Lvl " + monster.level + " " + monster.name);
-        monster.$element.find('.js-graphic').html(monster.$graphic);
+        if (!monster.$element) {
+            monster.$element = $('.js-monster').clone().removeClass('js-monster').show();
+            monster.$element.find('.js-graphic').html(monster.$graphic).attr('helpText', monster.helpText);
+        }
         updateMonster(monster);
-        return $div('action slot' + slot, monster.$element).attr('helpText', monster.helpText);
+        return $div('slot' + slot, monster.$element).css('position', 'absolute')
+    };
+    this.getTarget = function () {
+        return monster.$element.find('.js-graphic');
     };
     this.action = function () {
         if (fighting === monster) {
@@ -42,6 +46,50 @@ function BattleAction(sourceMonster, slot, victoryFunction) {
             }
             stopAll();
             fighting = monster;
+            monster.$element.addClass('fighting');
+            monster.accruedDamageForDisplay = 0;
+            monster.hasHitsToDisplay = false;
+            player.nextAttack = 1000 / player.getAttackSpeed();
+            monster.nextAttack = 0;
+        }
+    };
+}
+function BattleDataAction(data) {
+    var monster = copy(data.monster);
+    if (!monsters[monster.key]) {
+        throw new Exception("Battle Action expects a monster: " + data.monster);
+    }
+    monster.maxHealth = monster.health;
+    monster.damaged = 0;
+    monster.battleStatus = freshBattleStatus();
+    //used to trigger special results when bosses are defeated
+    monster.victoryFunction = data.victoryFunction;
+    this.monster = monster;
+    this.getDiv = function () {
+        if (!monster.$element) {
+            monster.$element = $('.js-monster').clone().removeClass('js-monster').show();
+            monster.$element.find('.js-graphic').html(monster.$graphic).attr('helpText', monster.helpText);
+        }
+        updateMonster(monster);
+        return $div('', monster.$element).css('position', 'absolute').css('left', (data.left - 480) + 'px').css('top', (data.top - 300) + 'px');
+    };
+    this.getTarget = function () {
+        return monster.$element.find('.js-graphic');
+    };
+    this.action = function () {
+        if (fighting === monster) {
+            return "stop";
+        }
+        return "fight " + monster.key;
+    };
+    this.addActions = function () {
+        targets.fight[monster.key] = function (params) {
+            if (player.health <= 0 && !winInstantly) {
+                throw new ProgrammingError("You need more health to fight.");
+            }
+            stopAll();
+            fighting = monster;
+            monster.$element.addClass('fighting');
             monster.accruedDamageForDisplay = 0;
             monster.hasHitsToDisplay = false;
             player.nextAttack = 1000 / player.getAttackSpeed();
@@ -226,6 +274,7 @@ function stopFighting(victory) {
     }
     player.battleStatus = freshBattleStatus();
     if (fighting) {
+        fighting.$element.removeClass('fighting');
         uiNeedsUpdate.area = true;
         showAccruedDamageOnMonster();
         var oldMonster = fighting;
@@ -263,6 +312,11 @@ function updateMonster(monster) {
         $monster.find('.js-plagueFill').css('width', (100 * monster.plague / maxPlague(monster)) + '%');
     } else {
         $monster.find('.js-plagueFill').css('width', 0 + '%');
+    }
+    if (monster.health < monster.maxHealth) {
+        $monster.addClass('damaged');
+    } else {
+        $monster.removeClass('damaged');
     }
     $monster.find('.js-name').text('Lvl ' + monster.level + ' ' + monster.name);
     $monster.find('.js-experience').text(monster.experience + ' XP');

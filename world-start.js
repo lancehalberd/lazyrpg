@@ -8,8 +8,8 @@ areas.shore =  {
     'travelDamage': 0,
     '$graphic': $illustration('noahBeach.jpg'),
     'actions': [
-        new BattleAction(monsters.turtus, 5),
-        new BattleAction(monsters.snappingTurtus, 2),
+        new BattleDataAction({'monster': monsters.turtus, 'left': 480, 'top': 450}),
+        new BattleDataAction({'monster': monsters.snappingTurtus, 'left': 510, 'top': 170}),
         new MoveMapAction({'target': 'cave', 'points': '68.5,484,56.5,226,159.5,196,263.5,412'}),
         new MoveMapAction({'target': 'forest', 'points': '957.5,93,693.5,164,633.5,377,728.5,473,956.5,550'}),
     ],

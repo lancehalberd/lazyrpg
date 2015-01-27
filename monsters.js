@@ -4,6 +4,9 @@ function $ff2Monster(name) {
 function $hillaryMonster(name) {
     return $div('hillaryMonster ' + name);
 }
+function $noahMonster(name) {
+    return $div('noahMonster ' + name);
+}
 
 var monsters = {};
 
@@ -39,7 +42,7 @@ monsters.turtus = {
     'damage': 30,
     'attackSpeed': .5,
     'experience': 8,
-    '$graphic': $hillaryMonster('smallTurtle'),
+    '$graphic': $noahMonster('small turtle'),
     'spoils': ['smallShell', 'brokenShell', 'brokenShell', 'brokenShell'],
     'helpText': 'I\'ll need a strong weapon to pierce this monster\'s hard shell.'
 };
@@ -140,7 +143,7 @@ monsters.snappingTurtus = {
     'damage': 50,
     'attackSpeed': .5,
     'experience': 70,
-    '$graphic': $hillaryMonster('spikyTurtle'),
+    '$graphic': $noahMonster('medium turtle'),
     'spoils': ['spikyShell', 'brokenShell', 'brokenShell', 'brokenShell'],
     'helpText': 'The adult turtus has a spiky shell that hurts me when I try to attack it. I should avoid it until I am much stronger.',
     'reflect': .5

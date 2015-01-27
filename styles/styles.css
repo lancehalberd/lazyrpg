@@ -425,36 +425,36 @@
     left: -100px;
 }
 
-.action.slot1 {
+.slot1 {
     top: -190px;
     left: -320px;
 }
-.action.slot2 {
+.slot2 {
     top: -210px;
     left: -5px;
 }
-.action.slot3 {
+.slot3 {
     top: -190px;
     left: 310px;
 }
 
-.action.slot4 {
+.slot4 {
     top: 150px;
     left: -320px;
 }
-.action.slot5 {
+.slot5 {
     top: 150px;
     left: -5px;
 }
-.action.slot6 {
+.slot6 {
     top: 150px;
     left: 310px;
 }
-.action.slot7 {
+.slot7 {
     top: -30px;
     left: -320px;
 }
-.action.slot8 {
+.slot8 {
     top: -30px;
     left: 310px;
 }
@@ -681,7 +681,7 @@ button {
     font-size: 16px;
     border: 1px solid #204070;
     box-sizing: border-box;
-    background-color: #20C060;
+    background-color: rgba(30, 200, 100, .7);
     border-radius: 4px;
     z-index: 100;
 }

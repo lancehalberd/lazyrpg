@@ -152,6 +152,12 @@ $(function () {
         runCodeFromUI($(this).attr('code'));
         removeToolTip();
     });
+    $('.js-gameContainer').on('mouseover', '.monster .graphic', function (event) {
+        $(this).closest('.monster').addClass('over');
+    });
+    $('.js-gameContainer').on('mouseout', '.monster .graphic', function (event) {
+        $(this).closest('.monster').removeClass('over');
+    });
     $('.js-gameContainer').on('mouseover mousemove', '[helpText],[code]', function (event) {
         if (!showTooltips || $popup) {
             return;

@@ -1,3 +1,46 @@
+
+.noahMonster {
+    position: absolute;
+    display: inline-block;
+    background-size: 100%;
+}
+.noahMonster.small {
+    width: 128px;
+    height: 128px;
+    left: -75px;
+    top: -35px;
+}
+.noahMonster.medium {
+    width: 192px;
+    height: 192px;
+    left: -150px;
+    top: -35px;
+}
+.noahMonster.large {
+    width: 256px;
+    height: 256px;
+    left: -200px;
+    top: -35px;
+}
+.noahMonster.turtle {
+    background-image: url('../gfx/noahTurtle.gif');
+}
+
+.monster > div {
+    display: none;
+}
+.monster > div.graphic {
+    display: block;
+}
+.monster.over > div,
+.monster.fighting > div {
+    display: block;
+}
+.monster.damaged > div.name,
+.monster.damaged > div.healthRow {
+    display: block;
+}
+
 .hillaryMonster {
     position: absolute;
     display: inline-block;

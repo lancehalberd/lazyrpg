@@ -161,7 +161,11 @@ function setArea(area) {
             $('.js-currentArea').append($actionDiv);
             var actionCode = evaluateAction(action.action);
             if (actionCode) {
-                $actionDiv.attr('code', actionCode);
+                if (action.getTarget) {
+                    action.getTarget().attr('code', actionCode);
+                } else {
+                    $actionDiv.attr('code', actionCode);
+                }
             }
         }
     });
