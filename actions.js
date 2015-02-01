@@ -247,7 +247,7 @@ function tokenize(code) {
         var nextOpen = code.indexOf('(', index);
         var nextClose = code.indexOf(')', index);
         if (nextClose < nextOpen || (nextClose >= 0 && nextOpen < 0)) {
-            onActionError("Mismatched parenthesis, found more ')' with no corresponding '('");
+            throw new ProgrammingError("Mismatched parenthesis, found more ')' with no corresponding '('");
         }
         if (nextOpen < 0 || (nextSpace < nextOpen)) {
             var value = $.trim(code.substring(index, nextSpace));
@@ -282,8 +282,7 @@ function findClosingParenthesis(string, index) {
         }
         index++;
     }
-    onActionError("Mismatched parenthesis, found more '(' than ')'");
-    return -1;
+    throw new ProgrammingError("Mismatched parenthesis, found more '(' than ')'");
 }
 function runNextLine() {
     for (var i = 0; i < player.gameSpeed; i++) {
