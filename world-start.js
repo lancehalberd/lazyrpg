@@ -1,7 +1,6 @@
 function $illustration(source) {
     return $img(source).addClass('illustration');
 }
-var newGraphics = true;
 areas.shore =  {
     'name': 'Shore',
     'travelTime': 3,

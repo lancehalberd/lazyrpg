@@ -43,6 +43,7 @@ function RandomService(random) {
         return null;
     }
 }
+var newGraphics = false;
 var random = new RandomService(Math.random);
 //http://stackoverflow.com/questions/783818/how-do-i-create-a-custom-error-in-javascript
 function ProgrammingError() {
