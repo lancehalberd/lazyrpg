@@ -77,11 +77,7 @@ function startGame(savedData) {
     //populate data from the saved file
     applySavedData(savedData);
     $('.js-titleScene').hide();
-    addOrUpdateProgram(player.programs, defaultPrograms.findVillage);
-    addOrUpdateProgram(player.programs, defaultPrograms.faq);
-    addOrUpdateProgram(player.programs, defaultPrograms.chat);
-    addOrUpdateProgram(player.programs, defaultPrograms.toggleToolTips);
-    addOrUpdateProgram(player.programs, defaultPrograms.optimizeArmor);
+    updateSpecialPrograms();
     refreshPrograms();
     actions.setSpeed([player.gameSpeed]);
     updateProgramButtons();
@@ -129,12 +125,3 @@ function saveCurrentGame() {
     saveData();
 }
 
-function addOrUpdateProgram(programs, program) {
-    for (var i = 0; i < programs.length; i++) {
-        if (programs[i].specialFlag == program.specialFlag) {
-            programs[i] = program;
-            return;
-        }
-    }
-    programs.push(program);
-}

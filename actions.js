@@ -47,10 +47,37 @@ var defaultPrograms = {
         'description': 'Running this code will equip you with the strongest armor you have available.',
         'text': "optimizeArmor"
     }
-}
+};
+var specialPrograms = {};
 $.each(defaultPrograms, function (key, program) {
     program.specialFlag = key;
+    specialPrograms[key] = program;
 });
+
+function updateSpecialPrograms() {
+    var programs = player.programs;
+    //update any existing special programs the user has.
+    for (var i = 0; i < programs.length; i++) {
+        if (programs[i].specialFlag) {
+            programs[i] = specialPrograms[programs[i].specialFlag];
+            if (!programs[i]) {
+                programs.splice(i--, 1);
+            }
+        }
+    }
+    //make sure the player has all the default programs
+    $.each(defaultPrograms, function (key, program) {
+        addOrUpdateProgram(player.programs, program);
+    });
+}
+function addOrUpdateProgram(programs, program) {
+    for (var i = 0; i < programs.length; i++) {
+        if (programs[i].specialFlag == program.specialFlag) {
+            return;
+        }
+    }
+    programs.push(program);
+}
 
 var recording = false;
 var runningProgram = false;
@@ -137,6 +164,15 @@ function selectProgram($program) {
     $('.js-programName').val(program.name);
     $('.js-programDescription').val(program.description);
     $('.js-programText').val(program.text);
+    if (program.specialFlag) {
+        $('.js-programName, .js-programDescription, .js-programText').attr('disabled', 'disabled');
+        $('.js-programName').closest('div').attr('helptext', 'This is a special program that cannot be edited. You can copy the text into a new program instead.');
+        $('.js-programDescription').closest('div').attr('helptext', 'This is a special program that cannot be edited. You can copy the text into a new program instead.');
+    } else {
+        $('.js-programName, .js-programDescription, .js-programText').removeAttr('disabled', 'disabled');
+        $('.js-programName').closest('div').removeAttr('helptext');
+        $('.js-programDescription').closest('div').removeAttr('helptext');
+    }
 }
 
 function getProgramHelpText(program) {
