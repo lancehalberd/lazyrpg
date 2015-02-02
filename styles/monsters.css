@@ -32,6 +32,9 @@
 .monster > div.graphic {
     display: block;
 }
+/*.monster > div.graphic:hover + div {
+    display: block;
+}*/
 .monster.over > div,
 .monster.fighting > div {
     display: block;

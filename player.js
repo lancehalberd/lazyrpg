@@ -34,7 +34,7 @@ function newGameData() {
         'time': 0,
         'gameSpeed': 1,
         'bonusPoints': 0,
-        'programs': [{'name': 'Find Village', 'description': 'This sample program moves you from the shore to the village and rests there.', 'text': "move forest\nmove village\nrest"}],
+        'programs': [],
         'weapon': baseEquipment.weapon.key,
         'helmet': baseEquipment.helmet.key,
         'boots': baseEquipment.boots.key,

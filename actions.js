@@ -11,6 +11,47 @@ actions.hideTabs = function (params) {
     closeAll();
 };
 
+actions.toggleHints = function (params) {
+    checkParams(0, params);
+    showTooltips = !showTooltips;
+    removeToolTip();
+};
+actions.popupWindow = function (params) {
+    checkParams(1, params);
+    window.open(params[0], '_blank', 'location=no,scrollbars=yes,width=500,height=600');
+};
+
+var defaultPrograms = {
+    'findVillage': {
+        'name': 'Find Village',
+        'description': 'This sample program moves you from the shore to the village and rests there.',
+        'text': "move forest\nmove village\nrest"
+    },
+    'faq': {
+        'name': 'View FAQ',
+        'description': 'Running this code will open a FAQ for this game in a new window.',
+        'text': "popupWindow manual.html"
+    },
+    'chat': {
+        'name': 'Chat',
+        'description': 'Running this code will open a chat window where you may be able to chat with other players or developers.',
+        'text': "popupWindow http://tlk.io/lazyrpg"
+    },
+    'toggleToolTips': {
+        'name': 'Toggle Hints',
+        'description': 'Enables or disables tool tips.',
+        'text': "toggleHints"
+    },
+    'optimizeArmor': {
+        'name': 'Best Armor',
+        'description': 'Running this code will equip you with the strongest armor you have available.',
+        'text': "optimizeArmor"
+    }
+}
+$.each(defaultPrograms, function (key, program) {
+    program.specialFlag = key;
+});
+
 var recording = false;
 var runningProgram = false;
 var showTooltips = true;
@@ -34,10 +75,6 @@ function setupProgrammingWindow() {
             var program = $('.js-programText').val();
             $('.js-programText').val(addLoopsToProgram(program));
         }
-        updateProgramButtons();
-    });
-    $('.js-toggleHelp').on('click', function () {
-        showTooltips = !showTooltips;
         updateProgramButtons();
     });
     $('.js-programContainer').on('mousedown', '.js-program', function (event) {
@@ -150,7 +187,6 @@ function updateProgramButtons() {
     } else {
         $('.js-recordProgram').text('Record').attr('helpText', 'Click here to record your actions as a program that you can play back later.');
     }
-    $('.js-toggleHelp').text(showTooltips ? 'Disable Tooltips' : 'Enable Tooltips');
     $('.js-recordProgram').toggle(!runningProgram);
     $('.js-runProgram').toggle(!recording);
 }
@@ -328,7 +364,6 @@ function runNextLine() {
 function runLine(currentLine) {
     var functionContext = callStack.length ? callStack[callStack.length - 1] : null;
     var tokens = tokenize(currentLine);
-    //console.log(tokens);
     var action = tokens.shift();
     if (action.charAt(0) === '$' || action.charAt(0) === '@') {
         if (tokens.length != 2 || tokens[0] != '=') {
@@ -606,7 +641,7 @@ function evaluateExpression(expression) {
  * @return {String}  The trimmed line of code
  */
 function trimComments(lineOfCode) {
-    return $.trim(lineOfCode.split('//')[0]);
+    return $.trim(lineOfCode.split('#')[0]);
 }
 
 function onActionError(errorMessage) {

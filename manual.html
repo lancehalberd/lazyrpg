@@ -120,17 +120,17 @@ loop 5 {
 </pre>
 <p>You can document your code and leave hints by using comments in your code:</p>
 <pre class="code">
-//This is a comment
+#This is a comment
 loop 5 {
   move forest
-  loop 3 {//fight 3 rats to reach level 2
+  loop 3 {#fight 3 rats to reach level 2
     fight rat
   }
-  learn 6 7 //This is Fist Damage +5
-  loop 3 {//we can only beat 3 more rats
+  learn 6 7 #This is Fist Damage +5
+  loop 3 {#we can only beat 3 more rats
     fight rat
   }
-  //go back, rest and repeat
+  #go back, rest and repeat
   move village
   rest
 }
@@ -143,7 +143,7 @@ if expression {
 </pre>
 <p>For example:</p>
 <pre class="code">
-//make and sell a Fur Coat if we have enough fur
+#make and sell a Fur Coat if we have enough fur
 if (my.items.fur > 5) {
   make furCoat
   sell 1 furCoat
@@ -168,15 +168,15 @@ An area, item or monster name like:
 </pre>
 <p>Some examples of expressions are:</p>
 <pre>
-//if my health is less than or equal to
-//my max health minus 100
+#if my health is less than or equal to
+#my max health minus 100
 (my.health <= (my.maxHealth - 100))
-//if I have a potion and am in the village
+#if I have a potion and am in the village
 (my.items.smallPotion AND (my.area = village))
-//my basic damage per second
+#my basic damage per second
 (my.attackSpeed * my.damage)
-//an estimate for how long it will take
-//to kill the bandit
+#an estimate for how long it will take
+#to kill the bandit
 (bandit.health / (my.attackSpeed * my.damage))
 </pre>
 <p>Currently the following operators are supported</p>
@@ -217,9 +217,9 @@ while expression {
 <p>For example:</p>
 <pre class="code">
 while (my.level < 3) {
-  //only heal when my health drops below 100
+  #only heal when my health drops below 100
   while (my.health < (my.maxHealth - 100)) {
-    //run back and buy more potions if I run out
+    #run back and buy more potions if I run out
     if (my.items.smallPotion < 1) {
       move village
       buy 10 smallPotion
@@ -232,64 +232,64 @@ while (my.level < 3) {
 </pre>
 <p>you can use the 'runProgram' command to run other programs. For example, this program will call another program called "healToFullLife" if such a program exists:</p>
 <pre class="code">
-//fight rats + heal until I reach level 3
+#fight rats + heal until I reach level 3
 while (my.level < 3) {
-  //run the program called 'healToFullLife'
+  #run the program called 'healToFullLife'
   runProgram healToFullLife
   fight rat
 }
 </pre>
 <p>You can assign the results of expressions to variables for later use:</p>
 <pre class="code">
-  //set a global variable
+  #set a global variable
   $variableName = expression
-  //set a scoped variable
+  #set a scoped variable
   @variableName = expression
 </pre>
 <p>For example:</p>
 <pre class="code">
-  //record the area I started in
-  //so I can come back later
+  #record the area I started in
+  #so I can come back later
   $startingArea = my.area
   move forest
   fight rat
-  //return to the area I came from
+  #return to the area I came from
   move $startingArea
 </pre>
 <p>Variables set using $ are global and remain set until your code stops running:</p>
 <pre class="code">
-  //This program has "$x = 1" in it
+  #This program has "$x = 1" in it
   runProgram set$xTo1
-  //since $x is global,
-  //$x is still set to 1 here
+  #since $x is global,
+  #$x is still set to 1 here
   if ($x != 1) {
     code that will never run
   }
 </pre>
 <p>Variables set using @ are scoped and only remain set until the code that created it stops running:</p>
 <pre class="code">
-  //This program has "@x = 1" in it
+  #This program has "@x = 1" in it
   runProgram set@xTo1
-  //since @x is scoped,
-  //@x is no longer defined
+  #since @x is scoped,
+  #@x is no longer defined
   if @x {
     code that will never run
   }
   @x = 1
-  //@x will be visible to this program
+  #@x will be visible to this program
   runProgram check@xIsSet
 </pre>
 <p>You can use variables for a lot of things, for instance, you could make a program that fights any monster that a calling program sets:</p>
 <pre class="code">
-  //program fightMonster
-  //example usage:
-  //@monster = bandit
-  //runProgram fightMonster
+  #program fightMonster
+  #example usage:
+  #@monster = bandit
+  #runProgram fightMonster
   while (my.level < @monster.level) {
     @lastLevel = my.level
     fight @monster
-    //try to equip better armor if
-    //my level increased
+    #try to equip better armor if
+    #my level increased
     if (@lastLevel < my.level) {
       optimizeArmor
     }
@@ -297,19 +297,19 @@ while (my.level < 3) {
 </pre>
 <p>variables can be used anywhere expressions can be used:</p>
 <pre class="code">
-  //spend half of your gold buying
-  //small potions
+  #spend half of your gold buying
+  #small potions
   @item = smallPotion
   @amount = ((my.gold / 10) / 2)
   buy @amount @item
 </pre>
 <p>A 'try' statement can be used when you aren't sure if an action will be valid. For instance, the following code will mine silver and heal as long as possible, then move to the Volcano Cave:</p>
 <pre class="code">
-//mine silver and heal as long as there is any left
+#mine silver and heal as long as there is any left
 try {
-  //this loops forever, but will
-  //stop when mining silver causes
-  //an error
+  #this loops forever, but will
+  #stop when mining silver causes
+  #an error
   while 1 {
     mine silver
     use mediumPotion
@@ -322,8 +322,8 @@ move volcanoCave
 try {
   use smallPotion
 } catch {
-  //this will still throw an error
-  //if I can't buy a small potion
+  #this will still throw an error
+  #if I can't buy a small potion
   buy 1 smallPotion
   use smallPotion
 }

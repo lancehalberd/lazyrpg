@@ -4,14 +4,6 @@ function $div(classes, content) {
 function $img(source) {
     return $('<img src="gfx/' + source + '" />');
 }
-function $window(classes, content) {
-    return $div(classes, content)
-    .css('display', 'none')
-    .css('position', 'absolute')
-    .css('overflow', 'hidden')
-    .css('left', '0').css('right', '0').css('top', '0').css('bottom', '0')
-    .css('background-color', '#fff')
-}
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -131,12 +123,6 @@ $(function () {
     $('.js-loadingScene').hide();
     $('.js-titleScene').show();
     $('.js-healthContainer').data('helpFunction', describeHealthBar);
-    $('.js-faq').on('click', function () {
-        window.open('manual.html', '_blank', 'location=no,scrollbars=yes,width=500,height=400');
-    });
-    $('.js-chat').on('click', function () {
-        window.open('http://tlk.io/lazyrpg', '_blank', 'location=no,scrollbars=yes,width=400,height=600');
-    });
 
     setupInventory();
     $('.js-characterStats').on('click', function () {
