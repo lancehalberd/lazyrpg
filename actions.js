@@ -23,27 +23,27 @@ actions.popupWindow = function (params) {
 
 var defaultPrograms = {
     'findVillage': {
-        'name': 'Find Village',
+        'name': 'findVillage',
         'description': 'This sample program moves you from the shore to the village and rests there.',
         'text': "move forest\nmove village\nrest"
     },
     'faq': {
-        'name': 'View FAQ',
+        'name': 'viewFAQ',
         'description': 'Running this code will open a FAQ for this game in a new window.',
         'text': "popupWindow manual.html"
     },
     'chat': {
-        'name': 'Chat',
+        'name': 'chat',
         'description': 'Running this code will open a chat window where you may be able to chat with other players or developers.',
         'text': "popupWindow http://tlk.io/lazyrpg"
     },
     'toggleToolTips': {
-        'name': 'Toggle Hints',
+        'name': 'toggleHints',
         'description': 'Enables or disables tool tips.',
         'text': "toggleHints"
     },
     'optimizeArmor': {
-        'name': 'Best Armor',
+        'name': 'equipBestArmor',
         'description': 'Running this code will equip you with the strongest armor you have available.',
         'text': "optimizeArmor"
     }
