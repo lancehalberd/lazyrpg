@@ -235,7 +235,7 @@ function runProgram(program) {
     callStack = [];
     globalVariables = {};
     runMethod(program);
-    runNextLine();
+    // The main game loop will be responsible for running each line
 }
 function stopProgram() {
     callStack = [];
@@ -356,45 +356,47 @@ function findClosingParenthesis(string, index) {
     }
     throw new ProgrammingError("Mismatched parenthesis, found more '(' than ')'");
 }
+/**
+ * Run the next line of the players program.
+ *
+ * @return boolean true if the program still has processing left to do
+ */
 function runNextLine() {
-    for (var i = 0; i < player.gameSpeed; i++) {
-        if (!runningProgram || callStack.length == 0) {
-            return;
+    if (!runningProgram || callStack.length == 0) {
+        return false;
+    }
+    //If we are waiting for a process to complete (fighting, traveling, mining)
+    //Pause for 20 ms and then try again.
+    if (player.delay || player.method) {
+        return false;
+    }
+    var functionContext = callStack[callStack.length - 1];
+    if (functionContext.currentLine >= functionContext.lines.length) {
+        if (functionContext.loopStack.length) {
+            onActionError("Expected end of loop '}' but reached end of program");
+            return false;
         }
-        //If we are waiting for a process to complete (fighting, traveling, mining)
-        //Pause for 20 ms and then try again.
-        if (fighting || targetArea || mining) {
-            setTimeout(runNextLine, 20);
-            return;
-        }
-        var functionContext = callStack[callStack.length - 1];
-        if (functionContext.currentLine >= functionContext.lines.length) {
-            if (functionContext.loopStack.length) {
-                onActionError("Expected end of loop '}' but reached end of program");
-                return;
-            }
-            stopMethod();
-            continue;
-        }
-        //skip over empty lines and lines containing only comments
-        if (!trimComments(functionContext.lines[functionContext.currentLine]).length) {
-            functionContext.currentLine++;
-            continue;
-        }
-        var currentLine = trimComments(functionContext.lines[functionContext.currentLine]);
+        stopMethod();
+        return true;
+    }
+    //skip over empty lines and lines containing only comments
+    if (!trimComments(functionContext.lines[functionContext.currentLine]).length) {
         functionContext.currentLine++;
-        try {
-            runLine(currentLine);
-        } catch(e) {
-            if (e instanceof ProgrammingError) {
-                onActionError(e.message);
-            } else {
-                console.log(e.stack);
-                throw e;
-            }
+        return true;
+    }
+    var currentLine = trimComments(functionContext.lines[functionContext.currentLine]);
+    functionContext.currentLine++;
+    try {
+        runLine(currentLine);
+    } catch(e) {
+        if (e instanceof ProgrammingError) {
+            onActionError(e.message);
+        } else {
+            console.log(e.stack);
+            throw e;
         }
     }
-    setTimeout(runNextLine, 20);
+    return true;
 }
 
 function runLine(currentLine) {
@@ -663,7 +665,7 @@ function evaluateExpression(expression) {
             return getMonsterStat(monster, parts);
         }
     }
-    var number = parseInt(expression);
+    var number = parseFloat(expression);
     if (!isNaN(number)) {
         return number;
     }
@@ -696,7 +698,6 @@ function onActionError(errorMessage) {
                     functionContext.loopStack.push({'startingLine': functionContext.currentLine, 'loops': 1});
                 }
                 callStack.push(functionContext);
-                runNextLine();
                 return;
             }
         }

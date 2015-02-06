@@ -136,13 +136,15 @@ function setArea(area) {
     var changedAreas = (!currentArea || currentArea.key != area.key);
     currentArea = area;
     player.area = area.key;
-    if (changedAreas && area.initialize) {
+    if (!area.initialized && area.initialize) {
         area.initialize();
     }
     if (area.trackName) {
         setMusic(area.trackName);
     }
     $('.js-currentArea').empty().append(currentArea.$graphic);
+    $('.js-currentArea').append($div('js-areaAgents'));
+    $('.js-currentArea').append($div('js-areaOverlay'));
     var $map = null;
     currentArea.actions.forEach(function (action) {
         action.addActions();
@@ -158,7 +160,7 @@ function setArea(area) {
             }
         } else {
             var $actionDiv = action.getDiv();
-            $('.js-currentArea').append($actionDiv);
+            $('.js-areaAgents').append($actionDiv);
             var actionCode = evaluateAction(action.action);
             if (actionCode) {
                 if (action.getTarget) {
@@ -173,16 +175,18 @@ function setArea(area) {
         currentArea.$graphic.attr('usemap', '#actions');
         $('.js-currentArea').append($map);
     }
+    refreshArea();
 }
 function refreshArea() {
-    setArea(areas[player.area]);
+    currentArea.agents.forEach(function (agent) {
+        agent.update();
+    });
 }
 
 function runCodeFromUI(code) {
     try {
         runLine(code);
         recordAction(code);
-        uiNeedsUpdate.area = true;
     } catch(e) {
         if (e instanceof ProgrammingError) {
             alert(e.message);
@@ -191,4 +195,24 @@ function runCodeFromUI(code) {
             throw e;
         }
     }
+}
+
+function WorldArea(data) {
+    var self = this;
+    $.each(data, function (key, value) {
+        self[key] = value;
+    });
+    this.active = false;
+    this.initialized = false;
+    this.agents = [];
+    this.agentsByKey = {};
+}
+
+function removeAgentFromArea(area, agent) {
+    spliceFromArray(area.agents, agent);
+    spliceFromArray(area.agentsByKey[agent.key], agent);
+}
+
+function spliceFromArray(array, element) {
+    array.splice(array.indexOf(element), 1);
 }

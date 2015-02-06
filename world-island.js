@@ -252,10 +252,6 @@ function resetCove() {
             leechingTentacleBattleAction
         ],
         'loop': function (deltaTime) {
-            //can't fight the core while the body is up
-            if (fighting && fighting.key == 'neptuneCore' && !areas.cove.isNeptuneDesperate && areas.cove.bodyTimer <= 0) {
-                stopFighting();
-            }
             //Neptune will regenerate its head and body over time if it isn't desperate
             if (!areas.cove.isNeptuneDesperate) {
                 if (areas.cove.bodyTimer > 0) {
@@ -307,8 +303,7 @@ function resetCove() {
                 updateTentacleStats(areas.cove.leechingTentacleBattleAction.monster, monsters.leechingTentacles, areas.cove.leechingTentacles);
             } else if (areas.cove.bodyTimer > 0 && areas.cove.coreBattleAction.monster.health < areas.cove.coreBattleAction.monster.maxHealth * .3) {
                 //neptune becomes desperate when its health drops below 30%. It will no longer
-                //regenerate the
-                stopFighting();
+                //regenerate the head and body
                 areas.cove.isNeptuneDesperate = true;
                 areas.cove.leechingTentacles = 3;
                 updateCove();

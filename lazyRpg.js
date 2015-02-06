@@ -43,7 +43,6 @@ function RandomService(random) {
         return null;
     }
 }
-var newGraphics = false;
 var random = new RandomService(Math.random);
 //http://stackoverflow.com/questions/783818/how-do-i-create-a-custom-error-in-javascript
 function ProgrammingError() {
@@ -68,7 +67,10 @@ function copy(object) {
     if (object.constructor == Array) {
         return jQuery.extend(true, [], object);
     }
-    return jQuery.extend(true, {}, object);
+    if (object.constructor == Object) {
+        return jQuery.extend(true, [], object);
+    }
+    return object;
 }
 
 function timeSpan(value) {
@@ -90,6 +92,7 @@ function timeSpan(value) {
     return iconSpan('clock', hours+":"+ minutes+":"+seconds);
 }
 var $popup = null;
+var $popupTarget = null;
 var drawing = false;
 var drawingPoints = [];
 $(function () {
@@ -150,11 +153,11 @@ $(function () {
             return;
         }
         removeToolTip();
-        var $currentHelpTarget = $(this);
+        $popupTarget = $(this);
         var x = event.pageX - $('.js-gameContainer').offset().left;
         var y = event.pageY - $('.js-gameContainer').offset().top;
         //console.log([event.pageX,event.pageY]);
-        $popup = $div('toolTip js-toolTip', getHelpText($currentHelpTarget));
+        $popup = $div('toolTip js-toolTip', getHelpText($popupTarget));
         updateToolTip(x, y, $popup);
         $('.js-gameContainer').append($popup);
     });
@@ -192,7 +195,11 @@ function getHelpText($element) {
     }
     return sections.join('<br/><br/>');
 }
-
+function checkRemoveToolTip() {
+    if (!$popupTarget || !$popupTarget.closest('body').length) {
+        removeToolTip();
+    }
+}
 function removeToolTip() {
     $('.js-toolTip').remove();
     $popup = null;
@@ -220,60 +227,8 @@ function closeAll() {
     removeToolTip();
 }
 function stopAll() {
-    stopFighting();
-    stopMining();
     stopTraveling();
     removeToolTip();
-}
-
-function now() {
-    return new Date().getTime();
-}
-var damageCounterRefresh = 0;
-function mainLoop() {
-    var deltaTime = 20;
-    for (var i = 0; i < player.gameSpeed && (fighting || mining || targetArea); i++) {
-        player.time += deltaTime;
-        if (player.plagueResistance) {
-            player.plagueResistance *= .9999;
-        }
-        if (player.inventory.items.coolingMagma > 0) {
-            items.coolingMagma.timer -= deltaTime;
-            if (items.coolingMagma.timer <= 0) {
-                var amountLost = Math.ceil(player.inventory.items.coolingMagma / 2);
-                player.inventory.items.coolingMagma -= amountLost;
-                player.inventory.items.lavaStone += amountLost;
-                uiNeedsUpdate.items = true;
-                items.coolingMagma.timer = 30000;
-            }
-        }
-        if (currentArea.loop) {
-            currentArea.loop(deltaTime);
-        }
-        if (fighting) {
-            scheduleMonsterForUpdate(fighting);
-            fightLoop(player.time, deltaTime);
-        }
-        if (mining) {
-            miningLoop(player.time, deltaTime);
-        }
-        if (targetArea) {
-            travelingLoop(player.time, deltaTime);
-        }
-        uiNeedsUpdate.playerStats = true;
-    }
-    //show a damage indicator at most once a frame
-    if (fighting) {
-        damageCounterRefresh--;
-        showAccruedDamageOnMonster();
-    }
-    //real time loop does not take into account game speed and happens even
-    //when game time is not passing. Used for actions that only appear briefly
-    //in areas, often requiring programs to respond to
-    if (currentArea && currentArea.realTimeLoop) {
-        currentArea.realTimeLoop(deltaTime);
-    }
-    updateUI();
 }
 
 var uiNeedsUpdate = {
@@ -301,10 +256,13 @@ function updateUI() {
         updatePlayerStats();
         uiNeedsUpdate.playerStats = false;
     }
-    $.each(uiNeedsUpdate.monsters, function (key, monster) {
-        updateMonster(monster);
-    });
-    uiNeedsUpdate.monsters = {};
+    if (currentArea) {
+        currentArea.agents.forEach(function (agent) {
+            if (agent.needsUpdate) {
+                agent.update();
+            }
+        });
+    }
     if (uiNeedsUpdate.miningStats) {
         if (mining) {
             updateMineral(mining);

@@ -1,37 +1,43 @@
 function $illustration(source) {
     return $img(source).addClass('illustration');
 }
-areas.shore =  {
+areas.shore =  new WorldArea({
     'name': 'Shore',
     'travelTime': 3,
     'travelDamage': 0,
     '$graphic': $illustration('noahBeach.jpg'),
+    'initialize': function () {
+        addMonsterAgent(this, new MonsterAgent({'monster': monsters.rat, 'left': 430, 'top': 450}));
+    },
+    'loop': function () {
+        this.agentsByKey.rat.forEach(function (rat) {
+            if (rat.timeDefeated && (player.time - rat.timeDefeated) > 1000) {
+                rat.reset();
+            }
+        });
+    },
     'actions': [
-        new BattleDataAction({'monster': monsters.turtus, 'left': 480, 'top': 450}),
-        new BattleDataAction({'monster': monsters.snappingTurtus, 'left': 510, 'top': 170}),
-        new MoveMapAction({'target': 'cave', 'points': '68.5,484,56.5,226,159.5,196,263.5,412'}),
+        //new BattleDataAction({'monster': monsters.snappingTurtus, 'left': 510, 'top': 170}),
+        //new MoveMapAction({'target': 'cave', 'points': '68.5,484,56.5,226,159.5,196,263.5,412'}),
         new MoveMapAction({'target': 'forest', 'points': '957.5,93,693.5,164,633.5,377,728.5,473,956.5,550'}),
     ],
     'story': 'Was I in a shipwreck? I can remember no events only the impression of suffering and loss remains. And yet I woke up on this shore completely healthy, as if reborn.',
     'trackName': 'ReboundInsomnia'
-};
-if (!newGraphics) {
-areas.shore =  {
-    'name': 'Shore',
+});
+areas.forest =  {
+    'name': 'Forest',
     'travelTime': 3,
-    'travelDamage': 0,
-    '$graphic': $img('shore.png'),
+    'travelDamage': 1,
+    '$graphic': $img('forest.png'),
     'actions': [
-        new BattleAction(monsters.turtus, 2),
-        new BattleAction(monsters.snappingTurtus, 3),
-        new MoveAction('cave', 4),
-        new MoveAction('forest', 6)
+        //new BattleAction(monsters.rat, 2),
+        //new BattleAction(monsters.bandit, 3),
+        new MoveAction('shore', 1),
+        //new MoveAction('village', 4)
     ],
-    'story': 'Was I in a shipwreck? I can remember no events only the impression of suffering and loss remains. And yet I woke up on this shore completely healthy, as if reborn.',
-    'trackName': 'ReboundInsomnia'
+    'story': 'There is something soulless and alien about the creatures I have encountered since waking. It is almost as if their only purpose is to act as adversaries and obstacles to my progress.'
 };
-}
-areas.cave =  {
+/*areas.cave =  {
     'name': 'Cave',
     'travelTime': 5,
     'travelDamage': 2,
@@ -43,19 +49,6 @@ areas.cave =  {
         new MoveAction('shore', 3)
     ],
     'story': 'The ore deposits in this cave resonate with something lost to me. I once made things, things of quality and beauty. If I can find the strength to harvest this ore, perhaps I will once more.'
-};
-areas.forest =  {
-    'name': 'Forest',
-    'travelTime': 3,
-    'travelDamage': 1,
-    '$graphic': $img('forest.png'),
-    'actions': [
-        new BattleAction(monsters.rat, 2),
-        new BattleAction(monsters.bandit, 3),
-        new MoveAction('shore', 1),
-        new MoveAction('village', 4)
-    ],
-    'story': 'There is something soulless and alien about the creatures I have encountered since waking. It is almost as if their only purpose is to act as adversaries and obstacles to my progress.'
 };
 areas.village =  {
     'name': 'Village',
@@ -350,4 +343,6 @@ areas.throneRoom = {
         }),
         new MoveAction('castle', 6)
     ]
-};
+};*/
+
+$.each(areas, function (key, area) { area.key = key;});

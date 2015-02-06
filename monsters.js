@@ -42,7 +42,7 @@ monsters.turtus = {
     'damage': 30,
     'attackSpeed': .5,
     'experience': 8,
-    '$graphic': newGraphics ? $noahMonster('small turtle') : $hillaryMonster('smallTurtle'),
+    '$graphic': $noahMonster('small turtle'),
     'spoils': ['smallShell', 'brokenShell', 'brokenShell', 'brokenShell'],
     'helpText': 'I\'ll need a strong weapon to pierce this monster\'s hard shell.'
 };
@@ -143,7 +143,7 @@ monsters.snappingTurtus = {
     'damage': 50,
     'attackSpeed': .5,
     'experience': 70,
-    '$graphic': newGraphics ? $noahMonster('medium turtle') : $hillaryMonster('turtle'),
+    '$graphic': $noahMonster('medium turtle'),
     'spoils': ['spikyShell', 'brokenShell', 'brokenShell', 'brokenShell'],
     'helpText': 'The adult turtus has a spiky shell that hurts me when I try to attack it. I should avoid it until I am much stronger.',
     'reflect': .5

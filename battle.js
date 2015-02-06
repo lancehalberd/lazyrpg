@@ -2,213 +2,224 @@
 var fighting = null;
 var winInstantly = false;
 
-actions.fight = function (params) {
+actions.wait = function (params) {
     checkParams(1, params);
-    var action = targets.fight[params[0]];
-    if (!action) {
-        throw new ProgrammingError("There is no '" + params[0] + "' to fight here.");
+    player.delay = 1000 * parseFloat(params[0]);
+};
+actions.attack = function (params) {
+    if (params.length < 1) {
+        throw new ProgrammingError("You must specify what you are attacking");
     }
-    action(params);
+    if (params.length > 2) {
+        throw new ProgrammingError("Expected at most 2 values, found " + params.length);
+    }
+    var type = params[0];
+    if (!currentArea.agentsByKey[type]) {
+        throw new ProgrammingError("There is no " + type + " here for you to attack.");
+    }
+    var index = 0;
+    if (params.length == 2) {
+        index = parseInt(params[1]);
+    } else {
+        for (index = 0; index < currentArea.agentsByKey[type].length; index++) {
+            if (currentArea.agentsByKey[type][index].active) {
+                break;
+            }
+        }
+        if (index >= currentArea.agentsByKey[type].length) {
+            index = 0;
+        }
+    }
+    if (!currentArea.agentsByKey[type][index].active) {
+        throw new ProgrammingError("That target has already been defeated.");
+    }
+    player.delay = (1000 / player.getAttackSpeed());
+    player.method = function () {
+        attackTarget(currentArea.agentsByKey[type][index]);
+    }
+};
+
+function attackTarget(monster) {
+    var armorPierce = player.getArmorPierce();
+    var damage = player.getDamage();
+    if (!player.specialSkills.scan) {
+        var factor = 1 / player.getTenacity();
+        var parry = monster.parry ? monster.parry : 0;
+        damage = applyArmorToDamage(damage, Math.max(0, (parry * factor + Math.max(0, monster.armor - monster.battleStatus.armorReduction)) * (1 - armorPierce)));
+        if (monster.reflect) {
+            var mitigatedDamage = player.getDamage() - damage;
+            var reflectedDamage = Math.floor(mitigatedDamage * monster.reflect);
+            if (reflectedDamage) {
+                player.health = player.health - reflectedDamage;
+            }
+        }
+    }
+    monster.damageDisplay.updated = true;
+    if (damage > 0) {
+        monster.health = Math.max(0, monster.health - damage);
+        if (!player.specialSkills.poach) {
+            monster.damaged++;
+        }
+        monster.damageDisplay.amount += damage;
+    }
+    var armorBreak = player.getArmorBreak();
+    if (armorBreak) {
+        monster.battleStatus.armorReduction += armorBreak;
+    }
+    var cripple = player.getCripple();
+    if (cripple) {
+        monster.battleStatus.crippled += cripple;
+    }
+    var poison = player.getPoison();
+    if (poison) {
+        monster.battleStatus.poisonDamage += poison;
+        monster.battleStatus.poisonRate++;
+    }
+    var lifeSteal = player.getLifeSteal();
+    if (lifeSteal) {
+        player.gainLife(Math.floor(damage * lifeSteal));
+    }
+    player.health = Math.max(0, player.health);
+    scheduleMonsterForUpdate(monster);
 }
 
-function BattleAction(sourceMonster, slot, victoryFunction) {
-    var monster = copy(sourceMonster);
-    if (!monsters[monster.key]) {
-        throw new Exception("Battle Action expects a monster: " + sourceMonster);
-    }
-    monster.maxHealth = monster.health;
-    monster.damaged = 0;
-    monster.battleStatus = freshBattleStatus();
-    //used to trigger special results when bosses are defeated
-    monster.victoryFunction = victoryFunction;
-    this.monster = monster;
-    this.getDiv = function () {
-        if (!monster.$element) {
-            monster.$element = $('.js-monster').clone().removeClass('js-monster').show();
-            monster.$element.find('.js-graphic').html(monster.$graphic).attr('helpText', monster.helpText);
-        }
-        updateMonster(monster);
-        return $div('slot' + slot, monster.$element).css('position', 'absolute')
-    };
-    this.getTarget = function () {
-        return monster.$element.find('.js-graphic');
-    };
-    this.action = function () {
-        if (fighting === monster) {
-            return "stop";
-        }
-        return "fight " + monster.key;
-    };
-    this.addActions = function () {
-        targets.fight[monster.key] = function (params) {
-            if (player.health <= 0 && !winInstantly) {
-                throw new ProgrammingError("You need more health to fight.");
-            }
-            stopAll();
-            fighting = monster;
-            monster.$element.addClass('fighting');
-            monster.accruedDamageForDisplay = 0;
-            monster.hasHitsToDisplay = false;
-            player.nextAttack = 1000 / player.getAttackSpeed();
-            monster.nextAttack = 0;
-        }
-    };
-}
-function BattleDataAction(data) {
-    var monster = copy(data.monster);
-    if (!monsters[monster.key]) {
+function MonsterAgent(data) {
+    var monster = this;
+    this.area = null; //Will be set when this agent is placed in an area
+    this.agentType = 'monster';
+    this.active = true;
+    this.top = data.top;
+    this.left = data.left;
+    if (!data.monster || !monsters[data.monster.key]) {
         throw new Exception("Battle Action expects a monster: " + data.monster);
     }
-    monster.maxHealth = monster.health;
-    monster.damaged = 0;
-    monster.battleStatus = freshBattleStatus();
+    //copy the values from the monster onto this agent
+    $.each(data.monster, function (key, value) {
+        monster[key] = copy(value);
+    });
+    this.maxHealth = this.health;
     //used to trigger special results when bosses are defeated
-    monster.victoryFunction = data.victoryFunction;
-    this.monster = monster;
-    this.getDiv = function () {
-        if (!monster.$element) {
-            monster.$element = $('.js-monster').clone().removeClass('js-monster').show();
-            monster.$element.find('.js-graphic').html(monster.$graphic).attr('helpText', monster.helpText);
+    this.victoryFunction = data.victoryFunction;
+    this.reset = function () {
+        this.health = this.maxHealth;
+        this.damaged = 0;
+        this.battleStatus = freshBattleStatus();
+        this.active = true;
+        this.timeDefeated = 0;
+        this.damageDisplay = new DamageDisplay(this);
+        scheduleMonsterForUpdate(this);
+    };
+    this.update = function () {
+        if (this.area != currentArea) {
+            return;
         }
-        updateMonster(monster);
-        return $div('', monster.$element).css('position', 'absolute').css('left', (data.left - 480) + 'px').css('top', (data.top - 300) + 'px');
-    };
-    this.getTarget = function () {
-        return monster.$element.find('.js-graphic');
-    };
-    this.action = function () {
-        if (fighting === monster) {
-            return "stop";
+        if (!this.$element) {
+            this.$element = $('.js-monster').clone().removeClass('js-monster').show();
+            this.$element.find('.js-graphic')
+                .html(this.$graphic)
+                .attr('helpText', this.helpText);
+            this.$wrapper = $div('', this.$element).css('position', 'absolute').css('left', (data.left - 480) + 'px').css('top', (data.top - 300) + 'px');
         }
-        return "fight " + monster.key;
-    };
-    this.addActions = function () {
-        targets.fight[monster.key] = function (params) {
-            if (player.health <= 0 && !winInstantly) {
-                throw new ProgrammingError("You need more health to fight.");
+        var $monster = this.$element;
+        if (this.active) {
+            var $container = $('.js-areaAgents');
+            if (!this.$wrapper.closest($container).length) {
+                $container.append(this.$wrapper);
             }
-            stopAll();
-            fighting = monster;
-            monster.$element.addClass('fighting');
-            monster.accruedDamageForDisplay = 0;
-            monster.hasHitsToDisplay = false;
-            player.nextAttack = 1000 / player.getAttackSpeed();
-            monster.nextAttack = 0;
+            var index = this.area.agentsByKey[this.key].indexOf(this);
+            this.$element.find('.js-graphic').attr('code', 'attack ' + this.key + ' ' + index);
+        } else {
+            this.$wrapper.remove();
+            this.$element.find('.js-graphic').removeAttr('code');
         }
-    };
+        this.needsUpdate = false;
+        if (this.plague) {
+            $monster.find('.js-plagueFill').css('width', (100 * this.plague / maxPlague(this)) + '%');
+        } else {
+            $monster.find('.js-plagueFill').css('width', 0 + '%');
+        }
+        if (this.health < this.maxHealth) {
+            $monster.addClass('damaged');
+        } else {
+            $monster.removeClass('damaged');
+        }
+        $monster.find('.js-name').text('Lvl ' + this.level + ' ' + this.name);
+        $monster.find('.js-experience').text(this.experience + ' XP');
+        $monster.find('.js-currentHealth').text(Math.ceil(this.health));
+        $monster.find('.js-maxHealth').text(Math.ceil(this.maxHealth));
+        $monster.find('.js-damage').text(this.damage);
+        $monster.find('.js-attackSpeed').text(monsterAttackSpeed(this).toFixed(2));
+        $monster.find('.js-armor').text(Math.max(0, this.armor - this.battleStatus.armorReduction));
+        var healthPercent = this.health / this.maxHealth;
+        $monster.find('.js-healthFill').css('width', (100 * healthPercent) + '%');
+        healthPercent = Math.min(1, (this.health + getRecover(this)) / this.maxHealth);
+        $monster.find('.js-recoverFill').css('width', (100 * healthPercent) + '%');
+        var $itemRow = $monster.find('.js-spoils').remove().first();
+        for (var i = 0; i < this.spoils.length; i++) {
+            item = this.spoils[i];
+            if (!item) {
+                continue;
+            }
+            if (typeof(item) === 'string' && allItems[item]) {
+                $itemRow.find('.js-item').text(allItems[item].name);
+            } else if (typeof(item) === 'number') {
+                $itemRow.find('.js-icon').removeClass('item').addClass('gold');
+                $itemRow.find('.js-item').text(item);
+            } else {
+                $itemRow.find('.js-item').text(typeof(item));
+            }
+            var chance = getDropChance(this, i, this.spoils.length, true);
+            $itemRow.find('.chance').text((100 * chance).toFixed(0) + '%');
+            $monster.find('.js-spoilsContainer').append($itemRow.clone());
+        }
+    }
+    this.reset();
+}
+function addMonsterAgent(area, monsterAgent) {
+    if (!area.agentsByKey[monsterAgent.key]) {
+        area.agentsByKey[monsterAgent.key] = [];
+    }
+    var placed = false;
+    for (var i = 0; i < area.agentsByKey[monsterAgent.key].length; i++) {
+        if (!area.agentsByKey[monsterAgent.key][i]) {
+            area.agentsByKey[monsterAgent.key][i] = monsterAgent;
+            placed = true;
+            break;
+        }
+    }
+    if (!placed) {
+        area.agentsByKey[monsterAgent.key].push(monsterAgent);
+    }
+    area.agents.push(monsterAgent);
+    monsterAgent.area = area;
 }
 function applyCripple(attackSpeed, cripple) {
     return attackSpeed / (1 + Math.log(1 + cripple / 6));
 }
-function fightLoop(currentTime, deltaTime) {
-    var monster = fighting;
-    processStatusEffects(player, deltaTime);
-    processStatusEffects(monster, deltaTime);
-    player.nextAttack -= deltaTime;
-    if (player.nextAttack <= 0) {
-        var armorPierce = player.getArmorPierce();
-        var damage = player.getDamage();
-        if (!player.specialSkills.scan) {
-            var factor = 1 / player.getTenacity();
-            var parry = monster.parry ? monster.parry : 0;
-            damage = applyArmorToDamage(damage, Math.max(0, (parry * factor + Math.max(0, monster.armor - monster.battleStatus.armorReduction)) * (1 - armorPierce)));
-            if (monster.reflect) {
-                var mitigatedDamage = player.getDamage() - damage;
-                var reflectedDamage = Math.floor(mitigatedDamage * monster.reflect);
-                if (reflectedDamage) {
-                    player.health = player.health - reflectedDamage;
-                }
-            }
-        }
-        monster.hasHitsToDisplay = true;
-        if (damage > 0) {
-            monster.health = Math.max(0, monster.health - damage);
-            monster.accruedDamageForDisplay += damage;
-            if (!player.specialSkills.poach) {
-                monster.damaged++;
-            }
-        }
-        var armorBreak = player.getArmorBreak();
-        if (armorBreak) {
-            monster.battleStatus.armorReduction += armorBreak;
-        }
-        var cripple = player.getCripple();
-        if (cripple) {
-            monster.battleStatus.crippled += cripple;
-        }
-        var poison = player.getPoison();
-        if (poison) {
-            monster.battleStatus.poisonDamage += poison;
-            monster.battleStatus.poisonRate++;
-        }
-        var lifeSteal = player.getLifeSteal();
-        if (lifeSteal) {
-            player.gainLife(Math.floor(damage * lifeSteal));
-        }
-        player.health = Math.max(0, player.health);
-        player.nextAttack += 1000 / player.getAttackSpeed();
+function attackPlayer(monster, deltaTime) {
+    var factor = 1 / player.getTenacity();
+    var armorPierce = monster.armorPierce ? (factor * monster.armorPierce) : 0;
+    var damage = applyArmorToDamage(monster.damage, Math.max(0, player.getArmor() * (1 - armorPierce)));
+    var mitigatedDamage = monster.damage - damage;
+    var reflectedDamage = Math.floor(mitigatedDamage * getTotalEnchantment('reflect'));
+    if (reflectedDamage) {
+        monster.health = Math.max(0, monster.health - reflectedDamage);
     }
-    monster.nextAttack -= deltaTime;
-    if (monster.nextAttack <= 0 && !winInstantly) {
-        var factor = 1 / player.getTenacity();
-        var armorPierce = monster.armorPierce ? (factor * monster.armorPierce) : 0;
-        var damage = applyArmorToDamage(monster.damage, Math.max(0, player.getArmor() * (1 - armorPierce)));
-        var mitigatedDamage = monster.damage - damage;
-        var reflectedDamage = Math.floor(mitigatedDamage * getTotalEnchantment('reflect'));
-        if (reflectedDamage) {
-            monster.health = Math.max(0, monster.health - reflectedDamage);
-        }
-        player.health = Math.max(0, player.health - damage);
-        if (monster.armorBreak) {
-            player.battleStatus.armorReduction += Math.floor(factor * monster.armorBreak);
-        }
-        if (monster.cripple) {
-            player.battleStatus.crippled += Math.floor(factor * monster.cripple);
-        }
-        if (monster.poison) {
-            player.battleStatus.poisonDamage += Math.floor(factor * monster.poison);
-            player.battleStatus.poisonRate += Math.floor(factor);
-        }
-        if (monster.lifeSteal) {
-            monster.health = Math.min(monster.maxHealth, monster.health + Math.floor(damage * factor * monster.lifeSteal));
-        }
-        monster.nextAttack += 1000 / monsterAttackSpeed(monster);
+    player.health = Math.max(0, player.health - damage);
+    if (monster.armorBreak) {
+        player.battleStatus.armorReduction += Math.floor(factor * monster.armorBreak);
     }
-    if (winInstantly || monster.health <= 0) {
-        gainExperience(Math.floor(monster.experience * (1 + getTotalEnchantment('experience'))), monster.level);
-        player.defeatedMonsters[monster.key]++;
-        for (var i = 0; i < monster.spoils.length; i++) {
-            if (Math.random() > getDropChance(monster, i, monster.spoils.length, false)) {
-                continue;
-            }
-            var dropValue = monster.spoils[i];
-            if (typeof(dropValue) === 'string' && allItems[dropValue]) {
-                var item = allItems[dropValue];
-                player.inventory[item.slot][dropValue]++;
-                if (player.specialSkills.lucky) {
-                    player.inventory[item.slot][dropValue]++;
-                }
-                //reset coolingMagma timer each time you gain one from battle
-                if (item.key == 'coolingMagma') {
-                    items.coolingMagma.timer = 30000;
-                }
-                uiNeedsUpdate[item.slot] = true;
-            } else if (typeof(dropValue) === 'number') {
-                player.gold += dropValue;
-                if (player.specialSkills.lucky) {
-                    player.gold += dropValue;
-                }
-            }
-        }
-        stopFighting(true);
-        if (monster.victoryFunction) {
-            monster.victoryFunction();
-        }
-        return;
+    if (monster.cripple) {
+        player.battleStatus.crippled += Math.floor(factor * monster.cripple);
     }
-    if (player.health <= 0) {
-        stopFighting(false);
+    if (monster.poison) {
+        player.battleStatus.poisonDamage += Math.floor(factor * monster.poison);
+        player.battleStatus.poisonRate += Math.floor(factor);
     }
+    if (monster.lifeSteal) {
+        monster.health = Math.min(monster.maxHealth, monster.health + Math.floor(damage * factor * monster.lifeSteal));
+    }
+    monster.nextAttack += 1000 / monsterAttackSpeed(monster);
 }
 /**
  * Shows a number on the enemy graphic indicating how much damage has happened
@@ -216,22 +227,32 @@ function fightLoop(currentTime, deltaTime) {
  * if the player has hit the monster since then. Damage will show even if 0,
  * although 0 damage may not be possible in the game any longer
  */
-function showAccruedDamageOnMonster() {
-    var monster = fighting;
-    if (!monster || !monster.hasHitsToDisplay || damageCounterRefresh > 0) {
-        return;
-    }
-    damageCounterRefresh = 3;
-    //show damage animation only when the game speed is below 30
-    var $damage = $('<span style="color: #f04; position: absolute; top: 0px; font-size: 30px; font-weight: bold;">' + monster.accruedDamageForDisplay + '</span>');
-    monster.$element.find('.js-graphic').append($damage);
-    $damage.animate({top: "-=50"}, 500,
-        function () {
-            $damage.remove();
+function showAccruedDamage() {
+    for (var i = 0; i < damageDisplays.length; i++) {
+        var damageDisplay = damageDisplays[i];
+        if (damageDisplay.counter > 0) {
+            damageDisplay.counter--;
+            continue;
         }
-    );
-    monster.hasHitsToDisplay = false;
-    monster.accruedDamageForDisplay = 0;
+        if (!damageDisplay.updated) {
+            if (!damageDisplay.agent.active) {
+                damageDisplays.splice(i--, 1);
+            }
+            continue;
+        }
+        //show damage animation only when the game speed is below 30
+        var $damage = $('<span style="color: #f04; font-size: 30px; font-weight: bold;">' + damageDisplay.amount + '</span>');
+        $damage.css('position', 'absolute').css('top', (damageDisplay.top - 300) + 'px').css('left', (damageDisplay.left - 480) + 'px');
+        $('.js-areaOverlay').append($damage);
+        $damage.animate({top: "-=50"}, 500,
+            function () {
+                $damage.remove();
+            }
+        );
+        damageDisplay.counter = 3;
+        damageDisplay.updated = false;
+        damageDisplay.amount = 0;
+    }
 }
 function applyArmorToDamage(damage, armor) {
     //This equation looks a bit funny but is designed to have the following properties:
@@ -267,87 +288,10 @@ function processStatusEffects(target, deltaTime) {
     }
 }
 
-function stopFighting(victory) {
-    //if the player retreats, instantly deal all remaining poison damage
-    if (!victory) {
-        player.health = Math.max(0, Math.floor(player.health - player.battleStatus.poisonDamage));
-    }
-    player.battleStatus = freshBattleStatus();
-    if (fighting) {
-        fighting.$element.removeClass('fighting');
-        uiNeedsUpdate.area = true;
-        showAccruedDamageOnMonster();
-        var oldMonster = fighting;
-        fighting = null;
-        if (victory) {
-            oldMonster.health = oldMonster.maxHealth;
-            oldMonster.damaged = 0;
-            // special code for fighting plagued monsters in the lab
-            if (oldMonster.plague) {
-                player.infectWithPlague(oldMonster.plague);
-                oldMonster.plague = 0;
-                oldMonster.timesInfected = 0;
-                updateLabMonsterStats(oldMonster);
-            }
-        } else {
-            oldMonster.health = Math.min(oldMonster.health + getRecover(oldMonster), oldMonster.maxHealth);
-        }
-        oldMonster.battleStatus = freshBattleStatus();
-        updateMonster(oldMonster);
-        removeToolTip();
-    }
-    uiNeedsUpdate.playerStats = true;
-}
-
 function getRecover(monster) {
     return Math.max(0, (monster.recover ? monster.recover : 0) - monster.battleStatus.poisonDamage)
 }
 
-function updateMonster(monster) {
-    var $monster = monster.$element;
-    if (!$monster) {
-        return;
-    }
-    if (monster.plague) {
-        $monster.find('.js-plagueFill').css('width', (100 * monster.plague / maxPlague(monster)) + '%');
-    } else {
-        $monster.find('.js-plagueFill').css('width', 0 + '%');
-    }
-    if (monster.health < monster.maxHealth) {
-        $monster.addClass('damaged');
-    } else {
-        $monster.removeClass('damaged');
-    }
-    $monster.find('.js-name').text('Lvl ' + monster.level + ' ' + monster.name);
-    $monster.find('.js-experience').text(monster.experience + ' XP');
-    $monster.find('.js-currentHealth').text(Math.ceil(monster.health));
-    $monster.find('.js-maxHealth').text(Math.ceil(monster.maxHealth));
-    $monster.find('.js-damage').text(monster.damage);
-    $monster.find('.js-attackSpeed').text(monsterAttackSpeed(monster).toFixed(2));
-    $monster.find('.js-armor').text(Math.max(0, monster.armor - monster.battleStatus.armorReduction));
-    var healthPercent = monster.health / monster.maxHealth;
-    $monster.find('.js-healthFill').css('width', (100 * healthPercent) + '%');
-    healthPercent = Math.min(1, (monster.health + getRecover(monster)) / monster.maxHealth);
-    $monster.find('.js-recoverFill').css('width', (100 * healthPercent) + '%');
-    var $itemRow = $monster.find('.js-spoils').remove().first();
-    for (var i = 0; i < monster.spoils.length; i++) {
-        item = monster.spoils[i];
-        if (!item) {
-            continue;
-        }
-        if (typeof(item) === 'string' && allItems[item]) {
-            $itemRow.find('.js-item').text(allItems[item].name);
-        } else if (typeof(item) === 'number') {
-            $itemRow.find('.js-icon').removeClass('item').addClass('gold');
-            $itemRow.find('.js-item').text(item);
-        } else {
-            $itemRow.find('.js-item').text(typeof(item));
-        }
-        var chance = getDropChance(monster, i, monster.spoils.length, true);
-        $itemRow.find('.chance').text((100 * chance).toFixed(0) + '%');
-        $monster.find('.js-spoilsContainer').append($itemRow.clone());
-    }
-}
 function monsterAttackSpeed(monster) {
     var attackSpeed = applyCripple(monster.attackSpeed, monster.battleStatus.crippled);
     if (fighting == monster && player.helmet == helmets.proudHat) {
@@ -356,7 +300,7 @@ function monsterAttackSpeed(monster) {
     return attackSpeed;
 }
 function scheduleMonsterForUpdate(monster) {
-    uiNeedsUpdate.monsters[monster.key] = monster;
+    monster.needsUpdate = true;
 }
 
 function getDropChance(monster, index, total, getForNextHit) {

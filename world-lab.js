@@ -393,4 +393,3 @@ labAreas.forEach(function (area) {
 });
 var labMonsters = getMonstersForAreas(labAreas);
 resetLab();
-$.each(areas, function (key, area) { area.key = key;});

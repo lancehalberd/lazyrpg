@@ -66,7 +66,7 @@ function MoveAction(target, slot, onCompleteFunction) {
 function MoveMapAction(data) {
     this.getArea = function () {
         if (targetArea == data.target) {
-            $('.js-currentArea').append($travelBar);
+            $('.js-areaOverlay').append($travelBar);
             updateTravelBar();
         }
         var $area = $('<area shape="poly" class="actionArea"></area>');
@@ -93,7 +93,7 @@ function MoveMapAction(data) {
         targets.move[data.target] = function (params) {
             stopAll();
             //attach the travel bar to this travel action to display the travel sequence
-            $('.js-currentArea').append($travelBar);
+            $('.js-areaOverlay').append($travelBar);
             $travelBar.css('left', (averagePoint[0] - 480) + 'px').css('top', (averagePoint[1] - 300) + 'px');
             targetArea = data.target;
             //called to run an action specific effect
