@@ -20,7 +20,7 @@ monsters.bat = {
     'experience': 2,
     '$graphic': $hillaryMonster('small bat'),
     'spoils': ['batWing', 'guano', 'guano'],
-    'helpText': 'A frenzied cave bat. I can fight this and other monsters to gain experience and become more powerful.'
+    'helpText': 'A frenzied cave bat. I can fight this and other monsters to gain experience and become more powerful.',
 };
 monsters.rat = {
     'name': 'Rat',

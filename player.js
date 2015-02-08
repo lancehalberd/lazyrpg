@@ -61,7 +61,7 @@ function newGameData() {
  */
 function getSavedData() {
     return {
-        'area': player.area,
+        'area': player.area.key,
         'inventory': copy(player.inventory),
         'visibleSkills': copy(player.visibleSkills),
         'learnedSkills': copy(player.learnedSkills),
@@ -98,6 +98,8 @@ function applySavedData(savedData) {
             });
         } else if (['weapon', 'helmet', 'boots', 'armor'].indexOf(key) >= 0) {
             player[key] = allItems[value];
+        } else if (key =='area') {
+            player[key] = areas[key];
         } else {
             player[key] = value;
         }
@@ -148,8 +150,15 @@ var baseEquipment = {
     'boots': boots.bareFeet
 };
 applySavedData(newGameData());
-player.isPlayer =  true,
+player.executionContext = new ExecutionContext(function (action) {
+    return placeActions[action] ? placeActions[action] : actions[action];
+}, {
+    'my' : getPlayerStats
+});
+player.agentType = 'player';
 player.battleStatus = freshBattleStatus();
+player.damageDisplay = new NumericDisplay(this, 'damageDisplay');
+player.healingDisplay = new NumericDisplay(this, 'healingDisplay');
 player.getDamage = function () {
     var damageBonus = player.bonuses.damage;
     var weaponBonus = player.bonuses[player.weapon.type];
@@ -176,6 +185,9 @@ player.getDamage = function () {
     }
     return Math.floor(total);
 };
+player.stateCheck = function () {
+    //Check if the player is dead here
+}
 player.getAttackSpeed = function () {
     var attackSpeedBonus = player.bonuses.attackSpeed;
     var weaponBonus = player.bonuses[player.weapon.type];
@@ -196,11 +208,7 @@ player.getAttackSpeed = function () {
     if (player.specialSkills.tank) {
         total = total / 2;
     }
-    var cripplingEffect = player.battleStatus.crippled;
-    if (currentArea && currentArea.cripplingTentacles > .5) {
-        cripplingEffect += 2 * currentArea.cripplingTentacles;
-    }
-    return applyCripple(total, cripplingEffect);
+    return applyCripple(total, player.battleStatus.crippled);
 };
 player.getArmor = function () {
     //double damage, 0 armor
@@ -331,10 +339,7 @@ player.getTenacity = function () {
     return tenacity;
 };
 player.gainLife = function (amount) {
-    //plague of 100 renders all healing for the player innefective except for rebirthing
-    amount *= Math.max(0, 1 - player.plague / 100);
-    player.health = Math.min(player.getMaxHealth(), player.health + amount);
-    uiNeedsUpdate.playerStats = true;
+    healAgent(player, amount);
 };
 player.infectWithPlague = function (amount) {
     player.plague = Math.min(100, player.plague + amount * (1 - player.getPlagueResistance()));

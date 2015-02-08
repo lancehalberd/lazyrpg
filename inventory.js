@@ -221,18 +221,7 @@ function refreshInventoryPanel(typeKey) {
         if (item.value <= 0) {
             item.$element.find('.js-sellActions').remove();
         }
-        item.$element.find('.js-itemName').attr('helpText', helpText).data('helpFunction', function () {
-            if (fighting) {
-                return "Using an item or changing equipment while in combat will cause you to stop fighting.";
-            }
-            if (targetArea) {
-                return "Using an item or changing equipment while traveling will cancel the travel action.";
-            }
-            if (mining) {
-                return "Using an item or changing equipment while mining will caust you to stop mining.";
-            }
-            return '';
-        });
+        item.$element.find('.js-itemName').attr('helpText', helpText);
         item.$element.data('item', item);
         updatEnchantmentState(item);
         $('.js-inventoryPanel.js-' + typeKey + ' .js-body').append(item.$element);

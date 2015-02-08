@@ -284,7 +284,7 @@ actions.learn = function (params) {
         }
         //warn the user before consuming the memory crystal, which cannot be undone
         //do not warn them while running the program since the program cannot interact with the prompt
-        if (!runningProgram && !confirm('Are you sure you want to use a memory crystal to permanently unlock the ' + skill.name + ' class?')) {
+        if (!player.executionContext.running && !confirm('Are you sure you want to use a memory crystal to permanently unlock the ' + skill.name + ' class?')) {
             throw new ProgrammingError("You have decided not to unlock this class yet.");
         }
     }

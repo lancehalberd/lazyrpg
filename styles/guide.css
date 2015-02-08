@@ -1,0 +1,102 @@
+.icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right:5px;
+    background-image: url("../gfx/iconSet.png");
+}
+.icon.health {
+    background-position: -130px -10px;
+}
+.icon.shield {
+    background-position: -160px -10px;
+}
+.icon.armor {
+    background-position: -10px -10px;
+}
+.icon.helmet {
+    background-position: -280px -10px;
+}
+.icon.boots, .icon.speed {
+    background-position: -220px -10px;
+}
+.icon.damage, .icon.sword {
+    background-position: -190px -10px;
+}
+.icon.fist {
+    background-position: -100px -10px;
+}
+.icon.club {
+    background-position: -70px -10px;
+}
+.icon.bow {
+    background-position: -40px -10px;
+}
+.icon.item {
+    background-position: -250px -10px;
+}
+.icon.gold {
+    background-image: url('../gfx/iconGold.png');
+}
+.icon.clock {
+    background-image: url('../gfx/iconClock.png');
+}
+.value {
+    vertical-align: middle;
+}
+
+
+.ingredient {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.mineral {
+    width: 200px;
+    height: 150px;
+}
+.icon {
+    margin-right:5px;
+    margin-left:5px;
+}
+
+.toolTip {
+    position: absolute;
+    padding: 5px;
+    width: 220px;
+    font-size: 16px;
+    border: 2px solid #fff;
+    box-sizing: border-box;
+    background-color: #20C060;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.mineralGraphic {
+    position: absolute;
+    display: inline-block;
+    background-image: url('../gfx/minerals.png');
+}
+
+.mineralGraphic.copper {
+    background-position: -330px -390px;
+    width: 150px;
+    height: 100px;
+    left: -75px;
+    top: -50px;
+}
+
+.mineralGraphic.iron {
+    background-position: 0px -240px;
+    width: 150px;
+    height: 100px;
+    left: -75px;
+    top: -50px;
+}
+
+.body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 450px;
+}

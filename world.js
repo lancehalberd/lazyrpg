@@ -1,6 +1,6 @@
 var areas = {};
 var placeActions = {};
-var targetedActions = ['move', 'fight', 'mine'];
+var targetedActions = ['move', 'mine'];
 var targets = {};
 var availableRecipes = {};
 
@@ -135,7 +135,7 @@ function setArea(area) {
     });
     var changedAreas = (!currentArea || currentArea.key != area.key);
     currentArea = area;
-    player.area = area.key;
+    player.area = area;
     if (!area.initialized && area.initialize) {
         area.initialize();
     }
@@ -181,20 +181,6 @@ function refreshArea() {
     currentArea.agents.forEach(function (agent) {
         agent.update();
     });
-}
-
-function runCodeFromUI(code) {
-    try {
-        runLine(code);
-        recordAction(code);
-    } catch(e) {
-        if (e instanceof ProgrammingError) {
-            alert(e.message);
-        } else {
-            console.log(e.stack);
-            throw e;
-        }
-    }
 }
 
 function WorldArea(data) {

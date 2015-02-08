@@ -277,7 +277,7 @@ function resetCove() {
                     }
                     //core only regenerates if the body is alive
                     areas.cove.coreBattleAction.monster.health = Math.min(areas.cove.coreBattleAction.monster.health + 1000 * deltaTime / 1000, areas.cove.coreBattleAction.monster.maxHealth);
-                    scheduleMonsterForUpdate(areas.cove.coreBattleAction.monster);
+                    scheduleAgentForUpdate(areas.cove.coreBattleAction.monster);
                 }
             }
             var factor = 1;//factor is 1 at start and when head is alive
@@ -299,7 +299,7 @@ function resetCove() {
             if (areas.cove.isNeptuneDesperate) {
                 areas.cove.leechingTentacles += .1 * deltaTime / 1000;
                 areas.cove.coreBattleAction.monster.health = Math.min(areas.cove.coreBattleAction.monster.health + areas.cove.leechingTentacles * 2000 * deltaTime / 1000, areas.cove.coreBattleAction.monster.maxHealth);
-                scheduleMonsterForUpdate(areas.cove.coreBattleAction.monster);
+                scheduleAgentForUpdate(areas.cove.coreBattleAction.monster);
                 updateTentacleStats(areas.cove.leechingTentacleBattleAction.monster, monsters.leechingTentacles, areas.cove.leechingTentacles);
             } else if (areas.cove.bodyTimer > 0 && areas.cove.coreBattleAction.monster.health < areas.cove.coreBattleAction.monster.maxHealth * .3) {
                 //neptune becomes desperate when its health drops below 30%. It will no longer
@@ -313,9 +313,9 @@ function resetCove() {
 }
 function updateCove() {
     uiNeedsUpdate.area = true;
-    scheduleMonsterForUpdate(areas.cove.headBattleAction.monster);
-    scheduleMonsterForUpdate(areas.cove.bodyBattleAction.monster);
-    scheduleMonsterForUpdate(areas.cove.coreBattleAction.monster);
+    scheduleAgentForUpdate(areas.cove.headBattleAction.monster);
+    scheduleAgentForUpdate(areas.cove.bodyBattleAction.monster);
+    scheduleAgentForUpdate(areas.cove.coreBattleAction.monster);
     var $coreElement = areas.cove.coreBattleAction.monster.$element;
     if ($coreElement && !areas.cove.isNeptuneDesperate && areas.cove.bodyTimer <= 0) {
         areas.cove.coreBattleAction.monster.helpText = 'I need to destroy the body again in order to attack the core more.';
@@ -328,13 +328,9 @@ function updateCove() {
     updateTentacleStats(areas.cove.leechingTentacleBattleAction.monster, monsters.leechingTentacles, areas.cove.leechingTentacles);
 }
 function updateTentacleStats(monster, baseMonster, amount) {
-    if (fighting && fighting.key == monster.key) {
-        monster.maxHealth = Math.round(baseMonster.health * amount);
-    } else {
-        monster.health = monster.maxHealth = Math.round(baseMonster.health * amount);
-    }
+    monster.maxHealth = Math.round(baseMonster.health * amount);
     monster.recover = baseMonster.recover * amount;
     monster.attackSpeed = baseMonster.attackSpeed * amount;
-    scheduleMonsterForUpdate(monster);
+    scheduleAgentForUpdate(monster);
 }
 resetCove();

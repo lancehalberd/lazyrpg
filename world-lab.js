@@ -227,9 +227,6 @@ function infectMonster(monster, amount) {
     if (areas.controlRoom.plagueLevel >= 100) {
         return;
     }
-    if (monster == fighting) {
-        return;
-    }
     if (!monster.nearbyMonsters) {
         monster.nearbyMonsters = getMonstersForAreas(getNearbyAreas(monster.area));
     }
@@ -335,7 +332,7 @@ function updateLabMonsterStats(monster, forceUpdate) {
         monster.spoils.push('antigen');
     }
     monster.level = Math.round(baseMonster.level + monster.plague)
-    scheduleMonsterForUpdate(monster);
+    scheduleAgentForUpdate(monster);
 }
 function maxPlague(monster) {
     return monster.timesInfected + 3 + monsters[monster.key].level / 5;

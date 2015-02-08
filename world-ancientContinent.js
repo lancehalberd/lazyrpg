@@ -139,13 +139,13 @@ areas.woods = {
         currentArea.gold = Math.max(0, currentArea.depth - 2);
     },
     'realTimeLoop': function (deltaTime) {
-        if (currentArea.hindTimer > 0 && (!fighting || fighting.key != 'goldenHind')) {
+        if (currentArea.hindTimer > 0) {
             currentArea.hindTimer -= deltaTime;
             if (currentArea.hindTimer <= 0) {
                 uiNeedsUpdate.area = true;
             }
         }
-        if (currentArea.blueCapTimer > 0 && (!fighting || fighting.key != 'blueCap')) {
+        if (currentArea.blueCapTimer > 0) {
             currentArea.blueCapTimer -= deltaTime;
             if (currentArea.blueCapTimer <= 0) {
                 uiNeedsUpdate.area = true;

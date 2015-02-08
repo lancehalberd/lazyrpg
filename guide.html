@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="styles/cssReset.css"/>
+<style type="text/css" >
+    .documentBody {
+        font-size: small;
+        font-family: verdana;
+        padding: 20px;
+        width: 1000px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="styles/guide.css"/>
+<link rel="stylesheet" type="text/css" href="styles/guideMonsters.css"/>
+<link rel="stylesheet" href="../jquery-ui/themes/base/jquery.ui.all.css">
+<script src="jquery.min.js"></script>
+<script src="../jquery-ui/ui/jquery-ui.js"></script>
+<script src="guide.js"></script>
+<script src="actions.js"></script>
+<script src="battle.js"></script>
+<script src="items.js"></script>
+<script src="equipment.js"></script>
+<script src="weapons.js"></script>
+<script src="inventory.js"></script>
+<script src="shop.js"></script>
+<script src="enchanting.js"></script>
+<script src="mining.js"></script>
+<script src="traveling.js"></script>
+<script src="recipes.js"></script>
+<script src="crafting.js"></script>
+<script src="skillTree.js"></script>
+<script src="monsters.js"></script>
+<script src="player.js"></script>
+<script src="world.js"></script>
+<script src="world-start.js"></script>
+<script src="world-island.js"></script>
+<script src="world-lab.js"></script>
+</head>
+<body class="documentBody js-gameContainer">
+<table class="js-monsters">
+    <tbody class="js-monsterSource monster">
+        <tr class="row">
+            <td class="js-name name value">Lvl 1 Turtus</td>
+            <td class="value">XP</td>
+            <td class="js-experience experience value">0</td>
+            <td class="icon health"></td><td class="js-currentHealth currentHealth">200</td>
+            <td class="icon damage"></td><td class="js-damage damage value">5</td>
+            <td class="icon speed"></td><td class="js-attackSpeed speed value">2</td>
+            <td class="icon shield"></td><td class="js-armor armor value">0</td>
+        </tr>
+        <tr>
+            <td class="js-spoilsContainer" colspan="10"><span class="js-spoils" style="margin-right: 10px;"><span class="js-icon icon item"></span><span class="js-item value">Broken Shell</span></span></td>
+        </tr>
+        <tr height="30px">
+            <td class="js-extra" colspan="10"></td>
+        </tr>
+    </tbody>
+</table>
+
+    <div class="js-mineral mineral" style="display: none">
+        <div class="js-graphic graphic">
+        </div>
+        <div class="timeRow">
+            <span class="icon item"></span><div class="healthBar">
+                <div class="js-timeFill healthFill"></div>
+                <span class="js-name name">Mine Copper</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="js-baseRecipe js-recipe recipe" style="display: none;">
+        <div><span class="js-result">Fur</span> <button class="js-craft craftAction">Craft</button></div>
+        <div class="js-ingredient ingredient"><span class="js-current current value">5</span> / <span class="js-cost cost value">2</span> <span class="js-name name">Scrap of Fur</span></div>
+    </div>
+    <div class="js-baseItem js-item inventoryItem" style="display: none;">
+        <span class="js-itemName value">Small Potion</span>
+        <div class="js-armorDetails itemDetails">
+            <span class="js-level value">Level 0</span>
+            <span class="status">
+                <span class="icon shield"></span><span class="js-armor value">8</span>
+            </span>
+        </div>
+        <div class="js-weaponDetails itemDetails">
+            <span class="js-level value">Level 0</span>
+            <span class="js-type value">Club</span>
+            <span class="status">
+                <span class="icon damage"></span><span class="js-damage value">15</span>
+            </span>
+            <span class="status">
+                <span class="icon speed"></span><span class="js-attackSpeed value">1</span>
+            </span>
+        </div>
+    </div>
+</body>
+</html>

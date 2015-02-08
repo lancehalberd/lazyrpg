@@ -1,0 +1,324 @@
+.hillaryMonster {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-size: 100%;
+    background-image: url('../gfx/critterSpriteSheet.png');
+}
+.hillaryMonster.small,
+.hillaryMonster.medium,
+.hillaryMonster.large {
+    transform:         scale(.5);
+    -webkit-transform: scale(.5);
+    -moz-transform:    scale(.5);
+    -ms-transform:     scale(.5);
+    -o-transform:      scale(.5);
+    background-size: auto;
+}
+
+
+.hillaryMonster.mole {
+    background-position: 0px 0px;
+}
+.hillaryMonster.troll {
+    background-position: -220px 0px;
+}
+.hillaryMonster.bandit {
+    background-position: -440px 0px;
+}
+.hillaryMonster.bat {
+    background-position: -660px 0px;
+}
+.hillaryMonster.armadilloLizard {
+    background-position: -880px 0px;
+}
+.hillaryMonster.hawk {
+    background-position: -1100px 0px;
+}
+.hillaryMonster.lion {
+    background-position: -1320px 0px;
+}
+.hillaryMonster.flower {
+    background-position: -1540px 0px;
+}
+.hillaryMonster.barnacle {
+    background-position: 0px -220px;
+}
+.hillaryMonster.pirate {
+    background-position: -220px -220px;
+}
+.hillaryMonster.woodGolem {
+    background-position: -440px -220px;
+}
+.hillaryMonster.guard {
+    background-position: -660px -220px;
+}
+.hillaryMonster.captain {
+    background-position: -880px -220px;
+}
+.hillaryMonster.scorpion {
+    background-position: -1100px -220px;
+}
+.hillaryMonster.spider {
+    background-position: -1320px -220px;
+}
+.hillaryMonster.bear {
+    background-position: -1540px -220px;
+}
+.hillaryMonster.rat {
+    width: 100px;
+    height: 100px;
+    background-image: url('../gfx/critter-rat.png');
+}
+.hillaryMonster.smallTurtle {
+    width: 100px;
+    height: 100px;
+    background-image: url('../gfx/critter-turtus.png');
+}
+.hillaryMonster.turtle {
+    background-image: url('../gfx/critter-turtus.png');
+    width: 150px;
+    height: 150px;
+    left: -100px;
+}
+.hillaryMonster.spikyTurtle {
+    background-image: url('../gfx/critter-spikyTurtus.png');
+    width: 150px;
+    height: 150px;
+    left: -100px;
+}
+.hillaryMonster.dragon {
+    width: 100px;
+    height: 100px;
+    background-image: url('../gfx/critter-dragon.png');
+}
+
+.ff2Monster {
+    display: inline-block;
+    width: 64px;
+    height: 80px;
+    background-image: url('../gfx/ff2Monsters.png');
+    background-size: 2202px;
+}
+
+.ff2Monster.bee {
+    background-position: -240px -30px;
+}
+.ff2Monster.mole {
+    background-position: -345px -280px;
+}
+.ff2Monster.bird {
+    background-position: -1120px -160px;
+}
+.ff2Monster.rat {
+    background-position: -1579px -30px;
+}
+.ff2Monster.rat2 {
+    background-position: -1654px -30px;
+}
+.ff2Monster.turtle {
+    background-position: -910px -30px;
+    width: 80px;
+    height: 80px;
+}
+.ff2Monster.snake {
+    background-position: -1840px -160px;
+    width: 80px;
+    height: 80px;
+}
+.ff2Monster.bandit {
+    background-position: -1264px -140px;
+}
+.ff2Monster.hyena {
+    background-position: -236px -1150px;
+}
+.ff2Monster.troll {
+    background-position: -1840px -840px;
+    left: -50px;
+    width: 90px;
+    height: 180px;
+}
+.ff2Monster.lion {
+    background-position: -450px -1150px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.fish {
+    background-position: -970px -140px;
+}
+.ff2Monster.pirate {
+    background-position: -1414px -150px;
+}
+.ff2Monster.crocodile {
+    background-position: -1050px -284px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.scorpion {
+    background-position: -246px -132px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.mudGolem {
+    background-position: -932px -1160px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.darkKnight {
+    background-position: -1130px -900px;
+}
+.ff2Monster.mercenary {
+    background-position: -340px -130px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.bear {
+    background-position: -1270px -900px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.guard {
+    background-position: -1590px -480px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.maverick {
+    background-position: -635px -270px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.captain {
+    background-position: -610px -460px;
+    width: 90px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.witch {
+    background-position: -1895px -500px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.golem {
+    background-position: -900px -395px;
+    width: 100px;
+    height: 180px;
+    left: -50px;
+    top: -30px;
+}
+.ff2Monster.woodGolem {
+    background-position: -800px -395px;
+    width: 100px;
+    height: 180px;
+    left: -50px;
+    top: -30px;
+}
+.ff2Monster.gargoyle {
+    background-position: -300px -1150px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+.ff2Monster.tRex {
+    background-position: -800px -600px;
+    width: 180px;
+    height: 180px;
+    top: -50px;
+    left: -130px;
+}
+.ff2Monster.royalGuard {
+    background-position: -1820px -480px;
+    width: 80px;
+    height: 90px;
+    left: -50px;
+}
+
+.ff2Monster.spider {
+    background-position: -355px -470px;
+    width: 90px;
+    height:  90px;
+    top: -40px;
+    left: -45px;
+}
+.ff2Monster.flower {
+    background-position: -795px -130px;
+    width: 90px;
+    height:  90px;
+    top: -40px;
+    left: -45px;
+}
+.ff2Monster.doomFlower {
+    background-position: -885px -130px;
+    width: 90px;
+    height:  90px;
+    top: -40px;
+    left: -45px;
+}
+.ff2Monster.king {
+    background-position: -160px -405px;
+    width: 90px;
+    height: 140px;
+    top: -50px;
+    left: -45px;
+}
+.ff2Monster.rhino {
+    background-position: -1560px -140px;
+    width: 90px;
+    height: 90px;
+    top: -50px;
+    left: -45px;
+}
+.ff2Monster.hydra {
+    background-position: -15px -960px;
+    width: 135px;
+    height: 135px;
+    top: -40px;
+    left: -70px;
+    background-size: 1651px;
+}
+.ff2Monster.tentacle1 {
+    width: 80px;
+    background-position: -10px -30px;
+}
+.ff2Monster.tentacle2 {
+    width: 80px;
+    background-position: -90px -30px;
+}
+.ff2Monster.tentacle3 {
+    width: 80px;
+    background-position: -890px -900px;
+}
+.ff2Monster.neptuneCore {
+    background-position: -200px -280px;
+}
+.ff2Monster.neptuneHead {
+    background-position: -10px -260px;
+    width: 90px;
+    height: 90px;
+    top: -50px;
+    left: -45px;
+}
+.ff2Monster.plague {
+    background-position: -1870px -1010px;
+    width: 250px;
+    height: 240px;
+    top: -50px;
+    left: -185px;
+}
+.ff2Monster.zombie {
+    background-position: -1880px -30px;
+}
+.ff2Monster.vampire {
+    background-position: -20px -460px;
+}
+.ff2Monster.sentry {
+    background-position: -470px -20px;
+}

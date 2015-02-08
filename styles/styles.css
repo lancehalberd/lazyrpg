@@ -842,3 +842,15 @@ button {
     float: right;
     margin-right: 5px;
 }
+
+.numericDisplay {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.numericDisplay.damageDisplay {
+    color: #f04;
+}
+.numericDisplay.healingDisplay {
+    color: #0f4;
+}

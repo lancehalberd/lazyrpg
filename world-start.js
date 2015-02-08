@@ -1,6 +1,7 @@
 function $illustration(source) {
     return $img(source).addClass('illustration');
 }
+
 areas.shore =  new WorldArea({
     'name': 'Shore',
     'travelTime': 3,

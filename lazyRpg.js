@@ -73,6 +73,17 @@ function copy(object) {
     return object;
 }
 
+/**
+ * Returns the value of array[key] if it is set, otherwise returns the given
+ * defaultValue;
+ */
+function ifseta(array, key, defaultValue) {
+    if ((typeof array[key]) === 'undefined') {
+        return defaultValue;
+    }
+    return array[key];
+}
+
 function timeSpan(value) {
     if (value === null) {
         return iconSpan('clock', '-:--');
@@ -95,6 +106,7 @@ var $popup = null;
 var $popupTarget = null;
 var drawing = false;
 var drawingPoints = [];
+var showTooltips = true;
 $(function () {
     //disable delete/backspace so users don't accidentally navigate away
     //if they press it when not focused on a textarea/input
@@ -139,7 +151,9 @@ $(function () {
     });
     $('.js-closeButton').on('click', closeAll);
     $('.js-gameContainer').on('mousedown', '[code]', function (event) {
-        runCodeFromUI($(this).attr('code'));
+        var code = $(this).attr('code');
+        player.executionContext.runProgram(code);
+        recordAction(code);
         removeToolTip();
     });
     $('.js-gameContainer').on('mouseover', '.monster .graphic', function (event) {
@@ -252,9 +266,9 @@ var uiNeedsUpdate = {
 };
 
 function updateUI() {
-    if (uiNeedsUpdate.playerStats) {
+    if (uiNeedsUpdate.playerStats || player.needsUpdate) {
         updatePlayerStats();
-        uiNeedsUpdate.playerStats = false;
+        uiNeedsUpdate.playerStats = player.needsUpdate = false;
     }
     if (currentArea) {
         currentArea.agents.forEach(function (agent) {
