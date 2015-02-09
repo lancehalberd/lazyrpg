@@ -1,30 +1,31 @@
-function $illustration(source) {
-    return $img(source).addClass('illustration');
+function $illustration(source, extraClass) {
+    return $img(source).addClass('illustration' + (extraClass ? ' ' + extraClass : ''));
 }
 
-areas.shore =  new WorldArea({
+areas.shore = new WorldArea({
     'name': 'Shore',
     '$graphic': $illustration('noahBeach.jpg'),
     'initialize': function () {
-        addAgentToArea(this, new MonsterAgent({'monster': monsters.rat, 'left': 430, 'top': 450}));
+        addAgentToArea(this, new MonsterAgent({'monster': monsters.turtus, 'left': 500, 'top': 450}));
+        addAgentToArea(this, new MonsterAgent({'monster': monsters.turtus, 'left': 330, 'top': 450}));
         addPath(this, new PathAction({'target': 'cave', 'points': '68.5,484,56.5,226,159.5,196,263.5,412'}));
         addPath(this, new PathAction({'target': 'forest', 'points': '957.5,93,693.5,164,633.5,377,728.5,473,956.5,550'}));
     },
     'loop': function () {
-        this.agentsByKey.rat.forEach(function (rat) {
-            if (rat.timeDefeated && (player.time - rat.timeDefeated) > 1000) {
-                rat.reset();
+        this.agentsByKey.turtus.forEach(function (turtus) {
+            if (turtus.timeDefeated && (player.time - turtus.timeDefeated) > 1000) {
+                turtus.reset();
             }
         });
     },
     'story': 'Was I in a shipwreck? I can remember no events only the impression of suffering and loss remains. And yet I woke up on this shore completely healthy, as if reborn.',
     'trackName': 'ReboundInsomnia'
 });
-areas.forest =  {
+areas.forest = new WorldArea({
     'name': 'Forest',
-    '$graphic': $img('forest.png'),
+    '$graphic': $illustration('forest.png', 'stretch'),
     'initialize': function () {
-        addAgentToArea(this, new MonsterAgent({'monster': monsters.rat, 'left': 430, 'top': 450}));
+        addAgentToArea(this, new MonsterAgent({'monster': monsters.rat, 'left': 400, 'top': 450}));
         addPath(this, new PathAction({'target': 'shore', 'points': '68.5,484,56.5,226,159.5,196,263.5,412'}));
     },
     'loop': function () {
@@ -35,25 +36,35 @@ areas.forest =  {
         });
     },
     'story': 'There is something soulless and alien about the creatures I have encountered since waking. It is almost as if their only purpose is to act as adversaries and obstacles to my progress.'
-};
-areas.cave =  {
+});
+areas.cave = new WorldArea({
     'name': 'Cave',
     'travelTime': 5,
     'travelDamage': 2,
-    '$graphic': $img('cave.png'),
+    '$graphic': $illustration('cave.png', 'stretch'),
     'initialize': function () {
-        addAgentToArea(this, new MonsterAgent({'monster': monsters.bat, 'left': 430, 'top': 450}));
+        addAgentToArea(this, new MonsterAgent({'monster': monsters.bat, 'left': 700, 'top': 60}));
+        addAgentToArea(this, new MonsterAgent({'monster': monsters.bat, 'left': 450, 'top': 50}));
+        addAgentToArea(this, new MonsterAgent({'monster': monsters.bat, 'left': 200, 'top': 70}));
         addPath(this, new PathAction({'target': 'shore', 'points': '957.5,93,693.5,164,633.5,377,728.5,473,956.5,550'}));
     },
     'loop': function () {
-        this.agentsByKey.rat.forEach(function (rat) {
-            if (rat.timeDefeated && (player.time - rat.timeDefeated) > 1000) {
-                rat.reset();
+        var lastBatDefeated = 0;
+        this.agentsByKey.bat.forEach(function (bat) {
+            if (bat.timeDefeated) {
+                lastBatDefeated = Math.max(bat.timeDefeated, lastBatDefeated);
+            } else {
+                lastBatDefeated = player.time;
             }
         });
+        if ((player.time - lastBatDefeated) > 1000) {
+            this.agentsByKey.bat.forEach(function (bat) {
+                bat.reset();
+            });
+        }
     },
     'story': 'The ore deposits in this cave resonate with something lost to me. I once made things, things of quality and beauty. If I can find the strength to harvest this ore, perhaps I will once more.'
-};
+});
 /*
 areas.village =  {
     'name': 'Village',

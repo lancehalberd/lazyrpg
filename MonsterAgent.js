@@ -33,6 +33,7 @@ function MonsterAgent(data) {
         monster[key] = copy(value);
     });
     this.maxHealth = this.health;
+    this.$graphic = this.$graphic.clone();
     this.area = null; //Will be set when this agent is placed in an area
     this.agentType = 'monster';
     this.active = true;
@@ -88,22 +89,21 @@ function MonsterAgent(data) {
         }
         if (!this.$element) {
             this.$element = $('.js-monster').clone().removeClass('js-monster').show();
+            this.$element.css('position', 'absolute').css('left', (data.left - 480) + 'px').css('top', (data.top - 300) + 'px');
             this.$element.find('.js-graphic')
                 .html(this.$graphic)
                 .attr('helpText', this.helpText);
-            this.$wrapper = $div('', this.$element).css('position', 'absolute').css('left', (data.left - 480) + 'px').css('top', (data.top - 300) + 'px');
         }
         var $monster = this.$element;
         if (this.active) {
             var $container = $('.js-areaAgents');
-            if (!this.$wrapper.closest($container).length) {
-                $container.append(this.$wrapper);
+            if (!this.$element.closest($container).length) {
+                $container.append(this.$element);
             }
             var index = this.area.agentsByKey[this.key].indexOf(this);
             this.$element.find('.js-graphic').attr('code', 'attack area.' + this.key + '.' + index);
         } else {
-            this.$wrapper.remove();
-            this.$element.find('.js-graphic').removeAttr('code');
+            this.$element.remove();
         }
         this.needsUpdate = false;
         if (this.plague) {
@@ -222,6 +222,9 @@ function MonsterAgent(data) {
     this.getTravelingSpeed = function () {
         return (this.travelingSpeed ? this.travelingSpeed : 1);
     };
+    this.animateAttack = function () {
+        this.$graphic.fadeOut(100).fadeIn(50);
+    }
 }
 
 function getDropChance(monster, index, total, getForNextHit) {

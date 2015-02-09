@@ -5,11 +5,11 @@ actions.stop = function (params, agent) {
     checkParams(0, params);
     agent.delay = 0;
     agent.method = null;
-    agent.destination = null;
-    if (agent.agentType == 'player') {
+    if (agent.destination && agent.agentType == 'player') {
         uiNeedsUpdate.travelingStats = true;
         uiNeedsUpdate.area = true;
     }
+    agent.destination = null;
 };
 
 actions.hideTabs = function (params) {

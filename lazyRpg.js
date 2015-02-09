@@ -224,9 +224,9 @@ function updateToolTip(x, y, $popup) {
     if (top + $popup.outerHeight() >= 600) {
         top = y - 10 - $popup.outerHeight();
     }
-    var left = x + 10;
-    if (left + $popup.outerWidth() >= 800) {
-        left = x - 10 - $popup.outerWidth();
+    var left = x - 10 - $popup.outerWidth();
+    if (left < 5) {
+        left = x + 10;
     }
     $popup.css('left', left + "px").css('top', top + "px");
 }

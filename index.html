@@ -64,7 +64,7 @@
 <script src="mainLoop.js"></script>
 </head>
 <body class="documentBody">
-<audio class="js-bgm" controls autoplay loop style="width: 100%">
+<audio class="js-bgm" controls loop style="width: 100%">
     <source src="sound/DayFour.mp3" type="audio/mp3">
 </audio>
 <div class="js-gameContainer gameContainer">
@@ -93,33 +93,34 @@
             <div class="js-graphic graphic action">
                 <div class="ff2Monster turtle"></div>
             </div>
-            <div class="name">
-                <span class="js-name value">Lvl 1 Turtus</span>
-                <span class="js-experience value">0 XP</span>
-            </div>
-            <div class="healthRow">
-                <span class="icon health"></span><div class="healthBar">
-                    <div class="js-recoverFill recoverFill"></div>
-                    <div class="js-healthFill healthFill"></div>
-                    <div class="js-plagueFill plagueFill"></div>
-                    <span class="js-currentHealth currentHealth">200</span>
-                    <span class="slash">/</span>
-                    <span class="js-maxHealth maxHealth">200</span>
+            <div class="monsterStats js-monsterStats">
+                <div class="name">
+                    <span class="js-name value">Lvl 1 Turtus</span>
+                    <span class="js-experience value">0 XP</span>
                 </div>
-            </div>
-            <div class="statsRow">
-                <span class="status">
-                    <span class="icon damage"></span><span class="js-damage value">5</span>
-                </span>
-                <span class="status">
-                    <span class="icon speed"></span><span class="js-attackSpeed value">2</span>
-                </span>
-                <span class="status">
-                    <span class="icon shield"></span><span class="js-armor value">0</span>
-                </span>
-            </div>
-            <div class="js-spoilsContainer spoilsRow">
-                <div class="js-spoils spoils"><span class="js-chance chance value">100%</span><span class="js-icon icon item"></span><span class="js-item value">Broken Shell</span></div>
+                <div class="healthRow">
+                    <span class="icon health"></span><div class="healthBar">
+                        <div class="js-healthFill healthFill"></div>
+                        <div class="js-plagueFill plagueFill"></div>
+                        <span class="js-currentHealth currentHealth">200</span>
+                        <span class="slash">/</span>
+                        <span class="js-maxHealth maxHealth">200</span>
+                    </div>
+                </div>
+                <div class="statsRow">
+                    <span class="status">
+                        <span class="icon damage"></span><span class="js-damage value">5</span>
+                    </span>
+                    <span class="status">
+                        <span class="icon speed"></span><span class="js-attackSpeed value">2</span>
+                    </span>
+                    <span class="status">
+                        <span class="icon shield"></span><span class="js-armor value">0</span>
+                    </span>
+                </div>
+                <div class="js-spoilsContainer spoilsRow">
+                    <div class="js-spoils spoils"><span class="js-chance chance value">100%</span><span class="js-icon icon item"></span><span class="js-item value">Broken Shell</span></div>
+                </div>
             </div>
         </div>
 

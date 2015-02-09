@@ -77,6 +77,7 @@ function moveAgent(agent, deltaTime) {
                 var newPath = agent.area.paths[path.connectedPathKey];
                 agent.pathKey = newPath.key;
                 agent.pathTime = newPath.time * .9;
+                agent.destination = null;
             }
         } else {
             agent.pathTime -= amount;
@@ -113,7 +114,6 @@ function travelingLoop(currentTime, deltaTime) {
 }
 
 function updateTravelBar() {
-    //console.log("update travel bar");
     if (!player.destination) {
         $travelBar.remove();
         return;
@@ -124,6 +124,7 @@ function updateTravelBar() {
     $travelBar.show();
     var timePercent;
     var currentPath = player.area.paths[player.pathKey];
+    //Current path is not defined after leaving this area
     var destinationPath = player.area.paths[player.destination];
     if (currentPath == destinationPath) {
         timePercent = .5 - .5 * (player.pathTime / currentPath.time);

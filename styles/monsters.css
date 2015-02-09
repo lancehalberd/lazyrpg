@@ -25,22 +25,56 @@
 .noahMonster.turtle {
     background-image: url('../gfx/noahTurtle.gif');
 }
-
-.monster > div {
+/* Specify z-index to make sure this monster's stats can appear above monsters stats to the right of it */
+.monster {
+    z-index: 1;
+}
+.monster .healthRow {
+    margin-left: 80px;
+}
+.monster .statsRow {
+    margin-left: 90px;
+}
+.monster .spoilsRow {
+    margin-left: 95px;
+}
+.monster .spoilsRow .spoils {
+    position: relative;
+    margin-top: 2px;
+}
+.monster .spoilsRow .spoils .chance {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 30px;
+    text-align: right;
+    font-size: 12px;
+}
+.monster .spoilsRow .spoils .icon {
+    margin-left: 10px;
+}
+.monsterStats {
     display: none;
+    position: absolute;
+    top: -60px;
+    left: -40px;
+    width: 330px;
+    height: 120px;
 }
 .monster > div.graphic {
     display: block;
+    z-index: 2;
 }
-/*.monster > div.graphic:hover + div {
-    display: block;
-}*/
-.monster.over > div {
+.monster > div.graphic:hover + div.monsterStats {
     display: block;
 }
-.monster.damaged > div.name,
-.monster.damaged > div.healthRow {
-    display: block;
+
+.monster .value {
+    background-color: rgba(1,1,1,.5);
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: -2px;
+    margin-right: -2px;
 }
 
 .hillaryMonster {

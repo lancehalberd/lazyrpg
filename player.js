@@ -196,15 +196,18 @@ player.getDamage = function () {
     }
     return Math.floor(total);
 };
+player.animateAttack = function () {
+    //maybe we'll do something here?
+};
 player.stateCheck = function () {
     //Check if the player is dead here
-}
+};
 player.getReflect = function () {
     return getTotalEnchantment('reflect');
-}
+};
 player.getTravelingSpeed = function () {
     return 1 + getTotalEnchantment('travelingSpeed');
-}
+};
 player.getAttackSpeed = function () {
     var attackSpeedBonus = player.bonuses.attackSpeed;
     var weaponBonus = player.bonuses[player.weapon.type];

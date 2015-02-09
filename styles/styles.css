@@ -55,14 +55,6 @@
     vertical-align: middle;
 }
 
-.monster .value {
-    background-color: rgba(1,1,1,.5);
-    padding-left: 2px;
-    padding-right: 2px;
-    margin-left: -2px;
-    margin-right: -2px;
-}
-
 .characterStatsContainer {
     position: absolute;
     left: 80px;
@@ -228,12 +220,6 @@
     width: 100%;
     height: 20px;
 }
-.healthBar .recoverFill {
-    position: absolute;
-    background: #600;
-    width: 100%;
-    height: 20px;
-}
 .healthBar .plagueFill {
     position: absolute;
     background: #A0C020;
@@ -394,6 +380,10 @@
     left: -480px;
     top: -300px;
 }
+.currentArea img.stretch {
+    width: 960px;
+    height: 600px;
+}
 
 .action {
     position: absolute;
@@ -471,13 +461,6 @@
     top: 200px;
     left: 200px;
 }
-.monster {
-    position: absolute;
-    top: -60px;
-    left: -40px;
-    width: 330px;
-    height: 120px;
-}
 .mineral {
     position: absolute;
     top: -50px;
@@ -489,35 +472,6 @@
     margin-right:5px;
     margin-left:5px;
 }
-.monster .healthRow {
-    margin-left: 80px;
-}
-.monster .statsRow {
-    margin-left: 90px;
-}
-.monster .spoilsRow {
-    margin-left: 95px;
-}
-.monster .spoilsRow .spoils {
-    position: relative;
-    margin-top: 2px;
-}
-.monster .spoilsRow .spoils .chance {
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    width: 30px;
-    text-align: right;
-    font-size: 12px;
-}
-.monster .spoilsRow .spoils .icon {
-    margin-left: 10px;
-}
-.monster .graphic {
-    position: absolute;
-    top: 60px;
-    left: 40px;
-}
 .mineral .graphic {
     position: absolute;
     top: 80px;
@@ -528,7 +482,7 @@
     padding: 5px;
 }
 
-.monsterAction, .mineralAction {
+.mineralAction {
     position: absolute;
     left: 50px;
     top: 100px;
