@@ -9,7 +9,7 @@ function mainLoop() {
     //run other agents code first
     for (var j = 0; j < currentArea.agents.length && linesLeft > 0; j++) {
         var agent = currentArea.agents[j];
-        while (!agent.executionContext.error && agent.active && !agent.delay && !agent.method && linesLeft > 0) {
+        while (isAgentRunningCode(agent) && linesLeft > 0) {
             //restart the agent's loop if it isn't currently running
             if (!agent.executionContext.running) {
                 agent.executionContext.runProgram(agent.controlLoop);
@@ -19,7 +19,7 @@ function mainLoop() {
         }
     }
     //run the players code, if any is running
-    while (player.executionContext.running && !player.delay && !player.method && linesLeft > 0) {
+    while (isAgentRunningCode(player) && linesLeft > 0) {
         player.executionContext.runNextLine();
         linesLeft--;
     }
@@ -30,13 +30,13 @@ function mainLoop() {
         if (currentArea.loop) {
             currentArea.loop(deltaTime);
         }
-        passivePlayerLoop(deltaTime);
+        passiveAgentLoop(player, deltaTime);
         currentArea.agents.forEach(function (agent) {
             if (!agent.active) {
                 return;
             }
             if (agent.agentType == 'monster') {
-                passiveMonsterLoop(agent, deltaTime);
+                passiveAgentLoop(agent, deltaTime);
             }
         });
 
@@ -47,6 +47,7 @@ function mainLoop() {
             player.method();
             player.method = null;
         }
+        moveAgent(player, deltaTime);
         currentArea.agents.forEach(function (agent) {
             if (!agent.active) {
                 return;
@@ -57,6 +58,7 @@ function mainLoop() {
                 agent.method();
                 agent.method = null;
             }
+            moveAgent(agent, deltaTime);
         });
         player.stateCheck();
         currentArea.agents.forEach(function (agent) {
@@ -88,4 +90,13 @@ function passiveAgentLoop(agent, deltaTime) {
             items.coolingMagma.timer = 30000;
         }
     }
+}
+
+/**
+ * @param {Agent} agent
+ */
+function isAgentRunningCode(agent) {
+    return agent.active && !agent.delay && !agent.method
+        && !agent.executionContext.error
+        && (agent.executionContext.running || agent.controlLoop);
 }

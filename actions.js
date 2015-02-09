@@ -1,9 +1,15 @@
 //holds all actions that can be used from a macro
 var actions = {};
 
-actions.stop = function (params) {
+actions.stop = function (params, agent) {
     checkParams(0, params);
-    stopAll();
+    agent.delay = 0;
+    agent.method = null;
+    agent.destination = null;
+    if (agent.agentType == 'player') {
+        uiNeedsUpdate.travelingStats = true;
+        uiNeedsUpdate.area = true;
+    }
 };
 
 actions.hideTabs = function (params) {
@@ -61,10 +67,9 @@ actions.attack = function (params, agent) {
     if (!target) {
         throw new ProgrammingError("Invalid target: " + params[0]);
     }
-    agent.delay = (1000 / agent.getAttackSpeed());
-    agent.method = function () {
+    assignDelayedAction(agent, 1000 / agent.getAttackSpeed(), function () {
         agentAttacksTarget(agent, target);
-    };
+    });
 };
 
 /**

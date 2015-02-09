@@ -1,7 +1,5 @@
 var areas = {};
 var placeActions = {};
-var targetedActions = ['move', 'mine'];
-var targets = {};
 var availableRecipes = {};
 
 function RebirthAction(slot) {
@@ -130,9 +128,6 @@ function updateShop() {
 function setArea(area) {
     placeActions = {};
     availableRecipes = {};
-    targetedActions.forEach(function(action) {
-        targets[action] = {};
-    });
     var changedAreas = (!currentArea || currentArea.key != area.key);
     currentArea = area;
     player.area = area;
@@ -145,41 +140,16 @@ function setArea(area) {
     $('.js-currentArea').empty().append(currentArea.$graphic);
     $('.js-currentArea').append($div('js-areaAgents'));
     $('.js-currentArea').append($div('js-areaOverlay'));
-    var $map = null;
-    currentArea.actions.forEach(function (action) {
-        action.addActions();
-        if (action.getArea) {
-            if (!$map) {
-                $map = $('<map name="actions"></map>');
-            }
-            var $area = action.getArea();
-            $map.append($area);
-            var actionCode = evaluateAction(action.action);
-            if (actionCode) {
-                $area.attr('code', actionCode);
-            }
-        } else {
-            var $actionDiv = action.getDiv();
-            $('.js-areaAgents').append($actionDiv);
-            var actionCode = evaluateAction(action.action);
-            if (actionCode) {
-                if (action.getTarget) {
-                    action.getTarget().attr('code', actionCode);
-                } else {
-                    $actionDiv.attr('code', actionCode);
-                }
-            }
-        }
-    });
-    if ($map) {
-        currentArea.$graphic.attr('usemap', '#actions');
-        $('.js-currentArea').append($map);
-    }
+    $('.js-currentArea').append($('<map class="js-areaMaps" name="actions"></map>'));
+    currentArea.$graphic.attr('usemap', '#actions');
     refreshArea();
 }
 function refreshArea() {
     currentArea.agents.forEach(function (agent) {
         agent.update();
+    });
+    $.each(currentArea.paths, function (key, path) {
+        path.update();
     });
 }
 
@@ -192,9 +162,37 @@ function WorldArea(data) {
     this.initialized = false;
     this.agents = [];
     this.agentsByKey = {};
+    this.paths = {};
 }
 
-function removeAgentFromArea(area, agent) {
+function addPath(area, pathAction) {
+    area.paths[pathAction.key] = pathAction;
+    pathAction.area = area;
+    if (!pathAction.connectedPathKey) {
+        pathAction.connectedPathKey = area.key;
+    }
+}
+
+function addAgentToArea(area, agent) {
+    if (!area.agentsByKey[agent.key]) {
+        area.agentsByKey[agent.key] = [];
+    }
+    var placed = false;
+    for (var i = 0; i < area.agentsByKey[agent.key].length; i++) {
+        if (!area.agentsByKey[agent.key][i]) {
+            area.agentsByKey[agent.key][i] = agent;
+            placed = true;
+            break;
+        }
+    }
+    if (!placed) {
+        area.agentsByKey[agent.key].push(agent);
+    }
+    area.agents.push(agent);
+    agent.area = area;
+}
+
+function removeAgentFromArea(agent) {
     spliceFromArray(area.agents, agent);
     spliceFromArray(area.agentsByKey[agent.key], agent);
 }

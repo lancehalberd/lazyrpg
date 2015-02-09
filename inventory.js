@@ -32,7 +32,6 @@ actions.use = function (params) {
     if (!item.use) {
         throw new ProgrammingError("You cannot use that item.");
     }
-    stopAll();
     item.use();
     player.inventory[item.slot][item.key]--;
     if (player.inventory[item.slot][item.key]) {
@@ -57,7 +56,6 @@ actions.equip = function (params) {
     if (!canEquip(item)) {
         throw new ProgrammingError("You aren't skilled enough to equip a '" + key + "'.");
     }
-    stopAll();
     player[item.equipmentSlot] = item;
     uiNeedsUpdate.playerStats = true;
     uiNeedsUpdate[item.slot] = true;
@@ -73,7 +71,6 @@ actions.remove = function (params) {
     if (!item || !item.equipmentSlot || player[item.equipmentSlot] != item) {
         throw new ProgrammingError("You don't have that equipped.");
     }
-    stopAll();
     player[item.equipmentSlot] = baseEquipment[item.equipmentSlot];
     uiNeedsUpdate.playerStats = true;
     uiNeedsUpdate[item.slot] = true;
@@ -84,7 +81,6 @@ actions.remove = function (params) {
 };
 actions.optimizeArmor = function (params) {
     checkParams(0, params);
-    stopAll();
     $.each(player.inventory.armors, equipArmorIfBetter);
     $.each(player.inventory.helmets, equipArmorIfBetter);
     $.each(player.inventory.boots, equipArmorIfBetter);

@@ -140,7 +140,7 @@ var mining = null;
  */
 actions.mine = function (params) {
     checkParams(1, params);
-    var action = targets.mine[params[0]];
+    var action = '';//Fix this
     if (!action) {
         throw new ProgrammingError("There is no '" + params[0] + "' to mine here.");
     }
@@ -163,20 +163,18 @@ function MiningAction(mineral, slot, onCompleteFunction) {
         return "mine " + mineral.key;
     };
     this.addActions = function () {
-        targets.mine[mineral.key] = function (params) {
-            checkParams(1, params);
-            var mineralKey = params[0];
-            var mineral = minerals[mineralKey];
-            if (player.health <= 0) {
-                throw new ProgrammingError("You need more health to mine.");
-            }
-            mining = mineral;
-            //these are stored on the mineral as a hack since we don't
-            //track floating point life, but need to track floating point damage
-            mineral.damageDealt = 0;
-            mineral.initialPlayerHealth = player.health;
-            uiNeedsUpdate.miningStats = true
+        checkParams(1, params);
+        var mineralKey = params[0];
+        var mineral = minerals[mineralKey];
+        if (player.health <= 0) {
+            throw new ProgrammingError("You need more health to mine.");
         }
+        mining = mineral;
+        //these are stored on the mineral as a hack since we don't
+        //track floating point life, but need to track floating point damage
+        mineral.damageDealt = 0;
+        mineral.initialPlayerHealth = player.health;
+        uiNeedsUpdate.miningStats = true
     };
 }
 

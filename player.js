@@ -98,8 +98,8 @@ function applySavedData(savedData) {
             });
         } else if (['weapon', 'helmet', 'boots', 'armor'].indexOf(key) >= 0) {
             player[key] = allItems[value];
-        } else if (key =='area') {
-            player[key] = areas[key];
+        } else if (key == 'area') {
+            player[key] = areas[value];
         } else {
             player[key] = value;
         }
@@ -150,15 +150,26 @@ var baseEquipment = {
     'boots': boots.bareFeet
 };
 applySavedData(newGameData());
-player.executionContext = new ExecutionContext(function (action) {
+player.executionContext = new ExecutionContext(player);
+player.getActionMethod = function (action) {
     return placeActions[action] ? placeActions[action] : actions[action];
-}, {
-    'my' : getPlayerStats
-});
+};
+player.contextValues = {
+    'my' : getPlayerStats,
+    'area': function (parts) {
+        return getAreaTarget(parts.join('.'), player) != null ? parts.join('.') : false;
+    }
+};
+player.active = true;
+player.pathTime = 0;
 player.agentType = 'player';
+player.key = 'player';
 player.battleStatus = freshBattleStatus();
 player.damageDisplay = new NumericDisplay(this, 'damageDisplay');
 player.healingDisplay = new NumericDisplay(this, 'healingDisplay');
+player.hasSkill = function (skill) {
+    return player.specialSkills[skill] != null;
+}
 player.getDamage = function () {
     var damageBonus = player.bonuses.damage;
     var weaponBonus = player.bonuses[player.weapon.type];
@@ -187,6 +198,12 @@ player.getDamage = function () {
 };
 player.stateCheck = function () {
     //Check if the player is dead here
+}
+player.getReflect = function () {
+    return getTotalEnchantment('reflect');
+}
+player.getTravelingSpeed = function () {
+    return 1 + getTotalEnchantment('travelingSpeed');
 }
 player.getAttackSpeed = function () {
     var attackSpeedBonus = player.bonuses.attackSpeed;

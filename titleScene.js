@@ -81,7 +81,7 @@ function startGame(savedData) {
     refreshPrograms();
     actions.setSpeed([player.gameSpeed]);
     updateProgramButtons();
-    setArea(areas[player.area]);
+    setArea(player.area);
     $('.js-mapScene').show();
 }
 
@@ -124,4 +124,3 @@ function saveCurrentGame() {
     savedGames[player.name] = getSavedData();
     saveData();
 }
-

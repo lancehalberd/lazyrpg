@@ -13,10 +13,12 @@ function Agent() {
     this.damageDisplay = new NumericDisplay(this, 'damageDisplay');
     this.healingDisplay = new NumericDisplay(this, 'healingDisplay');
     this.getActionMethod = function (action) {
-
     }
     this.contextValues = {};
-
+    this.destination = null;
+    this.pathKey = '';
+    /* @type Number */
+    this.pathTime = 0;
 }
 
 function damageAgent(agent, damage) {
@@ -83,6 +85,7 @@ function agentAttacksTarget(agent, target) {
         agent.gainLife(Math.floor(damage * lifeSteal));
     }
     agent.health = Math.max(0, agent.health);
+    target.needsUpdate = true;
 }
 
 
@@ -90,7 +93,6 @@ function processStatusEffects(target, deltaTime) {
     //always process this for player in case the player has a special DOT on them
     if (target.battleStatus.poisonDamage || target.getDamageOverTime) {
         var damage = Math.min(target.battleStatus.poisonDamage, target.battleStatus.poisonRate * deltaTime / 100);
-        //console.log(target.battleStatus.dealtPoisonDamage + ' + ' + damage);
         //dealtPoisonDamage accrues the floating point damage from poison over time
         target.battleStatus.dealtPoisonDamage += damage;
         //use the dealt poison damage to accrue extra DOT from cooling magma and other sources during battles
@@ -118,12 +120,14 @@ function scheduleAgentForUpdate(agent) {
 }
 
 function getAreaTarget(value, agent) {
+    if (typeof value != 'string') {
+        throw new ProgrammingError('Expected a target string found: ' + value);
+    }
     var parts = value.split('.');
     if (parts[0] == 'myself') {
         return agent;
     }
     if (parts[0] == 'player') {
-        //player can only
         if (player.area == agent.area) {
             return player;
         }
@@ -150,4 +154,10 @@ function getAreaTarget(value, agent) {
         return agent.area.agentsByKey[type][index];
     }
     return null;
+}
+
+function assignDelayedAction(agent, delay, method) {
+    agent.destination = null;
+    agent.delay = delay;
+    agent.method = method;
 }

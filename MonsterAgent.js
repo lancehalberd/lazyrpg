@@ -25,6 +25,14 @@ function getMonsterStats(monster, parts) {
 }
 function MonsterAgent(data) {
     var monster = this;
+    if (!data.monster || !monsters[data.monster.key]) {
+        throw new Exception("Battle Action expects a monster: " + data.monster);
+    }
+    //copy the values from the monster onto this agent
+    $.each(data.monster, function (key, value) {
+        monster[key] = copy(value);
+    });
+    this.maxHealth = this.health;
     this.area = null; //Will be set when this agent is placed in an area
     this.agentType = 'monster';
     this.active = true;
@@ -36,8 +44,8 @@ function MonsterAgent(data) {
     if (typeof this.regenerate == 'undefined') {
         this.regenerate = Math.ceil(this.maxHealth / 10);
     }
-    this.getActionMethod = function () {
-        console.log("monster action " + action);
+    this.getActionMethod = function (action) {
+        //console.log("monster action " + action);
         if (action == 'attack') {
             return actions.attack;
         }
@@ -46,12 +54,10 @@ function MonsterAgent(data) {
         }
         if (action == 'rest') {
             return function (params) {
-                checkParams(1, params);
-                monster.delay = 1000;
-                monster.method = function () {
-                    console.log("resting for " + monster.regenerate);
+                checkParams(0, params);
+                assignDelayedAction(monster, 1000, function () {
                     monster.health = Math.min(monster.health + monster.regenerate, monster.maxHealth);
-                }
+                });
             };
         }
         return null;
@@ -61,23 +67,16 @@ function MonsterAgent(data) {
             return getMonsterStats(monster, parts);
         },
         'area': function (parts) {
-            return getAreaTarget(parts.join('.'), this) != null;
+            return getAreaTarget(parts.join('.'), monster) != null;
         }
     };
     this.executionContext = new ExecutionContext(this);
-    if (!data.monster || !monsters[data.monster.key]) {
-        throw new Exception("Battle Action expects a monster: " + data.monster);
-    }
-    //copy the values from the monster onto this agent
-    $.each(data.monster, function (key, value) {
-        monster[key] = copy(value);
-    });
-    this.maxHealth = this.health;
     this.reset = function () {
         this.health = this.maxHealth;
         this.damaged = 0;
         this.battleStatus = freshBattleStatus();
         this.active = true;
+        this.alive = true;
         this.timeDefeated = 0;
         this.damageDisplay = new NumericDisplay(this, 'damageDisplay');
         this.healingDisplay = new NumericDisplay(this, 'healingDisplay');
@@ -101,7 +100,7 @@ function MonsterAgent(data) {
                 $container.append(this.$wrapper);
             }
             var index = this.area.agentsByKey[this.key].indexOf(this);
-            this.$element.find('.js-graphic').attr('code', 'attack ' + this.key + '.' + index);
+            this.$element.find('.js-graphic').attr('code', 'attack area.' + this.key + '.' + index);
         } else {
             this.$wrapper.remove();
             this.$element.find('.js-graphic').removeAttr('code');
@@ -122,8 +121,8 @@ function MonsterAgent(data) {
         $monster.find('.js-currentHealth').text(Math.ceil(this.health));
         $monster.find('.js-maxHealth').text(Math.ceil(this.maxHealth));
         $monster.find('.js-damage').text(this.damage);
-        $monster.find('.js-attackSpeed').text(monsterAttackSpeed(this).toFixed(2));
-        $monster.find('.js-armor').text(Math.max(0, this.armor - this.battleStatus.armorReduction));
+        $monster.find('.js-attackSpeed').text(this.getAttackSpeed().toFixed(2));
+        $monster.find('.js-armor').text(Math.max(0, this.getArmor()));
         var healthPercent = this.health / this.maxHealth;
         $monster.find('.js-healthFill').css('width', (100 * healthPercent) + '%');
         var $itemRow = $monster.find('.js-spoils').remove().first();
@@ -148,7 +147,7 @@ function MonsterAgent(data) {
     this.reset();
     this.getAttackSpeed = function () {
         var attackSpeed = applyCripple(monster.attackSpeed, monster.battleStatus.crippled);
-        if (fighting == monster && player.helmet == helmets.proudHat) {
+        if (player.helmet == helmets.proudHat) {
             attackSpeed *= .9;
         }
         return attackSpeed;
@@ -193,24 +192,36 @@ function MonsterAgent(data) {
             return;
         }
     };
-}
-function addMonsterAgent(area, monsterAgent) {
-    if (!area.agentsByKey[monsterAgent.key]) {
-        area.agentsByKey[monsterAgent.key] = [];
+    this.hasSkill = function () {
+        return false;
+    };
+    this.getDamage = function () {
+        return (this.damage ? this.damage : 0);
     }
-    var placed = false;
-    for (var i = 0; i < area.agentsByKey[monsterAgent.key].length; i++) {
-        if (!area.agentsByKey[monsterAgent.key][i]) {
-            area.agentsByKey[monsterAgent.key][i] = monsterAgent;
-            placed = true;
-            break;
-        }
-    }
-    if (!placed) {
-        area.agentsByKey[monsterAgent.key].push(monsterAgent);
-    }
-    area.agents.push(monsterAgent);
-    monsterAgent.area = area;
+    this.getArmor = function () {
+        return (this.parry ? this.parry : 0) + Math.max(0, this.armor - this.battleStatus.armorReduction);
+    };
+    this.getArmorPierce = function () {
+        return (this.armorPierce ? this.armorPierce : 0);
+    };
+    this.getReflect = function () {
+        return (this.reflect ? this.reflect : 0);
+    };
+    this.getArmorBreak = function () {
+        return (this.armorBreak ? this.armorBreak : 0);
+    };
+    this.getCripple = function () {
+        return (this.cripple ? this.cripple : 0);
+    };
+    this.getPoison = function () {
+        return (this.poison ? this.poison : 0);
+    };
+    this.getLifeSteal = function () {
+        return (this.lifeSteal ? this.lifeSteal : 0);
+    };
+    this.getTravelingSpeed = function () {
+        return (this.travelingSpeed ? this.travelingSpeed : 1);
+    };
 }
 
 function getDropChance(monster, index, total, getForNextHit) {

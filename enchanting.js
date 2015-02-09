@@ -17,7 +17,7 @@ function emptyEnchantments() {
         'reflect': 0, //implemented
         'experience': 0, //implemented
         'tenacity': 0, //implemented
-        'travelingSpeed': 0
+        'travelingSpeed': 0 //implemented
     };
 }
 

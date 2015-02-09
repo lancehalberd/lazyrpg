@@ -240,10 +240,6 @@ function closeAll() {
     $('.js-inventoryPanel .js-sellActions').hide();
     removeToolTip();
 }
-function stopAll() {
-    stopTraveling();
-    removeToolTip();
-}
 
 var uiNeedsUpdate = {
     'playerStats': false,

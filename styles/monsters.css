@@ -35,8 +35,7 @@
 /*.monster > div.graphic:hover + div {
     display: block;
 }*/
-.monster.over > div,
-.monster.fighting > div {
+.monster.over > div {
     display: block;
 }
 .monster.damaged > div.name,

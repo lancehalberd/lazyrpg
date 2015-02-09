@@ -97,6 +97,7 @@ function ExecutionContext(agent) {
     };
 
     this.runLine = function (currentLine) {
+        if (this.agent.agentType == 'player')console.log(" " + currentLine);
         var tokens = tokenize(currentLine);
         var action = tokens.shift();
         if (action.charAt(0) === '$' || action.charAt(0) === '@') {
@@ -237,7 +238,7 @@ function ExecutionContext(agent) {
             tokens[i] = this.evaluateExpression(tokens[i]);
         }
         //console.log("after: " + JSON.stringify(tokens));
-        actionMethod(tokens);
+        actionMethod(tokens, this.agent);
     };
 
     this.evaluateExpression = function (expression) {
@@ -292,7 +293,8 @@ function ExecutionContext(agent) {
             return this.resolveContextValue (parts.slice(1), contextValues[parts[0]]);
         }
         if (typeof contextValues[parts[0]] == 'function') {
-            return contextValues[parts[0]](parts.slice(1));
+            var value = contextValues[parts[0]](parts.slice(1));
+            return value;
         }
         return contextValues[parts[0]];
     };
