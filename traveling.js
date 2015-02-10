@@ -1,4 +1,3 @@
-var currentArea = null;
 var $travelBar = $div('travel healthBar', $div('js-timeFill healthFill')).append($div('js-name name', 'traveling'));
 var $plagueBar = $div('plague healthBar', '')
     .append($div('js-maxPlagueFill maxPlagueFill'))
@@ -13,7 +12,7 @@ function PathAction(data) {
     /* @type {string} The key of the path this connects to in the target area */
     this.connectedPathKey = data.connectedPathKey;
     this.damage = data.damage ? data.damage : 0;
-    this.time = data.time ? data.time : 5000;
+    this.time = data.time ? data.time : 1000;
     //average point of the map area is used to position the travel bar when traveling
     this.averagePoint = getAveragePoint(this.pointsString.split(','))
 
@@ -61,6 +60,9 @@ actions.move = function (params, agent) {
         uiNeedsUpdate.travelingStats = true;
     }
     agent.destination = pathAction.key;
+    if (!agent.pathKey || !agent.area.paths[agent.pathKey]) {
+        agent.pathKey = agent.destination;
+    }
 }
 
 function moveAgent(agent, deltaTime) {
@@ -71,6 +73,7 @@ function moveAgent(agent, deltaTime) {
         }
         if (agent.pathKey == agent.destination) {
             var path = agent.area.paths[agent.pathKey];
+            agent.health = Math.max(0, agent.health - ((path.damage * deltaTime / path.time) / agent.getVigor()));
             agent.pathTime += amount;
             if (agent.pathTime >= path.time) {
                 changeAreas(agent, areas[path.target]);
@@ -80,7 +83,9 @@ function moveAgent(agent, deltaTime) {
                 agent.destination = null;
             }
         } else {
+            var path = agent.area.paths[agent.pathKey];
             agent.pathTime -= amount;
+            agent.health = Math.max(0, agent.health - ((path.damage * deltaTime / path.time) / agent.getVigor()));
             if (agent.pathTime <= 0) {
                 agent.pathTime = -agent.pathTime;
                 agent.pathKey = agent.destination;
@@ -95,22 +100,6 @@ function changeAreas(agent, newArea) {
         removeAgentFromArea(agent);
         addAgentToArea(newArea, agent);
     }
-}
-
-function travelingLoop(currentTime, deltaTime) {
-    var travelingSpeed = (1 + getTotalEnchantment('travelingSpeed'));
-    var vigor = player.bonuses.vigor.multi * (1 + getTotalEnchantment('vigor'));
-    var damageLevel = (currentArea.travelDamage + areas[targetArea].travelDamage) / 2;
-    var factor = player.health > 0 ? 1 : .5;
-    var timeTraveled = Math.min(player.travelTimeLeft, travelingSpeed * factor * deltaTime / 1000);
-    player.travelTimeLeft -= timeTraveled;
-    //divide by travelingSpeed because travelTime is actually the time traveled not taking into acount the traveling speed
-    player.travelDamage += (player.getDamageOverTime() + damageLevel / vigor) * timeTraveled / travelingSpeed;
-    player.health = Math.max(0, Math.round(player.initialPlayerHealth - player.travelDamage));
-    if (player.travelTimeLeft <= 0) {
-        setArea(areas[targetArea]);
-    }
-    uiNeedsUpdate.playerStats = true;
 }
 
 function updateTravelBar() {

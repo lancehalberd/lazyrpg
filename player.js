@@ -208,6 +208,9 @@ player.getReflect = function () {
 player.getTravelingSpeed = function () {
     return 1 + getTotalEnchantment('travelingSpeed');
 };
+player.getVigor = function () {
+    return player.bonuses.vigor.multi * (1 + getTotalEnchantment('vigor'));
+}
 player.getAttackSpeed = function () {
     var attackSpeedBonus = player.bonuses.attackSpeed;
     var weaponBonus = player.bonuses[player.weapon.type];
@@ -461,8 +464,8 @@ function describeHealthBar() {
 }
 
 function updatePlayerStats() {
-    $('.js-characterStats .js-currentHealth').text(Math.floor(player.health));
-    $('.js-characterStats .js-maxHealth').text(Math.floor(player.getMaxHealth()));
+    $('.js-characterStats .js-currentHealth').text(Math.ceil(player.health));
+    $('.js-characterStats .js-maxHealth').text(Math.ceil(player.getMaxHealth()));
     $('.js-characterStats .js-healthFill').css('width', (100 * player.health / player.getMaxHealth()) + '%');
     $('.js-characterStats .js-plagueFill').css('width', player.plague + '%');
     $('.js-characterStats .js-plagueResistanceFill').css('width', (100 * player.getPlagueResistance()) + '%');

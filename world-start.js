@@ -8,7 +8,7 @@ areas.shore = new WorldArea({
     'initialize': function () {
         addAgentToArea(this, new MonsterAgent({'monster': monsters.turtus, 'left': 500, 'top': 450}));
         addAgentToArea(this, new MonsterAgent({'monster': monsters.turtus, 'left': 330, 'top': 450}));
-        addPath(this, new PathAction({'target': 'cave', 'points': '68.5,484,56.5,226,159.5,196,263.5,412'}));
+        addPath(this, new PathAction({'target': 'cave', 'points': '68.5,484,56.5,226,159.5,196,263.5,412', 'damage': 10}));
         addPath(this, new PathAction({'target': 'forest', 'points': '957.5,93,693.5,164,633.5,377,728.5,473,956.5,550'}));
     },
     'loop': function () {

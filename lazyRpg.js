@@ -107,6 +107,7 @@ var $popupTarget = null;
 var drawing = false;
 var drawingPoints = [];
 var showTooltips = true;
+var mainLoopId;
 $(function () {
     //disable delete/backspace so users don't accidentally navigate away
     //if they press it when not focused on a textarea/input
@@ -151,6 +152,10 @@ $(function () {
     });
     $('.js-closeButton').on('click', closeAll);
     $('.js-gameContainer').on('mousedown', '[code]', function (event) {
+        if (!player.active || player.delay || player.method
+            || player.executionContext.running) {
+            return;
+        }
         var code = $(this).attr('code');
         player.executionContext.runProgram(code);
         recordAction(code);
@@ -186,7 +191,7 @@ $(function () {
         var y = event.pageY - $('.js-gameContainer').offset().top;
         updateToolTip(x, y, $popup);
     });
-    setInterval(mainLoop, 20);
+    mainLoopId = setInterval(mainLoop, 20);
     initializeTitleScene();
     initializeSkillTree();
     resetCharacter();

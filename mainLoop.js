@@ -7,17 +7,19 @@ function mainLoop() {
     var deltaTime = 20;
     var linesLeft = 200;
     //run other agents code first
-    for (var j = 0; j < currentArea.agents.length && linesLeft > 0; j++) {
-        var agent = currentArea.agents[j];
-        while (isAgentRunningCode(agent) && linesLeft > 0) {
-            //restart the agent's loop if it isn't currently running
-            if (!agent.executionContext.running) {
-                agent.executionContext.runProgram(agent.controlLoop);
+    $.each(activeAreas, function (key, area) {
+        area.agents.forEach(function (agent) {
+            while (isAgentRunningCode(agent) && linesLeft > 0) {
+                //restart the agent's loop if it isn't currently running
+                if (!agent.executionContext.running) {
+                    agent.executionContext.runProgram(agent.controlLoop);
+                }
+                agent.executionContext.runNextLine();
+                linesLeft--;
             }
-            agent.executionContext.runNextLine();
-            linesLeft--;
-        }
-    }
+            return linesLeft > 0;
+        });
+    });
     //run the players code, if any is running
     while (isAgentRunningCode(player) && linesLeft > 0) {
         player.executionContext.runNextLine();
@@ -27,16 +29,27 @@ function mainLoop() {
         //Mark the passage of time.
         player.time += deltaTime;
         //Passive effects that just happen as time passes
-        if (currentArea.loop) {
-            currentArea.loop(deltaTime);
-        }
-        passiveAgentLoop(player, deltaTime);
-        currentArea.agents.forEach(function (agent) {
-            if (!agent.active) {
-                return;
+        $.each(activeAreas, function (key, area) {
+            if (area.loop) {
+                area.loop(deltaTime);
             }
-            if (agent.agentType == 'monster') {
-                passiveAgentLoop(agent, deltaTime);
+        });
+        passiveAgentLoop(player, deltaTime);
+        $.each(activeAreas, function (key, area) {
+            var isActive = (area == currentArea);
+            area.agents.forEach(function (agent) {
+                if (!agent.active) {
+                    return;
+                }
+                isActive = true;
+                if (agent.agentType == 'monster') {
+                    passiveAgentLoop(agent, deltaTime);
+                }
+            });
+            //if no agents are active in this area, remove it from the list of
+            //active areas
+            if (!isActive) {
+                delete activeAreas[area.key];
             }
         });
 
@@ -48,24 +61,28 @@ function mainLoop() {
             player.method = null;
         }
         moveAgent(player, deltaTime);
-        currentArea.agents.forEach(function (agent) {
-            if (!agent.active) {
-                return;
-            }
-            if (agent.delay) {
-                agent.delay = Math.max(0, agent.delay - deltaTime);
-            } else if (agent.method) {
-                agent.method();
-                agent.method = null;
-            }
-            moveAgent(agent, deltaTime);
+        $.each(activeAreas, function (key, area) {
+            area.agents.forEach(function (agent) {
+                if (!agent.active) {
+                    return;
+                }
+                if (agent.delay) {
+                    agent.delay = Math.max(0, agent.delay - deltaTime);
+                } else if (agent.method) {
+                    agent.method();
+                    agent.method = null;
+                }
+                moveAgent(agent, deltaTime);
+            });
         });
         player.stateCheck();
-        currentArea.agents.forEach(function (agent) {
-            if (!agent.active || !agent.stateCheck) {
-                return;
-            }
-            agent.stateCheck(agent);
+        $.each(activeAreas, function (key, area) {
+            area.agents.forEach(function (agent) {
+                if (!agent.active || !agent.stateCheck) {
+                    return;
+                }
+                agent.stateCheck(agent);
+            });
         });
         uiNeedsUpdate.playerStats = true;
     }

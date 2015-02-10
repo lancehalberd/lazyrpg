@@ -46,7 +46,6 @@ function MonsterAgent(data) {
         this.regenerate = Math.ceil(this.maxHealth / 10);
     }
     this.getActionMethod = function (action) {
-        //console.log("monster action " + action);
         if (action == 'attack') {
             return actions.attack;
         }
@@ -82,6 +81,7 @@ function MonsterAgent(data) {
         this.damageDisplay = new NumericDisplay(this, 'damageDisplay');
         this.healingDisplay = new NumericDisplay(this, 'healingDisplay');
         scheduleAgentForUpdate(this);
+        this.$graphic.show();
     };
     this.update = function () {
         if (this.area != currentArea) {
@@ -224,7 +224,10 @@ function MonsterAgent(data) {
     };
     this.animateAttack = function () {
         this.$graphic.fadeOut(100).fadeIn(50);
-    }
+    };
+    this.getVigor = function () {
+        return (this.vigor ? this.vigor : 1);
+    };
 }
 
 function getDropChance(monster, index, total, getForNextHit) {

@@ -97,7 +97,7 @@ function ExecutionContext(agent) {
     };
 
     this.runLine = function (currentLine) {
-        if (this.agent.agentType == 'player')console.log(" " + currentLine);
+        if (this.agent.key == 'player')console.log(" " + currentLine);
         var tokens = tokenize(currentLine);
         var action = tokens.shift();
         if (action.charAt(0) === '$' || action.charAt(0) === '@') {

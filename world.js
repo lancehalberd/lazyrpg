@@ -1,6 +1,8 @@
 var areas = {};
 var placeActions = {};
 var availableRecipes = {};
+var currentArea = null;
+var activeAreas = {};
 
 function RebirthAction(slot) {
     this.getDiv = function () {
@@ -133,15 +135,23 @@ function setArea(area) {
     player.area = area;
     if (!area.initialized && area.initialize) {
         area.initialize();
+        area.initialized = true;
     }
+    activeAreas[currentArea.key] = currentArea;
     if (area.trackName) {
         setMusic(area.trackName);
     }
     $('.js-currentArea').empty().append(currentArea.$graphic);
-    $('.js-currentArea').append($div('js-areaAgents'));
-    $('.js-currentArea').append($div('js-areaOverlay'));
+    $('.js-currentArea').append($div('areaAgents js-areaAgents'));
+    $('.js-currentArea').append($div('areaOverlay js-areaOverlay'));
     $('.js-currentArea').append($('<map class="js-areaMaps" name="actions"></map>'));
     currentArea.$graphic.attr('usemap', '#actions');
+    //activate all agents in the area that are alive, in case any were deactivated
+    currentArea.agents.forEach(function (agent) {
+        if (agent.alive) {
+            agent.active = true;
+        }
+    });
     refreshArea();
 }
 function refreshArea() {

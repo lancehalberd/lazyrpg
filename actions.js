@@ -60,6 +60,9 @@ actions.wait = function (params, agent) {
         throw new ProgrammingError("Expected a number, found: " + params[0]);
     }
     agent.delay = 1000 * seconds;
+    if (agent.area != currentArea) {
+        agent.active = false;
+    }
 };
 actions.attack = function (params, agent) {
     checkParams(1, params);

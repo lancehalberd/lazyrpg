@@ -366,6 +366,10 @@
     left: 480px;
     top: 300px;
 }
+.currentArea .areaOverlay {
+    z-index: 2;
+    position: relative;
+}
 
 .currentArea img {
     position: absolute;
