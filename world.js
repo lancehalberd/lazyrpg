@@ -203,8 +203,8 @@ function addAgentToArea(area, agent) {
 }
 
 function removeAgentFromArea(agent) {
-    spliceFromArray(area.agents, agent);
-    spliceFromArray(area.agentsByKey[agent.key], agent);
+    spliceFromArray(agent.area.agents, agent);
+    spliceFromArray(agent.area.agentsByKey[agent.key], agent);
 }
 
 function spliceFromArray(array, element) {

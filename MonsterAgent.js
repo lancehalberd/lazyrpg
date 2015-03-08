@@ -119,14 +119,11 @@ function MonsterAgent(data) {
         if (this.alive) {
             var index = this.area.agentsByKey[this.key].indexOf(this);
             this.$element.find('.js-graphic').attr('code', 'attack area.' + this.key + '.' + index);
-            monster.$element.show();
         } else {
             monster.$element.find('.js-graphic').attr('code', null);
             if (!monster.timeDefeated) {
                 monster.$element.show();
-                var percentSize = Math.max(.01, Math.min(1, (player.time - monster.timeSpawned) / 500));
-                setScale(monster.$element.find('.js-graphic'), percentSize);
-                if (percentSize == 1) {
+                if (scaleSpawn(monster, monster.$element.find('.js-graphic'))) {
                     monster.active = true;
                     monster.alive = true;
                     monster.damageDisplay = new NumericDisplay(monster, 'damageDisplay');
@@ -203,27 +200,24 @@ function MonsterAgent(data) {
             scheduleAgentForUpdate(monster);
             gainExperience(Math.floor(monster.experience * (1 + getTotalEnchantment('experience'))), monster.level);
             player.defeatedMonsters[monster.key]++;
+            var baseAngle = Math.random() * 2 * Math.PI;
+            var multiplier = (player.specialSkills.lucky ? 2 : 1);
+            var totalSlots = monster.spoils.length * multiplier;
             for (var i = 0; i < monster.spoils.length; i++) {
-                if (Math.random() > getDropChance(monster, i, monster.spoils.length, false)) {
-                    continue;
-                }
-                var dropValue = monster.spoils[i];
-                if (typeof(dropValue) === 'string' && allItems[dropValue]) {
-                    var item = allItems[dropValue];
-                    player.inventory[item.slot][dropValue]++;
-                    if (player.specialSkills.lucky) {
-                        player.inventory[item.slot][dropValue]++;
+                var chance = getDropChance(monster, i, monster.spoils.length, false);
+                //retry each item multiple times if multiplier is > 1
+                for (var j = 0; j < multiplier; j++) {
+                    if (Math.random() > chance) {
+                        continue;
                     }
-                    //reset coolingMagma timer each time you gain one from battle
-                    if (item.key == 'coolingMagma') {
-                        items.coolingMagma.timer = 30000;
-                    }
-                    uiNeedsUpdate[item.slot] = true;
-                } else if (typeof(dropValue) === 'number') {
-                    player.gold += dropValue;
-                    if (player.specialSkills.lucky) {
-                        player.gold += dropValue;
-                    }
+                    var itemAgentData = {
+                        'key': monster.spoils[i], //this is a gold amount or an item key
+                        'left': monster.left,
+                        'top': monster.top,
+                        'spawnType': 'arc',
+                        'angle': baseAngle + 2 * Math.PI * (i * multiplier + j) / totalSlots
+                    };
+                    addAgentToArea(monster.area, new ItemAgent(itemAgentData));
                 }
             }
             if (monster.victoryFunction) {

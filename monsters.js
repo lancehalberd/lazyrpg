@@ -37,8 +37,8 @@ monsters.rat = {
 monsters.turtus = {
     'name': 'Turtus',
     'level': 4,
-    'health': 50,
-    'armor': 10,
+    'health': 10,
+    'armor': 0,
     'damage': 30,
     'attackSpeed': .5,
     'experience': 8,

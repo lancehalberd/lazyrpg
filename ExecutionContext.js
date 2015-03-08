@@ -26,6 +26,9 @@ function ExecutionContext(agent) {
         this.globalVariables = {};
         this.running = false;
         this.error = false;
+        if (agent.agentType == 'player') {
+            updateProgramButtons();
+        }
     };
 
     /**
@@ -97,7 +100,7 @@ function ExecutionContext(agent) {
     };
 
     this.runLine = function (currentLine) {
-        if (this.agent.key == 'player')console.log(" " + currentLine);
+        //if (this.agent.key == 'player')console.log(" " + currentLine);
         var tokens = tokenize(currentLine);
         var action = tokens.shift();
         if (action.charAt(0) === '$' || action.charAt(0) === '@') {
@@ -255,6 +258,10 @@ function ExecutionContext(agent) {
             }
             throw new ProgrammingError("Invalid expression: '" + expression + "'.");
         }
+        var number = parseFloat(expression);
+        if (!isNaN(number)) {
+            return number;
+        }
         var parts = expression.split('.');
         for (var i = 0; i < parts.length; i++) {
             var part = parts[i];
@@ -276,13 +283,8 @@ function ExecutionContext(agent) {
             parts = expression.split('.');
             return this.resolveContextValue(parts, this.agent.contextValues);
         }
-        var value = parts[0];
-        var number = parseFloat(value);
-        if (!isNaN(number)) {
-            return number;
-        }
         //just assume the expression is a string otherwise
-        return value;
+        return expression;
     };
 
     this.resolveContextValue = function (parts, contextValues) {

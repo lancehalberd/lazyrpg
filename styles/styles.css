@@ -812,3 +812,9 @@ button {
 .numericDisplay.healingDisplay {
     color: #0f4;
 }
+
+
+/* Specify z-index to make sure this monster's stats can appear above monsters stats to the right of it */
+.areaAgents > div {
+    z-index: 1;
+}

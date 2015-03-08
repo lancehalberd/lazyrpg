@@ -51,6 +51,26 @@ function applyArmorToDamage(damage, armor) {
     return Math.max(1, Math.round(damage / Math.pow(2, 3 * armor / damage)));
 }
 
+function scaleSpawn(agent, $graphic) {
+    var p = Math.max(.01, Math.min(1, (player.time - agent.timeSpawned) / 500));
+    setScale($graphic, p);
+    return p >= 1;
+}
+function arcSpawn(agent, $graphic, angle) {
+    var p = Math.max(.01, Math.min(1, (player.time - agent.timeSpawned) / 500));
+    var ox = Math.cos(angle) * p * 40;
+    var oy = Math.sin(angle) * p * 10;
+    oy -= (40 - 40 * (p - .5) * (p - .5));
+    setScale($graphic, p);
+    $graphic.css('position', 'absolute').css('left', (agent.left + ox - 480) + 'px').css('top', (agent.top + oy - 300) + 'px');
+    if (p >= 1) {
+        //arc spawn moves the agent's current position
+        agent.left = agent.left + ox;
+        agent.top = agent.top + oy;
+    }
+    return p >= 1;
+}
+
 function agentAttacksTarget(agent, target) {
     var damage = agent.getDamage();
     var dealtDamage = damage;
@@ -136,7 +156,7 @@ function getAreaTarget(value, agent) {
         return null;
     }
     var type = parts[0];
-    if (!agent.area.agentsByKey[type]) {
+    if (!agent.area.agentsByKey[type] || !agent.area.agentsByKey[type].length) {
         return null;
     }
     var index = 0;
@@ -144,7 +164,7 @@ function getAreaTarget(value, agent) {
         index = parseInt(parts[1]);
     } else {
         for (index = 0; index < agent.area.agentsByKey[type].length; index++) {
-            if (agent.area.agentsByKey[type][index].active) {
+            if (agent.area.agentsByKey[type][index].alive) {
                 break;
             }
         }
@@ -162,4 +182,25 @@ function assignDelayedAction(agent, delay, method) {
     agent.destination = null;
     agent.delay = delay;
     agent.method = method;
+}
+
+function agentTakesItem(agent, itemAgent) {
+    itemAgent.timeTaken = player.time;
+    itemAgent.alive = false;
+    //I suppose an enemy might steal an item? I guess in this case I could add it
+    //to their list of drops
+    if (agent.agentType != 'player') {
+        return;
+    }
+    if (itemAgent.goldAmount) {
+        player.gold += itemAgent.goldAmount;
+        return;
+    }
+    var item = itemAgent.item;
+    player.inventory[item.slot][item.key]++;
+    //reset coolingMagma timer each time you gain one from battle
+    if (item.key == 'coolingMagma') {
+        items.coolingMagma.timer = 30000;
+    }
+    uiNeedsUpdate[item.slot] = true;
 }

@@ -40,10 +40,6 @@
 .noahMonster.dying {
     background-position: -768px 0px;
 }
-/* Specify z-index to make sure this monster's stats can appear above monsters stats to the right of it */
-.monster {
-    z-index: 1;
-}
 .monster .healthRow {
     margin-left: 80px;
 }

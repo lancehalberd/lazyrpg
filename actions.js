@@ -75,6 +75,16 @@ actions.attack = function (params, agent) {
         agentAttacksTarget(agent, target);
     });
 };
+actions.take = function (params, agent) {
+    checkParams(1, params);
+    var target = getAreaTarget(params[0], agent);
+    if (!target || target.agentType != 'item') {
+        throw new ProgrammingError("Invalid target: " + params[0]);
+    }
+    assignDelayedAction(agent, 100, function () {
+        agentTakesItem(agent, target);
+    });
+};
 
 /**
  * tokenizes/parses a line of code into a sequences of tokens and expressions.

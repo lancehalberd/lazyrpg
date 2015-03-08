@@ -6,26 +6,30 @@ function mainLoop() {
     }
     var deltaTime = 20;
     var linesLeft = 200;
-    //run other agents code first
-    $.each(activeAreas, function (key, area) {
-        area.agents.forEach(function (agent) {
-            while (isAgentRunningCode(agent) && linesLeft > 0) {
-                //restart the agent's loop if it isn't currently running
-                if (!agent.executionContext.running) {
-                    agent.executionContext.runProgram(agent.controlLoop);
+    for (var i = 0; i < player.gameSpeed && (player.method || player.delay || true); i++) {
+        //run other agents code first
+        $.each(activeAreas, function (key, area) {
+            area.agents.forEach(function (agent) {
+                while (isAgentRunningCode(agent) && linesLeft > 0) {
+                    //restart the agent's loop if it isn't currently running
+                    if (!agent.executionContext.running) {
+                        agent.executionContext.runProgram(agent.controlLoop);
+                    }
+                    agent.executionContext.runNextLine();
+                    linesLeft--;
                 }
-                agent.executionContext.runNextLine();
-                linesLeft--;
-            }
-            return linesLeft > 0;
+                return linesLeft > 0;
+            });
         });
-    });
-    //run the players code, if any is running
-    while (isAgentRunningCode(player) && linesLeft > 0) {
-        player.executionContext.runNextLine();
-        linesLeft--;
-    }
-    for (var i = 0; i < player.gameSpeed && linesLeft > 0 && (player.method || player.delay || true); i++) {
+        //run the players code, if any is running
+        while (isAgentRunningCode(player) && linesLeft > 0) {
+            player.executionContext.runNextLine();
+            linesLeft--;
+        }
+        //Only allow time to pass once all code has completed execution
+        if (linesLeft <= 0) {
+            break;
+        }
         //Mark the passage of time.
         player.time += deltaTime;
         //Passive effects that just happen as time passes
@@ -55,6 +59,13 @@ function mainLoop() {
 
         //Active actions taken by agents
         if (player.delay) {
+            // delays outside of execution context and without actions should be
+            // ignored. This is so if you accidentally wait 500s, you cancel when you
+            // abort the program.
+            if (!player.method && !player.executionContext.running) {
+                console.log("aborting wait");
+                player.delay = 0;
+            }
             player.delay = Math.max(0, player.delay - deltaTime);
         } else if (player.method) {
             player.method();
@@ -113,7 +124,22 @@ function passiveAgentLoop(agent, deltaTime) {
  * @param {Agent} agent
  */
 function isAgentRunningCode(agent) {
-    return agent.active && !agent.delay && !agent.method
+    return agent.active && !agent.delay && !agent.method && agent.executionContext
         && !agent.executionContext.error
         && (agent.executionContext.running || agent.controlLoop);
 }
+
+/*
+while 1 {
+    while area.turtus {
+      attack area.turtus
+    }
+    while area.brokenShell {
+      take area.brokenShell
+    }
+    while area.smallShell {
+      take area.smallShell
+    }
+    wait .1
+}
+*/
