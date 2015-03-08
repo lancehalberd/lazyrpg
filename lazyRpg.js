@@ -273,9 +273,7 @@ function updateUI() {
     }
     if (currentArea) {
         currentArea.agents.forEach(function (agent) {
-            if (agent.needsUpdate) {
-                agent.update();
-            }
+            agent.update();
         });
     }
     if (uiNeedsUpdate.miningStats) {

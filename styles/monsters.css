@@ -1,29 +1,44 @@
 
 .noahMonster {
     position: absolute;
+    width: 256px;
+    height: 256px;
     display: inline-block;
-    background-size: 100%;
+    background-size: auto;
 }
 .noahMonster.small {
-    width: 128px;
-    height: 128px;
-    left: -75px;
-    top: -35px;
+    transform:         scale(.5);
+    -webkit-transform: scale(.5);
+    -moz-transform:    scale(.5);
+    -ms-transform:     scale(.5);
+    -o-transform:      scale(.5);
+    left: -150px;
+    top: -100px;
 }
 .noahMonster.medium {
-    width: 192px;
-    height: 192px;
+    transform:         scale(.75);
+    -webkit-transform: scale(.75);
+    -moz-transform:    scale(.75);
+    -ms-transform:     scale(.75);
+    -o-transform:      scale(.75);
     left: -150px;
     top: -35px;
 }
 .noahMonster.large {
-    width: 256px;
-    height: 256px;
     left: -200px;
     top: -35px;
 }
 .noahMonster.turtle {
-    background-image: url('../gfx/noahTurtle.gif');
+    background-image: url('../gfx/noahTurtleGrid.png');
+}
+.noahMonster.defending {
+    background-position: -256px 0px;
+}
+.noahMonster.attacking {
+    background-position: -512px 0px;
+}
+.noahMonster.dying {
+    background-position: -768px 0px;
 }
 /* Specify z-index to make sure this monster's stats can appear above monsters stats to the right of it */
 .monster {
@@ -116,6 +131,20 @@
     left: -120px;
     top: -35px;
     background-size: auto;
+}
+.hillaryMonster.defending {
+}
+.hillaryMonster.attacking:after {
+	content: '';
+	position: absolute;
+	width: inherit;
+	height: inherit;
+	top: 0;
+	left: 0;
+	background: rgba(200, 0, 0, 0.5);
+}
+.hillaryMonster.dying {
+    opacity: 0.3;
 }
 
 .hillaryMonster.mole {

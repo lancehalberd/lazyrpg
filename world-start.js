@@ -13,7 +13,7 @@ areas.shore = new WorldArea({
     },
     'loop': function () {
         this.agentsByKey.turtus.forEach(function (turtus) {
-            if (turtus.timeDefeated && (player.time - turtus.timeDefeated) > 1000) {
+            if (turtus.timeDefeated && (player.time - turtus.timeDefeated) > 2000) {
                 turtus.reset();
             }
         });

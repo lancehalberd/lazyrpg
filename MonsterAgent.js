@@ -23,6 +23,21 @@ function getMonsterStats(monster, parts) {
             throw new ProgrammingError("Invalid expression: '" + expression + "'.");
     }
 }
+function setScale($div, scale) {
+    setTransform($div, 'scale(' + scale +')');
+}
+function clearTransform($div) {
+    setTransform($div, '');
+}
+function setTransform($div, value) {
+    $div.css({
+        'transform':         value,
+        '-webkit-transform': value,
+        '-moz-transform':    value,
+        '-ms-transform':     value,
+        '-o-transform':      value
+    });
+}
 function MonsterAgent(data) {
     var monster = this;
     if (!data.monster || !monsters[data.monster.key]) {
@@ -36,12 +51,9 @@ function MonsterAgent(data) {
     this.$graphic = this.$graphic.clone();
     this.area = null; //Will be set when this agent is placed in an area
     this.agentType = 'monster';
-    this.active = true;
     this.top = data.top;
     this.left = data.left;
     this.controlLoop = enemyCode.basicLoop;
-    this.delay = 0;
-    this.method = null;
     if (typeof this.regenerate == 'undefined') {
         this.regenerate = Math.ceil(this.maxHealth / 10);
     }
@@ -72,16 +84,21 @@ function MonsterAgent(data) {
     };
     this.executionContext = new ExecutionContext(this);
     this.reset = function () {
-        this.health = this.maxHealth;
-        this.damaged = 0;
-        this.battleStatus = freshBattleStatus();
-        this.active = true;
-        this.alive = true;
-        this.timeDefeated = 0;
-        this.damageDisplay = new NumericDisplay(this, 'damageDisplay');
-        this.healingDisplay = new NumericDisplay(this, 'healingDisplay');
-        scheduleAgentForUpdate(this);
-        this.$graphic.show();
+        monster.health = monster.maxHealth;
+        monster.damaged = 0;
+        monster.battleStatus = freshBattleStatus();
+        monster.active = false; //monster is not active until it's spawn time finishes
+        monster.alive = false; //monster is not considered alive durings its spawn time
+        monster.delay = 0;
+        monster.method = null;
+        monster.timeDefeated = 0;
+        monster.timeDamaged = 0; //used to show defending animation
+        monster.timeLastAttack = 0; //used to show attack animation
+        monster.timeNextAttack = 0; //used to show attack animation
+        monster.timeSpawned = player.time;
+        scheduleAgentForUpdate(monster);
+        monster.$graphic.show();
+        monster.$graphic.removeClass('dying defending attacking');
     };
     this.update = function () {
         if (this.area != currentArea) {
@@ -95,16 +112,39 @@ function MonsterAgent(data) {
                 .attr('helpText', this.helpText);
         }
         var $monster = this.$element;
-        if (this.active) {
-            var $container = $('.js-areaAgents');
-            if (!this.$element.closest($container).length) {
-                $container.append(this.$element);
-            }
+        var $container = $('.js-areaAgents');
+        if (!this.$element.closest($container).length) {
+            $container.append(this.$element);
+        }
+        if (this.alive) {
             var index = this.area.agentsByKey[this.key].indexOf(this);
             this.$element.find('.js-graphic').attr('code', 'attack area.' + this.key + '.' + index);
+            monster.$element.show();
         } else {
-            this.$element.remove();
+            monster.$element.find('.js-graphic').attr('code', null);
+            if (!monster.timeDefeated) {
+                monster.$element.show();
+                var percentSize = Math.max(.01, Math.min(1, (player.time - monster.timeSpawned) / 500));
+                setScale(monster.$element.find('.js-graphic'), percentSize);
+                if (percentSize == 1) {
+                    monster.active = true;
+                    monster.alive = true;
+                    monster.damageDisplay = new NumericDisplay(monster, 'damageDisplay');
+                    monster.healingDisplay = new NumericDisplay(monster, 'healingDisplay');
+                }
+            } else if (monster.timeDefeated > player.time - 500) {
+                monster.$graphic.addClass('dying');
+            } else {
+                monster.$element.hide();
+            }
         }
+        var defending = monster.alive && monster.timeDamaged > 0 && player.time - monster.timeDamaged < 100;
+        monster.$graphic.toggleClass('defending', defending);
+        var attacking = monster.alive
+            && ((monster.timeLastAttack > 0 && player.time - monster.timeLastAttack < 50)
+                || (monster.timeNextAttack > 0 && monster.timeNextAttack - player.time < 50));
+        monster.$graphic.toggleClass('attacking', attacking);
+
         this.needsUpdate = false;
         if (this.plague) {
             $monster.find('.js-plagueFill').css('width', (100 * this.plague / maxPlague(this)) + '%');
@@ -221,9 +261,6 @@ function MonsterAgent(data) {
     };
     this.getTravelingSpeed = function () {
         return (this.travelingSpeed ? this.travelingSpeed : 1);
-    };
-    this.animateAttack = function () {
-        this.$graphic.fadeOut(100).fadeIn(50);
     };
     this.getVigor = function () {
         return (this.vigor ? this.vigor : 1);

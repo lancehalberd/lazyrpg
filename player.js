@@ -196,9 +196,6 @@ player.getDamage = function () {
     }
     return Math.floor(total);
 };
-player.animateAttack = function () {
-    //maybe we'll do something here?
-};
 player.stateCheck = function () {
     //Check if the player is dead here
 };

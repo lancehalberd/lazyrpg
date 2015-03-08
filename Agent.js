@@ -54,7 +54,8 @@ function applyArmorToDamage(damage, armor) {
 function agentAttacksTarget(agent, target) {
     var damage = agent.getDamage();
     var dealtDamage = damage;
-    agent.animateAttack();
+    agent.timeLastAttack = player.time;
+    target.timeDamaged = player.time;
     if (!agent.hasSkill('scan')) {
         var parry = target.parry ? target.parry : 0;
         dealtDamage = applyArmorToDamage(damage, Math.max(0, target.getArmor() * (1 - agent.getArmorPierce())));

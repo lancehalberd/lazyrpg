@@ -70,6 +70,7 @@ actions.attack = function (params, agent) {
     if (!target) {
         throw new ProgrammingError("Invalid target: " + params[0]);
     }
+    agent.timeNextAttack = player.time + 1000 / agent.getAttackSpeed();
     assignDelayedAction(agent, 1000 / agent.getAttackSpeed(), function () {
         agentAttacksTarget(agent, target);
     });
