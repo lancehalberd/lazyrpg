@@ -7,12 +7,12 @@ var defaultPrograms = {
     'faq': {
         'name': 'viewFAQ',
         'description': 'Running this code will open a FAQ for this game in a new window.',
-        'text': "popupWindow manual.html"
+        'text': "popupWindow 'manual.html'"
     },
     'chat': {
         'name': 'chat',
         'description': 'Running this code will open a chat window where you may be able to chat with other players or developers.',
-        'text': "popupWindow http://tlk.io/lazyrpg"
+        'text': "popupWindow 'http://tlk.io/lazyrpg'"
     },
     'toggleToolTips': {
         'name': 'toggleHints',

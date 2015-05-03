@@ -245,6 +245,9 @@ function ExecutionContext(agent) {
     };
 
     this.evaluateExpression = function (expression) {
+        if (expression.charAt(0) == "'" || expression.charAt(0) == '"') {
+            return expression.substring(1, expression.length - 1);
+        }
         expression = $.trim(expression);
         if (expression.charAt(0) == '(') {
             var parts = tokenize(expression.substring(1, expression.length - 1));
