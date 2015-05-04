@@ -21,7 +21,7 @@ function PathAction(data) {
             return;
         }
         if (!this.$area) {
-            this.$area = $('<area shape="poly" class="actionArea"></area>');
+            this.$area = $('<area shape="poly" class="path actionArea"></area>');
             this.$area.attr('coords', this.pointsString);
             this.$area.attr('helpText', 'Click here to move to the ' + this.key + '.<br/></br> Traveling takes time and may drain your health.');
         }

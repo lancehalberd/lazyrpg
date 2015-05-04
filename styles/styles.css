@@ -396,6 +396,9 @@
 .actionArea {
     cursor: pointer;
 }
+.path.actionArea {
+    cursor: url('../gfx/boot.cur'), auto;
+}
 
 .box {
     position: absolute;

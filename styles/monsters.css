@@ -79,7 +79,9 @@
 .monster > div.graphic:hover + div.monsterStats {
     display: block;
 }
-
+.monster .action {
+    cursor: url('../gfx/sword.cur'), auto;
+}
 .monster .value {
     background-color: rgba(1,1,1,.5);
     padding-left: 2px;

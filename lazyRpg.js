@@ -84,24 +84,6 @@ function ifseta(array, key, defaultValue) {
     return array[key];
 }
 
-function timeSpan(value) {
-    if (value === null) {
-        return iconSpan('clock', '-:--');
-    }
-    var seconds = value % 60;
-    var minutes = ((value - seconds) / 60) % 60;
-    var hours = (value - minutes * 60 - seconds) / 3600;
-    if (seconds < 10) {
-        seconds = "0" + seconds;
-    }
-    if (hours == 0) {
-        return iconSpan('clock', minutes + ":" + seconds);
-    }
-    if (minutes < 10) {
-        minutes = "0" + minutes;
-    }
-    return iconSpan('clock', hours+":"+ minutes+":"+seconds);
-}
 var $popup = null;
 var $popupTarget = null;
 var drawing = false;
