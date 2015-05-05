@@ -23,10 +23,11 @@ areas.shore = new WorldArea({
 });
 areas.forest = new WorldArea({
     'name': 'Forest',
-    '$graphic': $illustration('forest.png', 'stretch'),
+    '$graphic': $illustration('simpleForest.png'),
     'initialize': function () {
         addAgentToArea(this, new MonsterAgent({'monster': monsters.rat, 'left': 400, 'top': 450}));
-        addPath(this, new PathAction({'target': 'shore', 'points': '68.5,484,56.5,226,159.5,196,263.5,412'}));
+        addPath(this, new PathAction({'target': 'shore', 'points': '3.5,228,136.5,246,120.5,277,2.5,261'}));
+        addPath(this, new PathAction({'target': 'village', 'points': '320.5,600,338.5,514,630.5,514,669.5,600'}));
     },
     'loop': function () {
         this.agentsByKey.rat.forEach(function (rat) {
@@ -64,6 +65,19 @@ areas.cave = new WorldArea({
         }
     },
     'story': 'The ore deposits in this cave resonate with something lost to me. I once made things, things of quality and beauty. If I can find the strength to harvest this ore, perhaps I will once more.'
+});
+areas.village = new WorldArea({
+    'name': 'Village',
+    'travelTime': 5,
+    'travelDamage': 0,
+    '$graphic': $illustration('simpleVillage.png'),
+    'initialize': function () {
+        addPath(this, new PathAction({'target': 'forest', 'points': '511.5,156,512.5,238,609.5,237,590.5,169'}));
+        //addPath(this, new PathAction({'target': 'river', 'points': '284.5,600,353.5,530,564.5,541,524.5,600'}));
+    },
+    'loop': function () {
+    },
+    'story': 'Civilization, at last! I can take refuge here and get some idea of where in the world I am.'
 });
 /*
 areas.village =  {
