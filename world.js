@@ -38,11 +38,23 @@ function RestAction(slot) {
         };
     };
 }
-function SaveAction(slot) {
-    this.getDiv = function () {
-        return $div('action slot' + slot, $div('box', 'Save')).attr('helpText', 'Save my current progress.');
+function SaveAction(data) {
+    this.pointsString = data.points;
+    this.update = function () {
+        if (this.area != currentArea) {
+            return;
+        }
+        if (!this.$area) {
+            this.$area = $('<area shape="poly" class="actionArea"></area>');
+            this.$area.attr('coords', this.pointsString);
+            this.$area.attr('helpText', 'Click here to save your progress.');
+            this.$area.attr('code', 'save');
+        }
+        var $container = $('.js-areaMaps')
+        if (!this.$area.closest($container).length) {
+            $container.append(this.$area);
+        }
     };
-    this.action = "save";
     this.addActions = function () {
         placeActions.save = function (params) {
             checkParams(0, params);
@@ -161,6 +173,10 @@ function refreshArea() {
     $.each(currentArea.paths, function (key, path) {
         path.update();
     });
+    $.each(currentArea.actions, function (key, action) {
+        action.update();
+        action.addActions();
+    });
 }
 
 function WorldArea(data) {
@@ -173,6 +189,7 @@ function WorldArea(data) {
     this.agents = [];
     this.agentsByKey = {};
     this.paths = {};
+    this.actions = [];
 }
 
 function addPath(area, pathAction) {
@@ -181,6 +198,10 @@ function addPath(area, pathAction) {
     if (!pathAction.connectedPathKey) {
         pathAction.connectedPathKey = area.key;
     }
+}
+function addAction(area, action) {
+    area.actions.push(action);
+    action.area = area;
 }
 
 function addAgentToArea(area, agent) {

@@ -73,6 +73,7 @@ areas.village = new WorldArea({
     '$graphic': $illustration('simpleVillage.png'),
     'initialize': function () {
         addPath(this, new PathAction({'target': 'forest', 'points': '511.5,156,512.5,238,609.5,237,590.5,169'}));
+        addAction(this, new SaveAction({'points': '796.5,471,710.5,489,736.5,523,823.5,534,907.5,516,895.5,483'}));
         //addPath(this, new PathAction({'target': 'river', 'points': '284.5,600,353.5,530,564.5,541,524.5,600'}));
     },
     'loop': function () {

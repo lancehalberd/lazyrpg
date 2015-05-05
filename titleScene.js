@@ -1,4 +1,5 @@
 var savedGames;
+var saveKey = 'lazyrpg-0.1-savedGames';
 function initializeTitleScene() {
     loadData();
     //Update the state of the new game button based on the input field
@@ -93,7 +94,7 @@ function displaySavedGameOption(game) {
 
 function loadData() {
     $.jStorage.reInit();
-    savedGames = $.jStorage.get("lazyrpg-savedGames");
+    savedGames = $.jStorage.get(saveKey);
     if (!savedGames) {
         savedGames = {};
     }
@@ -110,7 +111,7 @@ function refreshSavedGamesDisplayed() {
 }
 
 function saveData() {
-    $.jStorage.set("lazyrpg-savedGames", savedGames);
+    $.jStorage.set(saveKey, savedGames);
 }
 
 function saveCurrentGame() {

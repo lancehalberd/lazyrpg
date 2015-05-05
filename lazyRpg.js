@@ -68,7 +68,7 @@ function copy(object) {
         return jQuery.extend(true, [], object);
     }
     if (object.constructor == Object) {
-        return jQuery.extend(true, [], object);
+        return jQuery.extend(true, {}, object);
     }
     return object;
 }
